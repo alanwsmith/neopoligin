@@ -36,22 +36,26 @@ use std::path::PathBuf;
 // [] Makes any directories that need to exist
 // [] Setup config file process
 
+#[derive(Clone)]
+struct Config {
+    output_root: String,
+    output_sub_dir: Option<String>,
+    input_root: String,
+}
+
 fn main() {
     println!("Running neoprep");
 
-    let dev = (
-        "/Users/alan/workshop/neopolengine/content_raw_samples",
-        "/Users/alan/workshop/neopolengine/content",
-    );
-    let _prod = (
-        "/Users/alan/Grimoire",
-        "/Users/alan/workshop/neopolengine/content",
-    );
+    let dev = Config {
+        input_root: "/Users/alan/workshop/neopolengine/content_raw_samples".to_string(),
+        output_root: "/Users/alan/workshop/neopolengine/content".to_string(),
+        output_sub_dir: Some("pages".to_string()),
+    };
 
-    let dirs = dev.clone();
+    let config = dev.clone();
 
     let paths = filter_extensions(
-        fs::read_dir(dirs.0)
+        fs::read_dir(&config.input_root)
             .unwrap()
             .into_iter()
             .map(|p| p.expect("here").path())
@@ -60,65 +64,43 @@ fn main() {
 
     paths.iter().for_each(|p| {
         let data = fs::read_to_string(p).unwrap();
-
         match (
             filter_status(data.as_str()).unwrap().1,
             filter_site(data.as_str()).unwrap().1,
         ) {
             (true, true) => {
                 let the_file_id = file_id(data.as_str()).unwrap().1.to_string();
+                let mut output_dir_path = PathBuf::from(&config.output_root);
+                match &config.output_sub_dir {
+                    Some(dir) => {
+                        output_dir_path.push(dir);
+                    }
+                    None => {}
+                }
                 let output_dir_name = output_dir_name(
                     p.file_stem().unwrap().to_str().unwrap(),
                     the_file_id.as_str(),
                 )
                 .unwrap()
                 .1;
-                println!("Copying to: {}", &output_dir_name);
-                let mut output_dir_path = PathBuf::from(dirs.1);
                 output_dir_path.push(output_dir_name);
                 match output_dir_path.try_exists() {
                     Ok(x) => {
                         if x == false {
-                            fs::create_dir(&output_dir_path).unwrap();
+                            fs::create_dir_all(&output_dir_path).unwrap();
                         }
                     }
                     Err(_) => {}
                 }
                 let mut output_file_path = output_dir_path.clone();
                 output_file_path.push("index.neo");
+                println!("Copying to: {:?}", &output_file_path);
                 let _ = copy(p, output_file_path);
             }
             _ => {
                 dbg!("skipping");
             }
         }
-
-        // if let Ok((_, send_it)) = filter_status(data.as_str()) {
-        //     dbg!("here");
-
-        // if send_it {
-        //     let file_id = file_id(data.as_str()).unwrap().1.to_string();
-        //     let output_dir_name =
-        //         output_dir_name(p.file_stem().unwrap().to_str().unwrap(), file_id.as_str())
-        //             .unwrap()
-        //             .1;
-        //     println!("Copying to: {}", &output_dir_name);
-        //     let mut output_dir_path = PathBuf::from(dirs.1);
-        //     output_dir_path.push(output_dir_name);
-        //     match output_dir_path.try_exists() {
-        //         Ok(x) => {
-        //             if x == false {
-        //                 fs::create_dir(&output_dir_path).unwrap();
-        //             }
-        //         }
-        //         Err(_) => {}
-        //     }
-        //     let mut output_file_path = output_dir_path.clone();
-        //     output_file_path.push("index.neo");
-        //     let _ = copy(p, output_file_path);
-        // }
-        // }
-
         ()
     });
 }
