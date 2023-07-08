@@ -29,8 +29,8 @@ use std::path::PathBuf;
 // [] Add a note to the top of the files saying that they are copies
 //  to help prevenet editing the wrong ones
 // [] Setup dir paths if there is no id
-// [] Handle explicit paths
-// [] Configure site directory and subdirecotyr to load files independently
+// [x] Handle explicit paths
+// [x] Configure site directory and subdirectory paths independently
 // [] Only allows speicifci nonce- words
 // [x] Only allows .neo extensions
 // [x] Only allows published and draft files
@@ -113,15 +113,6 @@ fn main() {
                     },
                     None => {}
                 }
-
-                // match output_dir_path.try_exists() {
-                //     Ok(x) => {
-                //         if x == false {
-                //             fs::create_dir_all(&output_dir_path).unwrap();
-                //         }
-                //     }
-                //     Err(_) => {}
-                // }
 
                 println!("Copying to: {:?}", &output_file_path);
                 let _ = copy(p, output_file_path);
