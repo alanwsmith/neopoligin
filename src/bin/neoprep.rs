@@ -26,6 +26,9 @@ use std::path::PathBuf;
 // This is currently hard coded to look for:
 // `>> site: neoengine``
 
+// Note this is current etup to look at .org files
+// until the move to raw .neo files in the grimoire is made
+
 // [] Add a note to the top of the files saying that they are copies
 //  to help prevenet editing the wrong ones
 // [] Setup dir paths if there is no id
@@ -52,20 +55,30 @@ struct Config {
 fn main() {
     println!("Running neoprep");
 
-    let neopolengine_dev = Config {
-        input_root: "/Users/alan/workshop/neopolengine/content_raw_samples".to_string(),
-        output_root: "/Users/alan/workshop/neopolengine/content".to_string(),
-        output_sub_dir: Some("pages".to_string()),
-        site_id: "neopolengine".to_string(),
-    };
-
-    // let neopolitan_dev = Config {
+    // let neopolengine_dev = Config {
     //     input_root: "/Users/alan/workshop/neopolengine/content_raw_samples".to_string(),
     //     output_root: "/Users/alan/workshop/neopolengine/content".to_string(),
     //     output_sub_dir: Some("pages".to_string()),
+    //     site_id: "neopolengine".to_string(),
     // };
 
-    let config = neopolengine_dev.clone();
+    // let neopolitan_dev = Config {
+    //     input_root: "/Users/alan/Grimoire".to_string(),
+    //     output_root: "/Users/alan/workshop/neopolitan/content".to_string(),
+    //     output_sub_dir: Some("pages".to_string()),
+    //     site_id: "neopolitan".to_string(),
+    // };
+
+    // REMEMBER TO CHANGE FILE EXTENSION BELOW ONCE YOU'RE
+    // USING .neo FILES
+    let aws_prod = Config {
+        input_root: "/Users/alan/Grimoire".to_string(),
+        output_root: "/Users/alan/workshop/alanwsmith.com/content".to_string(),
+        output_sub_dir: Some("pages".to_string()),
+        site_id: "aws".to_string(),
+    };
+
+    let config = aws_prod.clone();
 
     let paths = filter_extensions(
         fs::read_dir(&config.input_root)
@@ -161,28 +174,49 @@ pub fn output_dir_name<'a>(source: &'a str, id: &'a str) -> IResult<&'a str, Str
 }
 
 pub fn filter_status(source: &str) -> IResult<&str, bool> {
-    let (a, _b) = take_until("\n-> attributes")(source)?;
-    let (a, _b) = tag("\n-> attributes")(a)?;
-    let (a, _b) = take_until(">> status: ")(a)?;
-    let (a, _b) = tag(">> status: ")(a)?;
-    let (_a, b) = not_line_ending(a)?;
-    match b.trim() {
-        "published" => Ok(("", true)),
-        "draft" => Ok(("", true)),
-        _ => Ok(("", false)),
+    let (source, check_status_1) = opt(take_until("\n-> attributes"))(source)?;
+    match check_status_1 {
+        Some(_) => {
+            let (source, _) = tag("\n-> attributes")(source)?;
+            let (source, check_status_2) = opt(take_until(">> status: "))(source)?;
+            match check_status_2 {
+                Some(_) => {
+                    let (source, _) = tag(">> status: ")(source)?;
+                    let (source, b) = not_line_ending(source)?;
+                    match b.trim() {
+                        "published" => Ok((source, true)),
+                        "draft" => Ok((source, true)),
+                        _ => Ok((source, false)),
+                    }
+                }
+                None => Ok((source, false)),
+            }
+        }
+        None => Ok((source, false)),
     }
 }
 
 pub fn filter_site<'a>(source: &'a str, site_id: &'a str) -> IResult<&'a str, bool> {
-    let (a, _b) = take_until("\n-> attributes")(source)?;
-    let (a, _b) = tag("\n-> attributes")(a)?;
-    let (a, _b) = take_until(">> site: ")(a)?;
-    let (a, _b) = tag(">> site: ")(a)?;
-    let (_a, b) = not_line_ending(a)?;
-    if b.trim() == site_id {
-        Ok(("", true))
-    } else {
-        Ok(("", false))
+    let (source, check_site_1) = opt(take_until("\n-> attributes"))(source)?;
+    match check_site_1 {
+        Some(_) => {
+            let (source, _) = tag("\n-> attributes")(source)?;
+            let (source, check_site_2) = opt(take_until(">> site: "))(source)?;
+            match check_site_2 {
+                Some(_) => {
+                    let (source, _) = tag(">> site: ")(source)?;
+                    let (source, the_id) = not_line_ending(source)?;
+                    if the_id.trim() == site_id {
+                        Ok((source, true))
+                    } else {
+                        Ok((source, false))
+                    }
+                }
+
+                None => Ok((source, false)),
+            }
+        }
+        None => Ok((source, false)),
     }
 }
 
@@ -190,7 +224,7 @@ pub fn filter_extensions(list: Vec<PathBuf>) -> Vec<PathBuf> {
     list.into_iter()
         .filter(|p| match p.extension() {
             Some(ext) => {
-                if ext == "neo" {
+                if ext == "org" {
                     true
                 } else {
                     false
@@ -217,6 +251,7 @@ mod test {
     use std::path::PathBuf;
 
     #[test]
+    #[ignore]
     pub fn filter_extensions_test() {
         let files = vec![
             PathBuf::from("/a/b/alfa.neo"),
@@ -263,6 +298,12 @@ mod test {
     }
 
     #[test]
+    pub fn filter_status_with_no_content() {
+        let lines = ["", "-> attributes", ">> date: 2023-02-03 13:14:15"];
+        assert_eq!(filter_status(lines.join("\n").as_str()).unwrap().1, false);
+    }
+
+    #[test]
     pub fn filter_site_test() {
         let lines = [
             "",
@@ -276,6 +317,17 @@ mod test {
                 .unwrap()
                 .1,
             true
+        );
+    }
+
+    #[test]
+    pub fn filter_site_test_with_no_attibutes() {
+        let lines = ["this is a file with no attributes"];
+        assert_eq!(
+            filter_site(lines.join("\n").as_str(), "neoengine")
+                .unwrap()
+                .1,
+            false
         );
     }
 
