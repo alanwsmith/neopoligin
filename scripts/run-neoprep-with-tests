@@ -8,12 +8,19 @@ done
 
 export BAR=$(($(tput cols) * 1))
 
-cargo run -q --bin neoprep
+cargo test -q -- --nocapture
+
 if [[ $? -eq 0 ]]
 then
-  tput setaf 28
+  cargo run -q --bin neoprep
+  if [[ $? -eq 0 ]]
+  then
+    tput setaf 28
+  else
+    tput setaf 124
+  fi
 else
-  tput setaf 124
+    tput setaf 124
 fi
 
 for i in $( seq 1 $BAR); do printf '%s' '█'; done
