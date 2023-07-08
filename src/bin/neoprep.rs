@@ -10,8 +10,11 @@ use nom::character::complete::multispace1;
 use nom::character::complete::not_line_ending;
 use nom::combinator::eof;
 use nom::combinator::not;
+use nom::combinator::opt;
 use nom::combinator::rest;
 use nom::multi::many_till;
+use nom::sequence::pair;
+use nom::sequence::preceded;
 use nom::sequence::terminated;
 use nom::sequence::tuple;
 use nom::IResult;
@@ -23,18 +26,20 @@ use std::path::PathBuf;
 // This is currently hard coded to look for:
 // `>> site: neoengine``
 
-// [] Handle dir names if there is no id
+// [] Add a note to the top of the files saying that they are copies
+//  to help prevenet editing the wrong ones
+// [] Setup dir paths if there is no id
 // [] Handle explicit paths
 // [] Configure site directory and subdirecotyr to load files independently
 // [] Only allows speicifci nonce- words
-// [] Only allows .neo extensions
-// [] Only allows published and draft files
-// [] Output sets to a `posts`` directory (done manually)
-// [] Create `posts`` dir if it doesn't exist
-// [] Each file has its own directory created for it
-// [] The output file is always index.neo in the folder
-// [] Makes any directories that need to exist
-// [] Setup config file process
+// [x] Only allows .neo extensions
+// [x] Only allows published and draft files
+// [x] Make direcotires if necessary
+// [x] Ouput goes into a sub directory if one is defined
+// [x] Each file has its own directory created for it
+// [x] The output file is always index.neo in the folder
+// [] Move config to file
+// [] Add test to confirm files don't move if no site is found
 
 #[derive(Clone)]
 struct Config {
@@ -70,30 +75,54 @@ fn main() {
         ) {
             (true, true) => {
                 let the_file_id = file_id(data.as_str()).unwrap().1.to_string();
-                let mut output_dir_path = PathBuf::from(&config.output_root);
-                match &config.output_sub_dir {
-                    Some(dir) => {
-                        output_dir_path.push(dir);
+                let output_dir_path = PathBuf::from(&config.output_root);
+
+                let mut output_file_path = output_dir_path.clone();
+                match override_path(data.as_str()).unwrap().1 {
+                    Some(path) => {
+                        output_file_path.push(path);
                     }
+                    None => {
+                        match &config.output_sub_dir {
+                            Some(dir) => {
+                                output_file_path.push(dir);
+                            }
+                            None => {}
+                        }
+                        output_file_path.push(
+                            output_dir_name(
+                                p.file_stem().unwrap().to_str().unwrap(),
+                                the_file_id.as_str(),
+                            )
+                            .unwrap()
+                            .1,
+                        );
+                        output_file_path.push("index.neo");
+                    }
+                }
+
+                match output_file_path.parent() {
+                    Some(path) => match path.try_exists() {
+                        Ok(check) => {
+                            dbg!(&path);
+                            if check == false {
+                                fs::create_dir_all(path).unwrap();
+                            }
+                        }
+                        Err(_) => {}
+                    },
                     None => {}
                 }
-                let output_dir_name = output_dir_name(
-                    p.file_stem().unwrap().to_str().unwrap(),
-                    the_file_id.as_str(),
-                )
-                .unwrap()
-                .1;
-                output_dir_path.push(output_dir_name);
-                match output_dir_path.try_exists() {
-                    Ok(x) => {
-                        if x == false {
-                            fs::create_dir_all(&output_dir_path).unwrap();
-                        }
-                    }
-                    Err(_) => {}
-                }
-                let mut output_file_path = output_dir_path.clone();
-                output_file_path.push("index.neo");
+
+                // match output_dir_path.try_exists() {
+                //     Ok(x) => {
+                //         if x == false {
+                //             fs::create_dir_all(&output_dir_path).unwrap();
+                //         }
+                //     }
+                //     Err(_) => {}
+                // }
+
                 println!("Copying to: {:?}", &output_file_path);
                 let _ = copy(p, output_file_path);
             }
@@ -171,6 +200,15 @@ pub fn filter_extensions(list: Vec<PathBuf>) -> Vec<PathBuf> {
         .collect()
 }
 
+pub fn override_path(source: &str) -> IResult<&str, Option<String>> {
+    let (source, _) = pair(take_until("\n-> attributes"), tag("\n-> attributes"))(source)?;
+    let (source, the_path) = opt(preceded(
+        pair(take_until(">> path: "), tag(">> path: ")),
+        not_line_ending.map(|s: &str| s.to_string()),
+    ))(source)?;
+    Ok((source, the_path))
+}
+
 #[cfg(test)]
 
 mod test {
@@ -235,8 +273,6 @@ mod test {
         assert_eq!(filter_site(lines.join("\n").as_str()).unwrap().1, true);
     }
 
-    // TODO Add test for not having a site attribute maybe?
-
     #[test]
     pub fn basic_output_dir_name() {
         let source = PathBuf::from("/some/posts/rust- Basic Path Example.neo");
@@ -247,21 +283,10 @@ mod test {
     }
 
     #[test]
-    #[ignore]
-    pub fn dir_with_other_stuff() {
-        let source = PathBuf::from("/some/posts/alfa-  Bravo -- Charlie.neo");
-        let id = String::from("9876rewq");
-        let expected = Ok(("", "bravo-charlie--9876rewq".to_string()));
-        let results = output_dir_name(source.file_stem().unwrap().to_str().unwrap(), id.as_str());
-        assert_eq!(results, expected);
-    }
-
-    #[test]
-    #[ignore]
     pub fn dir_with_dashes_that_are_not_followed_by_a_space() {
         let source = PathBuf::from("alfa-bravo");
         let id = String::from("9876rewq");
-        let expected = Ok(("", "bravo-charlie--9876rewq".to_string()));
+        let expected = Ok(("", "alfa-bravo--9876rewq".to_string()));
         let results = output_dir_name(source.file_stem().unwrap().to_str().unwrap(), id.as_str());
         assert_eq!(results, expected);
     }
@@ -283,5 +308,14 @@ mod test {
         ]
         .join("\n");
         assert_eq!(file_id(lines.as_str()).unwrap().1, "6789bravo");
+    }
+
+    #[test]
+    pub fn get_override_path() {
+        let lines = ["", "-> attributes", ">> path: index.neo", ""].join("\n");
+        assert_eq!(
+            override_path(lines.as_str()).unwrap().1,
+            Some("index.neo".to_string())
+        );
     }
 }
