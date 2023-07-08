@@ -1,0 +1,38 @@
+-> title
+
+neopolengine
+
+A static website generator for neopolitan files
+
+-> h2
+
+Overview
+
+There are two binary
+
+-> list
+
+- neo - builds the site
+
+- neoprep - moves files from a central
+archive into a content directory for the
+`neo`` process to build
+
+
+-> h2
+
+neo - The Site Builder
+
+This is the full process
+
+
+-> h2
+
+neoprep - The Site Prepper
+
+Right now this is hard coded to my setup
+
+
+
+
+
