@@ -46,18 +46,26 @@ struct Config {
     output_root: String,
     output_sub_dir: Option<String>,
     input_root: String,
+    site_id: String,
 }
 
 fn main() {
     println!("Running neoprep");
 
-    let dev = Config {
+    let neopolengine_dev = Config {
         input_root: "/Users/alan/workshop/neopolengine/content_raw_samples".to_string(),
         output_root: "/Users/alan/workshop/neopolengine/content".to_string(),
         output_sub_dir: Some("pages".to_string()),
+        site_id: "neopolengine".to_string(),
     };
 
-    let config = dev.clone();
+    // let neopolitan_dev = Config {
+    //     input_root: "/Users/alan/workshop/neopolengine/content_raw_samples".to_string(),
+    //     output_root: "/Users/alan/workshop/neopolengine/content".to_string(),
+    //     output_sub_dir: Some("pages".to_string()),
+    // };
+
+    let config = neopolengine_dev.clone();
 
     let paths = filter_extensions(
         fs::read_dir(&config.input_root)
@@ -71,12 +79,13 @@ fn main() {
         let data = fs::read_to_string(p).unwrap();
         match (
             filter_status(data.as_str()).unwrap().1,
-            filter_site(data.as_str()).unwrap().1,
+            filter_site(data.as_str(), config.site_id.as_str())
+                .unwrap()
+                .1,
         ) {
             (true, true) => {
                 let the_file_id = file_id(data.as_str()).unwrap().1.to_string();
                 let output_dir_path = PathBuf::from(&config.output_root);
-
                 let mut output_file_path = output_dir_path.clone();
                 match override_path(data.as_str()).unwrap().1 {
                     Some(path) => {
@@ -164,15 +173,16 @@ pub fn filter_status(source: &str) -> IResult<&str, bool> {
     }
 }
 
-pub fn filter_site(source: &str) -> IResult<&str, bool> {
+pub fn filter_site<'a>(source: &'a str, site_id: &'a str) -> IResult<&'a str, bool> {
     let (a, _b) = take_until("\n-> attributes")(source)?;
     let (a, _b) = tag("\n-> attributes")(a)?;
     let (a, _b) = take_until(">> site: ")(a)?;
     let (a, _b) = tag(">> site: ")(a)?;
     let (_a, b) = not_line_ending(a)?;
-    match b.trim() {
-        "neoengine" => Ok(("", true)),
-        _ => Ok(("", false)),
+    if b.trim() == site_id {
+        Ok(("", true))
+    } else {
+        Ok(("", false))
     }
 }
 
@@ -261,7 +271,12 @@ mod test {
             ">> site: neoengine",
             ">> status: published ",
         ];
-        assert_eq!(filter_site(lines.join("\n").as_str()).unwrap().1, true);
+        assert_eq!(
+            filter_site(lines.join("\n").as_str(), "neoengine")
+                .unwrap()
+                .1,
+            true
+        );
     }
 
     #[test]
