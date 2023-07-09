@@ -1,5 +1,5 @@
-{%- from "macros/section_attrs.j2" import section_attrs -%}
-{%- from "macros/text.j2" import text -%}
+{%- from "foundation/blocks/section_attrs.j2" import section_attrs -%}
+{%- from "foundation/blocks/text.j2" import text -%}
 
 {%- macro h1(content) -%}
     <h1 {{- section_attrs(content.attrs)-}}>
@@ -9,3 +9,6 @@
         <p>{{- text(paragraph.tags) -}}</p>
     {%- endfor -%}
 {%- endmacro -%}
+
+
+"s/foundation/blocks/foundation\/blocks/g"
