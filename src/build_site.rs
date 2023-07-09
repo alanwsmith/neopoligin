@@ -16,10 +16,8 @@ pub fn build_site() {
     let content_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/site");
     let mut env = Environment::new();
-    // env.set_source(Source::from_path(template_dir));
     let template_path = template_dir.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
-    //env.set_loader(path_loader("path/to/templates"));
     let mut source_files: Vec<SourceFile> = vec![];
 
     for entry in WalkDir::new(&content_dir).into_iter() {
@@ -41,12 +39,10 @@ pub fn build_site() {
     }
 
     source_files.iter().for_each(|source_file| {
-        println!("Outputting: {}", &source_file.source_path.display());
+        println!("Outputting:\n{}", &source_file.source_path.display());
         let template = env.get_template(
             format!(
-                "{}.j2",
-                // "{}/{}.j2",
-                // template_dir.to_path_buf().as_os_str().to_str().unwrap(),
+                "wrappers/{}.j2",
                 &source_file.template(&source_file.source_data).unwrap().1,
             )
             .as_str(),
@@ -57,14 +53,14 @@ pub fn build_site() {
             .date(&source_file.source_data, "%B %Y")
             .unwrap()
             .1;
-        let the_title = title(&source_file.source_data).unwrap().1;
+        let title_string = title(&source_file.source_data).unwrap().1;
 
         let output = template
             .unwrap()
             .render(context!(
                 content => the_content,
                 date => the_date,
-                title => the_title,
+                title_string => title_string,
             ))
             .unwrap();
         let mut file_path = site_root_dir.clone();
