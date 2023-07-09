@@ -42,7 +42,7 @@ pub fn build_site() {
         println!("Outputting:\n{}", &source_file.source_path.display());
         let template = env.get_template(
             format!(
-                "wrappers/{}.j2",
+                "{}/base.j2",
                 &source_file.template(&source_file.source_data).unwrap().1,
             )
             .as_str(),

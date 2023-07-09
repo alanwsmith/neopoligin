@@ -126,7 +126,7 @@ fn main() {
                 match output_file_path.parent() {
                     Some(path) => match path.try_exists() {
                         Ok(check) => {
-                            dbg!(&path);
+                            // dbg!(&path);
                             if check == false {
                                 fs::create_dir_all(path).unwrap();
                             }
@@ -140,7 +140,7 @@ fn main() {
                 let _ = copy(p, output_file_path);
             }
             _ => {
-                dbg!("skipping");
+                // dbg!("skipping");
             }
         }
         ()

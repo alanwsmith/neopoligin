@@ -40,7 +40,7 @@ pub fn todo(source: &str) -> IResult<&str, Section> {
     let (content, paragraphs) =
          many_till(paragraph, alt((peek(tag("[")), eof)))(content.trim())?;
 
-    let (content, raw_items) = many0(
+    let (_content, raw_items) = many0(
         tuple((
             multispace0,
             tag("["),
