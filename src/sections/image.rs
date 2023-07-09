@@ -1,4 +1,3 @@
-use crate::blocks::paragraph::paragraph;
 use crate::section_attrs::sec_attrs;
 use crate::sections::alt;
 use crate::sections::Section;
@@ -7,10 +6,8 @@ use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;
 use nom::character::complete::line_ending;
 use nom::character::complete::not_line_ending;
-// use nom::combinator::eof;
 use nom::combinator::opt;
 use nom::combinator::rest;
-// use nom::multi::many_till;
 use nom::sequence::preceded;
 use nom::sequence::tuple;
 use nom::IResult;

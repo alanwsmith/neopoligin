@@ -19,9 +19,8 @@ pub fn pre(source: &str) -> IResult<&str, Section> {
             source.trim(),
         )?;
     let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
-    let (content, lang) =
+    let (content, _) =
         opt(delimited(tag(">> "), is_not(":\n"), line_ending))(content)?;
-    dbg!(&lang);
 
     let (content, attrs) = sec_attrs(content.trim())?;
 

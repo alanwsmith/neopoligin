@@ -23,6 +23,7 @@
 {%- from "sections/p.j2" import p -%}
 {%- from "sections/pre.j2" import pre -%}
 {%- from "sections/title.j2" import title -%}
+{%- from "sections/todo.j2" import todo -%}
 {%- from "sections/vimeo.j2" import vimeo -%}
 {%- from "sections/youtube.j2" import youtube -%}
 
@@ -130,6 +131,8 @@
       <pre {{- section_attrs(section.attrs)-}}>
         {{- section.text -}}
       </pre>
+    {%- elif section.type == "todo" -%}
+      {{ todo(section) }}
     {%- elif section.type == "vimeo" -%}
       <div {{- section_attrs(section.attrs)-}}>
        <iframe src="https://player.vimeo.com/video/{{- section.id -}}" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>

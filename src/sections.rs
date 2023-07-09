@@ -23,6 +23,7 @@ use crate::sections::pre::pre;
 use crate::sections::script::script;
 use crate::sections::startcode::startcode;
 use crate::sections::title::title;
+use crate::sections::todo::todo;
 use crate::sections::vimeo::vimeo;
 use crate::sections::youtube::youtube;
 use nom::branch::alt;
@@ -52,6 +53,7 @@ pub mod pre;
 pub mod script;
 pub mod startcode;
 pub mod title;
+pub mod todo;
 pub mod vimeo;
 pub mod youtube;
 
@@ -160,6 +162,11 @@ pub enum Section {
         headline: Block,
         paragraphs: Vec<Block>,
     },
+    Todo {
+        attrs: Vec<SecAttr>,
+        items: Vec<Container>,
+        paragraphs: Vec<Block>,
+    },
     Youtube {
         attrs: Vec<SecAttr>,
         id: String,
@@ -178,8 +185,8 @@ pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
         // order matters here so things don't get flipped
         alt((notes, note, checklist)),
         alt((
-            aside, blockquote, closediv, code, css, endcode, hidden, html, hr, list,
-            image, opendiv, olist, pre, script, startcode, title, vimeo, youtube,
+            aside, blockquote, closediv, code, css, endcode, hidden, html, hr, list, image,
+            opendiv, olist, pre, script, startcode, title, todo, vimeo, youtube,
         )),
         alt((h, p)),
     )))(source)?;
@@ -224,13 +231,13 @@ mod test {
             "<<Heave|sub>><<the|sup>><<line|span|class: alfa bravo charlie|id: delta>>",
             "<<Take it away|q>>",
             "",
-            "-> h3", 
-            "", 
+            "-> h3",
+            "",
             "lift the hammer",
-            "", 
+            "",
             "cap the jar",
-            "<<echo|link|https://www.example.com/|id: victor>>", 
-            "", 
+            "<<echo|link|https://www.example.com/|id: victor>>",
+            "",
             "-> aside",
             "",
             "Add salt before you fry the egg",
@@ -415,8 +422,7 @@ mod test {
                     SecAttr::Id("delta".to_string()),
                     SecAttr::Class(vec!["language-rust".to_string()]),
                 ],
-                text: vec!["", "", "-> h2", "", "That h2 should be in code"]
-                    .join("\n"),
+                text: vec!["", "", "-> h2", "", "That h2 should be in code"].join("\n"),
             },
         ];
         assert_eq!(expected, sections(lines.as_str()).unwrap().1);
