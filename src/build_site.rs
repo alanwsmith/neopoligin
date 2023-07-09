@@ -12,7 +12,7 @@ use walkdir::WalkDir;
 pub fn build_site() {
     println!("Building the site");
 
-    let template_dir = PathBuf::from("/Users/alan/workshop/neopolengine/templates");
+    let template_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/site");
     let mut env = Environment::new();
