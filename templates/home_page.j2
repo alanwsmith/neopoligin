@@ -1,0 +1,45 @@
+{%- from "macros/text.j2" import text -%}
+{%- from "macros/sections.j2" import sections -%}
+{%- from "macros/head_content.j2" import head_content -%}
+{%- from "macros/section_attrs.j2" import section_attrs -%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #aaa;
+    }
+  </style>
+
+  {{ head_content(content) }}
+
+</head>
+<body>
+  <header>
+    <a href="/">home</a>  
+    {%- for section in content -%}
+    {%- if section.type == "title" -%}
+      <h1 {{- section_attrs(section.attrs)}}>
+        {{- text(section.headline.tags) -}}
+      </h1>
+      {%- for paragraph in section.paragraphs -%}
+        <p>{{ text(paragraph.tags) }}</p>
+      {%- endfor -%}
+    {%- endif -%}
+    {%- endfor -%}
+  </header>
+  <main>
+  {{ sections(content) }}
+  </main>
+  <ul>
+    {% for post in posts %}
+    <li><a href="{{ post[1] }}">{{ post[0]}}</a></li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

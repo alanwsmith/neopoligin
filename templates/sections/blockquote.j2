@@ -1,0 +1,10 @@
+{%- from "macros/section_attrs.j2" import section_attrs -%}
+{%- from "macros/text.j2" import text -%}
+
+{%- macro blockquote(content) -%}
+<blockquote {{- section_attrs(content.attrs)-}}>
+    {%- for paragraph in content.paragraphs -%}
+        <p>{{- text(paragraph.tags) -}}</p>
+    {%- endfor -%}
+</blockquote>
+{%- endmacro -%}

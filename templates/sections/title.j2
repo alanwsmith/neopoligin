@@ -1,0 +1,18 @@
+{%- from "macros/section_attrs.j2" import section_attrs -%}
+{%- from "macros/text.j2" import text -%}
+
+{%- macro title(content, date) -%}
+<hgroup {{- section_attrs(content.attrs)}}>
+    {%- for section in content -%}
+      {%- if section.type == "title" -%}
+        <h1>
+          {{- text(section.headline.tags) -}}
+        </h1>
+        {{ date }}
+        {%- for paragraph in section.paragraphs -%}
+          <p>{{ text(paragraph.tags) }}</p>
+        {%- endfor -%}
+        </hgroup>
+      {%- endif -%}
+    {%- endfor -%}
+{%- endmacro -%}

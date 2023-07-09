@@ -1,3 +1,6 @@
+use neopolengine::build_site::build_site;
+
 pub fn main() {
-    println!("Start neo process");
+    println!("Process Started...");
+    build_site();
 }

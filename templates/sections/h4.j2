@@ -1,0 +1,11 @@
+{%- from "macros/section_attrs.j2" import section_attrs -%}
+{%- from "macros/text.j2" import text -%}
+
+{%- macro h4(content) -%}
+    <h4 {{- section_attrs(content.attrs)-}}>
+        {{text(content.headline.tags)}}
+    </h4>
+    {%- for paragraph in content.paragraphs -%}
+        <p>{{- text(paragraph.tags) -}}</p>
+    {%- endfor -%}
+{%- endmacro -%}

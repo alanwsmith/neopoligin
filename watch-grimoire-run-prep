@@ -1,6 +1,4 @@
 #!/bin/bash
 
-# watchexec --project-origin  -w script_name ./script_name
-
 watchexec -w /Users/alan/Grimoire -e org cargo run --bin neoprep
 
