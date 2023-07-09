@@ -1,3 +1,10 @@
 #!/bin/bash
 
-watchexec --project-origin /Users/alan/workshop/alanwsmith.com/content -w /Users/alan/workshop/alanwsmith.com/content -e neo cargo run --bin neo
+watchexec --project-origin \
+  /Users/alan/workshop/alanwsmith.com\
+  --watch \
+  /Users/alan/workshop/alanwsmith.com/templates \
+  --watch \
+  /Users/alan/workshop/alanwsmith.com/content \
+  -e neo,j2 cargo run --bin neo
+
