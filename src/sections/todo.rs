@@ -1,16 +1,14 @@
-#![allow(unused_imports)]
 use nom::Parser;
 use crate::blocks::paragraph::paragraph;
 use nom::character::complete::multispace1;
 use nom::character::complete::multispace0;
 use nom::bytes::complete::is_not;
 use nom::combinator::opt;
+use nom::combinator::peek;
 use nom::multi::many0;
-use crate::blocks::Block;
 use crate::containers::Container;
 use crate::section_attrs::sec_attrs;
 use crate::sections::Section;
-use crate::tags::Tag;
 use nom::branch::alt;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
@@ -19,9 +17,7 @@ use nom::character::complete::line_ending;
 use nom::character::complete::not_line_ending;
 use nom::combinator::eof;
 use nom::combinator::rest;
-use nom::multi::many1;
 use nom::multi::many_till;
-use nom::multi::separated_list1;
 use nom::sequence::tuple;
 use nom::IResult;
 use serde::Serialize;
@@ -34,8 +30,6 @@ pub enum TodoStatus {
     Other(String)
 }
 
-
-
 pub fn todo(source: &str) -> IResult<&str, Section> {
     let (source, _) =
         tuple((tag_no_case("-> todo"), not_line_ending, line_ending))(
@@ -44,9 +38,7 @@ pub fn todo(source: &str) -> IResult<&str, Section> {
     let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (content, paragraphs) =
-         many_till(paragraph, alt((take_until("["), eof)))(content.trim())?;
-     dbg!(&paragraphs);
-     dbg!(&content);
+         many_till(paragraph, alt((peek(tag("[")), eof)))(content.trim())?;
 
     let (content, raw_items) = many0(
         tuple((
@@ -59,61 +51,27 @@ pub fn todo(source: &str) -> IResult<&str, Section> {
              many_till(paragraph, eof)(x).unwrap().1.0
             )
         )))(content)?;
-     dbg!(&content);
 
-        // let (_, item_paragraphs) =
 
-    // -> todo
-    //
-    // [] this is not done
-    //
-    //
-     dbg!(&raw_items);
     let items: Vec<_> = raw_items.into_iter().map(|i| 
         match i.2 {
             None => {
         Container::TodoItem { status: TodoStatus::NotDone, paragraphs: i.5 }
             },
-            Some(x) => {
+            Some(_x) => {
         Container::TodoItem { status: TodoStatus::Done, paragraphs: i.5 }
             }
         }
     ).collect();
-        
-
-    dbg!(&items);
-
-
-    // let mut items: Vec<_> = raw_items
-    //     .into_iter()
-    //     .map(|i| {
-    //         i.0.into_iter()
-    //             .map(|x| Container::TodoItem { 
-    //                 status: TodoStatus::NotDone,
-    //                 paragraphs: x.0 
-    //             })
-    //             .collect::<Vec<_>>()
-    //     })
-    //     .collect();
-
-    // dbg!(&items);
-
-    // let things = items.pop().unwrap();
-    // let things2 = things.clone();
 
     Ok((
         source,
         Section::Todo {
             attrs,
-            // items: vec![], 
-            // items.pop().unwrap(),
-            // items: vec![],
-            // items: things2,
             paragraphs: paragraphs.0, 
             items
         },
     ))
-
 }
 
 #[cfg(test)]
@@ -121,14 +79,14 @@ mod test {
     use super::*;
     use crate::sections::Section;
     use rstest::rstest;
-
-// this test is mostly working but the data doesn't match 
-// so it's currently out of rotation and just relying
-// on the actual output for now
+use crate::tags::Tag;
+use crate::blocks::Block;
 
     #[rstest]
     #[case(
         ["-> todo", 
+            "", 
+            "this is some text",
             "", 
             "[] alfa1", 
             "alfa2", 
@@ -146,7 +104,13 @@ mod test {
         Ok(("\n\n-> placeholder", 
         Section::Todo {
             attrs: vec![],
-            paragraphs: vec![],
+            paragraphs: vec![
+                            Block::Paragraph {
+                                tags: vec![
+    Tag::Text { text: "this is some text".to_string() }
+                                ]
+                            },
+                ],
             items: vec![
                     Container::TodoItem { 
                         status: TodoStatus::NotDone,
@@ -189,7 +153,7 @@ mod test {
                 ]
         }))
     )]
-    fn test_todo(#[case] i: String, #[case] e: IResult<&str, Section>) {
+    fn solo_test_todo(#[case] i: String, #[case] e: IResult<&str, Section>) {
         assert_eq!(e, todo(i.as_str()));
     }
 }

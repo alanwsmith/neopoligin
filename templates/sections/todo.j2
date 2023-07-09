@@ -2,26 +2,21 @@
 {%- from "macros/text.j2" import text -%}
 
 {%- macro todo(content) -%}
-
-
-<h3>TODO: Get opening paragraph content to show up</h3>
-
-{% for paragraph in content.paragraphs %}
-{{ text(paragraph.tags) }}
-{% endfor %}
-
-<ul>
-{% for item in content.items %}
-<li>
-
-<input type="checkbox" {% if item.status.type == "done" %}checked {% endif %} disabled>
-
-{% for paragraph in item.paragraphs %}
-{{ text(paragraph.tags) }}
-{% endfor %}
-
-</li>
-{% endfor %}
-</ul>
-
+    {% for paragraph in content.paragraphs %}
+        {{ text(paragraph.tags) }}
+    {% endfor %}
+    <ul>
+        {% for item in content.items %}
+            <li>
+                {% for paragraph in item.paragraphs %}
+                    <p>
+                        {% if loop.first %}
+                            <input type="checkbox" {% if item.status.type == "done" %}checked {% endif %} disabled>
+                        {% endif %}
+                        {{ text(paragraph.tags) }}
+                    </p>
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
 {%- endmacro -%}
