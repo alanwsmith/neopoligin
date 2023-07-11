@@ -12,7 +12,7 @@ cargo test -q -- --nocapture
 
 if [[ $? -eq 0 ]]
 then
-  cargo run -q --bin neoprep
+  cargo run -q --bin prepneo 
   if [[ $? -eq 0 ]]
   then
     tput setaf 28

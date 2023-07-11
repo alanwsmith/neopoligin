@@ -62,23 +62,23 @@ fn main() {
     //     site_id: "neopolengine".to_string(),
     // };
 
-    // let neopolitan_dev = Config {
-    //     input_root: "/Users/alan/Grimoire".to_string(),
-    //     output_root: "/Users/alan/workshop/neopolitan/content".to_string(),
-    //     output_sub_dir: Some("pages".to_string()),
-    //     site_id: "neopolitan".to_string(),
-    // };
-
-    // REMEMBER TO CHANGE FILE EXTENSION BELOW ONCE YOU'RE
-    // USING .neo FILES
-    let aws_prod = Config {
-        input_root: "/Users/alan/Grimoire".to_string(),
-        output_root: "/Users/alan/workshop/alanwsmith.com/content".to_string(),
+    let dev = Config {
+        input_root: "/Users/alan/workshop/neopolengine/samples/input".to_string(),
+        output_root: "/Users/alan/workshop/neopolengine/samples/output".to_string(),
         output_sub_dir: Some("pages".to_string()),
         site_id: "aws".to_string(),
     };
 
-    let config = aws_prod.clone();
+    // // REMEMBER TO CHANGE FILE EXTENSION BELOW ONCE YOU'RE
+    // // USING .neo FILES
+    // let aws_prod = Config {
+    //     input_root: "/Users/alan/Grimoire".to_string(),
+    //     output_root: "/Users/alan/workshop/alanwsmith.com/content".to_string(),
+    //     output_sub_dir: Some("pages".to_string()),
+    //     site_id: "aws".to_string(),
+    // };
+
+    let config = dev.clone();
 
     let paths = filter_extensions(
         fs::read_dir(&config.input_root)
@@ -139,8 +139,7 @@ fn main() {
                 println!("Copying to: {:?}", &output_file_path);
                 let _ = copy(p, output_file_path);
             }
-            _ => {
-                // dbg!("skipping");
+            _ => { // dbg!("skipping");
             }
         }
         ()
@@ -148,10 +147,10 @@ fn main() {
 }
 
 pub fn file_id(source: &str) -> IResult<&str, &str> {
-    let (a, _b) = take_until("\n-> attributes")(source)?;
-    let (a, _b) = tag("\n-> attributes")(a)?;
-    let (a, _b) = take_until(">> id: ")(a)?;
-    let (a, _b) = tag(">> id: ")(a)?;
+    let (a, _b) = take_until("\n-- attributes")(source)?;
+    let (a, _b) = tag("\n-- attributes")(a)?;
+    let (a, _b) = take_until("-- id: ")(a)?;
+    let (a, _b) = tag("-- id: ")(a)?;
     let (a, _b) = multispace0(a)?;
     let (_a, b) = not_line_ending(a)?;
     Ok(("", b.trim()))
@@ -174,14 +173,14 @@ pub fn output_dir_name<'a>(source: &'a str, id: &'a str) -> IResult<&'a str, Str
 }
 
 pub fn filter_status(source: &str) -> IResult<&str, bool> {
-    let (source, check_status_1) = opt(take_until("\n-> attributes"))(source)?;
+    let (source, check_status_1) = opt(take_until("\n-- attributes"))(source)?;
     match check_status_1 {
         Some(_) => {
-            let (source, _) = tag("\n-> attributes")(source)?;
-            let (source, check_status_2) = opt(take_until(">> status: "))(source)?;
+            let (source, _) = tag("\n-- attributes")(source)?;
+            let (source, check_status_2) = opt(take_until("-- status: "))(source)?;
             match check_status_2 {
                 Some(_) => {
-                    let (source, _) = tag(">> status: ")(source)?;
+                    let (source, _) = tag("-- status: ")(source)?;
                     let (source, b) = not_line_ending(source)?;
                     match b.trim() {
                         "published" => Ok((source, true)),
@@ -197,14 +196,14 @@ pub fn filter_status(source: &str) -> IResult<&str, bool> {
 }
 
 pub fn filter_site<'a>(source: &'a str, site_id: &'a str) -> IResult<&'a str, bool> {
-    let (source, check_site_1) = opt(take_until("\n-> attributes"))(source)?;
+    let (source, check_site_1) = opt(take_until("\n-- attributes"))(source)?;
     match check_site_1 {
         Some(_) => {
-            let (source, _) = tag("\n-> attributes")(source)?;
-            let (source, check_site_2) = opt(take_until(">> site: "))(source)?;
+            let (source, _) = tag("\n-- attributes")(source)?;
+            let (source, check_site_2) = opt(take_until("-- site: "))(source)?;
             match check_site_2 {
                 Some(_) => {
-                    let (source, _) = tag(">> site: ")(source)?;
+                    let (source, _) = tag("-- site: ")(source)?;
                     let (source, the_id) = not_line_ending(source)?;
                     if the_id.trim() == site_id {
                         Ok((source, true))
@@ -236,9 +235,9 @@ pub fn filter_extensions(list: Vec<PathBuf>) -> Vec<PathBuf> {
 }
 
 pub fn override_path(source: &str) -> IResult<&str, Option<String>> {
-    let (source, _) = pair(take_until("\n-> attributes"), tag("\n-> attributes"))(source)?;
+    let (source, _) = pair(take_until("\n-- attributes"), tag("\n-- attributes"))(source)?;
     let (source, the_path) = opt(preceded(
-        pair(take_until(">> path: "), tag(">> path: ")),
+        pair(take_until("-- path: "), tag("-- path: ")),
         not_line_ending.map(|s: &str| s.to_string()),
     ))(source)?;
     Ok((source, the_path))
@@ -268,9 +267,9 @@ mod test {
         // allowed statuses are hard coded above
         let lines = [
             "",
-            "-> attributes",
-            ">> id: 12341234",
-            ">> status: unpublished",
+            "-- attributes",
+            "-- id: 12341234",
+            "-- status: unpublished",
         ];
         assert_eq!(filter_status(lines.join("\n").as_str()).unwrap().1, false);
     }
@@ -279,9 +278,9 @@ mod test {
     pub fn filter_status_true() {
         let lines = [
             "",
-            "-> attributes",
-            ">> id: 12341234",
-            ">> status: published",
+            "-- attributes",
+            "-- id: 12341234",
+            "-- status: published",
         ];
         assert_eq!(filter_status(lines.join("\n").as_str()).unwrap().1, true);
     }
@@ -290,16 +289,16 @@ mod test {
     pub fn filter_status_with_trailing_space() {
         let lines = [
             "",
-            "-> attributes",
-            ">> id: 12341234",
-            ">> status: published ",
+            "-- attributes",
+            "-- id: 12341234",
+            "-- status: published ",
         ];
         assert_eq!(filter_status(lines.join("\n").as_str()).unwrap().1, true);
     }
 
     #[test]
     pub fn filter_status_with_no_content() {
-        let lines = ["", "-> attributes", ">> date: 2023-02-03 13:14:15"];
+        let lines = ["", "-- attributes", "-- date: 2023-02-03 13:14:15"];
         assert_eq!(filter_status(lines.join("\n").as_str()).unwrap().1, false);
     }
 
@@ -307,10 +306,10 @@ mod test {
     pub fn filter_site_test() {
         let lines = [
             "",
-            "-> attributes",
-            ">> id: 12341234",
-            ">> site: neoengine",
-            ">> status: published ",
+            "-- attributes",
+            "-- id: 12341234",
+            "-- site: neoengine",
+            "-- status: published ",
         ];
         assert_eq!(
             filter_site(lines.join("\n").as_str(), "neoengine")
@@ -351,7 +350,7 @@ mod test {
 
     #[test]
     pub fn file_id_basic() {
-        let lines = ["", "-> attributes", ">> id: 1234alfa"].join("\n");
+        let lines = ["", "-- attributes", "-- id: 1234alfa"].join("\n");
         assert_eq!(file_id(lines.as_str()).unwrap().1, "1234alfa");
     }
 
@@ -359,9 +358,9 @@ mod test {
     pub fn file_id_with_trailing_white_space() {
         let lines = [
             "",
-            "-> attributes",
-            ">> id: 6789bravo ",
-            ">> status: published",
+            "-- attributes",
+            "-- id: 6789bravo ",
+            "-- status: published",
             "",
         ]
         .join("\n");
@@ -370,7 +369,7 @@ mod test {
 
     #[test]
     pub fn get_override_path() {
-        let lines = ["", "-> attributes", ">> path: index.neo", ""].join("\n");
+        let lines = ["", "-- attributes", "-- path: index.neo", ""].join("\n");
         assert_eq!(
             override_path(lines.as_str()).unwrap().1,
             Some("index.neo".to_string())

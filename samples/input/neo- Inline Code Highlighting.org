@@ -1,0 +1,105 @@
+-- TITLE
+
+Neopolitan Inline Code Highlighting
+
+GOAL: Neopolitan offers inline code highlighting
+similar to markdown.
+
+-- LIST
+
+- It uses three backtics instead of two.
+
+- The content between the second and third identify
+  an optional language and optional set of
+  attributes
+
+- The language gets passed to the output as
+  a `language-type`` class to the `<code>`html`.
+  elements on output.
+
+- A pipe can be used in the last section to provide
+  key/value pairs.
+
+- The key/value pairs are passed directly to the
+  `<code>`html` output as is. 
+
+- If not language is defined the argument is
+  set to `langauge-txt``.
+  
+
+-- H2
+
+Samples
+
+
+-- H3
+
+Basic
+
+-- CODE 
+-- neo 
+
+`println!("alfa")``
+
+
+-- H3
+
+Language Included
+
+-- CODE 
+-- neo
+
+`println!("bravo")`rust`
+
+
+-- H3
+
+Language And Key/Value Pairs Included
+
+
+-- CODE
+-- neo
+
+
+`println!("charlie")`rust|class: highlighted centered`
+
+
+-- H3
+
+Only Key/Value Pairs Included
+
+-- CODE
+-- neo
+
+
+`println!("charlie")`|class: highlighted centered`
+
+
+
+
+
+
+
+-- BLURB 
+
+Playing around with the syntax to use for code highlighting
+
+
+
+-- ID
+
+2mf3plb7jgun
+
+-- date
+
+2023-03-06 18:19:43
+
+-- Pategories
+
+Neopolitan
+
+-- output
+-- site: aws
+-- status: pending
+-- type: post
+

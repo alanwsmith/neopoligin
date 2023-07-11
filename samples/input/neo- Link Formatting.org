@@ -1,0 +1,69 @@
+-- title
+
+Neopolitan Link Formatting
+
+-- c
+
+Working on the syntax for links
+
+
+-- h3
+
+Alfa
+
+-- code
+
+<<link|the text is here|urlhere|class: whatever and more|id: whatever >>
+
+-- c
+
+Could also make that multiline:
+
+-- code
+
+<< link|
+the text is here
+| urlhere                
+| class: whatever and more 
+| id: whatever           
+>>
+
+-- c
+
+Or,
+
+->
+
+Here is <<link| a link |
+https://www.example.com/ |
+id: something
+class: whatever
+>>
+
+
+
+
+
+
+
+-- blurb
+
+Working on the syntax for links
+
+-- id
+
+2mi4trlllqcr
+
+-- date
+
+2023-03-07 20:01:26
+
+-- categories
+
+Miscellaneous
+
+-- output
+-- site: aws
+-- status: pending
+-- type: post
+

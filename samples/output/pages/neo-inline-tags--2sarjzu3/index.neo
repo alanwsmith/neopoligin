@@ -1,0 +1,87 @@
+-- title
+
+Neopolitan Inline Tags
+
+This is the list of inline tags along with 
+their availability
+
+
+-- todo
+
+[x] abbr - The Abbreviation Element
+
+[x] b - The Bring Attention To Element
+
+[PHASE2] br - The Line Break Element
+
+[PHASE2] button - The Button Element - Needs attributes
+
+[PHASE2] cite - The Citation Element - First attrube should be able to be link
+
+[x] code - The Inline Code Element
+
+[PHASE2] data - The Data Element - Needs attributes
+
+[PHASE2] del - The Deleted Text Element - Needs attributes
+
+[x] dfn - The Definition Element
+
+[x] em - The Emphasis Element
+
+[x] i - The Idiomatic Text Element
+
+[PHASE2] img - The Image Embed Element
+
+[PHASE2] input - The Input (Form Input) Element - Needs attributes
+
+[PHASE2] ins - The Insert Element - Needs attributes
+
+[x] kbd - The Keyboard Input Element
+
+[x] link - The External Resource Link Element
+
+[x] mark - The Mark Text Element
+
+[PHASE2] meter - The HTML Meter Element - Needs attributes
+
+[PHASE2] object - The External Object Element - Needs attributes
+
+[PHASE2] progress - The Progress Indicator Element - Needs attributes
+
+[x] q - The Inline Quotation Element
+
+[x] s - The Strikethrough Element
+
+[x] samp - The Sample Output Element
+
+[x] small - The Side Comment Element
+
+[x] span - The Content Span Element
+
+[x] strong - The Strong Importance Element
+
+[x] sub - The Subscript Element
+
+[x] sup - The Superscript Element
+
+[PHASE2] time - The (Date) Time Element - Needs attributes
+
+[x] u - The Unarticulated Annotation Element
+
+[x] var - The Variable element
+
+[x] wbr - The Line Break Opportunity Element
+
+
+-- categories
+-- Neopolitan 
+
+-- attributes
+-- date: 2023-07-05 16:05:37
+-- id: 2sarjzu3
+-- site: aws
+-- type: neodocs
+-- status: published 
+
+
+
