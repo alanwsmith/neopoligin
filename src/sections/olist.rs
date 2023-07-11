@@ -21,21 +21,17 @@ use nom::IResult;
 
 pub fn olist(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> olist"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- olist"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (content, paragraphs) =
         many_till(paragraph, alt((tag("- "), eof)))(content.trim())?;
-    // dbg!(&paragraphs);
-
-    // dbg!(&content);
     let (_, raw_items) = separated_list1(
         tag("- "),
         many_till(many_till(paragraph, alt((tag("- "), eof))), eof),
     )(content)?;
-    // dbg!(&raw_items);
 
     let mut items: Vec<_> = raw_items
         .into_iter()
@@ -45,19 +41,11 @@ pub fn olist(source: &str) -> IResult<&str, Section> {
                 .collect::<Vec<_>>()
         })
         .collect();
-
-    // dbg!(&items);
-
-    // let things = items.pop().unwrap();
-    // let things2 = things.clone();
-
     Ok((
         source,
         Section::OList {
             attrs,
             items: items.pop().unwrap(),
-            // items: vec![],
-            // items: things2,
             paragraphs: paragraphs.0, 
         },
     ))
@@ -76,7 +64,7 @@ mod test {
     #[rstest]
     #[ignore]
     #[case(
-        ["-> list", 
+        ["-> olist", 
             ">> id: sierra",
             "", 
             "tango foxtrot", 

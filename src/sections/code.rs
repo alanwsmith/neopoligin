@@ -16,14 +16,14 @@ use nom::IResult;
 
 pub fn code(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> code"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- code"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     
     
     let (content, lang) =
-        opt(delimited(tag(">> "), is_not(":\n"), line_ending))(content)?;
+        opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
 
     let (content, mut attrs) = sec_attrs(content.trim())?;
 
@@ -63,14 +63,14 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> code", "", "sierra bravo"].join("\n"), 
+        vec!["-- code", "", "sierra bravo"].join("\n"), 
         Section::Code {
             attrs: vec![],
             text: "sierra bravo".to_string()
         }
     )]
     #[case(
-        vec!["-> code", ">> rust", "", "echo foxtrot"].join("\n"), 
+        vec!["-- code", "-- rust", "", "echo foxtrot"].join("\n"), 
         Section::Code {
             attrs: vec![SecAttr::Class(vec!["language-rust".to_string()])],
             text: "echo foxtrot".to_string()

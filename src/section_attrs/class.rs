@@ -9,7 +9,7 @@ use nom::IResult;
 
 pub fn class(source: &str) -> IResult<&str, SecAttr> {
     let (source, captured) = preceded(
-        tag(">> class: "),
+        tag("-- class: "),
         not_line_ending,
     )(source.trim())?;
     let (_, classes) = separated_list1(

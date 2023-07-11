@@ -13,9 +13,9 @@ impl SourceFile {
     ) -> IResult<&'a str, &'a str> {
         let (source, type_of_page) = preceded(
             tuple((
-                take_until("-> attributes"),
-                take_until(">> type: "),
-                tag(">> type: "),
+                take_until("-- attributes"),
+                take_until("-- type: "),
+                tag("-- type: "),
             )),
             not_line_ending,
         )(source)?;
@@ -31,7 +31,7 @@ mod test {
 
     #[rstest]
     #[case(
-        vec!["-> attributes", ">> type: alfa"].join("\n"),
+        vec!["-- attributes", "-- type: alfa"].join("\n"),
         "alfa"
         )]
     fn type_tester(#[case] i1: String, #[case] e: &str) {

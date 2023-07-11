@@ -14,13 +14,13 @@ use nom::IResult;
 
 pub fn image(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> image"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- image"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source)?;
-    let (content, id) = opt(preceded(tag(">> "), not_line_ending))(content)?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source)?;
+    let (content, id) = opt(preceded(tag("-- "), not_line_ending))(content)?;
     let (content, attrs) = sec_attrs(content.trim())?;
-    let (_, alt) = alt((take_until("\n\n->"), rest))(content)?;
+    let (_, alt) = alt((take_until("\n\n--"), rest))(content)?;
 
     Ok((
         source,
@@ -43,8 +43,8 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> image", ">> alfabravo","", "Charlie Delta", "", "-> next"].join("\n"), 
-        Ok(("\n\n-> next", 
+        vec!["-- image", "-- alfabravo","", "Charlie Delta", "", "-- next"].join("\n"), 
+        Ok(("\n\n-- next", 
         Section::Image {
             alt: "Charlie Delta".to_string(),
             attrs: vec![],

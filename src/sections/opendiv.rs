@@ -11,10 +11,10 @@ use nom::IResult;
 
 pub fn opendiv(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> opendiv"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- opendiv"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (_, attrs) = sec_attrs(content.trim())?;
     Ok((source, Section::OpenDiv { attrs }))
 }
@@ -28,7 +28,7 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> opendiv", ">> class: alfa", ""].join("\n"),
+        vec!["-- opendiv", "-- class: alfa", ""].join("\n"),
         Section::OpenDiv {
             attrs: vec![SecAttr::Class(vec!["alfa".to_string()])],
         }

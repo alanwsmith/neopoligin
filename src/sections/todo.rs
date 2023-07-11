@@ -32,10 +32,10 @@ pub enum TodoStatus {
 
 pub fn todo(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> todo"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- todo"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (content, paragraphs) =
          many_till(paragraph, alt((peek(tag("[")), eof)))(content.trim())?;
@@ -84,7 +84,7 @@ use crate::blocks::Block;
 
     #[rstest]
     #[case(
-        ["-> todo", 
+        ["-- todo", 
             "", 
             "this is some text",
             "", 
@@ -100,8 +100,8 @@ use crate::blocks::Block;
             "",
             "bravo3", 
             "",
-            "-> placeholder"].join("\n"),
-        Ok(("\n\n-> placeholder", 
+            "-- placeholder"].join("\n"),
+        Ok(("\n\n-- placeholder", 
         Section::Todo {
             attrs: vec![],
             paragraphs: vec![

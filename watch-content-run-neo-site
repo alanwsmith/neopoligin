@@ -2,6 +2,7 @@
 
 watchexec --project-origin \
   /Users/alan/workshop/alanwsmith.com\
+  --debounce 1sec \
   --watch \
   /Users/alan/workshop/alanwsmith.com/templates \
   --watch \

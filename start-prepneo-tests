@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cargo watch -q -s "./scripts/run-tests"

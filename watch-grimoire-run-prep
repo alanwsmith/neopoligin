@@ -1,4 +1,4 @@
 #!/bin/bash
 
-watchexec -w /Users/alan/Grimoire -e org cargo run --bin neoprep
+watchexec --project-origin /Users/alan/Grimoire  -w /Users/alan/Grimoire -e org cargo run --bin prepneo 
 

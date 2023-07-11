@@ -16,13 +16,13 @@ use nom::IResult;
 
 pub fn startcode(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> startcode"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- startcode"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n-> endcode"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n-- endcode"), rest))(source.trim())?;
     
     let (content, lang) =
-        opt(delimited(tag(">> "), is_not(":\n"), line_ending))(content)?;
+        opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
 
     let (content, mut attrs) = sec_attrs(content.trim())?;
 
@@ -62,17 +62,17 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> startcode", "", "kick it", "", "-> h2", "", "-> endcode"].join("\n"), 
+        vec!["-- startcode", "", "kick it", "", "-- h2", "", "-- endcode"].join("\n"), 
         Section::Code {
             attrs: vec![],
-            text: "kick it\n\n-> h2".to_string()
+            text: "kick it\n\n-- h2".to_string()
         }
     )]
     #[case(
-        vec!["-> startcode", ">> rust", "", "kick it", "", "-> h2", "", "-> endcode"].join("\n"), 
+        vec!["-- startcode", "-- rust", "", "kick it", "", "-- h2", "", "-- endcode"].join("\n"), 
         Section::Code {
             attrs: vec![SecAttr::Class(vec!["language-rust".to_string()])],
-            text: "kick it\n\n-> h2".to_string()
+            text: "kick it\n\n-- h2".to_string()
         }
     )]
     fn solo_code_test(#[case] i: String, #[case] e: Section) {

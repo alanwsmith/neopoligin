@@ -17,11 +17,11 @@ use nom::IResult;
 
 pub fn vimeo(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> vimeo"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- vimeo"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source)?;
-    let (content, id) = opt(preceded(tag(">> "), not_line_ending))(content)?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source)?;
+    let (content, id) = opt(preceded(tag("-- "), not_line_ending))(content)?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (_, paragraphs) = many_till(paragraph, eof)(content.trim())?;
 
@@ -46,8 +46,8 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> vimeo", ">> alfabravo","", "-> next"].join("\n"), 
-        Ok(("\n\n-> next", 
+        vec!["-- vimeo", "-- alfabravo","", "-- next"].join("\n"), 
+        Ok(("\n\n-- next", 
         Section::Vimeo {
             attrs: vec![],
             id: "alfabravo".to_string(),
@@ -56,8 +56,8 @@ mod text {
         }))
     )]
     #[case(
-        vec!["-> vimeo", ">> deltaecho",">> class: foxtrot", "", "whiskey tango", "", "-> next"].join("\n"),
-        Ok(("\n\n-> next", 
+        vec!["-- vimeo", "-- deltaecho","-- class: foxtrot", "", "whiskey tango", "", "-- next"].join("\n"),
+        Ok(("\n\n-- next", 
         Section::Vimeo {
             attrs: vec![
                 SecAttr::Class(vec!["foxtrot".to_string()])

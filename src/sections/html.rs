@@ -11,10 +11,10 @@ use nom::IResult;
 
 pub fn html(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> html"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- html"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
 
     Ok((
         source,
@@ -34,7 +34,7 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> html", "", "sierra bravo"].join("\n"), 
+        vec!["-- html", "", "sierra bravo"].join("\n"), 
         Section::Html {
             text: "sierra bravo".to_string()
         }

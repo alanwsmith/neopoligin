@@ -10,10 +10,10 @@ use nom::IResult;
 
 pub fn endcode(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> endcode"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- endcode"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, _) = alt((take_until("\n\n-> "), rest))(source)?;
+    let (source, _) = alt((take_until("\n\n-- "), rest))(source)?;
     Ok((source, Section::None))
 
     //

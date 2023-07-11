@@ -21,10 +21,10 @@ use nom::IResult;
 
 pub fn checklist(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> checklist"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- checklist"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (content, paragraphs) =
         many_till(paragraph, alt((tag("- "), eof)))(content.trim())?;
@@ -62,8 +62,8 @@ mod test {
     #[rstest]
     #[ignore]
     #[case(
-        ["-> notes", 
-            ">> id: sierra",
+        ["-- checklist", 
+            "-- id: sierra",
             "", 
             "tango foxtrot", 
             "", 
@@ -79,8 +79,8 @@ mod test {
             "",
             "bravo3", 
             "",
-            "-> placeholder"].join("\n"),
-        Ok(("\n\n-> placeholder", 
+            "-- placeholder"].join("\n"),
+        Ok(("\n\n-- placeholder", 
         Section::Checklist {
             attrs: vec![],
             paragraphs: vec![],

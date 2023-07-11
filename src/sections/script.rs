@@ -11,10 +11,10 @@ use nom::IResult;
 
 pub fn script(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> script"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- script"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     Ok((
         source,
         Section::Script {
@@ -31,7 +31,7 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> script", "", "const widget = `alfa`"].join("\n"), 
+        vec!["-- script", "", "const widget = `alfa`"].join("\n"), 
         Section::Script {
             text: "const widget = `alfa`".to_string()
         }

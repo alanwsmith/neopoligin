@@ -11,10 +11,10 @@ use nom::IResult;
 
 pub fn hr(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> hr"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- hr"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (_, attrs) = sec_attrs(content.trim())?;
     Ok((source, Section::Hr { attrs }))
 }
@@ -28,7 +28,7 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> hr", ">> class: tango", ""].join("\n"),
+        vec!["-- hr", "-- class: tango", ""].join("\n"),
         Section::Hr {
             attrs: vec![SecAttr::Class(vec!["tango".to_string()])],
         }

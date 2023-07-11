@@ -14,9 +14,9 @@ impl SourceFile {
         &'a self,
         source: &'a str,
     ) -> IResult<&'a str, &'a str> {
-        let (source, _) = take_until("-> attributes")(source)?;
+        let (source, _) = take_until("-- attributes")(source)?;
         let (source, template) = delimited(
-            tuple((take_until(">> type: "), tag_no_case(">> type: "))),
+            tuple((take_until("-- type: "), tag_no_case("-- type: "))),
             not_line_ending,
             alt((line_ending, eof)),
         )(source)?;
@@ -33,7 +33,7 @@ mod test {
     #[test]
     pub fn basic_test() {
         let sf = SourceFile::new();
-        let lines = vec!["-> attributes", ">> type: alfa"].join("\n");
+        let lines = vec!["-- attributes", "-- type: alfa"].join("\n");
         let expected = "alfa";
         assert_eq!(expected, sf.template(lines.as_str()).unwrap().1);
     }
@@ -41,7 +41,7 @@ mod test {
     #[test]
     pub fn basic_with_whitespace_problem() {
         let sf = SourceFile::new();
-        let lines = vec!["-> attributes", ">> type: bravo "].join("\n");
+        let lines = vec!["-- attributes", "-- type: bravo "].join("\n");
         let expected = "bravo";
         assert_eq!(expected, sf.template(lines.as_str()).unwrap().1);
     }

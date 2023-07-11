@@ -293,7 +293,9 @@ pub fn valid_nonce(p: PathBuf) -> bool {
         // TODO: Check all the stuff before this back to
         // what ever the last one was
         "neo- ",
+        "neoe- ",
         "post- ",
+        "site- ",
     ];
     match nonces.iter().find(|&&n| {
         p.file_name()
@@ -314,15 +316,14 @@ mod test {
     use std::path::PathBuf;
 
     #[test]
-    #[ignore]
     pub fn filter_extensions_test() {
         let files = vec![
-            PathBuf::from("/a/b/alfa.neo"),
+            PathBuf::from("/a/b/alfa.org"),
             PathBuf::from("/a/b/bravo.txt"),
         ];
         assert_eq!(
-            filter_extensions(files),
-            vec![PathBuf::from("/a/b/alfa.neo")]
+            vec![PathBuf::from("/a/b/alfa.org")],
+            filter_extensions(files)
         );
     }
 

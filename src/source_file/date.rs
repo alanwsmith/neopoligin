@@ -17,9 +17,9 @@ impl SourceFile {
     ) -> IResult<&'a str, Option<String>> {
         let (source, date) = preceded(
             tuple((
-                take_until("-> attributes"),
-                take_until(">> date: "),
-                tag(">> date: "),
+                take_until("-- attributes"),
+                take_until("-- date: "),
+                tag("-- date: "),
             )),
             not_line_ending,
         )(source)?;
@@ -37,7 +37,7 @@ mod test {
 
     #[rstest]
     #[case(
-        vec!["-> attributes", ">> date: 2023-07-06 12:24:00"].join("\n"),
+        vec!["-- attributes", "-- date: 2023-07-06 12:24:00"].join("\n"),
         "%B %Y",
         "July 2023".to_string()
         )]

@@ -7,9 +7,9 @@ use nom::sequence::tuple;
 use nom::IResult;
 
 pub fn content(source: &str) -> IResult<&str, String> {
-    let (source, _) = take_until("-> title")(source)?;
+    let (source, _) = take_until("-- title")(source)?;
     let (source, title) = preceded(
-        tuple((tag("-> title"), multispace1)),
+        tuple((tag("-- title"), multispace1)),
         not_line_ending,
     )(source)?;
 

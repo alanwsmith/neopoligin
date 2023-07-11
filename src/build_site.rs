@@ -11,10 +11,9 @@ use walkdir::WalkDir;
 
 pub fn build_site() {
     println!("Building the site");
-
     let template_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
-    let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/site");
+    let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
     let mut env = Environment::new();
     let template_path = template_dir.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
@@ -24,6 +23,7 @@ pub fn build_site() {
         let initial_path = entry.unwrap().path().to_path_buf();
         if let Some(ext) = initial_path.extension() {
             if ext == "neo" {
+                println!("-------------------------");
                 println!("Loading: {}", &initial_path.display());
                 let sf = SourceFile {
                     source_path: initial_path
@@ -34,11 +34,28 @@ pub fn build_site() {
                     source_data: fs::read_to_string(initial_path).unwrap(),
                 };
                 source_files.push(sf);
+            } else {
+                let mut output_path = site_root_dir.clone();
+                let file_sub_path = initial_path.strip_prefix(&content_dir).unwrap();
+                output_path.push(file_sub_path);
+                let parent_dir = output_path.parent().unwrap();
+                if initial_path.to_path_buf().is_file() {
+                    if !parent_dir.exists() {
+                        println!("-------------------------");
+                        println!("Making dir:\n{}", &output_path.display());
+                        fs::create_dir_all(parent_dir).unwrap();
+                    }
+                    println!("-------------------------");
+                    println!("Copying:\n{}", &initial_path.to_str().unwrap());
+                    println!("To:\n{}", &output_path.display());
+                    fs::copy(initial_path, output_path).unwrap();
+                }
             }
         }
     }
 
     source_files.iter().for_each(|source_file| {
+        println!("-------------------------");
         println!("Outputting:\n{}", &source_file.source_path.display());
         let template = env.get_template(
             format!(
@@ -47,14 +64,12 @@ pub fn build_site() {
             )
             .as_str(),
         );
-
         let the_content = sections(&source_file.source_data).unwrap().1;
         let the_date = &source_file
             .date(&source_file.source_data, "%B %Y")
             .unwrap()
             .1;
         let title_string = title(&source_file.source_data).unwrap().1;
-
         let output = template
             .unwrap()
             .render(context!(

@@ -15,29 +15,14 @@ use nom::IResult;
 
 pub fn pre(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> pre"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- pre"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (content, _) =
-        opt(delimited(tag(">> "), is_not(":\n"), line_ending))(content)?;
+        opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
 
     let (content, attrs) = sec_attrs(content.trim())?;
-
-    // let found_it = attrs.iter_mut().find(|x| match x {
-    //     SecAttr::Class(_) => true,
-    //     _ => false,
-    // });
-
-    // match (found_it, lang) {
-    //     (Some(SecAttr::Class(the_thing)), Some(the_lang)) => {
-    //         the_thing.push(format!("language-{}", the_lang));
-    //     }
-    //     (None, Some(the_lang)) => {
-    //         attrs.push(SecAttr::Class(vec![format!("language-{}", the_lang)]))
-    //     }
-    //     _ => {}
-    // }
     Ok((
         source,
         Section::Pre {
@@ -45,8 +30,6 @@ pub fn pre(source: &str) -> IResult<&str, Section> {
             text: content.to_string(),
         },
     ))
-
-    //
 }
 
 #[cfg(test)]
@@ -57,7 +40,7 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> pre", "", "sierra bravo"].join("\n"), 
+        vec!["-- pre", "", "sierra bravo"].join("\n"), 
         Section::Pre {
             attrs: vec![],
             text: "sierra bravo".to_string()

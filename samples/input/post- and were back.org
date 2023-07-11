@@ -21,3 +21,4 @@ we go....
 -- status: published
 -- type: post
 -- SCRUBBED_NEO: false
+-- site: aws

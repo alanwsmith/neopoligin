@@ -6,7 +6,7 @@ use nom::IResult;
 
 pub fn id(source: &str) -> IResult<&str, SecAttr> {
     let (source, captured) = preceded(
-        tag(">> id: "),
+        tag("-- id: "),
         not_line_ending,
     )(source.trim())?;
     Ok((

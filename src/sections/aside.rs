@@ -14,10 +14,8 @@ use nom::IResult;
 
 pub fn aside(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> aside"), not_line_ending, line_ending))(
-            source.trim(),
-        )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+        tuple((tag_no_case("-- aside"), not_line_ending, line_ending))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (_, paragraphs) = many_till(paragraph, eof)(content.trim())?;
     Ok((
@@ -39,7 +37,7 @@ mod text {
 
     #[rstest]
     #[case(
-        vec!["-> aside", "", "whiskey tango"].join("\n"), 
+        vec!["-- aside", "", "whiskey tango"].join("\n"), 
         Section::Aside {
             attrs: vec![],
             paragraphs: vec![Block::Paragraph {

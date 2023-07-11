@@ -18,13 +18,14 @@ use nom::multi::many_till;
 use nom::multi::separated_list1;
 use nom::sequence::tuple;
 use nom::IResult;
+use crate::sections::SecAttr;
 
 pub fn notes(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-> notes"), not_line_ending, line_ending))(
+        tuple((tag_no_case("-- notes"), not_line_ending, line_ending))(
             source.trim(),
         )?;
-    let (source, content) = alt((take_until("\n\n->"), rest))(source.trim())?;
+    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
     let (content, attrs) = sec_attrs(content.trim())?;
     let (content, paragraphs) =
         many_till(paragraph, alt((tag("- "), eof)))(content.trim())?;
@@ -56,14 +57,10 @@ mod test {
     use crate::sections::Section;
     use rstest::rstest;
 
-// this test is mostly working but the data doesn't match 
-// so it's currently out of rotation and just relying
-// on the actual output for now
     #[rstest]
-    #[ignore]
     #[case(
-        ["-> notes", 
-            ">> id: sierra",
+        ["-- notes", 
+            "-- id: sierra",
             "", 
             "tango foxtrot", 
             "", 
@@ -79,11 +76,17 @@ mod test {
             "",
             "bravo3", 
             "",
-            "-> placeholder"].join("\n"),
-        Ok(("\n\n-> placeholder", 
-        Section::List {
-            attrs: vec![],
-            paragraphs: vec![],
+            "-- placeholder"].join("\n"),
+        Ok(("\n\n-- placeholder", 
+        Section::Notes {
+            attrs: vec![SecAttr::Id("sierra".to_string())],
+            paragraphs: vec![
+                Block::Paragraph {
+                    tags: vec![
+                        Tag::Text { text: "tango foxtrot".to_string() }
+                    ]
+                },
+            ],
             items: vec![
                     Container::ListItem { paragraphs:
                         vec![

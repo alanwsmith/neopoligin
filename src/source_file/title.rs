@@ -7,9 +7,9 @@ use nom::sequence::tuple;
 use nom::IResult;
 
 pub fn title(source: &str) -> IResult<&str, String> {
-    let (source, _) = take_until("-> title")(source)?;
+    let (source, _) = take_until("-- title")(source)?;
     let (source, title) = preceded(
-        tuple((tag("-> title"), multispace1)),
+        tuple((tag("-- title"), multispace1)),
         not_line_ending,
     )(source)?;
 
@@ -24,7 +24,7 @@ mod test {
 
     #[test]
     pub fn basic_test() {
-        let lines = vec!["-> title", "", "Delta Echo"].join("\n");
+        let lines = vec!["-- title", "", "Delta Echo"].join("\n");
         let expected = "Delta Echo".to_string();
         assert_eq!(expected, title(lines.as_str()).unwrap().1);
     }
