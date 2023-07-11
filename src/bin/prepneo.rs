@@ -25,10 +25,10 @@ use std::path::PathBuf;
 
 // This is currently hard coded to look for:
 // `>> site: neoengine``
-
+//
 // Note this is current etup to look at .org files
 // until the move to raw .neo files in the grimoire is made
-
+//
 // [] Add a note to the top of the files saying that they are copies
 //  to help prevenet editing the wrong ones
 // [] Setup dir paths if there is no id
@@ -62,24 +62,23 @@ fn main() {
     //     site_id: "neopolengine".to_string(),
     // };
 
-    let dev = Config {
-        input_root: "/Users/alan/workshop/neopolengine/samples/input".to_string(),
-        output_root: "/Users/alan/workshop/neopolengine/samples/output".to_string(),
-        output_sub_dir: Some("pages".to_string()),
-        site_id: "aws".to_string(),
-    };
-
-    // // REMEMBER TO CHANGE FILE EXTENSION BELOW ONCE YOU'RE
-    // // USING .neo FILES
-    // let aws_prod = Config {
-    //     input_root: "/Users/alan/Grimoire".to_string(),
-    //     output_root: "/Users/alan/workshop/alanwsmith.com/content".to_string(),
+    // let dev = Config {
+    //     input_root: "/Users/alan/workshop/neopolengine/samples/input".to_string(),
+    //     output_root: "/Users/alan/workshop/neopolengine/samples/output".to_string(),
     //     output_sub_dir: Some("pages".to_string()),
     //     site_id: "aws".to_string(),
     // };
 
-    let config = dev.clone();
+    // REMEMBER TO CHANGE FILE EXTENSION BELOW ONCE YOU'RE
+    // USING .neo FILES
+    let prod = Config {
+        input_root: "/Users/alan/Grimoire".to_string(),
+        output_root: "/Users/alan/workshop/alanwsmith.com/content".to_string(),
+        output_sub_dir: Some("pages".to_string()),
+        site_id: "aws".to_string(),
+    };
 
+    let config = prod.clone();
     let paths = filter_extensions(
         fs::read_dir(&config.input_root)
             .unwrap()
@@ -90,13 +89,16 @@ fn main() {
 
     paths.iter().for_each(|p| {
         let data = fs::read_to_string(p).unwrap();
+        // dbg!(&data);
+        dbg!(&p);
         match (
             filter_status(data.as_str()).unwrap().1,
             filter_site(data.as_str(), config.site_id.as_str())
                 .unwrap()
                 .1,
+            valid_nonce(p.to_path_buf()),
         ) {
-            (true, true) => {
+            (true, true, true) => {
                 let the_file_id = file_id(data.as_str()).unwrap().1.to_string();
                 let output_dir_path = PathBuf::from(&config.output_root);
                 let mut output_file_path = output_dir_path.clone();
@@ -122,7 +124,6 @@ fn main() {
                         output_file_path.push("index.neo");
                     }
                 }
-
                 match output_file_path.parent() {
                     Some(path) => match path.try_exists() {
                         Ok(check) => {
@@ -135,7 +136,6 @@ fn main() {
                     },
                     None => {}
                 }
-
                 println!("Copying to: {:?}", &output_file_path);
                 let _ = copy(p, output_file_path);
             }
@@ -185,6 +185,7 @@ pub fn filter_status(source: &str) -> IResult<&str, bool> {
                     match b.trim() {
                         "published" => Ok((source, true)),
                         "draft" => Ok((source, true)),
+                        "scratch" => Ok((source, true)),
                         _ => Ok((source, false)),
                     }
                 }
@@ -211,7 +212,6 @@ pub fn filter_site<'a>(source: &'a str, site_id: &'a str) -> IResult<&'a str, bo
                         Ok((source, false))
                     }
                 }
-
                 None => Ok((source, false)),
             }
         }
@@ -243,8 +243,72 @@ pub fn override_path(source: &str) -> IResult<&str, Option<String>> {
     Ok((source, the_path))
 }
 
-#[cfg(test)]
+pub fn valid_nonce(p: PathBuf) -> bool {
+    // TODO: Remove `aws-` to see if there's anytying there that needs
+    // to be removed
+    // Don't do `cloudinary- ` until you've scrubbed it
+    let nonces = vec![
+        "alt- ",
+        "ansible- ",
+        "apis- ",
+        "app- ",
+        "applescript- ",
+        "apps- ",
+        "ascii- ",
+        "audition- ",
+        "automator- ",
+        "awk- ",
+        "bash- ",
+        "bbedit- ",
+        "blender- ",
+        "bookmarks- ",
+        "books- ",
+        "chrome- ",
+        "classnotes- ",
+        "cli- ",
+        "colors- ",
+        "confnotes- ",
+        "css- ",
+        "cuc- ",
+        "d3- ",
+        "data- ",
+        "davinci- ",
+        "design- ",
+        "dev- ",
+        "django- ",
+        "docker- ",
+        "drupal- ",
+        "eclipse- ",
+        "emacs- ",
+        "electron- ",
+        "examples- ",
+        "exiftool- ",
+        "ffmpeg- ",
+        "freenas- ",
+        "gatsby- ",
+        "gif- ",
+        //
+        //
 
+        // TODO: Check all the stuff before this back to
+        // what ever the last one was
+        "neo- ",
+        "post- ",
+    ];
+    match nonces.iter().find(|&&n| {
+        p.file_name()
+            .unwrap()
+            .to_os_string()
+            .into_string()
+            .unwrap()
+            .starts_with(n)
+    }) {
+        Some(_) => true,
+        None => false,
+    }
+}
+
+#[cfg(test)]
 mod test {
     use super::*;
     use std::path::PathBuf;
@@ -375,4 +439,18 @@ mod test {
             Some("index.neo".to_string())
         );
     }
+
+    #[test]
+    pub fn valid_noce_test() {
+        let name = PathBuf::from("d3- alfa bravo");
+        assert_eq!(true, valid_nonce(name));
+    }
+
+    #[test]
+    pub fn valid_noce_test_skip() {
+        let name = PathBuf::from("skipthis- charlie delta");
+        assert_eq!(false, valid_nonce(name));
+    }
+
+    //
 }
