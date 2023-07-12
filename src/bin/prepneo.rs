@@ -29,20 +29,22 @@ use std::path::PathBuf;
 // Note this is current etup to look at .org files
 // until the move to raw .neo files in the grimoire is made
 //
+// [] Only allows specific nonce- words
+// [] Move nonce word setup into config
 // [] Add a note to the top of the files saying that they are copies
+// and should not be edited. Point to full path
+// [] Move config to json or yaml file
 //  to help prevenet editing the wrong ones
-// [] Setup dir paths if there is no id
+// [] Handle dir paths if there is no id
 // [x] Handle explicit paths
 // [x] Configure site directory and subdirectory paths independently
-// [] Only allows speicifci nonce- words
 // [x] Only allows .neo extensions
 // [x] Only allows published and draft files
 // [x] Make direcotires if necessary
 // [x] Ouput goes into a sub directory if one is defined
 // [x] Each file has its own directory created for it
 // [x] The output file is always index.neo in the folder
-// [] Move config to file
-// [] Add test to confirm files don't move if no site is found
+// [x] Strip `.` from url
 
 #[derive(Clone)]
 struct Config {
@@ -89,8 +91,7 @@ fn main() {
 
     paths.iter().for_each(|p| {
         let data = fs::read_to_string(p).unwrap();
-        // dbg!(&data);
-        dbg!(&p);
+        // dbg!(&p);
         match (
             filter_status(data.as_str()).unwrap().1,
             filter_site(data.as_str(), config.site_id.as_str())
@@ -136,7 +137,7 @@ fn main() {
                     },
                     None => {}
                 }
-                println!("Copying to: {:?}", &output_file_path);
+                println!("Copying to: {}", &output_file_path.display());
                 let _ = copy(p, output_file_path);
             }
             _ => { // dbg!("skipping");
@@ -158,7 +159,8 @@ pub fn file_id(source: &str) -> IResult<&str, &str> {
 
 pub fn output_dir_name<'a>(source: &'a str, id: &'a str) -> IResult<&'a str, String> {
     let (source, _) = multispace0(source.trim())?;
-    let (source, parts) = many_till(terminated(is_not(" -"), alt((is_a(" -"), eof))), eof)(source)?;
+    let (source, parts) =
+        many_till(terminated(is_not(" -.'"), alt((is_a(" -.'"), eof))), eof)(source)?;
     let response = format!(
         "{}--{}",
         parts
@@ -271,6 +273,7 @@ pub fn valid_nonce(p: PathBuf) -> bool {
         "css- ",
         "cuc- ",
         "d3- ",
+        "daily-links- ",
         "data- ",
         "davinci- ",
         "design- ",
@@ -287,13 +290,41 @@ pub fn valid_nonce(p: PathBuf) -> bool {
         "freenas- ",
         "gatsby- ",
         "gif- ",
-        //
-        //
-
-        // TODO: Check all the stuff before this back to
-        // what ever the last one was
+        "github- ",
+        "grim- ",
+        "grub- ",
+        "hammerspoon-",
+        "heroku- ",
+        "html- ",
+        "htpc- ",
+        "httrack- ",
+        "hugo- ",
+        "iterm2- ",
+        "jekyll- ",
+        "jq- ",
+        "jquery- ",
+        "js- ",
+        "json- ",
+        "keyboard-maestro- ",
+        "keyboards- ",
+        "kindle- ",
+        "launchd- ",
+        "ligthroom- ",
+        "lists- ",
+        "lua- ",
+        "image-magick- ",
+        "minecraft- ",
+        "misc- ",
+        "music- ",
+        "musicbrainz- ",
         "neo- ",
         "neoe- ",
+        "neop- ",
+        "netlify- ",
+        "nextjs- ",
+        //
+
+        //
         "post- ",
         "site- ",
     ];

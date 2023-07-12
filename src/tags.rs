@@ -5,6 +5,7 @@ use crate::tags::code::code;
 use crate::tags::dfn::dfn;
 use crate::tags::em::em;
 use crate::tags::i::i;
+use crate::tags::img::img;
 use crate::tags::kbd::kbd;
 use crate::tags::less_than::less_than;
 use crate::tags::link::link;
@@ -34,6 +35,7 @@ pub mod code;
 pub mod dfn;
 pub mod em;
 pub mod i;
+pub mod img;
 pub mod kbd;
 pub mod less_than;
 pub mod link;
@@ -78,6 +80,12 @@ pub enum Tag {
     I {
         attrs: Vec<TagAttr>,
         text: String,
+    },
+    Img {
+        attrs: Vec<TagAttr>,
+        alt_text: Option<String>,
+        src: String,
+        caption: Option<String>,
     },
     Kbd {
         attrs: Vec<TagAttr>,
@@ -148,8 +156,7 @@ pub fn tags(source: &str) -> IResult<&str, Vec<Tag>> {
     let (source, snippets) = many_till(
         alt((
             alt((
-                less_than, abbr, b, code, dfn, em, i, kbd, link, mark, q, s,
-                samp,
+                less_than, abbr, b, code, dfn, em, i, kbd, link, mark, q, s, samp,
             )),
             alt((small, span, strong, sub, sup, text, u, var, wbr)),
         )),
