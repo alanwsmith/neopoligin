@@ -53,6 +53,8 @@ pub fn build_site() {
         }
     }
 
+    let file_lists = file_lists(&source_files);
+
     source_files.iter().for_each(|source_file| {
         // println!("-------------------------");
         // println!("Outputting:\n{}", &source_file.source_path.display());
@@ -75,7 +77,7 @@ pub fn build_site() {
                 content => the_content,
                 date => the_date,
                 title_string => title_string,
-                file_lists => file_lists(&source_files),
+                file_lists => file_lists
             ))
             .unwrap();
         let mut file_path = site_root_dir.clone();
