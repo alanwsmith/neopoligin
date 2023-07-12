@@ -42,16 +42,10 @@ pub fn img(source: &str) -> IResult<&str, Tag> {
     let (source, mut attrs) = tag_attrs(source)?;
     let (source, _) = tag(">>")(source)?;
 
-    let found_it = attrs.iter_mut().find(|x| match x {
+    let _found_it = attrs.iter_mut().find(|x| match x {
         TagAttr::Class(_) => {true},
         _ => { false }
     });
-
-    dbg!(&attrs);
-
-
-
-    dbg!(&alt_text);
 
     // match (found_it, alt_text) {
     //     (Some(TagAttr::Class(the_thing)), Some(the_lang)) => {
@@ -89,33 +83,40 @@ mod test {
             caption: None, 
             },
     )]
-    #[ignore]
     #[case(
-        "<<foxtrot|code|python|id: bravo|class: echo>>",
-        Tag::Code{ attrs: vec![
+        "<<the-path|img|some alt text|id: bravo|class: echo>>",
+        Tag::Img{ attrs: vec![
             TagAttr::Id("bravo".to_string()),
-            TagAttr::Class(vec!["echo".to_string(), "language-python".to_string()])
-        ],  text: "foxtrot".to_string() }
+            TagAttr::Class(vec!["echo".to_string()])
+        ],  alt_text: Some("some alt text".to_string()) ,
+            src: "the-path".to_string(),
+            caption: None, 
+        }
+
     )]
-    #[ignore]
     #[case(
-        "<<bravo|code|js|id: delta>>",
-        Tag::Code{ attrs: vec![
+        "<<delta-path|img|bravo text|id: delta>>",
+        Tag::Img { attrs: vec![
             TagAttr::Id("delta".to_string()),
-            TagAttr::Class(vec!["language-js".to_string()])
-        ],  text: "bravo".to_string() }
+        ],  alt_text: Some("bravo text".to_string()) ,
+            caption: None, 
+            src: "delta-path".to_string()
+        }
     )]
-    #[ignore]
     #[case(
-        "<<alfa|code|class: echo>>",
-        Tag::Code{ 
+        "<<alfa-path|img|class: tango>>",
+        Tag::Img{ 
             attrs: vec![
-                TagAttr::Class(vec!["echo".to_string()])
+                TagAttr::Class(vec!["tango".to_string()])
             ], 
-            text: "alfa".to_string() }
+            alt_text: None, 
+            caption: None, 
+            src: "alfa-path".to_string(), 
+        }
     )]
     fn solo_link_test(#[case] i: &str, #[case] e: Tag) {
         assert_eq!(e, img(i).unwrap().1);
     }
 
+// 
 }

@@ -156,7 +156,7 @@ pub fn tags(source: &str) -> IResult<&str, Vec<Tag>> {
     let (source, snippets) = many_till(
         alt((
             alt((
-                less_than, abbr, b, code, dfn, em, i, kbd, link, mark, q, s, samp,
+                img, less_than, abbr, b, code, dfn, em, i, kbd, link, mark, q, s, samp,
             )),
             alt((small, span, strong, sub, sup, text, u, var, wbr)),
         )),

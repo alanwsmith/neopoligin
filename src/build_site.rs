@@ -23,8 +23,8 @@ pub fn build_site() {
         let initial_path = entry.unwrap().path().to_path_buf();
         if let Some(ext) = initial_path.extension() {
             if ext == "neo" {
-                println!("-------------------------");
-                println!("Loading: {}", &initial_path.display());
+                //println!("-------------------------");
+                // println!("Loading: {}", &initial_path.display());
                 let sf = SourceFile {
                     source_path: initial_path
                         .clone()
@@ -41,13 +41,13 @@ pub fn build_site() {
                 let parent_dir = output_path.parent().unwrap();
                 if initial_path.to_path_buf().is_file() {
                     if !parent_dir.exists() {
-                        println!("-------------------------");
-                        println!("Making dir:\n{}", &output_path.display());
+                        // println!("-------------------------");
+                        //println!("Making dir:\n{}", &output_path.display());
                         fs::create_dir_all(parent_dir).unwrap();
                     }
-                    println!("-------------------------");
-                    println!("Copying:\n{}", &initial_path.to_str().unwrap());
-                    println!("To:\n{}", &output_path.display());
+                    // println!("-------------------------");
+                    // println!("Copying:\n{}", &initial_path.to_str().unwrap());
+                    // println!("To:\n{}", &output_path.display());
                     fs::copy(initial_path, output_path).unwrap();
                 }
             }
@@ -55,8 +55,8 @@ pub fn build_site() {
     }
 
     source_files.iter().for_each(|source_file| {
-        println!("-------------------------");
-        println!("Outputting:\n{}", &source_file.source_path.display());
+        // println!("-------------------------");
+        // println!("Outputting:\n{}", &source_file.source_path.display());
         let template = env.get_template(
             format!(
                 "{}/base.j2",
@@ -85,6 +85,8 @@ pub fn build_site() {
         fs::create_dir_all(dir_path).unwrap();
         fs::write(file_path, output).unwrap();
     });
+
+    println!("Process complete");
 
     //
 }

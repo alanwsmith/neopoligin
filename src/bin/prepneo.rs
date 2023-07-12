@@ -137,7 +137,7 @@ fn main() {
                     },
                     None => {}
                 }
-                println!("Copying to: {}", &output_file_path.display());
+                // println!("Copying to: {}", &output_file_path.display());
                 let _ = copy(p, output_file_path);
             }
             _ => { // dbg!("skipping");
@@ -145,6 +145,8 @@ fn main() {
         }
         ()
     });
+
+    println!("Process complete");
 }
 
 pub fn file_id(source: &str) -> IResult<&str, &str> {
@@ -328,6 +330,7 @@ pub fn valid_nonce(p: PathBuf) -> bool {
         "post- ",
         "site- ",
     ];
+
     match nonces.iter().find(|&&n| {
         p.file_name()
             .unwrap()
