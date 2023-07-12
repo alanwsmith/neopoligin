@@ -1,3 +1,4 @@
+use crate::file_lists::file_lists;
 use crate::sections::sections;
 use crate::source_file::title::title;
 use crate::source_file::SourceFile;
@@ -20,7 +21,9 @@ pub fn build_site() {
     let mut source_files: Vec<SourceFile> = vec![];
 
     for entry in WalkDir::new(&content_dir).into_iter() {
-        let initial_path = entry.unwrap().path().to_path_buf();
+        let initial_path = entry.as_ref().unwrap().path().to_path_buf();
+        let initial_path2 = entry.unwrap().path().to_path_buf();
+        let file_sub_path = initial_path2.strip_prefix(&content_dir).unwrap();
         if let Some(ext) = initial_path.extension() {
             if ext == "neo" {
                 //println!("-------------------------");
@@ -32,6 +35,7 @@ pub fn build_site() {
                         .unwrap()
                         .to_path_buf(),
                     source_data: fs::read_to_string(initial_path).unwrap(),
+                    url: format!("/{}", file_sub_path.parent().unwrap().display()),
                 };
                 source_files.push(sf);
             } else {
@@ -41,13 +45,8 @@ pub fn build_site() {
                 let parent_dir = output_path.parent().unwrap();
                 if initial_path.to_path_buf().is_file() {
                     if !parent_dir.exists() {
-                        // println!("-------------------------");
-                        //println!("Making dir:\n{}", &output_path.display());
                         fs::create_dir_all(parent_dir).unwrap();
                     }
-                    // println!("-------------------------");
-                    // println!("Copying:\n{}", &initial_path.to_str().unwrap());
-                    // println!("To:\n{}", &output_path.display());
                     fs::copy(initial_path, output_path).unwrap();
                 }
             }
@@ -76,6 +75,7 @@ pub fn build_site() {
                 content => the_content,
                 date => the_date,
                 title_string => title_string,
+                file_lists => file_lists(&source_files),
             ))
             .unwrap();
         let mut file_path = site_root_dir.clone();

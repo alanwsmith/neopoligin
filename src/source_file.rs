@@ -13,4 +13,5 @@ pub mod type_of_page;
 pub struct SourceFile {
     pub source_data: String,
     pub source_path: PathBuf,
+    pub url: String,
 }

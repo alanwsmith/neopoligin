@@ -4,7 +4,9 @@ impl SourceFile {
     pub fn new() -> SourceFile {
         SourceFile {
             source_data: "".to_string(),
-            source_path: "".into()
+            source_path: "".into(),
+            url: "".to_string(),
         }
     }
 }
+
