@@ -89,7 +89,7 @@ fn get_path_to_file(target_name: &str) -> Option<PathBuf> {
         .filter_map(|v| {
             if let Some(name) = v.as_ref().unwrap().path().file_stem() {
                 if name == target_name {
-                    dbg!(&target_name);
+                    // dbg!(&target_name);
                     let dir = v.as_ref().unwrap().path().strip_prefix(site_root);
                     let mut return_path_buf = PathBuf::from("/");
                     return_path_buf.push(dir.unwrap().to_str().unwrap());
