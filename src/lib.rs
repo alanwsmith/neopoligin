@@ -4,7 +4,7 @@ pub mod containers;
 pub mod file_lists;
 pub mod neo_section;
 pub mod section_attrs;
-pub mod sections;
+pub mod neo_sections;
 pub mod source_file;
 pub mod tag_attrs;
 pub mod tags;

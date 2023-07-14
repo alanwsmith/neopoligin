@@ -1,5 +1,5 @@
 use crate::file_lists::file_lists;
-use crate::sections::sections;
+use crate::neo_sections::neo_sections;
 use crate::source_file::title::title;
 use crate::source_file::SourceFile;
 use minijinja::context;
@@ -65,7 +65,7 @@ pub fn build_site() {
             )
             .as_str(),
         );
-        let the_content = sections(&source_file.source_data).unwrap().1;
+        let the_content = neo_sections(&source_file.source_data).unwrap().1;
         let the_date = &source_file
             .date(&source_file.source_data, "%B %Y")
             .unwrap()

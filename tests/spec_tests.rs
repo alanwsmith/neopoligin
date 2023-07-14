@@ -24,7 +24,7 @@ fn solo_test_specs() {
         match t.ignore {
             Some(skip) if skip == true => {}
             _ => {
-                let results = neo_section(&t.input).unwrap().1;
+                let results = neo_sections(&t.input).unwrap().1;
                 assert_eq!(t.expected, results);
             }
         }

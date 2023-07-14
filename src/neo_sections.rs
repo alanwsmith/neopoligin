@@ -162,7 +162,7 @@ pub enum Section {
     None,
 }
 
-pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
+pub fn neo_sections(source: &str) -> IResult<&str, Vec<Section>> {
     let (source, results) = many0(neo_section)(source)?;
     Ok((source, results))
 }
