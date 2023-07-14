@@ -1,25 +1,8 @@
-[
-  {
-    "input": "-- title\n\nAlfa Bravo\n\n",
-    "expected": { 
-      "sections": [
-        { 
-          "type": "Section",
-          "kind": "Title", 
-          "attrs": [],
-          "headline": {
-            "type": "Block", 
-            "kind": "Headline", 
-            "snippets": [
-              {
-                "type": "Snippet", 
-                "kind": "Text", 
-                "string": "Alfa Bravo"
-              }
-            ]
-          }
-        }
-      ]
+{
+  "section_tests": [
+    {
+      "input": "-- title\n\nALFA",
+      "expected": "BRAVO"
     }
-  }
-]
+  ]
+}

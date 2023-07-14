@@ -72,9 +72,9 @@ pub fn todo(source: &str) -> IResult<&str, Section> {
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::blocks::Block;
+    // use crate::blocks::Block;
     use crate::sections::Section;
-    use crate::tags::Tag;
+    // use crate::tags::Tag;
     use rstest::rstest;
 
     #[rstest]

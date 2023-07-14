@@ -29,7 +29,7 @@ use crate::sections::youtube::youtube;
 use nom::branch::alt;
 use nom::multi::many0;
 use nom::IResult;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 pub mod aside;
 pub mod blockquote;
@@ -58,6 +58,7 @@ pub mod vimeo;
 pub mod youtube;
 
 // #[derive(Debug, PartialEq)]
+// #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[derive(Clone, Debug, PartialEq, Serialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Section {
