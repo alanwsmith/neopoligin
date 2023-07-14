@@ -1,6 +1,7 @@
 #![allow(unused_imports)]
-use neopolengine::neo_section::neo_section;
-use neopolengine::sections::Section;
+// use neopolengine::neo_section::neo_section;
+use neopolengine::neo_sections::neo_sections;
+use neopolengine::neo_sections::Section;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 use serde_json::Value;
@@ -10,7 +11,7 @@ use std::fs;
 struct SectionTestCase {
     ignore: Option<bool>,
     input: String,
-    expected: Section,
+    expected: Vec<Section>,
 }
 
 #[test]

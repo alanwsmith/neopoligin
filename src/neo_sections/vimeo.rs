@@ -1,6 +1,6 @@
 use crate::blocks::paragraph::paragraph;
 use crate::section_attrs::sec_attrs;
-use crate::sections::alt;
+use nom::branch::alt;
 use crate::neo_sections::Section;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;

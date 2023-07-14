@@ -1,4 +1,4 @@
-use crate::sections::alt;
+use nom::branch::alt;
 use crate::neo_sections::Section;
 use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;

@@ -2,11 +2,9 @@ use crate::blocks::Block;
 use crate::containers::Container;
 use crate::section_attrs::SecAttr;
 use crate::neo_section::neo_section;
-use nom::branch::alt;
 use nom::multi::many0;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
-
 
 pub mod aside;
 pub mod blockquote;
@@ -35,8 +33,6 @@ pub mod todo;
 pub mod vimeo;
 pub mod youtube;
 
-// #[derive(Debug, PartialEq)]
-// #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Section {

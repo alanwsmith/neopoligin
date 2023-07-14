@@ -1,6 +1,6 @@
 use crate::section_attrs::sec_attrs;
-use crate::sections::alt;
-use crate::sections::SecAttr;
+use nom::branch::alt;
+use crate::section_attrs::SecAttr;
 use crate::neo_sections::Section;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;

@@ -18,7 +18,7 @@ use nom::multi::many_till;
 use nom::multi::separated_list1;
 use nom::sequence::tuple;
 use nom::IResult;
-use crate::sections::SecAttr;
+use crate::section_attrs::SecAttr;
 
 pub fn notes(source: &str) -> IResult<&str, Section> {
     let (source, _) =

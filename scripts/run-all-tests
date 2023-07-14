@@ -6,6 +6,9 @@ do
   echo ""
 done
 
+export BAR=$(($(tput cols) * 1))
+for i in $( seq 1 $BAR); do printf '%s' '█'; done
+
 cargo test -q -- --nocapture
 
 if [[ $? -eq 0 ]]
@@ -17,6 +20,5 @@ else
   tput setaf 124
 fi
 
-export BAR=$(($(tput cols) * 1))
 for i in $( seq 1 $BAR); do printf '%s' '█'; done
 tput sgr0

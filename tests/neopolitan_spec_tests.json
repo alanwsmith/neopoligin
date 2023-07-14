@@ -2,27 +2,31 @@
   {
     "ignore": false,
     "input": "-- title\n\nALFA",
-    "expected": {
-      "type": "title",
-      "attrs": [],
-      "headline": {
-        "type": "headline",
-        "tags": [
-          {
-            "type": "text",
-            "text": "ALFA"
-          }
-        ]
-      },
-      "paragraphs": []
-    }
+    "expected": [
+      {
+        "type": "title",
+        "attrs": [],
+        "headline": {
+          "type": "headline",
+          "tags": [
+            {
+              "type": "text",
+              "text": "ALFA"
+            }
+          ]
+        },
+        "paragraphs": []
+      }
+    ]
   },
   {
     "ignore": false,
     "input": "-- opensection\n",
-    "expected": {
-      "type": "opensection",
-      "attrs": []
-    }
+    "expected": [
+      {
+        "type": "opensection",
+        "attrs": []
+      }
+    ]
   }
 ]

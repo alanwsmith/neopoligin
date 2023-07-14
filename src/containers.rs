@@ -1,6 +1,6 @@
 use crate::blocks::Block;
 use serde::{Deserialize, Serialize};
-use crate::sections::todo::TodoStatus;
+use crate::neo_sections::todo::TodoStatus;
 
 pub mod list_item;
 
