@@ -2,6 +2,7 @@ pub mod blocks;
 pub mod build_site;
 pub mod containers;
 pub mod file_lists;
+pub mod neo_section;
 pub mod section_attrs;
 pub mod sections;
 pub mod source_file;

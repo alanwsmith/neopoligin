@@ -21,6 +21,7 @@ use crate::sections::note::note;
 use crate::sections::notes::notes;
 use crate::sections::olist::olist;
 use crate::sections::opendiv::opendiv;
+use crate::sections::opensection::opensection;
 use crate::sections::p::p;
 use crate::sections::pre::pre;
 use crate::sections::script::script;
@@ -30,13 +31,13 @@ use crate::sections::todo::todo;
 use crate::sections::vimeo::vimeo;
 use crate::sections::youtube::youtube;
 
-pub fn section(source: &str) -> IResult<&str, Section> {
+pub fn neo_section(source: &str) -> IResult<&str, Section> {
     let (source, results) = alt((
         // order matters here so things don't get flipped
         alt((title, hidden, html, h)),
         alt((pre, p)),
         alt((code, list)),
-        alt((notes, note, checklist)),
+        alt((notes, note, checklist, opensection)),
         alt((
             aside, blockquote, closediv, code, css, endcode, hr, image, opendiv, olist, pre,
             script, startcode, todo, vimeo, youtube,

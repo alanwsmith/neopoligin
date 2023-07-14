@@ -1,5 +1,5 @@
 #![allow(unused_imports)]
-use neopolengine::sections::section::section;
+use neopolengine::neo_section::neo_section;
 use neopolengine::sections::Section;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
@@ -8,42 +8,26 @@ use std::fs;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct SectionTestCase {
+    ignore: Option<bool>,
     input: String,
     expected: Section,
 }
 
 #[test]
-fn xsolo_test_specs() {
+fn solo_test_specs() {
     let json_text = fs::read_to_string("./tests/neopolitan_spec_tests.json").unwrap();
     let section_test_cases: Vec<SectionTestCase> =
         serde_json::from_str(json_text.as_str()).unwrap();
     section_test_cases.iter().for_each(|t| {
-        let results = section(&t.input).unwrap().1;
         dbg!(&t.input);
-        assert_eq!(t.expected, results);
+        // not sure this is working yet. proceded with caution
+        match t.ignore {
+            Some(skip) if skip == true => {}
+            _ => {
+                let results = neo_section(&t.input).unwrap().1;
+                assert_eq!(t.expected, results);
+            }
+        }
         ()
     });
 }
-
-//     "expected": {
-//       "sections": [
-//         {
-//           "type": "Section",
-//           "kind": "Title",
-//           "attrs": [],
-//           "headline": {
-//             "type": "Block",
-//             "kind": "Headline",
-//             "snippets": [
-//               {
-//                 "type": "Snippet",
-//                 "kind": "Text",
-//                 "string": "Alfa Bravo"
-//               }
-//             ]
-//           }
-//         }
-//       ]
-//     }
-//   }
-// ]
