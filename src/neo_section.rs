@@ -8,6 +8,7 @@ use crate::neo_sections::aside::aside;
 use crate::neo_sections::blockquote::blockquote;
 use crate::neo_sections::checklist::checklist;
 use crate::neo_sections::closediv::closediv;
+use crate::neo_sections::closesection::closesection;
 use crate::neo_sections::code::code;
 use crate::neo_sections::css::css;
 use crate::neo_sections::endcode::endcode;
@@ -37,11 +38,11 @@ pub fn neo_section(source: &str) -> IResult<&str, Section> {
         alt((title, hidden, html, h)),
         alt((pre, p)),
         alt((code, list)),
-        alt((notes, note, checklist, opensection)),
+        alt((notes, note, checklist, opensection, closesection)),
         alt((
             aside, blockquote, closediv, code, css, endcode, hr, image, opendiv, olist, pre,
             script, startcode, todo, vimeo, youtube,
         )),
-    ))(source)?;
+    ))(source.trim_start())?;
     Ok((source, results))
 }

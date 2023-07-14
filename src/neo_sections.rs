@@ -10,6 +10,7 @@ pub mod aside;
 pub mod blockquote;
 pub mod checklist;
 pub mod closediv;
+pub mod closesection;
 pub mod code;
 pub mod css;
 pub mod endcode;
@@ -50,6 +51,7 @@ pub enum Section {
         paragraphs: Vec<Block>,
     },
     CloseDiv,
+    CloseSection,
     Code {
         attrs: Vec<SecAttr>,
         text: String,

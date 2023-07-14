@@ -9,9 +9,10 @@ use std::fs;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct SectionTestCase {
+    expected: Vec<Section>,
     ignore: Option<bool>,
     input: String,
-    expected: Vec<Section>,
+    solo: Option<bool>,
 }
 
 #[test]
@@ -19,16 +20,35 @@ fn solo_test_specs() {
     let json_text = fs::read_to_string("./tests/neopolitan_spec_tests.json").unwrap();
     let section_test_cases: Vec<SectionTestCase> =
         serde_json::from_str(json_text.as_str()).unwrap();
-    section_test_cases.iter().for_each(|t| {
-        dbg!(&t.input);
-        // not sure this is working yet. proceded with caution
-        match t.ignore {
-            Some(skip) if skip == true => {}
-            _ => {
-                let results = neo_sections(&t.input).unwrap().1;
-                assert_eq!(t.expected, results);
-            }
-        }
-        ()
-    });
+
+    // do solo tests first
+    section_test_cases
+        .iter()
+        .filter(|t| match t.solo {
+            Some(just_me) if just_me == true => true,
+            _ => false,
+        })
+        .into_iter()
+        .for_each(|x| {
+            dbg!(&x.input);
+            let results = neo_sections(&x.input).unwrap().1;
+            assert_eq!(x.expected, results);
+            ()
+        });
+
+    // then loop through everything that's not ignored
+    // (this redoes the solo tests, but that's fine for now)
+    section_test_cases
+        .iter()
+        .filter(|t| match t.ignore {
+            Some(skip_me) if skip_me == true => false,
+            _ => true,
+        })
+        .into_iter()
+        .for_each(|x| {
+            dbg!(&x.input);
+            let results = neo_sections(&x.input).unwrap().1;
+            assert_eq!(x.expected, results);
+            ()
+        });
 }

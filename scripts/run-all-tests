@@ -14,7 +14,7 @@ cargo test -q -- --nocapture
 if [[ $? -eq 0 ]]
 then 
   cargo build --release --bin neo
-  /Users/alan/workshop/neopolengine/target/release/neo
+  # /Users/alan/workshop/neopolengine/target/release/neo
   tput setaf 28
 else
   tput setaf 124

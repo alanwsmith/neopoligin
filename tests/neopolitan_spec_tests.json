@@ -1,6 +1,5 @@
 [
   {
-    "ignore": false,
     "input": "-- title\n\nALFA",
     "expected": [
       {
@@ -20,12 +19,43 @@
     ]
   },
   {
-    "ignore": false,
     "input": "-- opensection\n",
     "expected": [
       {
         "type": "opensection",
         "attrs": []
+      }
+    ]
+  },
+  {
+    "input": "-- opensection\n\n-- closesection",
+    "expected": [
+      {
+        "type": "opensection",
+        "attrs": []
+      },
+      {
+        "type": "closesection",
+        "attrs": []
+      }
+    ]
+  },
+  {
+    "input": "-- opensection\n-- class: tango",
+    "expected": [
+      {
+        "type": "opensection",
+        "attrs": [
+          {"type": "class", "content": ["tango"]}
+        ]
+      }
+    ]
+  },
+  {
+    "input": "-- closesection\n",
+    "expected": [
+      {
+        "type": "closesection"
       }
     ]
   }

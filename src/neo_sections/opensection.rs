@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use crate::section_attrs::sec_attrs;
 use nom::branch::alt;
 use crate::neo_sections::Section;
@@ -11,13 +12,11 @@ use nom::IResult;
 
 pub fn opensection(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-- opensection"), not_line_ending, line_ending))(
-            source,
-        )?;
-    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
-    let (_, attrs) = sec_attrs(content.trim())?;
+        tuple((tag_no_case("-- opensection"), not_line_ending, line_ending))(source)?;
+    let (source, attrs) = sec_attrs(source)?;
     Ok((source, Section::OpenSection { attrs }))
 }
+
 
 #[cfg(test)]
 mod text {
