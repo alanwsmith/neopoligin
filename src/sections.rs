@@ -59,7 +59,7 @@ pub mod youtube;
 
 // #[derive(Debug, PartialEq)]
 // #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Section {
     Aside {

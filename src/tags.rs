@@ -26,7 +26,7 @@ use nom::branch::alt;
 use nom::combinator::eof;
 use nom::multi::many_till;
 use nom::IResult;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 pub mod abbr;
 pub mod b;
@@ -53,7 +53,7 @@ pub mod u;
 pub mod var;
 pub mod wbr;
 
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Tag {
     Abbr {

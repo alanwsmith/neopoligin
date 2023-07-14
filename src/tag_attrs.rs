@@ -4,13 +4,13 @@ use crate::tag_attrs::id::id;
 use nom::branch::alt;
 use nom::multi::many0;
 use nom::IResult;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 pub mod caption;
 pub mod class;
 pub mod id;
 
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", content = "content", rename_all = "lowercase")]
 pub enum TagAttr {
     Caption(String),
