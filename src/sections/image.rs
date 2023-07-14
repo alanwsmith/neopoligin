@@ -22,20 +22,42 @@ pub fn image(source: &str) -> IResult<&str, Section> {
     let (content, attrs) = sec_attrs(content.trim())?;
     let (_, alt) = alt((take_until("\n\n--"), rest))(content)?;
     let n1 = get_path_to_file(&id.unwrap());
-    let n2 = n1.unwrap();
-    let n3 = n2.to_str();
-    let n4 = n3.unwrap();
-    let n5 = n4.to_string();
-    // let new_source2 = new_source.to_str().unwrap();
-
-    Ok((
-        source,
-        Section::Image {
-            alt: alt.to_string(),
-            attrs,
-            src: n5,
-        },
-    ))
+    // dbg!(&n1);
+    if let Some(n2) = n1 {
+        // let n2 = n1.unwrap();
+        let n3 = n2.to_str();
+        if let Some(n4) = n3 {
+            // let n4 = n3.unwrap();
+            let n5 = n4.to_string();
+            // let new_source2 = new_source.to_str().unwrap();
+            Ok((
+                source,
+                Section::Image {
+                    alt: alt.to_string(),
+                    attrs,
+                    src: n5,
+                },
+            ))
+        } else {
+            Ok((
+                source,
+                Section::Image {
+                    alt: alt.to_string(),
+                    attrs,
+                    src: "".to_string(),
+                },
+            ))
+        }
+    } else {
+        Ok((
+            source,
+            Section::Image {
+                alt: alt.to_string(),
+                attrs,
+                src: "".to_string(),
+            },
+        ))
+    }
 }
 
 fn get_path_to_file(target_name: &str) -> Option<PathBuf> {
@@ -84,13 +106,17 @@ mod text {
     use rstest::rstest;
 
     #[rstest]
+    // WARNING: This is a hard coded test on my file system.
+    // I'm ignoring it for now so it doesnt' cause issues, but
+    // if you run it, a file needs to exist at the right path
+    #[ignore]
     #[case(
-        vec!["-- image", "-- alfabravo","", "Charlie Delta", "", "-- next"].join("\n"), 
+        vec!["-- image", "-- diff2html-side-by-side","", "Charlie Delta", "", "-- next"].join("\n"), 
         Ok(("\n\n-- next", 
         Section::Image {
             alt: "Charlie Delta".to_string(),
             attrs: vec![],
-            src: "alfabravo".to_string(),
+            src: "/images/2023/diff2html-side-by-side.png".to_string(),
         }))
     )]
 

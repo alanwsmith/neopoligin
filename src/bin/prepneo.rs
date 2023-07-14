@@ -329,6 +329,8 @@ pub fn valid_nonce(p: PathBuf) -> bool {
         //
         "post- ",
         "site- ",
+        "stream- ",
+        "tools- ",
     ];
 
     match nonces.iter().find(|&&n| {

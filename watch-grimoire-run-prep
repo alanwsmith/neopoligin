@@ -1,5 +1,0 @@
-#!/bin/bash
-
-watchexec --project-origin /Users/alan/Grimoire \
--w /Users/alan/Grimoire \
--e org /Users/alan/workshop/neopolengine/target/release/prepneo

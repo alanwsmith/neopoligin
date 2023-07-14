@@ -56,8 +56,8 @@ pub fn build_site() {
     let file_lists = file_lists(&source_files);
 
     source_files.iter().for_each(|source_file| {
-        // println!("-------------------------");
-        // println!("Outputting:\n{}", &source_file.source_path.display());
+        println!("-------------------------");
+        println!("Outputting:\n{}", &source_file.source_path.display());
         let template = env.get_template(
             format!(
                 "{}/base.j2",
