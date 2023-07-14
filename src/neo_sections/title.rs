@@ -1,7 +1,7 @@
 use crate::blocks::headline::headline;
 use crate::blocks::paragraph::paragraph;
 use crate::section_attrs::sec_attrs;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::branch::alt;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::take_until;
@@ -34,7 +34,7 @@ pub fn title(source: &str) -> IResult<&str, Section> {
 mod test {
     use super::*;
     use crate::blocks::Block;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use crate::tags::Tag;
 
     #[test]

@@ -173,7 +173,7 @@ mod test {
     use super::*;
     use crate::blocks::Block;
     use crate::section_attrs::SecAttr;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use crate::tag_attrs::TagAttr;
     use crate::tags::Tag;
 
@@ -400,6 +400,6 @@ mod test {
                 text: vec!["", "", "-- h2", "", "That h2 should be in code"].join("\n"),
             },
         ];
-        assert_eq!(expected, sections(lines.as_str()).unwrap().1);
+        assert_eq!(expected, neo_sections(lines.as_str()).unwrap().1);
     }
 }

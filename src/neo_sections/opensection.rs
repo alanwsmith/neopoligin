@@ -1,6 +1,6 @@
 use crate::section_attrs::sec_attrs;
 use crate::sections::alt;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;
 use nom::character::complete::line_ending;
@@ -23,7 +23,7 @@ pub fn opensection(source: &str) -> IResult<&str, Section> {
 mod text {
     use super::*;
     use crate::section_attrs::SecAttr;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use rstest::rstest;
 
     #[rstest]

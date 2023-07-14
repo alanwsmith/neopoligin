@@ -1,5 +1,5 @@
 use crate::sections::alt;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;
 use nom::character::complete::line_ending;
@@ -21,7 +21,7 @@ pub fn closediv(source: &str) -> IResult<&str, Section> {
 #[cfg(test)]
 mod text {
     use super::*;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use rstest::rstest;
 
     #[rstest]

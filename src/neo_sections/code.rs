@@ -1,7 +1,7 @@
 use crate::section_attrs::sec_attrs;
 use crate::sections::alt;
 use crate::sections::SecAttr;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
@@ -56,7 +56,7 @@ pub fn code(source: &str) -> IResult<&str, Section> {
 mod text {
     use super::*;
     // use crate::blocks::Block;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     // use crate::tags::Tag;
     use crate::section_attrs::SecAttr;
     use rstest::rstest;

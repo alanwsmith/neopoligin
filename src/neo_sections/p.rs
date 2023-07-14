@@ -1,7 +1,7 @@
 use crate::blocks::paragraph::paragraph;
 use crate::section_attrs::sec_attrs;
 use crate::sections::alt;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;
 use nom::character::complete::line_ending;
@@ -33,7 +33,7 @@ pub fn p(source: &str) -> IResult<&str, Section> {
 mod text {
     use super::*;
     use crate::blocks::Block;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use crate::tags::Tag;
     use rstest::rstest;
 

@@ -1,7 +1,7 @@
 use crate::blocks::paragraph::paragraph;
 use crate::containers::Container;
 use crate::section_attrs::sec_attrs;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::branch::alt;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
@@ -73,7 +73,7 @@ pub fn todo(source: &str) -> IResult<&str, Section> {
 mod test {
     use super::*;
     // use crate::blocks::Block;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     // use crate::tags::Tag;
     use rstest::rstest;
 

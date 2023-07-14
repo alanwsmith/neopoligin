@@ -3,7 +3,7 @@ use crate::blocks::paragraph::paragraph;
 use crate::blocks::Block;
 use crate::containers::Container;
 use crate::section_attrs::sec_attrs;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use crate::tags::Tag;
 use nom::branch::alt;
 use nom::bytes::complete::tag;
@@ -54,7 +54,7 @@ pub fn olist(source: &str) -> IResult<&str, Section> {
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use rstest::rstest;
 
 // this test is mostly working but the data doesn't match 

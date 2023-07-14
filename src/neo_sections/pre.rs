@@ -1,6 +1,6 @@
 use crate::section_attrs::sec_attrs;
 use crate::sections::alt;
-use crate::sections::Section;
+use crate::neo_sections::Section;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
@@ -35,7 +35,7 @@ pub fn pre(source: &str) -> IResult<&str, Section> {
 #[cfg(test)]
 mod text {
     use super::*;
-    use crate::sections::Section;
+    use crate::neo_sections::Section;
     use rstest::rstest;
 
     #[rstest]
