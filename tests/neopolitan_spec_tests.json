@@ -1,62 +1,137 @@
-[
-  {
-    "input": "-- title\n\nALFA",
-    "expected": [
-      {
-        "type": "title",
-        "attrs": [],
-        "headline": {
-          "type": "headline",
-          "tags": [
-            {
-              "type": "text",
-              "text": "ALFA"
-            }
-          ]
-        },
-        "paragraphs": []
-      }
-    ]
-  },
-  {
-    "input": "-- opensection\n",
-    "expected": [
-      {
-        "type": "opensection",
-        "attrs": []
-      }
-    ]
-  },
-  {
-    "input": "-- opensection\n\n-- closesection",
-    "expected": [
-      {
-        "type": "opensection",
-        "attrs": []
-      },
-      {
-        "type": "closesection",
-        "attrs": []
-      }
-    ]
-  },
-  {
-    "input": "-- opensection\n-- class: tango",
-    "expected": [
-      {
-        "type": "opensection",
-        "attrs": [
-          {"type": "class", "content": ["tango"]}
+{
+  "spec_tests": [
+    {
+      "name": "Aside Section: All Features",
+      "notes": [],
+      "parts": {
+        "input": "-- aside\n-- id: alfa\n-- class: bravo charlie\n\nPour the stew from\nthe pot into the plate\n\nShut the hatch before the waves push in",
+        "expected": [
+          {
+            "type": "aside",
+            "attrs": [
+              { "type": "id", "content": "alfa" },
+              { "type": "class", "content": ["bravo", "charlie"] }
+            ],
+            "paragraphs": [
+              {
+                "type": "paragraph",
+                "tags": [
+                  {
+                    "type": "text",
+                    "text": "Pour the stew from the pot into the plate"
+                  }
+                ]
+              },
+
+              {
+                "type": "paragraph",
+                "tags": [
+                  {
+                    "type": "text",
+                    "text": "Shut the hatch before the waves push in"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       }
-    ]
-  },
-  {
-    "input": "-- closesection\n",
-    "expected": [
-      {
-        "type": "closesection"
+    },
+
+    {
+      "name": "Title Section: Basic Test",
+      "notes": [],
+      "parts": {
+        "input": "-- title\n\nAlfa Bravo Charlie",
+        "expected": [
+          {
+            "type": "title",
+            "attrs": [],
+            "headline": {
+              "type": "headline",
+              "tags": [
+                {
+                  "type": "text",
+                  "text": "Alfa Bravo Charlie"
+                }
+              ]
+            },
+            "paragraphs": []
+          }
+        ]
       }
-    ]
-  }
-]
+    },
+
+    {
+      "name": "Section Section: Open Only",
+      "notes": [],
+      "parts": {
+        "input": "-- opensection\n",
+        "expected": [
+          {
+            "type": "opensection",
+            "attrs": []
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section Section: Open/Close With No Content",
+      "notes": [],
+      "parts": {
+        "input": "-- opensection\n\n-- closesection",
+        "expected": [
+          {
+            "type": "opensection",
+            "attrs": []
+          },
+          {
+            "type": "closesection",
+            "attrs": []
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section Section: Open With Class",
+      "notes": [],
+      "parts": {
+        "input": "-- opensection\n-- class: tango",
+        "expected": [
+          {
+            "type": "opensection",
+            "attrs": [{ "type": "class", "content": ["tango"] }]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section Section: Closer",
+      "notes": [],
+      "parts": {
+        "input": "-- closesection\n",
+        "expected": [
+          {
+            "type": "closesection"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section Section: Last Line Of Input",
+      "notes": [],
+      "parts": {
+        "input": "-- closesection",
+        "expected": [
+          {
+            "type": "closesection"
+          }
+        ]
+      }
+    }
+  ]
+}
