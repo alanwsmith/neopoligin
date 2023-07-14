@@ -1,8 +1,19 @@
-{
-  "section_tests": [
-    {
+[ 
+  {
       "input": "-- title\n\nALFA",
-      "expected": "BRAVO"
+      "expected": {
+        "type": "title",
+        "attrs": [],
+        "headline": {
+          "type": "headline",
+          "tags": [
+            {
+              "type": "text", 
+              "text": "asdf"
+            }
+          ]
+        },
+        "paragraphs": []
+      }
     }
   ]
-}
