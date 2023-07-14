@@ -1,5 +1,5 @@
 #![allow(unused_imports)]
-use neopolengine::sections::sections;
+use neopolengine::sections::section::section;
 use neopolengine::sections::Section;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
@@ -18,9 +18,9 @@ fn xsolo_test_specs() {
     let section_test_cases: Vec<SectionTestCase> =
         serde_json::from_str(json_text.as_str()).unwrap();
     section_test_cases.iter().for_each(|t| {
-        let results = sections(&t.input).unwrap().1;
+        let results = section(&t.input).unwrap().1;
         dbg!(&t.input);
-        // assert_eq!(&t.expected, results);
+        assert_eq!(t.expected, results);
         ()
     });
 }
