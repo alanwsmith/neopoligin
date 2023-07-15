@@ -10,13 +10,13 @@ use nom::character::complete::multispace0;
 use nom::sequence::tuple;
 use nom::IResult;
 
-pub fn closesection(source: &str) -> IResult<&str, Section> {
+pub fn endsection(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-- closesection"), multispace0))(
+        tuple((tag_no_case("-- endsection"), multispace0))(
             source,
         )?;
     // let (source, _) = alt((take_until("\n\n--"), rest))(source.trim())?;
-    Ok((source, Section::CloseSection))
+    Ok((source, Section::EndSection))
 }
 
 // #[cfg(test)]

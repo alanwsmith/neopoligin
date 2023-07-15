@@ -1,7 +1,7 @@
 {
   "spec_tests": [
     {
-      "name": "Aside Section: All Features",
+      "name": "Aside: All Features",
       "notes": [],
       "parts": {
         "input": "-- aside\n-- id: alfa\n-- class: bravo charlie\n\nPour the stew from\nthe pot into the plate\n\nShut the hatch before the waves push in",
@@ -39,7 +39,7 @@
     },
 
     {
-      "name": "Title Section: Basic Test",
+      "name": "Title: Basic Test",
       "notes": [],
       "parts": {
         "input": "-- title\n\nAlfa Bravo Charlie",
@@ -63,13 +63,13 @@
     },
 
     {
-      "name": "Section Section: Open Only",
+      "name": "Section: Open Only",
       "notes": [],
       "parts": {
-        "input": "-- opensection\n",
+        "input": "-- section\n",
         "expected": [
           {
-            "type": "opensection",
+            "type": "startsection",
             "attrs": []
           }
         ]
@@ -77,17 +77,17 @@
     },
 
     {
-      "name": "Section Section: Open/Close With No Content",
+      "name": "Section: Open/Close With No Content",
       "notes": [],
       "parts": {
-        "input": "-- opensection\n\n-- closesection",
+        "input": "-- section\n\n-- endsection",
         "expected": [
           {
-            "type": "opensection",
+            "type": "startsection",
             "attrs": []
           },
           {
-            "type": "closesection",
+            "type": "endsection",
             "attrs": []
           }
         ]
@@ -95,13 +95,13 @@
     },
 
     {
-      "name": "Section Section: Open With Class",
+      "name": "Section: Open With Class",
       "notes": [],
       "parts": {
-        "input": "-- opensection\n-- class: tango",
+        "input": "-- section\n-- class: tango",
         "expected": [
           {
-            "type": "opensection",
+            "type": "startsection",
             "attrs": [{ "type": "class", "content": ["tango"] }]
           }
         ]
@@ -109,13 +109,13 @@
     },
 
     {
-      "name": "Section Section: Closer",
+      "name": "Section: Closer",
       "notes": [],
       "parts": {
-        "input": "-- closesection\n",
+        "input": "-- endsection\n",
         "expected": [
           {
-            "type": "closesection"
+            "type": "endsection"
           }
         ]
       }
@@ -125,13 +125,15 @@
       "name": "Section Section: Last Line Of Input",
       "notes": [],
       "parts": {
-        "input": "-- closesection",
+        "input": "-- endsection",
         "expected": [
           {
-            "type": "closesection"
+            "type": "endsection"
           }
         ]
       }
     }
+
+
   ]
 }

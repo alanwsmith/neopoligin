@@ -10,10 +10,10 @@ pub mod aside;
 pub mod blockquote;
 pub mod checklist;
 pub mod closediv;
-pub mod closesection;
 pub mod code;
 pub mod css;
 pub mod endcode;
+pub mod endsection;
 pub mod h;
 pub mod hidden;
 pub mod hr;
@@ -24,7 +24,7 @@ pub mod note;
 pub mod notes;
 pub mod olist;
 pub mod opendiv;
-pub mod opensection;
+pub mod section;
 pub mod p;
 pub mod pre;
 pub mod script;
@@ -51,7 +51,6 @@ pub enum Section {
         paragraphs: Vec<Block>,
     },
     CloseDiv,
-    CloseSection,
     Code {
         attrs: Vec<SecAttr>,
         text: String,
@@ -59,6 +58,7 @@ pub enum Section {
     CSS {
         text: String,
     },
+    EndSection,
     H1 {
         attrs: Vec<SecAttr>,
         headline: Block,
@@ -123,9 +123,6 @@ pub enum Section {
     OpenDiv {
         attrs: Vec<SecAttr>,
     },
-    OpenSection {
-        attrs: Vec<SecAttr>,
-    },
     P {
         attrs: Vec<SecAttr>,
         paragraphs: Vec<Block>,
@@ -136,6 +133,9 @@ pub enum Section {
     },
     Script {
         text: String,
+    },
+    StartSection {
+        attrs: Vec<SecAttr>,
     },
     Title {
         attrs: Vec<SecAttr>,
