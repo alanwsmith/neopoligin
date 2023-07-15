@@ -5,6 +5,8 @@ use crate::source_file::SourceFile;
 use minijinja::context;
 use minijinja::path_loader;
 use minijinja::Environment;
+// use rusqlite::Result;
+use rusqlite::{Connection, Result};
 use std::fs;
 use std::path::PathBuf;
 use std::vec;
@@ -15,10 +17,14 @@ pub fn build_site() {
     let template_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
+    let sqlite_path = "/Users/alan/Desktop/neopolengine.sqlite";
     let mut env = Environment::new();
     let template_path = template_dir.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
     let mut source_files: Vec<SourceFile> = vec![];
+
+    let conn = Connection::open(sqlite_path).unwrap();
+    check_db_structure(conn);
 
     for entry in WalkDir::new(&content_dir).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
@@ -55,7 +61,7 @@ pub fn build_site() {
 
     let file_lists = file_lists(&source_files);
 
-    source_files.iter().for_each(|source_file| {
+    source_files.iter().take(2).for_each(|source_file| {
         println!("-------------------------");
         println!("Outputting:\n{}", &source_file.source_path.display());
         let template = env.get_template(
@@ -89,6 +95,46 @@ pub fn build_site() {
     });
 
     println!("Process complete");
+
+    //
+}
+
+fn table_exists(conn: &Connection, table_name: &str) -> Result<bool> {
+    let mut stmt = conn.prepare(
+        "SELECT name FROM sqlite_master 
+        WHERE type='table' AND name=?1",
+    )?;
+    let rows = stmt.query_map([table_name], |_| Ok(()))?;
+    if rows.count() == 1 {
+        Ok(true)
+    } else {
+        Ok(false)
+    }
+}
+
+fn check_db_structure(conn: Connection) {
+    match table_exists(&conn, "file_hashes") {
+        Ok(false) => {
+            conn.execute("CREATE TABLE file_hashes (hash TEXT, path TEXT)", ())
+                .unwrap();
+        }
+        _ => {}
+    }
+
+    // let default_path = PathBuf::from(sqlite_path);
+    // match default_path.try_exists() {
+    //     Ok(true) => Ok(()),
+    //     Ok(false) => {
+    //         let conn = Connection::open(sqlite_path)?;
+    //         let create_table = "CREATE TABLE file_hashes (path TEXT, hash TEXT)";
+    //         conn.execute(create_table, ())?;
+    //         Ok(())
+    //     }
+    //     Err(_) => {
+    //         dbg!("There's a problem with the file");
+    //         Ok(())
+    //     }
+    // }
 
     //
 }
