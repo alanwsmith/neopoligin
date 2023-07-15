@@ -1,4 +1,4 @@
-use serde::{Serialize};
+use serde::Serialize;
 use std::path::PathBuf;
 
 pub mod content;
@@ -12,6 +12,7 @@ pub mod type_of_page;
 #[serde(tag = "type", rename_all = "lowercase")]
 pub struct SourceFile {
     pub source_data: String,
+    pub source_hash: String,
     pub source_path: PathBuf,
     pub url: String,
 }

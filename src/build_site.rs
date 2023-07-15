@@ -5,8 +5,9 @@ use crate::source_file::SourceFile;
 use minijinja::context;
 use minijinja::path_loader;
 use minijinja::Environment;
-// use rusqlite::Result;
 use rusqlite::{Connection, Result};
+use sha256::digest;
+use std::collections::HashSet;
 use std::fs;
 use std::path::PathBuf;
 use std::vec;
@@ -24,7 +25,9 @@ pub fn build_site() {
     let mut source_files: Vec<SourceFile> = vec![];
 
     let conn = Connection::open(sqlite_path).unwrap();
-    check_db_structure(conn);
+    check_db_structure(&conn);
+
+    let file_hashes = get_file_hashes(&conn);
 
     for entry in WalkDir::new(&content_dir).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
@@ -32,15 +35,15 @@ pub fn build_site() {
         let file_sub_path = initial_path2.strip_prefix(&content_dir).unwrap();
         if let Some(ext) = initial_path.extension() {
             if ext == "neo" {
-                //println!("-------------------------");
-                // println!("Loading: {}", &initial_path.display());
+                let source_string = fs::read_to_string(&initial_path).unwrap();
                 let sf = SourceFile {
+                    source_hash: digest(source_string.as_str()),
                     source_path: initial_path
                         .clone()
                         .strip_prefix(&content_dir)
                         .unwrap()
                         .to_path_buf(),
-                    source_data: fs::read_to_string(initial_path).unwrap(),
+                    source_data: source_string,
                     url: format!("/{}", file_sub_path.parent().unwrap().display()),
                 };
                 source_files.push(sf);
@@ -112,29 +115,22 @@ fn table_exists(conn: &Connection, table_name: &str) -> Result<bool> {
     }
 }
 
-fn check_db_structure(conn: Connection) {
+fn check_db_structure(conn: &Connection) {
     match table_exists(&conn, "file_hashes") {
         Ok(false) => {
-            conn.execute("CREATE TABLE file_hashes (hash TEXT, path TEXT)", ())
+            conn.execute("CREATE TABLE file_hashes (hash TEXT)", ())
                 .unwrap();
         }
         _ => {}
     }
+}
 
-    // let default_path = PathBuf::from(sqlite_path);
-    // match default_path.try_exists() {
-    //     Ok(true) => Ok(()),
-    //     Ok(false) => {
-    //         let conn = Connection::open(sqlite_path)?;
-    //         let create_table = "CREATE TABLE file_hashes (path TEXT, hash TEXT)";
-    //         conn.execute(create_table, ())?;
-    //         Ok(())
-    //     }
-    //     Err(_) => {
-    //         dbg!("There's a problem with the file");
-    //         Ok(())
-    //     }
-    // }
-
-    //
+fn get_file_hashes(conn: &Connection) -> Result<HashSet<String>> {
+    let mut stmt = conn.prepare("SELECT hash FROM file_hashes")?;
+    let rows = stmt.query_map([], |row| row.get(0))?;
+    let mut hashes = HashSet::new();
+    for hash in rows {
+        hashes.insert(hash?);
+    }
+    Ok(hashes)
 }
