@@ -1,5 +1,38 @@
 {
+  "_todo_": [
+    "<<kbd|*>>",
+    "-- code\n-- title: Alfa Bravo\n\nsnippet"
+  ],
+
   "spec_tests": [
+
+    {
+      "ignore": true,
+      "name": "Test Template",
+      "notes": [],
+      "parts": {
+        "input": "-- warning\n\nalfa bravo",
+        "expected": [
+          {
+            "type": "warning",
+            "attrs": [],
+            "paragraphs": [
+              {
+                "type": "paragraph",
+                "tags": [
+                  {
+                    "type": "text",
+                    "text": "alfa bravo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
     {
       "name": "Aside: All Features",
       "notes": [],
@@ -37,6 +70,70 @@
         ]
       }
     },
+
+
+    {
+      "name": "Code - No attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n\n   some code",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [],
+            "text": "some code"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Code - Language attribute",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n-- html\n\n   some code",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [{ "type": "class", "content": ["language-html"] }],
+            "text": "some code"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Code - Language attribute and class",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n-- html\n-- class: something\n\n   some code",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [{ "type": "class", "content": ["something", "language-html"] }],
+            "text": "some code"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Code - Language attribute and class",
+      "notes": [],
+      "parts": {
+        "input": "-- startcode\n-- html\n-- class: example\n\n<h2 id=\"sierra\">\n  The <strong class=\"tango\">Quick</strong> Brown Fox\n</h2>\n\n\n-- endcode\n",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [{ "type": "class", "content": ["example", "language-html"] }],
+            "text": "<h2 id=\"sierra\">\n  The <strong class=\"tango\">Quick</strong> Brown Fox\n</h2>"
+          }
+        ]
+      }
+    },
+
+
+
 
     {
       "name": "Title: Basic Test",
@@ -129,6 +226,34 @@
         "expected": [
           {
             "type": "endsection"
+          }
+        ]
+      }
+    },
+
+
+
+    {
+      "ignore": true,
+      "name": "Warning: Basic Test",
+      "notes": [],
+      "parts": {
+        "input": "-- warning\n\nalfa bravo tango",
+        "expected": [
+          {
+            "type": "warning",
+            "attrs": [],
+            "paragraphs": [
+              {
+                "type": "paragraph",
+                "tags": [
+                  {
+                    "type": "text",
+                    "text": "alfa bravo tango"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

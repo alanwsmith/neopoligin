@@ -1,7 +1,7 @@
-use crate::section_attrs::sec_attrs;
-use nom::branch::alt;
-use crate::section_attrs::SecAttr;
 use crate::neo_sections::Section;
+use crate::section_attrs::sec_attrs;
+use crate::section_attrs::SecAttr;
+use nom::branch::alt;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
@@ -16,13 +16,10 @@ use nom::IResult;
 
 pub fn startcode(source: &str) -> IResult<&str, Section> {
     let (source, _) =
-        tuple((tag_no_case("-- startcode"), not_line_ending, line_ending))(
-            source.trim(),
-        )?;
+        tuple((tag_no_case("-- startcode"), not_line_ending, line_ending))(source.trim())?;
     let (source, content) = alt((take_until("\n\n-- endcode"), rest))(source.trim())?;
-    
-    let (content, lang) =
-        opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
+
+    let (content, lang) = opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
 
     let (content, mut attrs) = sec_attrs(content.trim())?;
 
@@ -44,7 +41,7 @@ pub fn startcode(source: &str) -> IResult<&str, Section> {
         source,
         Section::Code {
             attrs,
-            text: content.to_string(),
+            text: content.trim().to_string(),
         },
     ))
 

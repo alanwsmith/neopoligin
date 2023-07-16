@@ -1,7 +1,7 @@
 use crate::blocks::Block;
 use crate::containers::Container;
-use crate::section_attrs::SecAttr;
 use crate::neo_section::neo_section;
+use crate::section_attrs::SecAttr;
 use nom::multi::many0;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
@@ -24,14 +24,15 @@ pub mod note;
 pub mod notes;
 pub mod olist;
 pub mod opendiv;
-pub mod section;
 pub mod p;
 pub mod pre;
 pub mod script;
+pub mod section;
 pub mod startcode;
 pub mod title;
 pub mod todo;
 pub mod vimeo;
+pub mod warning;
 pub mod youtube;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -157,6 +158,10 @@ pub enum Section {
         id: String,
         paragraphs: Vec<Block>,
     },
+    Warning {
+        attrs: Vec<SecAttr>,
+        paragraphs: Vec<Block>,
+    },
     None,
 }
 
@@ -165,13 +170,15 @@ pub fn neo_sections(source: &str) -> IResult<&str, Vec<Section>> {
     Ok((source, results))
 }
 
+// TODO: Move this test into the spec json test
+
 #[cfg(test)]
 
 mod test {
     use super::*;
     use crate::blocks::Block;
-    use crate::section_attrs::SecAttr;
     use crate::neo_sections::Section;
+    use crate::section_attrs::SecAttr;
     use crate::tag_attrs::TagAttr;
     use crate::tags::Tag;
 

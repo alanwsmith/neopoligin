@@ -1,31 +1,32 @@
-use crate::section_attrs::sec_attrs;
-use nom::branch::alt;
-use crate::section_attrs::SecAttr;
 use crate::neo_sections::Section;
+use crate::section_attrs::sec_attrs;
+use crate::section_attrs::SecAttr;
+use nom::branch::alt;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;
+use nom::character::complete::anychar;
 use nom::character::complete::line_ending;
+use nom::character::complete::multispace0;
 use nom::character::complete::not_line_ending;
+use nom::combinator::eof;
+use nom::combinator::not;
 use nom::combinator::opt;
 use nom::combinator::rest;
 use nom::sequence::delimited;
+use nom::sequence::preceded;
 use nom::sequence::tuple;
 use nom::IResult;
 
 pub fn code(source: &str) -> IResult<&str, Section> {
-    let (source, _) =
-        tuple((tag_no_case("-- code"), not_line_ending, line_ending))(
-            source.trim(),
-        )?;
+    let (source, _) = tuple((tag_no_case("-- code"), not_line_ending, line_ending))(source.trim())?;
     let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
-    
-    
-    let (content, lang) =
-        opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
+
+    let (content, lang) = opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content.trim())?;
 
     let (content, mut attrs) = sec_attrs(content.trim())?;
+    // let (content, _) = preceded(multispace0, eof)(content.trim())?;
 
     let found_it = attrs.iter_mut().find(|x| match x {
         SecAttr::Class(_) => true,
@@ -41,11 +42,17 @@ pub fn code(source: &str) -> IResult<&str, Section> {
         }
         _ => {}
     }
+
+    // dbg!("--------------");
+    // dbg!(&content);
+    // dbg!(&content.trim());
+    // dbg!("--------------");
+
     Ok((
         source,
         Section::Code {
             attrs,
-            text: content.to_string(),
+            text: content.trim().to_string(),
         },
     ))
 

@@ -64,9 +64,11 @@ pub fn build_site() {
 
     let file_lists = file_lists(&source_files);
 
-    source_files.iter().take(2).for_each(|source_file| {
+    // use .take(2) for testing
+    // source_files.iter().take(2).for_each(|source_file| {
+    source_files.iter().for_each(|source_file| {
         if file_hashes.contains(&source_file.source_hash) {
-            println!("IGNORE\n       {}", &source_file.source_path.display());
+            // println!("IGNORE\n       {}", &source_file.source_path.display());
         } else {
             println!("OUTPUT\n       {}", &source_file.source_path.display());
             let template = env.get_template(
