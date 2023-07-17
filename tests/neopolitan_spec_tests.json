@@ -280,11 +280,11 @@
       "name": "Textarea: With Attributes",
       "notes": [],
       "parts": {
-        "input": "-- textarea\n\n-- id: sierra",
+        "input": "-- textarea\n\n-- id: sierra\n\n",
         "expected": [
           {
             "type": "textarea",
-            "id_attr": "sierra"
+            "id": "sierra"
           }
         ]
       }
@@ -294,7 +294,7 @@
       "name": "Textarea: With Classes",
       "notes": [],
       "parts": {
-        "input": "-- textarea\n\n-- class: tango foxtrot",
+        "input": "-- textarea\n\n-- class: tango foxtrot\n",
         "expected": [
           {
             "type": "textarea",
@@ -303,6 +303,22 @@
         ]
       }
     },
+
+    {
+      "name": "Textarea: With Rows And Cols",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- rows: 5\n-- cols: 10\n",
+        "expected": [
+          {
+            "type": "textarea",
+            "rows": 5,
+            "cols": 10
+          }
+        ]
+      }
+    },
+
 
 
     {
@@ -330,6 +346,8 @@
         ]
       }
     }
+
+
 
 
   ]

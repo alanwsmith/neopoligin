@@ -7,7 +7,6 @@ use nom::multi::many0;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
 
-
 pub mod aside;
 pub mod blockquote;
 pub mod checklist;
@@ -144,7 +143,9 @@ pub enum Section {
     Textarea {
         attributes: Option<Vec<SecAttr>>,
         classes: Option<Vec<String>>,
-        id_attr: Option<String>,
+        cols: Option<u32>,
+        id: Option<String>,
+        rows: Option<u32>,
         text: Option<String>,
     },
     Title {
