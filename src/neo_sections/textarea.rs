@@ -23,6 +23,8 @@ enum TmpAttr {
 
 pub fn textarea(source: &str) -> IResult<&str, Section> {
     let (source, _) = tuple((tag_no_case("-- textarea"), not_line_ending, line_ending))(source)?;
+
+    // this is the attrs stuff
     let (source, _) = multispace0(source)?;
     let (source, raw_attrs) = many0(alt((
         delimited(
@@ -47,8 +49,6 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
         ),
     )))(source)?;
 
-    let (source, content) = alt((take_until("\n\n--"), rest))(source)?;
-
     let mut cols: Option<u32> = None;
     let mut classes: Option<Vec<String>> = None;
     let mut id: Option<String> = None;
@@ -59,8 +59,16 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
         TmpAttr::Cols(v) => cols = Some(*v),
         TmpAttr::Id(v) => id = Some(v.to_string()),
         TmpAttr::Rows(v) => rows = Some(*v),
-        _ => {}
+        // _ => {}
     });
+
+    let (source, content) = alt((take_until("\n\n--"), rest))(source)?;
+
+    let text = if content.trim().eq("") {
+        None
+    } else {
+        Some(content.trim().to_string())
+    };
 
     Ok((
         source,
@@ -69,7 +77,7 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
             classes,
             cols,
             id,
-            text: None,
+            text,
             rows,
         },
     ))

@@ -263,7 +263,7 @@
     },
 
     {
-      "name": "Textarea: Basic",
+      "name": "Textarea: Token",
       "notes": [],
       "parts": {
         "input": "-- textarea\n\n",
@@ -275,6 +275,19 @@
       }
     },
 
+    {
+      "name": "Textarea: Basic Text",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\nHold the hammer",
+        "expected": [
+          {
+            "type": "textarea",
+            "text": "Hold the hammer"
+          }
+        ]
+      }
+    },
 
     {
       "name": "Textarea: With Attributes",
