@@ -14,7 +14,7 @@ pub fn section(source: &str) -> IResult<&str, Section> {
     let (source, _) =
         tuple((tag_no_case("-- section"), not_line_ending, line_ending))(source)?;
     let (source, attrs) = sec_attrs(source)?;
-    Ok((source, Section::StartSection { attrs }))
+    Ok((source, Section::SectionStart { attrs }))
 }
 
 

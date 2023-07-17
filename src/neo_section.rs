@@ -47,4 +47,3 @@ pub fn neo_section(source: &str) -> IResult<&str, Section> {
     ))(source.trim_start())?;
     Ok((source, results))
 }
-

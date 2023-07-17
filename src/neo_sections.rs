@@ -59,7 +59,6 @@ pub enum Section {
     CSS {
         text: String,
     },
-    EndSection,
     H1 {
         attrs: Vec<SecAttr>,
         headline: Block,
@@ -135,9 +134,10 @@ pub enum Section {
     Script {
         text: String,
     },
-    StartSection {
+    SectionStart {
         attrs: Vec<SecAttr>,
     },
+    SectionEnd,
     Title {
         attrs: Vec<SecAttr>,
         headline: Block,

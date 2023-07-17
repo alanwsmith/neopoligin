@@ -16,7 +16,7 @@ pub fn endsection(source: &str) -> IResult<&str, Section> {
             source,
         )?;
     // let (source, _) = alt((take_until("\n\n--"), rest))(source.trim())?;
-    Ok((source, Section::EndSection))
+    Ok((source, Section::SectionEnd))
 }
 
 // #[cfg(test)]

@@ -166,7 +166,7 @@
         "input": "-- section\n",
         "expected": [
           {
-            "type": "startsection",
+            "type": "sectionstart",
             "attrs": []
           }
         ]
@@ -180,11 +180,11 @@
         "input": "-- section\n\n-- endsection",
         "expected": [
           {
-            "type": "startsection",
+            "type": "sectionstart",
             "attrs": []
           },
           {
-            "type": "endsection",
+            "type": "sectionend",
             "attrs": []
           }
         ]
@@ -198,7 +198,7 @@
         "input": "-- section\n-- class: tango",
         "expected": [
           {
-            "type": "startsection",
+            "type": "sectionstart",
             "attrs": [{ "type": "class", "content": ["tango"] }]
           }
         ]
@@ -212,7 +212,7 @@
         "input": "-- endsection\n",
         "expected": [
           {
-            "type": "endsection"
+            "type": "sectionend"
           }
         ]
       }
@@ -225,13 +225,11 @@
         "input": "-- endsection",
         "expected": [
           {
-            "type": "endsection"
+            "type": "sectionend"
           }
         ]
       }
     },
-
-
 
     {
       "ignore": true,
