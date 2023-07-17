@@ -1,4 +1,7 @@
 #![allow(unused_imports)]
+use core::fmt::Error;
+use miette::{IntoDiagnostic, Result};
+use neopolengine::build_site::build_site;
 use nom::branch::alt;
 use nom::bytes::complete::is_a;
 use nom::bytes::complete::is_not;
@@ -22,6 +25,14 @@ use nom::Parser;
 use std::fs;
 use std::fs::copy;
 use std::path::PathBuf;
+use std::time::Duration;
+use watchexec::{
+    action::{Action, Outcome},
+    config::{InitConfig, RuntimeConfig},
+    handler::PrintDebug,
+    Watchexec,
+};
+use watchexec_signals::Signal;
 
 // This is currently hard coded to look for:
 // `>> site: neoengine``
@@ -54,7 +65,45 @@ struct Config {
     site_id: String,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<()> {
+    let mut init = InitConfig::default();
+    init.on_error(PrintDebug(std::io::stderr()));
+    let mut runtime = RuntimeConfig::default();
+    runtime.pathset(["/Users/alan/Grimoire"]);
+    runtime.action_throttle(Duration::new(0, 100000000));
+    let we = Watchexec::new(init, runtime.clone())?;
+    runtime.on_action(move |action: Action| async move {
+        let mut stop_running = false;
+        let mut load_content = false;
+        for event in action.events.iter() {
+            event.signals().for_each(|sig| match sig {
+                Signal::Interrupt => {
+                    stop_running = true;
+                }
+                _ => {}
+            });
+            if event
+                .paths()
+                .any(|(p, _)| p.starts_with("/Users/alan/Grimoire"))
+            {
+                load_content = true;
+            }
+        }
+        if stop_running {
+            action.outcome(Outcome::Exit);
+        }
+        if load_content {
+            load_content_from_grimoire();
+        }
+        Ok::<(), Error>(())
+    });
+    let _ = we.reconfigure(runtime);
+    let _ = we.main().await.into_diagnostic()?;
+    Ok(())
+}
+
+fn load_content_from_grimoire() {
     println!("Running neoprep");
 
     // let neopolengine_dev = Config {
@@ -488,6 +537,4 @@ mod test {
         let name = PathBuf::from("skipthis- charlie delta");
         assert_eq!(false, valid_nonce(name));
     }
-
-    //
 }

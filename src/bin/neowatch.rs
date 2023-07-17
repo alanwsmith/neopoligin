@@ -4,6 +4,7 @@
 use miette::{IntoDiagnostic, Result};
 // use std::path::PathBuf;
 use core::fmt::Error;
+use std::process::Command;
 use watchexec::{
     action::{Action, Outcome},
     config::{InitConfig, RuntimeConfig},
@@ -11,6 +12,15 @@ use watchexec::{
     Watchexec,
 };
 use watchexec_signals::Signal;
+use std::time::Duration;
+
+
+Don't delte this until you've updated the post
+-- id: 2p7c45vj
+
+
+// NOTE: This is a temporary process. Eventually
+// it'll be rolled into the main script....
 
 // use tokio::process::Command;
 
@@ -27,6 +37,9 @@ async fn main() -> Result<()> {
     runtime.pathset(["/Users/alan/Desktop"]);
     let we = Watchexec::new(init, runtime.clone())?;
 
+
+    Make sure to test the action throttle
+     runtime.action_throttle(Duration::new(0, 100000000));
     // let w = we.clone();
     // let c = runtime.clone();
     runtime.on_action(move |action: Action| {
@@ -41,7 +54,6 @@ async fn main() -> Result<()> {
                     }
                     _ => {}
                 });
-
                 if event
                     .paths()
                     .any(|(p, _)| p.starts_with("/Users/alan/Desktop"))
