@@ -2,9 +2,11 @@ use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_section::neo_section;
 use crate::section_attrs::SecAttr;
+use crate::section_attrs::SecAttrForNewClass;
 use nom::multi::many0;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
+
 
 pub mod aside;
 pub mod blockquote;
@@ -140,7 +142,9 @@ pub enum Section {
     },
     SectionEnd,
     Textarea {
-        attrs: Vec<SecAttr>,
+        attrs: Option<Vec<SecAttr>>,
+        classes: Option<Vec<SecAttrForNewClass>>,
+        id_attr: Option<String>,
         text: Option<String>,
     },
     Title {

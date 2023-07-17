@@ -246,8 +246,21 @@
         "input": "-- textarea\n\n",
         "expected": [
           {
+            "type": "textarea"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: With Attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- id: sierra",
+        "expected": [
+          {
             "type": "textarea",
-            "attrs": []
+            "id_attr": "sierra"
           }
         ]
       }

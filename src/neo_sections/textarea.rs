@@ -12,6 +12,9 @@ use nom::combinator::rest;
 use nom::sequence::delimited;
 use nom::sequence::tuple;
 use nom::IResult;
+use nom::sequence::pair;
+use nom::sequence::preceded;
+use nom::Parser;
 
 pub fn textarea(source: &str) -> IResult<&str, Section> {
     let (source, _) =
@@ -19,6 +22,15 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
             source,
         )?;
     let (source, content) = alt((take_until("\n\n--"), rest))(source)?;
+
+    // get the id 
+    let (_, id_attr) = opt(
+        preceded(
+            pair(take_until("-- id: "), tag("-- id: ")),
+            not_line_ending
+        ).map(|x: &str| x.to_string()))(content)?;
+
+
     let (content, _) =
         opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
     let (content, attrs) = sec_attrs(content.trim())?;
@@ -26,7 +38,9 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
         Ok((
             source,
             Section::Textarea {
-                attrs,
+                attrs: None,
+                classes: None,
+                id_attr,
                 text: None,
             },
         ))
@@ -35,7 +49,9 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
         Ok((
             source,
             Section::Textarea {
-                attrs,
+                attrs: None,
+                classes: None,
+                id_attr: None,
                 text: Some(content.to_string()),
             },
         ))
