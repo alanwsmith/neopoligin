@@ -1,7 +1,15 @@
 {
+
+  "secitons_to_cover": [
+  ],
+
   "_todo_": [
     "<<kbd|*>>",
     "-- code\n-- title: Alfa Bravo\n\nsnippet"
+  ],
+
+  "_notes": [
+    "NONE is represented by not having a value. e.g. text in textarea"
   ],
 
   "spec_tests": [
@@ -226,6 +234,20 @@
         "expected": [
           {
             "type": "sectionend"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n",
+        "expected": [
+          {
+            "type": "textarea",
+            "attrs": []
           }
         ]
       }

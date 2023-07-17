@@ -27,6 +27,7 @@ use crate::neo_sections::pre::pre;
 use crate::neo_sections::script::script;
 use crate::neo_sections::section::section;
 use crate::neo_sections::startcode::startcode;
+use crate::neo_sections::textarea::textarea;
 use crate::neo_sections::title::title;
 use crate::neo_sections::todo::todo;
 use crate::neo_sections::vimeo::vimeo;
@@ -36,7 +37,7 @@ use crate::neo_sections::youtube::youtube;
 pub fn neo_section(source: &str) -> IResult<&str, Section> {
     let (source, results) = alt((
         // order matters here so things don't get flipped
-        alt((title, hidden, html, h)),
+        alt((textarea, title, hidden, html, h)),
         alt((pre, p)),
         alt((code, list)),
         alt((notes, note, checklist, section, endsection, warning)),

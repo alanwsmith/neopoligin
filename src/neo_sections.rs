@@ -29,6 +29,7 @@ pub mod pre;
 pub mod script;
 pub mod section;
 pub mod startcode;
+pub mod textarea;
 pub mod title;
 pub mod todo;
 pub mod vimeo;
@@ -138,6 +139,10 @@ pub enum Section {
         attrs: Vec<SecAttr>,
     },
     SectionEnd,
+    Textarea {
+        attrs: Vec<SecAttr>,
+        text: Option<String>,
+    },
     Title {
         attrs: Vec<SecAttr>,
         headline: Block,
