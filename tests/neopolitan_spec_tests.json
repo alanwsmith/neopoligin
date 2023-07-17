@@ -1,6 +1,29 @@
 {
 
+
+
   "secitons_to_cover": [
+
+    {
+
+      "ignore": true,
+      "name": "Textarea: With Miscellaneous Attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- data-ping: 1234 delta echo",
+        "expected": [
+          {
+            "type": "textarea",
+            "attributes": [
+              { 
+                "key": "data-ping", 
+                "value": "1234 delta echo"
+              }
+            ]
+          }
+        ]
+      }
+    }
   ],
 
   "_todo_": [
@@ -251,6 +274,7 @@
         ]
       }
     },
+
 
     {
       "name": "Textarea: With Attributes",
