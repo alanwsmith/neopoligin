@@ -143,7 +143,7 @@ pub enum Section {
     SectionEnd,
     Textarea {
         attrs: Option<Vec<SecAttr>>,
-        classes: Option<Vec<SecAttrForNewClass>>,
+        classes: Option<Vec<String>>,
         id_attr: Option<String>,
         text: Option<String>,
     },

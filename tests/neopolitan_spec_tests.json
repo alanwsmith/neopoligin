@@ -267,6 +267,21 @@
     },
 
     {
+      "name": "Textarea: With Classes",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- class: tango foxtrot",
+        "expected": [
+          {
+            "type": "textarea",
+            "classes": ["tango", "foxtrot"]
+          }
+        ]
+      }
+    },
+
+
+    {
       "ignore": true,
       "name": "Warning: Basic Test",
       "notes": [],

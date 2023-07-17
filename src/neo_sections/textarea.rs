@@ -30,16 +30,24 @@ pub fn textarea(source: &str) -> IResult<&str, Section> {
             not_line_ending
         ).map(|x: &str| x.to_string()))(content)?;
 
+    // get the classes
+    let (_, classes) = opt(
+        preceded(
+            pair(take_until("-- class: "), tag("-- class: ")),
+            not_line_ending
+        ).map(|x: &str| x.split(" ").into_iter().map(|y| y.to_string()).collect()))(content)?;
 
+        
     let (content, _) =
         opt(delimited(tag("-- "), is_not(":\n"), line_ending))(content)?;
     let (content, attrs) = sec_attrs(content.trim())?;
+
     if content.eq("") {
         Ok((
             source,
             Section::Textarea {
                 attrs: None,
-                classes: None,
+                classes,
                 id_attr,
                 text: None,
             },
