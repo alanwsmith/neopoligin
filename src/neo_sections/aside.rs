@@ -1,71 +1,117 @@
-use crate::blocks::paragraph::paragraph;
-use crate::neo_sections::Section;
-use crate::section_attrs::sec_attrs;
+#![allow(unused_imports)]
+use crate::neo_sections::Attribute;
+use crate::neo_sections::Block;
+use crate::neo_sections::NeoSection;
+use crate::snippets::Snippet;
 use nom::branch::alt;
+use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag_no_case;
-use nom::bytes::complete::take_until;
+use nom::character::complete::crlf;
 use nom::character::complete::line_ending;
+use nom::character::complete::multispace0;
+use nom::character::complete::newline;
+use nom::character::complete::none_of;
 use nom::character::complete::not_line_ending;
+use nom::character::complete::space0;
 use nom::combinator::eof;
+use nom::combinator::not;
+use nom::combinator::opt;
+use nom::combinator::recognize;
 use nom::combinator::rest;
+use nom::multi::many0;
+use nom::multi::many1;
 use nom::multi::many_till;
+use nom::sequence::pair;
+use nom::sequence::terminated;
 use nom::sequence::tuple;
 use nom::IResult;
+use nom::Parser;
 
-pub fn aside_new_version(source: &str) -> IResult<&str, Section> {
+pub fn aside(source: &str) -> IResult<&str, NeoSection> {
     let (source, _) = tuple((
-        tag_no_case("-- aside_new_version"),
+        multispace0,
+        tag_no_case("-- aside"),
         not_line_ending,
-        line_ending,
-    ))(source.trim())?;
-    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
-    let (content, attrs) = sec_attrs(content.trim())?;
-    let (_, paragraphs) = many_till(paragraph, eof)(content.trim())?;
+        newline,
+    ))(source)?;
+
+    // get attributes here
+    dbg!("1111111111111111111111111111");
+    dbg!(&source);
+    let (source, paragraphs) = opt(many0(paragraph))(source)?;
+    dbg!("5555555555555555555555555555");
+    dbg!(&paragraphs);
+    dbg!(&source);
+
     Ok((
         source,
-        Section::Aside {
-            attrs,
-            paragraphs: paragraphs.0,
+        NeoSection::Aside {
+            attributes: None,
+            blocks: paragraphs,
         },
     ))
 }
 
-pub fn aside(source: &str) -> IResult<&str, Section> {
-    let (source, _) =
-        tuple((tag_no_case("-- aside"), not_line_ending, line_ending))(source.trim())?;
-    let (source, content) = alt((take_until("\n\n--"), rest))(source.trim())?;
-    let (content, attrs) = sec_attrs(content.trim())?;
-    let (_, paragraphs) = many_till(paragraph, eof)(content.trim())?;
+pub fn paragraph(source: &str) -> IResult<&str, Block> {
+    dbg!("222222222222222222222222222");
+    dbg!(&source);
+    let (source, snippets) = many_till(
+        snippet,
+        alt((
+            tuple((space0, crlf, space0, crlf)).map(|_| ""),
+            pair(multispace0, eof).map(|_| ""),
+        )),
+    )(source)?;
+    dbg!("444444444444444444444444444444");
+    dbg!(&snippets);
+    dbg!(&source);
     Ok((
         source,
-        Section::Aside {
-            attrs,
-            paragraphs: paragraphs.0,
+        Block::Paragraph {
+            snippets: snippets.0,
+        },
+    ))
+    // Ok((source, Block::None))
+}
+
+pub fn snippet(source: &str) -> IResult<&str, Snippet> {
+    dbg!("3333333333333333333333333333");
+    let (source, _) = multispace0(source)?;
+    let (source, value) = many_till(
+        alt((
+            is_not("\n\r\t"),
+            pair(line_ending, not(crlf)).map(|_| " "),
+            rest,
+        )),
+        alt((
+            eof.map(|_| ""),
+            tuple((line_ending, space0, line_ending)).map(|_| ""),
+            eof,
+        )),
+    )(source)?;
+    dbg!(&value);
+    dbg!(&source);
+
+    Ok((
+        source,
+        Snippet::Text {
+            text: value.0.join(""),
+            // text: "asdfasdfasdfasdfdadfs".to_string(),
         },
     ))
 }
 
-#[cfg(test)]
-mod text {
-    use super::*;
-    use crate::blocks::Block;
-    use crate::neo_sections::Section;
-    use crate::tags::Tag;
-    use rstest::rstest;
+// pub fn word(source: &str) -> IResult<&str, &str> {
+//     let (source, word) = is_not(" \n\r\t")(source)?;
+//     Ok((source, word))
+// }
 
-    #[rstest]
-    #[case(
-        vec!["-- aside", "", "whiskey tango"].join("\n"), 
-        Section::Aside {
-            attrs: vec![],
-            paragraphs: vec![Block::Paragraph {
-                tags: vec![Tag::Text {
-                    text: "whiskey tango".to_string(),
-                }],
-            }],
-        }
-    )]
-    fn aside_test(#[case] i: String, #[case] e: Section) {
-        assert_eq!(e, aside(i.as_str()).unwrap().1)
-    }
-}
+// pub fn not_separator(source: &str) -> IResult<&str, &str> {
+//     let (source, _) =
+//     Ok((source, ""))
+// }
+
+// pub fn separator(source: &str) -> IResult<&str, Snippet> {
+//     let
+
+// }

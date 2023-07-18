@@ -1,0 +1,102 @@
+{
+    "sections_covered_in_tests": {
+      "aside": false,
+      "attributes": false,
+      "audio": false,
+      "blockquote": false,
+      "blurb": false,
+      "canvas": false,
+      "categories": false,
+      "checklist": false,
+      "code": false,
+      "config": false,
+      "css": false,
+      "details": false,
+      "dlist": false,
+      "endarticle": false,
+      "endcode": false,
+      "enddiv": false,
+      "endhtml": false,
+      "endneoexample": false,
+      "endsection": false,
+      "ext": false,
+      "h1": false,
+      "h2": false,
+      "h3": false,
+      "h4": false,
+      "h5": false,
+      "h6": false,
+      "head": false,
+      "hidden": false,
+      "hr": false,
+      "html": false,
+      "image": false,
+      "images": false,
+      "include": false,
+      "list": false,
+      "menu": false,
+      "nav": false,
+      "note": false,
+      "notes": false,
+      "object": false,
+      "olist": false,
+      "p": false,
+      "pre": false,
+      "ref": false,
+      "results": false,
+      "script": false,
+      "startarticle": false,
+      "startcode": false,
+      "startdiv": false,
+      "starthtml": false,
+      "startneoexample": false,
+      "startsection": false,
+      "subtitle": false,
+      "table": false,
+      "textarea": false,
+      "title": false,
+      "todo": false,
+      "vimeo": false,
+      "warning": false,
+      "widget": false,
+      "youtube": false
+    },
+
+    "neo_sections": [
+      {
+        "solo": true,
+        "name": "Aside: Just Text",
+        "notes": [],
+        "parts": {
+          "input": "-- aside_new_version\n\nalfa bravo\n\ncharlie\ndelta",
+          "expected": [
+            {
+              "type": "aside",
+              "attributes": null,
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "snippets": [
+                    {
+                      "type": "text",
+                      "text": "alfa bravo"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "snippets": [
+                    {
+                      "type": "text",
+                      "text": "charlie delta"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+  
