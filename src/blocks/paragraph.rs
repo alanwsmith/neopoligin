@@ -10,6 +10,7 @@ use nom::multi::many_till;
 use nom::sequence::pair;
 use nom::IResult;
 use nom::Parser;
+use crate::snippets::snippets;
 
 pub fn paragraph(source: &str) -> IResult<&str, Block> {
     let (source, content) = many_till(
@@ -19,4 +20,15 @@ pub fn paragraph(source: &str) -> IResult<&str, Block> {
     let string = content.0.join(" ");
     let (_, tags) = tags(string.as_str()).unwrap();
     Ok((source, Block::Paragraph { tags }))
+}
+
+
+pub fn paragraph_new_version(source: &str) -> IResult<&str, Block> {
+    let (source, content) = many_till(
+        pair(not_line_ending, alt((line_ending, eof))).map(|x| x.0),
+        alt((multispace1, eof)),
+    )(source.trim())?;
+    let string = content.0.join(" ");
+    let (_, snippets) = snippets(string.as_str()).unwrap();
+    Ok((source, Block::ParagraphNewVersion { snippets }))
 }

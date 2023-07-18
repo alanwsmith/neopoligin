@@ -70,10 +70,10 @@ pub fn build_site() {
         if file_hashes.contains(&source_file.source_hash) {
             // println!("IGNORE\n       {}", &source_file.source_path.display());
         } else {
-            println!("OUTPUT\n       {}", &source_file.source_path.display());
+            println!("MAKING: {}", &source_file.source_path.display());
             let template = env.get_template(
                 format!(
-                    "{}/base.j2",
+                    "{}/index.html",
                     &source_file.template(&source_file.source_data).unwrap().1,
                 )
                 .as_str(),

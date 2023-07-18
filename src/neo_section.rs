@@ -5,6 +5,7 @@ use nom::IResult;
 // use crate::containers::Container;
 // use crate::section_attrs::SecAttr;
 use crate::neo_sections::aside::aside;
+use crate::neo_sections::aside::aside_new_version;
 use crate::neo_sections::blockquote::blockquote;
 use crate::neo_sections::checklist::checklist;
 use crate::neo_sections::closediv::closediv;
@@ -37,6 +38,9 @@ use crate::neo_sections::youtube::youtube;
 pub fn neo_section(source: &str) -> IResult<&str, Section> {
     let (source, results) = alt((
         // order matters here so things don't get flipped
+        alt((aside_new_version, aside_new_version)),
+        // These are the old ones to be removed when the
+        // new ones are in place (i.e. _new_version)
         alt((textarea, title, hidden, html, h)),
         alt((pre, p)),
         alt((code, list)),
