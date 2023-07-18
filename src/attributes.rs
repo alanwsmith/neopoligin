@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+pub mod accesskey;
+use crate::attributes::accesskey::accesskey;
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

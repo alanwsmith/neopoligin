@@ -1,3 +1,4 @@
+use crate::attributes::accesskey::accesskey;
 use crate::attributes::Attribute;
 use crate::neo_sections::Block;
 use crate::neo_sections::NeoSection;
@@ -6,7 +7,6 @@ use nom::branch::alt;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
 use nom::bytes::complete::take_until;
-use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
 use nom::character::complete::newline;
 use nom::character::complete::not_line_ending;
@@ -14,15 +14,14 @@ use nom::combinator::eof;
 use nom::combinator::rest;
 use nom::multi::many0;
 use nom::multi::many_till;
-use nom::sequence::delimited;
 use nom::sequence::terminated;
 use nom::sequence::tuple;
 use nom::IResult;
 use regex::Regex;
 
 pub fn attribute(source: &str) -> IResult<&str, Attribute> {
-    let (source, attr) = delimited(tag("-- accesskey: "), not_line_ending, line_ending)(source)?;
-    Ok((source, Attribute::AccessKey(attr.to_string())))
+    let (source, attr) = accesskey(source)?;
+    Ok((source, attr))
 }
 
 pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
