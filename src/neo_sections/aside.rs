@@ -1,31 +1,20 @@
-#![allow(unused_imports)]
-use crate::neo_sections::Attribute;
 use crate::neo_sections::Block;
 use crate::neo_sections::NeoSection;
 use crate::snippets::Snippet;
 use nom::branch::alt;
-use nom::bytes::complete::is_not;
+use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
-use nom::character::complete::crlf;
-use nom::character::complete::line_ending;
+use nom::bytes::complete::take_until;
 use nom::character::complete::multispace0;
 use nom::character::complete::newline;
-use nom::character::complete::none_of;
 use nom::character::complete::not_line_ending;
-use nom::character::complete::space0;
 use nom::combinator::eof;
-use nom::combinator::not;
-use nom::combinator::opt;
-use nom::combinator::recognize;
 use nom::combinator::rest;
-use nom::multi::many0;
-use nom::multi::many1;
 use nom::multi::many_till;
-use nom::sequence::pair;
 use nom::sequence::terminated;
 use nom::sequence::tuple;
 use nom::IResult;
-use nom::Parser;
+use regex::Regex;
 
 pub fn aside(source: &str) -> IResult<&str, NeoSection> {
     let (source, _) = tuple((
@@ -34,68 +23,111 @@ pub fn aside(source: &str) -> IResult<&str, NeoSection> {
         not_line_ending,
         newline,
     ))(source)?;
-    // get attributes here
-    dbg!("11111111111111");
-    dbg!(&source);
-    let (source, paragraphs) = paragraphs(source)?;
-    dbg!("55555555555555");
-    dbg!(&paragraphs);
-    dbg!(&source);
+    let (source, paragraphs) = many_till(paragraph, eof)(source)?;
     Ok((
         source,
         NeoSection::Aside {
             attributes: None,
-            blocks: paragraphs,
-        },
-    ))
-}
-
-pub fn paragraphs(source: &str) -> IResult<&str, Option<Vec<Block>>> {
-    dbg!("77777777777777");
-    let (source, _) = multispace0(source)?;
-    dbg!("88888888888888");
-    let (source, graphs) = opt(many1(paragraph))(source)?;
-    dbg!("99999999999999");
-    dbg!(&graphs);
-    Ok((source, graphs))
-}
-
-pub fn snippet(source: &str) -> IResult<&str, Snippet> {
-    let (source, _) = multispace0(source)?;
-    let (source, text) = is_not("\n")(source)?;
-    Ok((
-        source,
-        Snippet::Text {
-            text: text.to_string(),
+            blocks: Some(paragraphs.0),
         },
     ))
 }
 
 pub fn paragraph(source: &str) -> IResult<&str, Block> {
     let (source, _) = multispace0(source)?;
-    let (source, snippets) = many1(snippet)(source)?;
-    dbg!("22222222222222");
-    dbg!(&source);
-    Ok((source, Block::Paragraph { snippets }))
-    // let (source, snippets) = many_till(
-    //     snippet,
-    //     alt((
-    //         tuple((space0, crlf, space0, crlf)).map(|_| ""),
-    //         pair(multispace0, eof).map(|_| ""),
-    //         rest,
-    //     )),
-    // )(source)?;
-    // dbg!("44444444444");
-    // dbg!(&snippets);
-    // dbg!(&source);
-    // Ok((
-    //     source,
-    //     // Block::Paragraph {
-    //     //     snippets: snippets.0,
-    //     // },
-    //     Block::None,
-    // ))
+    let (source, captured) = alt((terminated(take_until("\n\n"), tag("\n\n")), rest))(source)?;
+    let re = Regex::new(r"\n").unwrap();
+    let output = re.replace_all(&captured, " ").to_string();
+    Ok((
+        source,
+        Block::Paragraph {
+            snippets: vec![Snippet::Text { text: output }],
+        },
+    ))
 }
+
+// pub fn block_end(source: &str) -> IResult<&str, &str> {
+//     let (source, remainder) = eof(source)?;
+//     Ok((source, remainder))
+// }
+
+// pub fn section_end(source: &str) -> IResult<&str, &str> {
+//     let (source, remainder) = eof(source)?;
+//     Ok((source, remainder))
+// }
+
+// pub fn paragraphs(source: &str) -> IResult<&str, Option<Vec<Block>>> {
+//     dbg!("77777777777777");
+//     let (source, _) = multispace0(source)?;
+//     dbg!("88888888888888");
+//     let (source, graphs) = opt(many_till(paragraph, eof))(source)?;
+//     dbg!("99999999999999");
+//     dbg!(&graphs);
+//     Ok((source, Some(graphs.unwrap().0)))
+// }
+
+// pub fn snippet(source: &str) -> IResult<&str, Snippet> {
+//     dbg!(&source);
+//     let (source, text) = many_till(
+//         anychar.map(|x| if x == '\n' { ' ' } else { x }),
+//         alt((tuple((line_ending, line_ending)).map(|_| ""), eof)),
+//     )(source)?;
+//     let response1 = &text.0.clone().into_iter().collect::<String>();
+//     dbg!(&response1);
+//     Ok((
+//         source,
+//         Snippet::Text {
+//             text: response1.to_string(),
+//         },
+//     ))
+// }
+
+// pub fn block_separator(source: &str) -> IResult<&str, Snippet> {
+//     let (source, _) = alt((tuple((line_ending, line_ending)).map(|_| ""), eof))(source)?;
+//     dbg!(&response1);
+//     Ok((
+//         source,
+//         Snippet::Text {
+//             text: response1.to_string(),
+//         },
+//     ))
+// }
+
+// pub fn paragraph(source: &str) -> IResult<&str, Block> {
+//     let (source, _) = multispace0(source)?;
+//     dbg!("00000000000000");
+//     let (source, snippets) = many_till(
+//         snippet,
+//         alt((tuple((line_ending, line_ending)).map(|_| ""), eof)),
+//     )(source)?;
+//     dbg!("22222222222222");
+//     dbg!(&snippets);
+//     dbg!(&source);
+//     Ok((
+//         source,
+//         Block::Paragraph {
+//             snippets: snippets.0,
+//         },
+//     ))
+//     // let (source, snippets) = many_till(
+//     //     snippet,
+//     //     alt((
+//     //         tuple((space0, crlf, space0, crlf)).map(|_| ""),
+//     //         pair(multispace0, eof).map(|_| ""),
+//     //         rest,
+//     //     )),
+//     // )(source)?;
+//     // dbg!("44444444444");
+//     // dbg!(&snippets);
+//     // dbg!(&source);
+//     // Ok((
+//     //     source,
+//     //     // Block::Paragraph {
+//     //     //     snippets: snippets.0,
+//     //     // },
+//     //     Block::None,
+//     // ))
+// }
 
 // pub fn snippets(source: &str) -> IResult<&str, Snippet> {
 //     let (source, _) = multispace0(source)?;
