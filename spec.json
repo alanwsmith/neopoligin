@@ -1,102 +1,194 @@
 {
-    "sections_covered_in_tests": {
-      "aside": false,
-      "attributes": false,
-      "audio": false,
-      "blockquote": false,
-      "blurb": false,
-      "canvas": false,
-      "categories": false,
-      "checklist": false,
-      "code": false,
-      "config": false,
-      "css": false,
-      "details": false,
-      "dlist": false,
-      "endarticle": false,
-      "endcode": false,
-      "enddiv": false,
-      "endhtml": false,
-      "endneoexample": false,
-      "endsection": false,
-      "ext": false,
-      "h1": false,
-      "h2": false,
-      "h3": false,
-      "h4": false,
-      "h5": false,
-      "h6": false,
-      "head": false,
-      "hidden": false,
-      "hr": false,
-      "html": false,
-      "image": false,
-      "images": false,
-      "include": false,
-      "list": false,
-      "menu": false,
-      "nav": false,
-      "note": false,
-      "notes": false,
-      "object": false,
-      "olist": false,
-      "p": false,
-      "pre": false,
-      "ref": false,
-      "results": false,
-      "script": false,
-      "startarticle": false,
-      "startcode": false,
-      "startdiv": false,
-      "starthtml": false,
-      "startneoexample": false,
-      "startsection": false,
-      "subtitle": false,
-      "table": false,
-      "textarea": false,
-      "title": false,
-      "todo": false,
-      "vimeo": false,
-      "warning": false,
-      "widget": false,
-      "youtube": false
+  "sections_covered_in_tests": {
+    "aside": false,
+    "attributes": false,
+    "audio": false,
+    "blockquote": false,
+    "blurb": false,
+    "canvas": false,
+    "categories": false,
+    "checklist": false,
+    "code": false,
+    "config": false,
+    "css": false,
+    "details": false,
+    "dlist": false,
+    "endarticle": false,
+    "endcode": false,
+    "enddiv": false,
+    "endhtml": false,
+    "endneoexample": false,
+    "endsection": false,
+    "ext": false,
+    "h1": false,
+    "h2": false,
+    "h3": false,
+    "h4": false,
+    "h5": false,
+    "h6": false,
+    "head": false,
+    "hidden": false,
+    "hr": false,
+    "html": false,
+    "image": false,
+    "images": false,
+    "include": false,
+    "list": false,
+    "menu": false,
+    "nav": false,
+    "note": false,
+    "notes": false,
+    "object": false,
+    "olist": false,
+    "p": false,
+    "pre": false,
+    "ref": false,
+    "results": false,
+    "script": false,
+    "startarticle": false,
+    "startcode": false,
+    "startdiv": false,
+    "starthtml": false,
+    "startneoexample": false,
+    "startsection": false,
+    "subtitle": false,
+    "table": false,
+    "textarea": false,
+    "title": false,
+    "todo": false,
+    "vimeo": false,
+    "warning": false,
+    "widget": false,
+    "youtube": false
+  },
+
+  "attributes": {
+    "AccessKey(String)": false,
+    "AutoCapitalize(AutoCapitalizeAttrOption)": false,
+    "AutoFocus()": false,
+    "Class(Vec<String>)": false,
+    "ContentEditable(ContentEditableAttrOption)": false,
+    "Data(String, String)": false,
+    "Dir(DirAttrOption)": false,
+    "Draggable(bool)": false,
+    "EnterKeyHint(String)": false,
+    "Hidden(Option<HiddenAttrOption>)": false,
+    "Id(String)": false,
+    "Inert()": false,
+    "InputMode(InputModeAttrOption)": false,
+    "Is(String)": false,
+    "ItemId(String)": false,
+    "ItemProp(String)": false,
+    "ItemRef(String)": false,
+    "ItemScope(String)": false,
+    "ItemType(String)": false,
+    "Lang(String)": false,
+    "Nonce(String)": false,
+    "Part(Vec<String>)": false,
+    "Popover(PopoverAttrOption)": false,
+    "PopoverTarget(String)": false,
+    "Spellcheck(bool)": false,
+    "Style(Vec<(String, String)>)": false,
+    "TabIndex(i32)": false,
+    "Title(String)": false,
+    "Translate(TranslateAttrOption)": false,
+    "VirtualKeyboardPolicy(VirtualKeyboardPolicyAttrOption)": false,
+    "// these are specific": false,
+    "Accept()": false,
+    "AutoComplete()": false,
+    "Capture()": false,
+    "CrossOrigin()": false,
+    "Disabled()": false,
+    "ElementTiming()": false,
+    "For()": false,
+    "Max()": false,
+    "MaxLength()": false,
+    "Min()": false,
+    "MinLength()": false,
+    "Multiple()": false,
+    "Pattern()": false,
+    "ReadOnly()": false,
+    "Rel()": false,
+    "Required()": false,
+    "Size()": false,
+    "Step()": false
+  },
+
+  "neo_sections": [
+
+    {
+      "name": "Aside: Just Text",
+      "notes": [],
+      "parts": {
+        "input": "-- aside\n\nalfa bravo\n\ncharlie\ndelta",
+        "expected": [
+          {
+            "type": "aside",
+            "attributes": null,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "alfa bravo"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "charlie delta"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     },
 
-    "neo_sections": [
-      {
-        "solo": true,
-        "name": "Aside: Just Text",
-        "notes": [],
-        "parts": {
-          "input": "-- aside_new_version\n\nalfa bravo\n\ncharlie\ndelta",
-          "expected": [
-            {
-              "type": "aside",
-              "attributes": null,
-              "blocks": [
-                {
-                  "type": "paragraph",
-                  "snippets": [
-                    {
-                      "type": "text",
-                      "text": "alfa bravo"
-                    }
-                  ]
-                },
-                {
-                  "type": "paragraph",
-                  "snippets": [
-                    {
-                      "type": "text",
-                      "text": "charlie delta"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+
+    {
+      "name": "Aside: AccessKey Attribute",
+      "notes": [],
+      "parts": {
+        "input": "-- aside\n-- accesskey: s\n\ndelta foxtrot",
+        "expected": [
+          {
+            "type": "aside",
+            "attributes": [
+              {
+                "type": "accesskey",
+                "content": "s"
+              }
+            ],
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "delta foxtrot"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
-    ]
-  }
-  
+    }
+
+
+
+
+
+
+
+
+
+
+  ]
+}
