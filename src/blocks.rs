@@ -1,4 +1,5 @@
 use crate::snippets::Snippet;
+pub mod paragraph;
 
 use serde::{Deserialize, Serialize};
 

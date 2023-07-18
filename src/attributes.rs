@@ -1,6 +1,25 @@
 use serde::{Deserialize, Serialize};
 pub mod accesskey;
 use crate::attributes::accesskey::accesskey;
+use nom::multi::many0;
+use nom::IResult;
+use nom::branch::alt;
+
+
+
+pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
+    let (source, attributes) = many0(alt((accesskey, accesskey)))(source)?;
+    if attributes.len() == 0 {
+        Ok((source, None))
+    } else {
+        Ok((source, Some(attributes)))
+    }
+}
+
+// pub fn attribute(source: &str) -> IResult<&str, Attribute> {
+//     let (source, attr) = accesskey(source)?;
+//     Ok((source, attr))
+// }
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
