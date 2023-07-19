@@ -26,12 +26,6 @@
     "p": false,
     "ref": false,
     "results": false,
-    "startarticle": false,
-    "startcode": false,
-    "startdiv": false,
-    "starthtml": false,
-    "startneoexample": false,
-    "startsection": false,
     "subtitle": false,
     "table": false,
     "textarea": false,
@@ -46,6 +40,9 @@
     "dlist": false,
     "ext": false,
     "include": false,
+
+
+    
     "object": false,
     "script": true,
     "html": true,
@@ -66,6 +63,12 @@
     "head": true,
     "endhtml": true,
     "endneoexample": true,
+    "startarticle": true,
+    "startcode": true,
+    "startdiv": true,
+    "starthtml": true,
+    "startneoexample": true,
+    "startsection": true,
     "endsection": true
   },
 
