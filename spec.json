@@ -4,8 +4,7 @@
   },
 
   "sections_covered_in_tests": {
-    "article": false,
-    "aside": false,
+    "aside": true,
     "attributes": false,
     "audio": false,
     "blockquote": false,
@@ -70,7 +69,7 @@
   "attributes_completed": {
     "AccessKey(String)": true,
     "AutoCapitalize(AutoCapitalizeAttrOption)": true,
-    "AutoFocus()": false,
+    "AutoFocus()": true,
     "Class(Vec<String>)": false,
     "ContentEditable(ContentEditableAttrOption)": false,
     "Data(String, String)": false,
@@ -233,6 +232,31 @@
                 "type": "autofocus"
               }
             ],
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "delta foxtrot"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Blockquote: Basic",
+      "notes": ["add cite autor and source assuming you decide to do those"],
+      "parts": {
+        "input": "-- blockquote\n\ndelta foxtrot",
+        "expected": [
+          {
+            "type": "blockquote",
+            "attributes": null,
             "blocks": [
               {
                 "type": "paragraph",

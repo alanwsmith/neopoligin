@@ -2,17 +2,23 @@ use serde::{Deserialize, Serialize};
 use nom::branch::alt;
 use nom::IResult;
 use nom::multi::many0;
+pub mod aside;
 use crate::neo_sections::aside::aside;
+pub mod blockquote;
+use crate::neo_sections::blockquote::blockquote;
 use crate::attributes::Attribute;
 use crate::blocks::Block;
 
-pub mod aside;
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum NeoSection {
     Aside{
+        attributes: Option<Vec<Attribute>>,
+        blocks: Option<Vec<Block>>
+    },
+    Blockquote {
         attributes: Option<Vec<Attribute>>,
         blocks: Option<Vec<Block>>
     },
@@ -29,7 +35,7 @@ pub fn neo_sections(source: &str) -> IResult<&str, Vec<NeoSection>> {
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
     let (source, results) = 
         alt((
-            aside, aside
+            aside, blockquote
         ))
     (source)?;
     Ok((source, results))
