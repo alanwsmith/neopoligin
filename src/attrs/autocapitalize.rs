@@ -1,5 +1,5 @@
-use crate::attributes::Attribute;
-use crate::attributes::AutoCapitalizeValue;
+use crate::attrs::Attribute;
+use crate::attrs::AutoCapitalizeValue;
 use nom::bytes::complete::tag;
 use nom::character::complete::line_ending;
 use nom::character::complete::not_line_ending;

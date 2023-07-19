@@ -1,15 +1,15 @@
 {
   "notes": {
-    "notes":["all the attributes will be tested under aside since it's the first secition in the tests"]
+    "notes":["all the attrs will be tested under aside since it's the first secition in the tests"]
   },
 
   "sections_covered_in_tests": {
     "aside": true,
-    "attributes": false,
+    "attributes": true,
     "audio": false,
-    "blockquote": false,
+    "blockquote": true,
     "blurb": false,
-    "canvas": false,
+    "canvas": true,
     "categories": false,
     "checklist": false,
     "code": false,
@@ -66,7 +66,7 @@
     "youtube": false
   },
 
-  "attributes_completed": {
+  "attrs_completed": {
     "AccessKey(String)": true,
     "AutoCapitalize(AutoCapitalizeAttrOption)": true,
     "AutoFocus()": true,
@@ -129,7 +129,7 @@
         "expected": [
           {
             "type": "aside",
-            "attributes": null,
+            "attrs": null,
             "blocks": [
               {
                 "type": "paragraph",
@@ -164,7 +164,7 @@
         "expected": [
           {
             "type": "aside",
-            "attributes": [
+            "attrs": [
               {
                 "type": "accesskey",
                 "content": "s"
@@ -195,7 +195,7 @@
         "expected": [
           {
             "type": "aside",
-            "attributes": [
+            "attrs": [
               {
                 "type": "autocapitalize",
                 "content": { "type": "words"}
@@ -227,7 +227,7 @@
         "expected": [
           {
             "type": "aside",
-            "attributes": [
+            "attrs": [
               {
                 "type": "autofocus"
               }
@@ -249,6 +249,26 @@
     },
 
     {
+      "name": "Attributes: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- attributes\n-- date: 2023-07-08 18:23:44\n-- id: zxcv1234\n-- site: aws\n-- type: post\n-- status: published\n",
+        "expected": [
+          {
+            "type": "attributes",
+            "attrs": [
+              { "type": "generic", "content": ["date", "2023-07-08 18:23:44"]},
+              { "type": "generic", "content": ["id", "zxcv1234"]},
+              { "type": "generic", "content": ["site", "aws"]},
+              { "type": "generic", "content": ["type", "post"]},
+              { "type": "generic", "content": ["status", "published"]}
+            ]
+          }
+        ]
+      }
+    },
+
+    {
       "name": "Blockquote: Basic",
       "notes": ["add cite autor and source assuming you decide to do those"],
       "parts": {
@@ -256,7 +276,7 @@
         "expected": [
           {
             "type": "blockquote",
-            "attributes": null,
+            "attrs": null,
             "blocks": [
               {
                 "type": "paragraph",
@@ -271,12 +291,25 @@
           }
         ]
       }
+    },
+
+
+    {
+      "name": "Canvas: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- canvas\n-- width: 100\n-- height: 200\n",
+        "expected": [
+          {
+            "type": "canvas",
+            "attrs": [
+              { "type": "width", "content": 100 },
+              { "type": "height", "content": 200 }
+            ]
+          }
+        ]
+      }
     }
-
-
-
-
-
 
   ]
 }

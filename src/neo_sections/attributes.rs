@@ -10,20 +10,18 @@ use nom::multi::many_till;
 use nom::sequence::tuple;
 use nom::IResult;
 
-pub fn aside(source: &str) -> IResult<&str, NeoSection> {
+pub fn attributes(source: &str) -> IResult<&str, NeoSection> {
     let (source, _) = tuple((
         multispace0,
-        tag_no_case("-- aside"),
+        tag_no_case("-- attributes"),
         not_line_ending,
         newline,
     ))(source)?;
     let (source, attrs) = attrs(source)?;
-    let (source, paragraphs) = many_till(paragraph, eof)(source)?;
-    Ok((
+   Ok((
         source,
-        NeoSection::Aside {
+        NeoSection::Attributes {
             attrs,
-            blocks: Some(paragraphs.0),
         },
     ))
 }

@@ -1,4 +1,4 @@
-use crate::attributes::attributes;
+use crate::attrs::attrs;
 use crate::blocks::paragraph::paragraph;
 use crate::neo_sections::NeoSection;
 use nom::bytes::complete::tag_no_case;
@@ -17,12 +17,12 @@ pub fn blockquote(source: &str) -> IResult<&str, NeoSection> {
         not_line_ending,
         newline,
     ))(source)?;
-    let (source, attributes) = attributes(source)?;
+    let (source, attrs) = attrs(source)?;
     let (source, paragraphs) = many_till(paragraph, eof)(source)?;
     Ok((
         source,
         NeoSection::Blockquote {
-            attributes,
+            attrs,
             blocks: Some(paragraphs.0),
         },
     ))
