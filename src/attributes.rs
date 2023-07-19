@@ -1,14 +1,16 @@
 use serde::{Deserialize, Serialize};
 pub mod accesskey;
 use crate::attributes::accesskey::accesskey;
+pub mod autocapitalize;
+use crate::attributes::autocapitalize::autocapitalize;
+pub mod autofocus;
+use crate::attributes::autofocus::autofocus;
 use nom::multi::many0;
 use nom::IResult;
 use nom::branch::alt;
 
-
-
 pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
-    let (source, attributes) = many0(alt((accesskey, accesskey)))(source)?;
+    let (source, attributes) = many0(alt((accesskey, autocapitalize, autofocus)))(source)?;
     if attributes.len() == 0 {
         Ok((source, None))
     } else {
@@ -16,19 +18,13 @@ pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     }
 }
 
-// pub fn attribute(source: &str) -> IResult<&str, Attribute> {
-//     let (source, attr) = accesskey(source)?;
-//     Ok((source, attr))
-// }
-
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", content = "content", rename_all = "lowercase")]
 pub enum Attribute {
     // these are global
     AccessKey(String),
-    AutoCapitalize(AutoCapitalizeAttrOption),
-    AutoFocus(),
+    AutoCapitalize(AutoCapitalizeValue),
+    AutoFocus,
     Class(Vec<String>),
     ContentEditable(ContentEditableAttrOption),
     Data(String, String),
@@ -82,13 +78,13 @@ pub enum Attribute {
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", content = "content", rename_all = "lowercase")]
-pub enum AutoCapitalizeAttrOption {
-    Off(),
-    None(),
-    On(),
-    Sentences(),
-    Words(),
-    Characters(),
+pub enum AutoCapitalizeValue {
+    Off,
+    None,
+    On,
+    Sentences,
+    Words,
+    Characters,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

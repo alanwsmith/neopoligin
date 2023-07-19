@@ -1,5 +1,10 @@
 {
+  "notes": {
+    "notes":["all the attributes will be tested under aside since it's the first secition in the tests"]
+  },
+
   "sections_covered_in_tests": {
+    "article": false,
     "aside": false,
     "attributes": false,
     "audio": false,
@@ -62,9 +67,9 @@
     "youtube": false
   },
 
-  "attributes": {
-    "AccessKey(String)": false,
-    "AutoCapitalize(AutoCapitalizeAttrOption)": false,
+  "attributes_completed": {
+    "AccessKey(String)": true,
+    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
     "AutoFocus()": false,
     "Class(Vec<String>)": false,
     "ContentEditable(ContentEditableAttrOption)": false,
@@ -115,6 +120,7 @@
   },
 
   "neo_sections": [
+
 
     {
       "name": "Aside: Just Text",
@@ -179,11 +185,69 @@
           }
         ]
       }
+    },
+
+
+    {
+      "name": "Aside: AutoCapitalization Attribute",
+      "notes": [],
+      "parts": {
+        "input": "-- aside\n-- autocapitalize: words\n\ndelta foxtrot",
+        "expected": [
+          {
+            "type": "aside",
+            "attributes": [
+              {
+                "type": "autocapitalize",
+                "content": { "type": "words"}
+              }
+            ],
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "delta foxtrot"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
+
+    {
+      "name": "Aside: AutoFocus Attribute",
+      "notes": [],
+      "parts": {
+        "input": "-- aside\n-- autofocus\n\ndelta foxtrot",
+        "expected": [
+          {
+            "type": "aside",
+            "attributes": [
+              {
+                "type": "autofocus"
+              }
+            ],
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "delta foxtrot"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
-
-
-
-
 
 
 
