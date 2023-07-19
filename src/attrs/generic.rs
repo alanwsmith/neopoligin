@@ -18,7 +18,6 @@ pub fn generic(source: &str) -> IResult<&str, Attribute> {
             not_line_ending
         )
     )(source)?;
-    dbg!(&attr);
     let (source, _) = pair(space0, line_ending)(source)?;
     Ok((source, Attribute::Generic(attr.0.to_string(), attr.1.to_string())))
 }

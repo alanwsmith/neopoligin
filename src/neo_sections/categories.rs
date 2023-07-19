@@ -13,7 +13,6 @@ use nom::Parser;
 
 
 pub fn categories(source: &str) -> IResult<&str, NeoSection> {
-    dbg!(&source);
     let (source, _) = tuple((
         multispace0,
         tag_no_case("-- categories"),

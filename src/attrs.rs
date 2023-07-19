@@ -20,7 +20,6 @@ use nom::IResult;
 use nom::branch::alt;
 
 pub fn attrs(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
-    dbg!(&source);
     let (source, attributes) = many0(
         alt((
             alt((accesskey, autocapitalize, autofocus, controls, height, src, width)),

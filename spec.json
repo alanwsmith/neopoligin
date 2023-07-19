@@ -449,6 +449,51 @@
           }
         ]
       }
+    },
+
+    {
+      "solo": true,
+      "name": "Checklist: Multiple Paragraphs In Item",
+      "notes": [],
+      "parts": {
+        "input": "-- checklist\n\n[] delta foxtrot\n\nsierra bravo\n",
+        "expected": [
+          {
+            "type": "checklist",
+            "attrs": null,
+            "blocks": null,
+            "items": [
+              {
+                "type": "checklistitem",
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [
+                      {
+                        "type": "text",
+                        "text": "delta foxtrot"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "snippets": [
+                      {
+                        "type": "text",
+                        "text": "sierra bravo"
+                      }
+                    ]
+                  }
+
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
+
+
+
   ]
 }
