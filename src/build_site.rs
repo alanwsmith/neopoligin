@@ -14,7 +14,7 @@ use std::vec;
 use walkdir::WalkDir;
 
 pub fn build_site() {
-    println!("Building the site");
+    dbg!("Building Site");
     let template_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
@@ -104,8 +104,6 @@ pub fn build_site() {
     });
 
     println!("Process complete");
-
-    //
 }
 
 fn insert_hash(conn: &Connection, hash: &str) -> Result<()> {

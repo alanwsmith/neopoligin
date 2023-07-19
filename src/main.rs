@@ -1,3 +1,5 @@
+use neopolengine::build_site::build_site;
+
 fn main() {
-    dbg!("asdf");
+    build_site();
 }
