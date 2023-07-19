@@ -1,6 +1,8 @@
 {
   "notes": {
-    "notes":["all the attrs will be tested under aside since it's the first secition in the tests"]
+    "notes": [
+      "all the attrs will be tested under aside since it's the first secition in the tests"
+    ]
   },
 
   "sections_covered_in_tests": {
@@ -8,9 +10,9 @@
     "attributes": true,
     "audio": true,
     "blockquote": true,
-    "blurb": false,
+    "blurb": true,
     "canvas": true,
-    "categories": false,
+    "categories": true,
     "checklist": false,
     "code": false,
     "config": false,
@@ -119,8 +121,6 @@
   },
 
   "neo_sections": [
-
-
     {
       "name": "Aside: Just Text",
       "notes": [],
@@ -155,7 +155,6 @@
       }
     },
 
-
     {
       "name": "Aside: AccessKey Attribute",
       "notes": [],
@@ -186,7 +185,6 @@
       }
     },
 
-
     {
       "name": "Aside: AutoCapitalization Attribute",
       "notes": [],
@@ -198,7 +196,7 @@
             "attrs": [
               {
                 "type": "autocapitalize",
-                "content": { "type": "words"}
+                "content": { "type": "words" }
               }
             ],
             "blocks": [
@@ -217,8 +215,6 @@
       }
     },
 
-
-
     {
       "name": "Aside: AutoFocus Attribute",
       "notes": [],
@@ -227,9 +223,7 @@
         "expected": [
           {
             "type": "aside",
-            "attrs": [
-              { "type": "autofocus" }
-            ],
+            "attrs": [{ "type": "autofocus" }],
             "blocks": [
               {
                 "type": "paragraph",
@@ -255,11 +249,11 @@
           {
             "type": "attributes",
             "attrs": [
-              { "type": "generic", "content": ["date", "2023-07-08 18:23:44"]},
-              { "type": "generic", "content": ["id", "zxcv1234"]},
-              { "type": "generic", "content": ["site", "aws"]},
-              { "type": "generic", "content": ["type", "post"]},
-              { "type": "generic", "content": ["status", "published"]}
+              { "type": "generic", "content": ["date", "2023-07-08 18:23:44"] },
+              { "type": "generic", "content": ["id", "zxcv1234"] },
+              { "type": "generic", "content": ["site", "aws"] },
+              { "type": "generic", "content": ["type", "post"] },
+              { "type": "generic", "content": ["status", "published"] }
             ]
           }
         ]
@@ -297,7 +291,6 @@
       }
     },
 
-
     {
       "name": "Blockquote: Basic",
       "notes": ["add cite autor and source assuming you decide to do those"],
@@ -322,7 +315,6 @@
         ]
       }
     },
-
 
     {
       "name": "Blurb: Basic",
@@ -349,7 +341,6 @@
       }
     },
 
-
     {
       "name": "Canvas: Basic",
       "notes": [],
@@ -365,7 +356,52 @@
           }
         ]
       }
-    }
+    },
 
+    {
+      "name": "Categories: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- categories\n-- Sierra\n-- Charlie\n",
+        "expected": [
+          {
+            "type": "categories",
+            "list": ["Sierra", "Charlie"]
+          }
+        ]
+      }
+    },
+
+    {
+      "solo": true,
+      "name": "Checklist: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- checklist\n\n[] delta foxtrot\n",
+        "expected": [
+          {
+            "type": "checklist",
+            "attrs": null,
+            "blocks": null,
+            "items": [
+              {
+                "type": "checklistitem",
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [
+                      {
+                        "type": "text",
+                        "text": "delta foxtrot"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
   ]
 }

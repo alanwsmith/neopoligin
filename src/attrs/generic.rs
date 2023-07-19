@@ -2,7 +2,6 @@ use crate::attrs::Attribute;
 use nom::bytes::complete::tag;
 use nom::character::complete::line_ending;
 use nom::character::complete::not_line_ending;
-use nom::sequence::delimited;
 use nom::IResult;
 use nom::character::complete::space1;
 use nom::sequence::pair;

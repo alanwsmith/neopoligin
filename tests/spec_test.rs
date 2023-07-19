@@ -35,11 +35,11 @@ fn solo_test_specs() {
         .neo_sections
         .iter()
         // uncomment to run solo tests only
-        // .filter(|t| match t.solo {
-        //     Some(just_me) if just_me == true => true,
-        //     _ => false,
-        // })
-        // .into_iter()
+        .filter(|t| match t.solo {
+            Some(just_me) if just_me == true => true,
+            _ => false,
+        })
+        .into_iter()
         .for_each(|x| {
             dbg!();
             dbg!(&x.parts.input);
