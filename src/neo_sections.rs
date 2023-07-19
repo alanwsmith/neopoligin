@@ -34,6 +34,18 @@ pub mod endneoexample;
 use crate::neo_sections::endneoexample::endneoexample;
 pub mod endsection;
 use crate::neo_sections::endsection::endsection;
+pub mod h1;
+use crate::neo_sections::h1::h1;
+pub mod h2;
+use crate::neo_sections::h2::h2;
+pub mod h3;
+use crate::neo_sections::h3::h3;
+pub mod h4;
+use crate::neo_sections::h4::h4;
+pub mod h5;
+use crate::neo_sections::h5::h5;
+pub mod h6;
+use crate::neo_sections::h6::h6;
 pub mod head;
 use crate::neo_sections::head::head;
 pub mod html;
@@ -107,6 +119,30 @@ pub enum NeoSection {
     Head {
         text: Option<String>,
     },
+    H1 {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    },
+    H2 {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    },
+    H3 {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    },
+    H4 {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    },
+    H5 {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    },
+    H6 {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    },
     HTML {
         text: Option<String>,
     },
@@ -154,6 +190,12 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
             head,
         )),
         alt((
+            h1,
+            h2, 
+            h3,
+            h4,
+            h5, 
+            h6,
             html,
             pre,
             script, 

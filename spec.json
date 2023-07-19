@@ -616,6 +616,134 @@
       }
     },
 
+
+    {
+      "name": "H1: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- h1\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "h1",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "H2: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- h2\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "h2",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "H3: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- h3\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "h3",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "H4: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- h4\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "h4",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    },
+
+
+
+    {
+      "name": "H5: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- h5\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "h5",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    },
+
+
+
+    {
+      "name": "H6: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- h6\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "h6",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    },
+
+
     {
       "solo": true,
       "name": "Head: Basic",
