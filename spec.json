@@ -228,9 +228,7 @@
           {
             "type": "aside",
             "attrs": [
-              {
-                "type": "autofocus"
-              }
+              { "type": "autofocus" }
             ],
             "blocks": [
               {
@@ -267,6 +265,38 @@
         ]
       }
     },
+
+    {
+      "name": "Audio: Basic",
+      "notes": [
+        "The idea is the content in the body will be put into a figure/figcaption with the player",
+        "TODO: Add the rest of teh attributes from here explicity (they'll work as generics in the mean time) https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio"
+      ],
+      "parts": {
+        "input": "-- audio\n-- controls\n-- src: /some/file.mp3\n\ndelta foxtrot",
+        "expected": [
+          {
+            "type": "audio",
+            "attrs": [
+              { "type": "controls" },
+              { "type": "src", "content": "/some/file.mp3" }
+            ],
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "delta foxtrot"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
 
     {
       "name": "Blockquote: Basic",

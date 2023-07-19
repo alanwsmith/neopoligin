@@ -5,10 +5,14 @@ pub mod autocapitalize;
 use crate::attrs::autocapitalize::autocapitalize;
 pub mod autofocus;
 use crate::attrs::autofocus::autofocus;
+pub mod controls;
+use crate::attrs::controls::controls;
 pub mod generic;
 use crate::attrs::generic::generic;
 pub mod height;
 use crate::attrs::height::height;
+pub mod src;
+use crate::attrs::src::src;
 pub mod width;
 use crate::attrs::width::width;
 use nom::multi::many0;
@@ -19,7 +23,7 @@ pub fn attrs(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     dbg!(&source);
     let (source, attributes) = many0(
         alt((
-            alt((accesskey, autocapitalize, autofocus, height, width)),
+            alt((accesskey, autocapitalize, autofocus, controls, height, src, width)),
             generic
         ))
     )(source)?;
@@ -39,6 +43,7 @@ pub enum Attribute {
     AutoFocus,
     // Class(Vec<String>),
     // ContentEditable(ContentEditableAttrOption),
+    Controls,
     // Data(String, String),
     // Dir(DirAttrOption),
     // Draggable(bool),
@@ -60,6 +65,7 @@ pub enum Attribute {
     // Popover(PopoverAttrOption),
     // PopoverTarget(String),
     // Spellcheck(bool),
+    Src(String),
     // Style(Vec<(String, String)>),
     // TabIndex(i32), // can be negative
     // Title(String),
