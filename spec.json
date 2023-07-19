@@ -6,26 +6,58 @@
   },
 
   "sections_covered_in_tests": {
-
+    "aside": false,
+    "attributes": false,
+    "audio": false,
+    "blockquote": false,
+    "blurb": false,
+    "canvas": false,
+    "categories": false,
+    "checklist": false,
+    "code": false,
+    "config": false,
+    "css": false,
+    "data": false,
+    "details": false,
+    "dlist": false,
+    "endarticle": false,
+    "endcode": false,
+    "enddiv": false,
+    "endhtml": false,
+    "endneoexample": false,
+    "endsection": false,
+    "ext": false,
     "h1": false,
     "h2": false,
     "h3": false,
     "h4": false,
     "h5": false,
     "h6": false,
+    "head": false,
     "hidden": false,
     "hr": false,
+    "html": false,
     "image": false,
     "images": false,
+    "include": false,    
     "list": false,
     "menu": false,
     "nav": false,
     "note": false,
     "notes": false,
+    "object": false,
     "olist": false,
     "p": false,
+    "pre": false,
     "ref": false,
     "results": false,
+    "script": false,
+    "startarticle": false,
+    "startcode": false,
+    "startdiv": false,
+    "starthtml": false,
+    "startneoexample": false,
+    "startsection": false,
     "subtitle": false,
     "table": false,
     "textarea": false,
@@ -34,42 +66,7 @@
     "vimeo": false,
     "warning": false,
     "widget": false,
-    "youtube": false,
-    "config": false,
-    "details": false,
-    "dlist": false,
-    "ext": false,
-    "include": false,
-
-
-    
-    "object": false,
-    "script": true,
-    "html": true,
-    "pre": true,
-    "aside": true,
-    "attributes": true,
-    "audio": true,
-    "blockquote": true,
-    "blurb": true,
-    "canvas": true,
-    "categories": true,
-    "checklist": true,
-    "code": true,
-    "css": true,
-    "endarticle": true,
-    "endcode": true,
-    "enddiv": true,
-    "head": true,
-    "endhtml": true,
-    "endneoexample": true,
-    "startarticle": true,
-    "startcode": true,
-    "startdiv": true,
-    "starthtml": true,
-    "startneoexample": true,
-    "startsection": true,
-    "endsection": true
+    "youtube": false
   },
 
   "attrs_completed": {
@@ -528,6 +525,12 @@
     }, 
 
 
+
+
+
+
+
+
     {
       "name": "End Article",
       "notes": [],
@@ -745,7 +748,6 @@
 
 
     {
-      "solo": true,
       "name": "Head: Basic",
       "notes": [],
       "parts": {
@@ -761,7 +763,6 @@
 
 
     {
-      "solo": true,
       "name": "HTML: Basic",
       "notes": [],
       "parts": {
@@ -778,7 +779,6 @@
 
 
     {
-      "solo": true,
       "name": "Start Article: Basic",
       "notes": [],
       "parts": {
@@ -795,7 +795,6 @@
 
 
     {
-      "solo": true,
       "name": "Start Code: Basic",
       "notes": [],
       "parts": {
@@ -812,7 +811,6 @@
 
 
     {
-      "solo": true,
       "name": "Start Div: Basic",
       "notes": [],
       "parts": {
@@ -830,7 +828,6 @@
 
 
     {
-      "solo": true,
       "name": "Start HTML: Basic",
       "notes": [],
       "parts": {
@@ -847,7 +844,6 @@
 
 
     {
-      "solo": true,
       "name": "Start Neo Examples: Basic",
       "notes": [],
       "parts": {
@@ -863,7 +859,6 @@
 
 
     {
-      "solo": true,
       "name": "Start Section: Basic",
       "notes": [],
       "parts": {
@@ -874,7 +869,615 @@
           }
         ]
       }
+    },
+
+
+
+    {
+      "name": "object: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- object\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: object"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "data: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- data\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: data"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "hidden: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- hidden\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: hidden"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "hr: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- hr\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: hr"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "image: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- image\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: image"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "images: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- images\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: images"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "list: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- list\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: list"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "menu: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- menu\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: menu"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "nav: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- nav\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: nav"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "note: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- note\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: note"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "notes: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- notes\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: notes"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "olist: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- olist\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: olist"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "p: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- p\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: p"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "ref: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- ref\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: ref"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "results: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- results\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: results"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "subtitle: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- subtitle\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: subtitle"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "table: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- table\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: table"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "textarea: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: textarea"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "title: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- title\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: title"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "todo: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- todo\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: todo"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "vimeo: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- vimeo\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: vimeo"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "warning: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- warning\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: warning"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "widget: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- widget\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: widget"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "youtube: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- youtube\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: youtube"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "config: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- config\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: config"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "details: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- details\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: details"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "dlist: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- dlist\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: dlist"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "ext: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- ext\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: ext"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "include: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- include\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: include"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "object: TODO",
+      "notes": [],
+      "parts": {
+        "input": "-- object\n-- accesskey: h\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "placeholder",
+            "attrs": [
+              {
+                "type": "accesskey",
+                "content": "h"
+              }
+            ],
+            "text": "TODO: Complete section: object"
+          }
+        ]
+      }
     }
+
+
+
+
+
+
 
   ]
 }

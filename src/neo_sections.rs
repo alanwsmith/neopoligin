@@ -70,6 +70,96 @@ use crate::attrs::Attribute;
 use crate::blocks::Block;
 use crate::containers::Container;
 
+pub mod data;
+use crate::neo_sections::data::data;
+
+pub mod hidden;
+use crate::neo_sections::hidden::hidden;
+
+pub mod hr;
+use crate::neo_sections::hr::hr;
+
+pub mod image;
+use crate::neo_sections::image::image;
+
+pub mod images;
+use crate::neo_sections::images::images;
+
+pub mod list;
+use crate::neo_sections::list::list;
+
+pub mod menu;
+use crate::neo_sections::menu::menu;
+
+pub mod nav;
+use crate::neo_sections::nav::nav;
+
+pub mod note;
+use crate::neo_sections::note::note;
+
+pub mod notes;
+use crate::neo_sections::notes::notes;
+
+pub mod olist;
+use crate::neo_sections::olist::olist;
+
+pub mod p;
+use crate::neo_sections::p::p;
+
+pub mod reference;
+use crate::neo_sections::reference::reference;
+
+pub mod results;
+use crate::neo_sections::results::results;
+
+pub mod subtitle;
+use crate::neo_sections::subtitle::subtitle;
+
+pub mod table;
+use crate::neo_sections::table::table;
+
+pub mod textarea;
+use crate::neo_sections::textarea::textarea;
+
+pub mod title;
+use crate::neo_sections::title::title;
+
+pub mod todo;
+use crate::neo_sections::todo::todo;
+
+pub mod vimeo;
+use crate::neo_sections::vimeo::vimeo;
+
+pub mod warning;
+use crate::neo_sections::warning::warning;
+
+pub mod widget;
+use crate::neo_sections::widget::widget;
+
+pub mod youtube;
+use crate::neo_sections::youtube::youtube;
+
+pub mod config;
+use crate::neo_sections::config::config;
+
+pub mod details;
+use crate::neo_sections::details::details;
+
+pub mod dlist;
+use crate::neo_sections::dlist::dlist;
+
+pub mod ext;
+use crate::neo_sections::ext::ext;
+
+pub mod include;
+use crate::neo_sections::include::include;
+
+pub mod object;
+use crate::neo_sections::object::object;
+
+
+
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum NeoSection {
@@ -159,6 +249,10 @@ pub enum NeoSection {
     StartNeoExample,
     StartSection,
     None,
+    Placeholder {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>,
+    }
 }
 
 // this is split out from neo_section to enable
@@ -190,6 +284,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
             head,
         )),
         alt((
+            data, 
             h1,
             h2, 
             h3,
@@ -205,6 +300,44 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
             starthtml,
             startneoexample,
             startsection,
+        )), 
+        alt((
+            data, 
+hidden, 
+hr, 
+images, 
+image, 
+list, 
+menu, 
+nav, 
+reference,
+
+        )), 
+
+        alt((
+
+
+notes, 
+note, 
+olist, 
+p, 
+results, 
+subtitle, 
+table, 
+textarea, 
+title, 
+todo, 
+vimeo, 
+warning, 
+widget, 
+youtube, 
+config, 
+details, 
+dlist, 
+ext, 
+include, 
+object, 
+
         ))
     ))(source)?;
     Ok((source, results))
