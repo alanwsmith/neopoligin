@@ -1,7 +1,7 @@
 {
   "notes": {
     "notes": [
-      "all the attrs will be tested under aside since it's the first secition in the tests"
+      "all the attrs will be tested under aside since it's the first section in the tests"
     ]
   },
 
@@ -13,7 +13,7 @@
     "blurb": true,
     "canvas": true,
     "categories": true,
-    "checklist": false,
+    "checklist": true,
     "code": false,
     "config": false,
     "css": false,
@@ -373,7 +373,6 @@
     },
 
     {
-      "solo": false,
       "name": "Checklist: Basic",
       "notes": [],
       "parts": {
@@ -405,7 +404,6 @@
     },
 
     {
-      "solo": true,
       "name": "Checklist: Multiple Items",
       "notes": [],
       "parts": {
@@ -452,7 +450,6 @@
     },
 
     {
-      "solo": true,
       "name": "Checklist: Multiple Paragraphs In Item",
       "notes": [],
       "parts": {
@@ -488,6 +485,23 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    },
+
+
+    {
+      "solo": true,
+      "name": "Code: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": null,
+            "text": "delta foxtrot"
           }
         ]
       }

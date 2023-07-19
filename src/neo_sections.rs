@@ -18,6 +18,8 @@ pub mod categories;
 use crate::neo_sections::categories::categories;
 pub mod checklist;
 use crate::neo_sections::checklist::checklist;
+pub mod code;
+use crate::neo_sections::code::code;
 use crate::attrs::Attribute;
 use crate::blocks::Block;
 use crate::containers::Container;
@@ -55,6 +57,10 @@ pub enum NeoSection {
         blocks: Option<Vec<Block>>,
         items: Option<Vec<Container>>
     },
+    Code {
+        attrs: Option<Vec<Attribute>>,
+        text: Option<String>
+    },
     None
 }
 
@@ -69,7 +75,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
     let (source, results) = 
         alt((
             aside, attributes, audio, blockquote, blurb, canvas, categories, 
-            checklist
+            checklist, code
         ))
     (source)?;
     Ok((source, results))
