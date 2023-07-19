@@ -1,7 +1,9 @@
-use serde::{Deserialize, Serialize};
+use std::thread::available_parallelism;
+
 use nom::branch::alt;
-use nom::IResult;
 use nom::multi::many0;
+use nom::IResult;
+use serde::{Deserialize, Serialize};
 pub mod aside;
 use crate::neo_sections::aside::aside;
 pub mod attributes;
@@ -34,6 +36,14 @@ pub mod endneoexample;
 use crate::neo_sections::endneoexample::endneoexample;
 pub mod endsection;
 use crate::neo_sections::endsection::endsection;
+pub mod head;
+use crate::neo_sections::head::head;
+pub mod html;
+use crate::neo_sections::html::html;
+pub mod pre;
+use crate::neo_sections::pre::pre;
+pub mod script;
+use crate::neo_sections::script::script;
 use crate::attrs::Attribute;
 use crate::blocks::Block;
 use crate::containers::Container;
@@ -43,40 +53,40 @@ use crate::containers::Container;
 pub enum NeoSection {
     Aside {
         attrs: Option<Vec<Attribute>>,
-        blocks: Option<Vec<Block>>
+        blocks: Option<Vec<Block>>,
     },
     Attributes {
         attrs: Option<Vec<Attribute>>,
     },
     Audio {
         attrs: Option<Vec<Attribute>>,
-        blocks: Option<Vec<Block>>
+        blocks: Option<Vec<Block>>,
     },
     Blockquote {
         attrs: Option<Vec<Attribute>>,
-        blocks: Option<Vec<Block>>
+        blocks: Option<Vec<Block>>,
     },
     Blurb {
         attrs: Option<Vec<Attribute>>,
-        blocks: Option<Vec<Block>>
+        blocks: Option<Vec<Block>>,
     },
     Canvas {
-        attrs: Option<Vec<Attribute>>
+        attrs: Option<Vec<Attribute>>,
     },
     Categories {
-        list: Vec<String>
+        list: Vec<String>,
     },
-    Checklist { 
+    Checklist {
         attrs: Option<Vec<Attribute>>,
         blocks: Option<Vec<Block>>,
-        items: Option<Vec<Container>>
+        items: Option<Vec<Container>>,
     },
     Code {
         attrs: Option<Vec<Attribute>>,
-        text: Option<String>
+        text: Option<String>,
     },
     CSS {
-        text: Option<String>
+        text: Option<String>,
     },
     EndArticle,
     EndCode,
@@ -84,7 +94,19 @@ pub enum NeoSection {
     EndHTML,
     EndNeoExample,
     EndSection,
-    None
+    Head {
+        text: Option<String>,
+    },
+    HTML {
+        text: Option<String>,
+    },
+    Pre {
+        text: Option<String>,
+    },
+    Script {
+        text: Option<String>,
+    },
+    None,
 }
 
 // this is split out from neo_section to enable
@@ -95,12 +117,33 @@ pub fn neo_sections(source: &str) -> IResult<&str, Vec<NeoSection>> {
 }
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
-    let (source, results) = 
+    let (source, results) = alt((
         alt((
-            aside, attributes, audio, blockquote, blurb, canvas, categories, 
-            checklist, code, css, endarticle, endcode, enddiv, endhtml, endneoexample,
-            endsection
+            aside,
+            attributes,
+            audio,
+            blockquote,
+            blurb,
+            canvas,
+            categories,
+            checklist,
+            code,
+            css,
+            endarticle,
+            endcode,
+            enddiv,
+            endhtml,
+            endneoexample,
+            endsection,
+            head,
+        )),
+        alt((
+
+            html,
+            pre,
+            script, 
+
         ))
-    (source)?;
+    ))(source)?;
     Ok((source, results))
 }

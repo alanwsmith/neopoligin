@@ -6,32 +6,15 @@
   },
 
   "sections_covered_in_tests": {
-    "aside": true,
-    "attributes": true,
-    "audio": true,
-    "blockquote": true,
-    "blurb": true,
-    "canvas": true,
-    "categories": true,
-    "checklist": true,
-    "code": true,
-    "css": true,
-    "endarticle": true,
-    "endcode": true,
-    "enddiv": true,
-    "endhtml": true,
-    "endneoexample": true,
-    "endsection": true,
+
     "h1": false,
     "h2": false,
     "h3": false,
     "h4": false,
     "h5": false,
     "h6": false,
-    "head": false,
     "hidden": false,
     "hr": false,
-    "html": false,
     "image": false,
     "images": false,
     "list": false,
@@ -41,10 +24,8 @@
     "notes": false,
     "olist": false,
     "p": false,
-    "pre": false,
     "ref": false,
     "results": false,
-    "script": false,
     "startarticle": false,
     "startcode": false,
     "startdiv": false,
@@ -65,13 +46,30 @@
     "dlist": false,
     "ext": false,
     "include": false,
-    "object": false
+    "object": false,
+    "script": true,
+    "html": true,
+    "pre": true,
+    "aside": true,
+    "attributes": true,
+    "audio": true,
+    "blockquote": true,
+    "blurb": true,
+    "canvas": true,
+    "categories": true,
+    "checklist": true,
+    "code": true,
+    "css": true,
+    "endarticle": true,
+    "endcode": true,
+    "enddiv": true,
+    "head": true,
+    "endhtml": true,
+    "endneoexample": true,
+    "endsection": true
   },
 
   "attrs_completed": {
-    "AccessKey(String)": true,
-    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
-    "AutoFocus()": true,
     "Class(Vec<String>)": false,
     "ContentEditable(ContentEditableAttrOption)": false,
     "Data(String, String)": false,
@@ -117,7 +115,10 @@
     "Rel()": false,
     "Required()": false,
     "Size()": false,
-    "Step()": false
+    "Step()": false,
+    "AccessKey(String)": true,
+    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
+    "AutoFocus()": true
   },
 
   "neo_sections": [
@@ -617,7 +618,40 @@
           }
         ]
       }
+    },
+
+    {
+      "solo": true,
+      "name": "Head: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- head\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "head",
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    }, 
+
+
+    {
+      "solo": true,
+      "name": "HTML: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- html\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "html",
+            "text": "delta foxtrot"
+          }
+        ]
+      }
     }
+
+
 
 
   ]

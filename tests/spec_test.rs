@@ -47,7 +47,7 @@ fn solo_test_specs() {
             ()
         });
 
-    // This does anything that's not ignored
+    // This skips anything that's not ignored
     test_data
         .neo_sections
         .iter()
