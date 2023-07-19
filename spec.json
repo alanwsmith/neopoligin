@@ -539,8 +539,6 @@
     },
 
 
-
-
     {
       "name": "End Code",
       "notes": [],
@@ -553,7 +551,6 @@
         ]
       }
     },
-
 
 
 
@@ -572,7 +569,6 @@
 
 
 
-
     {
       "name": "End HTML",
       "notes": [],
@@ -585,7 +581,6 @@
         ]
       }
     },
-
 
 
 
@@ -603,8 +598,6 @@
         ]
       }
     },
-
-
 
 
     {
@@ -649,10 +642,108 @@
           }
         ]
       }
+    },
+
+
+
+    {
+      "solo": true,
+      "name": "Start Article: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- startarticle\n",
+        "expected": [
+          {
+            "type": "startarticle"
+          }
+        ]
+      }
+    }, 
+
+
+
+
+    {
+      "solo": true,
+      "name": "Start Code: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- startcode\n",
+        "expected": [
+          {
+            "type": "startcode"
+          }
+        ]
+      }
+    }, 
+
+
+
+
+    {
+      "solo": true,
+      "name": "Start Div: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- startdiv\n",
+        "expected": [
+          {
+            "type": "startdiv"
+          }
+        ]
+      }
+    }, 
+
+
+
+
+
+    {
+      "solo": true,
+      "name": "Start HTML: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- starthtml\n",
+        "expected": [
+          {
+            "type": "starthtml"
+          }
+        ]
+      }
+    }, 
+
+
+
+
+    {
+      "solo": true,
+      "name": "Start Neo Examples: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- startneoexample\n",
+        "expected": [
+          {
+            "type": "startneoexample"
+          }
+        ]
+      }
+    }, 
+
+
+
+    {
+      "solo": true,
+      "name": "Start Section: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- startsection\n",
+        "expected": [
+          {
+            "type": "startsection"
+          }
+        ]
+      }
     }
-
-
-
 
   ]
 }

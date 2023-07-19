@@ -1,5 +1,3 @@
-use std::thread::available_parallelism;
-
 use nom::branch::alt;
 use nom::multi::many0;
 use nom::IResult;
@@ -44,6 +42,18 @@ pub mod pre;
 use crate::neo_sections::pre::pre;
 pub mod script;
 use crate::neo_sections::script::script;
+pub mod startarticle;
+use crate::neo_sections::startarticle::startarticle;
+pub mod startcode;
+use crate::neo_sections::startcode::startcode;
+pub mod startdiv;
+use crate::neo_sections::startdiv::startdiv;
+pub mod starthtml;
+use crate::neo_sections::starthtml::starthtml;
+pub mod startneoexample;
+use crate::neo_sections::startneoexample::startneoexample;
+pub mod startsection;
+use crate::neo_sections::startsection::startsection;
 use crate::attrs::Attribute;
 use crate::blocks::Block;
 use crate::containers::Container;
@@ -106,6 +116,12 @@ pub enum NeoSection {
     Script {
         text: Option<String>,
     },
+    StartArticle,
+    StartCode,
+    StartDiv,
+    StartHTML,
+    StartNeoExample,
+    StartSection,
     None,
 }
 
@@ -138,11 +154,15 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
             head,
         )),
         alt((
-
             html,
             pre,
             script, 
-
+            startarticle,
+            startcode,
+            startdiv,
+            starthtml,
+            startneoexample,
+            startsection,
         ))
     ))(source)?;
     Ok((source, results))
