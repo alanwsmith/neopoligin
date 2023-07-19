@@ -8,21 +8,20 @@ use nom::character::complete::multispace0;
 use nom::combinator::rest;
 use nom::sequence::terminated;
 use nom::IResult;
+use nom::sequence::preceded;
 use regex::Regex;
 
 pub fn checklistitem(source: &str) -> IResult<&str, Container> {
     let (source, _) = multispace0(source)?;
-    let (source, captured) = tag("[] ")(source)?;
-
-    let (source, captured) = alt((terminated(take_until("\n\n"), tag("\n\n")), rest))(source)?;
-    let re = Regex::new(r"\n").unwrap();
-    let output = re.replace_all(&captured, " ").to_string();
-    dbg!(&output);
+    let (source, captured) = preceded(tag("[] "), alt((terminated(take_until("\n\n"), tag("\n\n")), rest)))(source)?;
+    // let re = Regex::new(r"\n").unwrap();
+    // let output = re.replace_all(&captured, " ").to_string();
+    // dbg!(&output);
     Ok((
         source,
         Container::ChecklistItem {
             blocks: Some(vec![Block::Paragraph {
-                snippets: vec![Snippet::Text { text: output.trim().to_string() }],
+                snippets: vec![Snippet::Text { text: captured.trim().to_string() }],
             }])
         },
     ))
