@@ -20,12 +20,12 @@ pub fn h6(source: &str) -> IResult<&str, NeoSection> {
         newline,
     ))(source)?;
     let (source, attrs) = attrs(source)?;
-    let (source, text) = opt(alt((take_until("\n-- "), rest)).map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, _) = opt(alt((take_until("\n-- "), rest)).map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
         NeoSection::H6 {
             attrs,
-            text,
+            text: Some("TODO: Complete the H6 Section".to_string())
         },
     ))
 }
