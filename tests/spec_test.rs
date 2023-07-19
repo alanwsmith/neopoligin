@@ -47,21 +47,21 @@ fn solo_test_specs() {
             ()
         });
 
-    // // This does anything that's not ignored
-    // test_data
-    //     .neo_sections
-    //     .iter()
-    //     .filter(|t| match t.ignore {
-    //         Some(skip_me) if skip_me == true => false,
-    //         _ => true,
-    //     })
-    //     .into_iter()
-    //     .for_each(|x| {
-    //         dbg!(&x.parts.input);
-    //         let results = neo_sections(&x.parts.input).unwrap().1;
-    //         assert_eq!(x.parts.expected, results);
-    //         ()
-    //     });
+    // This does anything that's not ignored
+    test_data
+        .neo_sections
+        .iter()
+        .filter(|t| match t.ignore {
+            Some(skip_me) if skip_me == true => false,
+            _ => true,
+        })
+        .into_iter()
+        .for_each(|x| {
+            dbg!(&x.parts.input);
+            let results = neo_sections(&x.parts.input).unwrap().1;
+            assert_eq!(x.parts.expected, results);
+            ()
+        });
 
     // // These are the old tests that should be
     // // removed once the sections_v2 stuff is onlin

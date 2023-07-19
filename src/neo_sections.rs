@@ -20,6 +20,20 @@ pub mod checklist;
 use crate::neo_sections::checklist::checklist;
 pub mod code;
 use crate::neo_sections::code::code;
+pub mod css;
+use crate::neo_sections::css::css;
+pub mod endarticle;
+use crate::neo_sections::endarticle::endarticle;
+pub mod endcode;
+use crate::neo_sections::endcode::endcode;
+pub mod enddiv;
+use crate::neo_sections::enddiv::enddiv;
+pub mod endhtml;
+use crate::neo_sections::endhtml::endhtml;
+pub mod endneoexample;
+use crate::neo_sections::endneoexample::endneoexample;
+pub mod endsection;
+use crate::neo_sections::endsection::endsection;
 use crate::attrs::Attribute;
 use crate::blocks::Block;
 use crate::containers::Container;
@@ -61,6 +75,15 @@ pub enum NeoSection {
         attrs: Option<Vec<Attribute>>,
         text: Option<String>
     },
+    CSS {
+        text: Option<String>
+    },
+    EndArticle,
+    EndCode,
+    EndDiv,
+    EndHTML,
+    EndNeoExample,
+    EndSection,
     None
 }
 
@@ -75,7 +98,8 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
     let (source, results) = 
         alt((
             aside, attributes, audio, blockquote, blurb, canvas, categories, 
-            checklist, code
+            checklist, code, css, endarticle, endcode, enddiv, endhtml, endneoexample,
+            endsection
         ))
     (source)?;
     Ok((source, results))

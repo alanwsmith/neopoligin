@@ -14,18 +14,14 @@
     "canvas": true,
     "categories": true,
     "checklist": true,
-    "code": false,
-    "config": false,
-    "css": false,
-    "details": false,
-    "dlist": false,
-    "endarticle": false,
-    "endcode": false,
-    "enddiv": false,
-    "endhtml": false,
-    "endneoexample": false,
-    "endsection": false,
-    "ext": false,
+    "code": true,
+    "css": true,
+    "endarticle": true,
+    "endcode": true,
+    "enddiv": true,
+    "endhtml": true,
+    "endneoexample": true,
+    "endsection": true,
     "h1": false,
     "h2": false,
     "h3": false,
@@ -38,13 +34,11 @@
     "html": false,
     "image": false,
     "images": false,
-    "include": false,
     "list": false,
     "menu": false,
     "nav": false,
     "note": false,
     "notes": false,
-    "object": false,
     "olist": false,
     "p": false,
     "pre": false,
@@ -65,7 +59,13 @@
     "vimeo": false,
     "warning": false,
     "widget": false,
-    "youtube": false
+    "youtube": false,
+    "config": false,
+    "details": false,
+    "dlist": false,
+    "ext": false,
+    "include": false,
+    "object": false
   },
 
   "attrs_completed": {
@@ -505,8 +505,119 @@
           }
         ]
       }
-    }
+    },
 
+
+    {
+      "solo": true,
+      "name": "CSS: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- css\n\ndelta foxtrot\n",
+        "expected": [
+          {
+            "type": "css",
+            "text": "delta foxtrot"
+          }
+        ]
+      }
+    }, 
+
+
+    {
+      "name": "End Article",
+      "notes": [],
+      "parts": {
+        "input": "-- endarticle\n",
+        "expected": [
+          {
+            "type": "endarticle"
+          }
+        ]
+      }
+    },
+
+
+
+
+    {
+      "name": "End Code",
+      "notes": [],
+      "parts": {
+        "input": "-- endcode\n",
+        "expected": [
+          {
+            "type": "endcode"
+          }
+        ]
+      }
+    },
+
+
+
+
+    {
+      "name": "End Div",
+      "notes": [],
+      "parts": {
+        "input": "-- enddiv\n",
+        "expected": [
+          {
+            "type": "enddiv"
+          }
+        ]
+      }
+    },
+
+
+
+
+    {
+      "name": "End HTML",
+      "notes": [],
+      "parts": {
+        "input": "-- endhtml\n",
+        "expected": [
+          {
+            "type": "endhtml"
+          }
+        ]
+      }
+    },
+
+
+
+
+    {
+      "name": "End NeoExample",
+      "notes": ["This does not need to be part of the spec. it's custom for the neopolitan site",
+    "That said, custom elements are allow so this could serve as an example."
+  ],
+      "parts": {
+        "input": "-- endneoexample\n",
+        "expected": [
+          {
+            "type": "endneoexample"
+          }
+        ]
+      }
+    },
+
+
+
+
+    {
+      "name": "End Section",
+      "notes": [],
+      "parts": {
+        "input": "-- endsection\n",
+        "expected": [
+          {
+            "type": "endsection"
+          }
+        ]
+      }
+    }
 
 
   ]
