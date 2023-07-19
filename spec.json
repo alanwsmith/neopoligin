@@ -6,7 +6,7 @@
   "sections_covered_in_tests": {
     "aside": true,
     "attributes": true,
-    "audio": false,
+    "audio": true,
     "blockquote": true,
     "blurb": false,
     "canvas": true,
@@ -306,6 +306,32 @@
         "expected": [
           {
             "type": "blockquote",
+            "attrs": null,
+            "blocks": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "delta foxtrot"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "Blurb: Basic",
+      "notes": [],
+      "parts": {
+        "input": "-- blurb\n\ndelta foxtrot",
+        "expected": [
+          {
+            "type": "blurb",
             "attrs": null,
             "blocks": [
               {

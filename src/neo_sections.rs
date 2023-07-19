@@ -10,6 +10,8 @@ pub mod audio;
 use crate::neo_sections::audio::audio;
 pub mod blockquote;
 use crate::neo_sections::blockquote::blockquote;
+pub mod blurb;
+use crate::neo_sections::blurb::blurb;
 pub mod canvas;
 use crate::neo_sections::canvas::canvas;
 use crate::attrs::Attribute;
@@ -33,6 +35,10 @@ pub enum NeoSection {
         attrs: Option<Vec<Attribute>>,
         blocks: Option<Vec<Block>>
     },
+    Blurb {
+        attrs: Option<Vec<Attribute>>,
+        blocks: Option<Vec<Block>>
+    },
     Canvas {
         attrs: Option<Vec<Attribute>>
     },
@@ -49,7 +55,7 @@ pub fn neo_sections(source: &str) -> IResult<&str, Vec<NeoSection>> {
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection> {
     let (source, results) = 
         alt((
-            aside, attributes, audio, blockquote, canvas
+            aside, attributes, audio, blockquote, blurb, canvas
         ))
     (source)?;
     Ok((source, results))
