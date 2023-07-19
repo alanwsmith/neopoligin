@@ -23,13 +23,13 @@ pub fn checklist(source: &str) -> IResult<&str, NeoSection> {
     let (source, attrs) = attrs(source)?;
     //let (source, paragraphs) = many_till(paragraph, eof)(source)?;
 
-    let (source, items) = many_till(checklistitem, eof)(source)?;
+    let (source, items) = many1(checklistitem)(source)?;
     Ok((
         source,
         NeoSection::Checklist {
             attrs,
             blocks: None,
-            items: Some(items.0),
+            items: Some(items),
         },
     ))
 }

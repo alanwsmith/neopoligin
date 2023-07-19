@@ -12,8 +12,19 @@ use nom::sequence::preceded;
 use regex::Regex;
 
 pub fn checklistitem(source: &str) -> IResult<&str, Container> {
+    dbg!(&source);
     let (source, _) = multispace0(source)?;
-    let (source, captured) = preceded(tag("[] "), alt((terminated(take_until("\n\n"), tag("\n\n")), rest)))(source)?;
+    let (source, _) = tag("[] ")(source)?;
+    let (source, captured) = alt((take_until("\n[]"), rest))(source)?;
+
+
+
+    // let (source, captured) = preceded(
+    //     tag("[] "), 
+    //     alt((
+    //         terminated(take_until("\n\n"), tag("\n\n")), 
+    //         rest))
+    //     )(source)?;
     // let re = Regex::new(r"\n").unwrap();
     // let output = re.replace_all(&captured, " ").to_string();
     // dbg!(&output);
@@ -21,7 +32,7 @@ pub fn checklistitem(source: &str) -> IResult<&str, Container> {
         source,
         Container::ChecklistItem {
             blocks: Some(vec![Block::Paragraph {
-                snippets: vec![Snippet::Text { text: captured.trim().to_string() }],
+                snippets: vec![Snippet::Text { text: captured.trim().to_string()}],
             }])
         },
     ))
