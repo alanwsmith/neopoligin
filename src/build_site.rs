@@ -1,5 +1,9 @@
+#![allow(unused_imports)]
+#![allow(dead_code)]
+#![allow(unused_variables)]
 use crate::file_lists::file_lists;
-use crate::neo_sections::neo_sections;
+// use crate::neo_sections::neo_sections;
+use crate::sections::sections;
 use crate::source_file::title::title;
 use crate::source_file::SourceFile;
 use minijinja::context;
@@ -78,29 +82,29 @@ pub fn build_site() {
                 )
                 .as_str(),
             );
-            let the_content = neo_sections(&source_file.source_data).unwrap().1;
-            let the_date = &source_file
-                .date(&source_file.source_data, "%B %Y")
-                .unwrap()
-                .1;
-            let title_string = title(&source_file.source_data).unwrap().1;
+            // let the_content = neo_sections(&source_file.source_data).unwrap().1;
+            // let the_date = &source_file
+            //     .date(&source_file.source_data, "%B %Y")
+            //     .unwrap()
+            //     .1;
+            // let title_string = title(&source_file.source_data).unwrap().1;
 
-            let output = template
-                .unwrap()
-                .render(context!(
-                    content => the_content,
-                    date => the_date,
-                    title_string => title_string,
-                    file_lists => file_lists
-                ))
-                .unwrap();
-            let mut file_path = site_root_dir.clone();
-            file_path.push(&source_file.source_path);
-            file_path.set_extension("html");
-            let dir_path = file_path.parent().unwrap();
-            fs::create_dir_all(dir_path).unwrap();
-            fs::write(file_path, output).unwrap();
-            insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
+            // let output = template
+            //     .unwrap()
+            //     .render(context!(
+            //         content => the_content,
+            //         date => the_date,
+            //         title_string => title_string,
+            //         file_lists => file_lists
+            //     ))
+            //     .unwrap();
+            // let mut file_path = site_root_dir.clone();
+            // file_path.push(&source_file.source_path);
+            // file_path.set_extension("html");
+            // let dir_path = file_path.parent().unwrap();
+            // fs::create_dir_all(dir_path).unwrap();
+            // fs::write(file_path, output).unwrap();
+            // insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
 
             //
         }
