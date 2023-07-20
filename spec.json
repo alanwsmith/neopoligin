@@ -125,7 +125,7 @@
   "sections": [
 
     {
-      "name": "Attributes Test",
+      "name": "Attribute Test: accesskey",
       "notes": [],
       "parts": {
         "input": "-- p\n-- accesskey: s\n",
@@ -143,6 +143,81 @@
 
 
 
+    {
+      "name": "Attribute Test: autocapitalize",
+      "notes": ["The autocapitalize attribute has a specific set of allowed values.",
+    "Right now the spec doesn't limit that. My current parser just takes whatever the input value is but I could see a case for making it more explicit."],
+      "parts": {
+        "input": "-- p\n-- autocapitalize: words\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": [
+              {"type": "autocapitalize", "value": "words"}
+            ],
+            "content": null
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "Attribute Test: autofocus",
+      "notes": ["autofocus has now value. It either exists in the element or it does not"],
+      "parts": {
+        "input": "-- p\n-- autofocus\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": [
+              {"type": "autofocus"}
+            ],
+            "content": null
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "Attribute Test: class (single)",
+      "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
+      "parts": {
+        "input": "-- p\n-- class: tango\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": [
+              {"type": "class", "value": [
+                "tango"
+              ]}
+            ],
+            "content": null
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "Attribute Test: class (multiple)",
+      "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
+      "parts": {
+        "input": "-- p\n-- class: alfa bravo charlie\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": [
+              {"type": "class", "value": [
+                "alfa", "bravo", "charlie"
+              ]}
+            ],
+            "content": null
+          }
+        ]
+      }
+    },
 
 
     {

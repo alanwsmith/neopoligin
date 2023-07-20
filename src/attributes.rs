@@ -29,7 +29,7 @@ use serde::{Deserialize, Serialize};
 pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     let (source, attributes) = opt(many1(preceded(
         alt((tag("--"), tag("|"))),
-        alt((id, accesskey)),
+        alt((id, accesskey, autocapitalize, autofocus, class)),
     )))(source)?;
     Ok((source, attributes))
 }
@@ -38,6 +38,9 @@ pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Attribute {
     AccessKey { value: String },
+    AutoCapitalize { value: String },
+    AutoFocus,
+    Class { value: Vec<String> },
     Id { value: String },
     None,
 }
@@ -52,6 +55,40 @@ pub fn accesskey(source: &str) -> IResult<&str, Attribute> {
             value: attr.to_string(),
         },
     ))
+}
+
+// autocapitzlize has a specific set of options but the
+// ROI of limiting to them isn't high for phase 1 so
+// just passing in whatever string. Something to look into
+// for a future iteration maybe
+pub fn autocapitalize(source: &str) -> IResult<&str, Attribute> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("autocapitalize: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((
+        source,
+        Attribute::AutoCapitalize {
+            value: attr.to_string(),
+        },
+    ))
+}
+
+pub fn autofocus(source: &str) -> IResult<&str, Attribute> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = tag_no_case("autofocus")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, Attribute::AutoFocus))
+}
+
+pub fn class(source: &str) -> IResult<&str, Attribute> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = tag("class:")(source)?;
+    let (source, value) = many1(preceded(
+        space0,
+        is_not(" |>\n").map(|c: &str| c.to_string()),
+    ))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, Attribute::Class { value }))
 }
 
 pub fn id(source: &str) -> IResult<&str, Attribute> {
