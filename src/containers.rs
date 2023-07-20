@@ -25,26 +25,17 @@ use nom::sequence::tuple;
 use nom::IResult;
 use nom::Parser;
 use serde::{Deserialize, Serialize};
+use crate::attributes::attributes;
+use crate::attributes::Attribute;
+use crate::snippets::Snippet;
+use crate::blocks::Block;
+
+
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
-pub enum Attribute {
-    Id { value: String },
+pub enum Container {
+    ListItem { content: Vec<Block> },
     None,
 }
 
-pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
-    let (source, attributes) = opt(many1(preceded(alt((tag("--"), tag("|"))), id)))(source)?;
-    Ok((source, attributes))
-}
-
-pub fn id(source: &str) -> IResult<&str, Attribute> {
-    let (source, _) = space0(source)?;
-    let (source, attr) = preceded(tag("id: "), is_not("|>\n"))(source)?;
-    Ok((
-        source,
-        Attribute::Id {
-            value: attr.to_string(),
-        },
-    ))
-}

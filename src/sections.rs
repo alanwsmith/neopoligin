@@ -27,8 +27,16 @@ use nom::Parser;
 use serde::{Deserialize, Serialize};
 use crate::attributes::attributes;
 use crate::attributes::Attribute;
+use crate::snippets::Snippet;
+use crate::containers::Container;
+use crate::blocks::Block;
 
 
+
+pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
+    let (source, sections) = many1(preceded(multispace0, alt((aside, list, p, title))))(source)?;
+    Ok((source, sections))
+}
 
 
 pub fn aside(source: &str) -> IResult<&str, Section> {
@@ -68,10 +76,6 @@ pub fn list_item(source: &str) -> IResult<&str, Container> {
     Ok((source, Container::ListItem { content }))
 }
 
-pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
-    let (source, sections) = many1(preceded(multispace0, alt((aside, list, p, title))))(source)?;
-    Ok((source, sections))
-}
 
 pub fn snippet_strong(source: &str) -> IResult<&str, Snippet> {
     let (source, _) = tag_no_case("<<strong|")(source)?;
@@ -170,29 +174,4 @@ pub enum Section {
     },
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Block {
-    Paragraph { snippets: Vec<Snippet> },
-    None,
-}
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Container {
-    ListItem { content: Vec<Block> },
-    None,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Snippet {
-    Text {
-        string: String,
-    },
-    Strong {
-        string: String,
-        attributes: Option<Vec<Attribute>>,
-    },
-    None,
-}
