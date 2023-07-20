@@ -5,241 +5,30 @@
     ]
   },
 
-  "sections_covered_in_tests": {
-    "aside": false,
-    "attributes": false,
-    "audio": false,
-    "blockquote": false,
-    "blurb": false,
-    "canvas": false,
-    "categories": false,
-    "checklist": false,
-    "code": false,
-    "config": false,
-    "css": false,
-    "data": false,
-    "details": false,
-    "dlist": false,
-    "endarticle": false,
-    "endcode": false,
-    "enddiv": false,
-    "endhtml": false,
-    "endneoexample": false,
-    "endsection": false,
-    "ext": false,
-    "h1": false,
-    "h2": false,
-    "h3": false,
-    "h4": false,
-    "h5": false,
-    "h6": false,
-    "head": false,
-    "hidden": false,
-    "hr": false,
-    "html": false,
-    "image": false,
-    "images": false,
-    "include": false,
-    "list": false,
-    "menu": false,
-    "nav": false,
-    "note": false,
-    "notes": false,
-    "object": false,
-    "olist": false,
-    "p": false,
-    "pre": false,
-    "ref": false,
-    "results": false,
-    "script": false,
-    "startarticle": false,
-    "startcode": false,
-    "startdiv": false,
-    "starthtml": false,
-    "startneoexample": false,
-    "startsection": false,
-    "subtitle": false,
-    "table": false,
-    "tabs": false,
-    "textarea": false,
-    "title": false,
-    "todo": false,
-    "vimeo": false,
-    "warning": false,
-    "widget": false,
-    "youtube": false
-  },
-
   "attrs_completed": {
     "AccessKey(String)": true,
-    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
-    "AutoFocus()": true,
-    "Class(Vec<String>)": false,
-    "ContentEditable(ContentEditableAttrOption)": false,
-    "Data(String, String)": false,
-    "Dir(DirAttrOption)": false,
-    "Draggable(bool)": false,
-    "EnterKeyHint(String)": false,
-    "Hidden(Option<HiddenAttrOption>)": false,
-    "Id(String)": false,
-    "Inert()": false,
-    "InputMode(InputModeAttrOption)": false,
-    "Is(String)": false,
-    "ItemId(String)": false,
-    "ItemProp(String)": false,
-    "ItemRef(String)": false,
-    "ItemScope(String)": false,
-    "ItemType(String)": false,
-    "Lang(String)": false,
-    "Nonce(String)": false,
-    "Part(Vec<String>)": false,
-    "Popover(PopoverAttrOption)": false,
-    "PopoverTarget(String)": false,
-    "Spellcheck(bool)": false,
-    "Style(Vec<(String, String)>)": false,
-    "TabIndex(i32)": false,
-    "Title(String)": false,
-    "Translate(TranslateAttrOption)": false,
-    "VirtualKeyboardPolicy(VirtualKeyboardPolicyAttrOption)": false,
-    "// these are specific": false,
-    "Accept()": false,
-    "AutoComplete()": false,
-    "Capture()": false,
-    "CrossOrigin()": false,
-    "Disabled()": false,
-    "ElementTiming()": false,
-    "For()": false,
-    "Max()": false,
-    "MaxLength()": false,
-    "Min()": false,
-    "MinLength()": false,
-    "Multiple()": false,
-    "Pattern()": false,
-    "ReadOnly()": false,
-    "Rel()": false,
-    "Required()": false,
-    "Size()": false,
     "Step()": false
   },
 
+  "sections_covered_in_tests": {
+    "youtube": false
+  },
+
   "sections": [
-
-    {
-      "name": "Attribute Test: accesskey",
-      "notes": [],
-      "parts": {
-        "input": "-- p\n-- accesskey: s\n",
-        "expected": [
-          {
-            "type": "p",
-            "attributes": [
-              {"type": "accesskey", "value": "s"}
-            ],
-            "content": null
-          }
-        ]
-      }
-    },
-
-
-
-    {
-      "name": "Attribute Test: autocapitalize",
-      "notes": ["The autocapitalize attribute has a specific set of allowed values.",
-    "Right now the spec doesn't limit that. My current parser just takes whatever the input value is but I could see a case for making it more explicit."],
-      "parts": {
-        "input": "-- p\n-- autocapitalize: words\n",
-        "expected": [
-          {
-            "type": "p",
-            "attributes": [
-              {"type": "autocapitalize", "value": "words"}
-            ],
-            "content": null
-          }
-        ]
-      }
-    },
-
-
-    {
-      "name": "Attribute Test: autofocus",
-      "notes": ["autofocus has now value. It either exists in the element or it does not"],
-      "parts": {
-        "input": "-- p\n-- autofocus\n",
-        "expected": [
-          {
-            "type": "p",
-            "attributes": [
-              {"type": "autofocus"}
-            ],
-            "content": null
-          }
-        ]
-      }
-    },
-
-
     {
       "name": "Attribute Test: class (single)",
-      "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
+      "notes": [
+        "class is stored as a vec/array/list of string split on spaces in the original string"
+      ],
       "parts": {
-        "input": "-- p\n-- class: tango\n",
+        "input": "-- p\n-- class: tango\n\ncharlie delta",
         "expected": [
           {
             "type": "p",
-            "attributes": [
-              {"type": "class", "value": [
-                "tango"
-              ]}
-            ],
-            "content": null
-          }
-        ]
-      }
-    },
-
-
-    {
-      "name": "Attribute Test: class (multiple)",
-      "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
-      "parts": {
-        "input": "-- p\n-- class: alfa bravo charlie\n",
-        "expected": [
-          {
-            "type": "p",
-            "attributes": [
-              {"type": "class", "value": [
-                "alfa", "bravo", "charlie"
-              ]}
-            ],
-            "content": null
-          }
-        ]
-      }
-    },
-
-
-    {
-      "name": "Aside: Just Text",
-      "notes": [],
-      "parts": {
-        "input": "-- aside\n\nalfa bravo\n\ncharlie delta",
-        "expected": [
-          {
-            "type": "aside",
-            "attributes": null,
+            "attributes": {
+              "class": ["tango"]
+            },
             "content": [
-              {
-                "type": "paragraph",
-                "snippets": [
-                  {
-                    "type": "text",
-                    "string": "alfa bravo"
-                  }
-                ]
-              },
-
               {
                 "type": "paragraph",
                 "snippets": [
@@ -250,97 +39,10 @@
                 ]
               }
             ]
-          }
-        ]
-      }
-    },
 
-
-
-
-
-    {
-      "name": "Title: Just Headline",
-      "notes": [],
-      "parts": {
-        "input": "-- title\n\nalfa bravo",
-        "expected": [
-          {
-            "type": "title",
-            "attributes": null,
-            "content": null,
-            "headline": {
-              "type": "paragraph",
-              "snippets": [
-                {
-                  "type": "text",
-                  "string": "alfa bravo"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-
-
-    {
-      "name": "Title: Headline With Attributes",
-      "notes": [],
-      "parts": {
-        "input": "-- title\n-- id: tango\n\nalfa bravo",
-        "expected": [
-          {
-            "type": "title",
-            "attributes": [
-              {"type": "id", "value": "tango"}
-            ]
-            ,
-            "content": null,
-            "headline": {
-              "type": "paragraph",
-              "snippets": [
-                {
-                  "type": "text",
-                  "string": "alfa bravo"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-
-
-
-
-
-    {
-      "name": "PLACEHOLDER FOR JSON",
-      "notes": [
-        "This is just for dev to avoid having errors with extra/missing commas",
-        "TODO: Remove this when all the initial tests are in place"
-      ],
-      "parts": {
-        "input": "-- title\n\nPlaceholder To Remove",
-        "expected": [
-          {
-            "type": "title",
-            "attributes": null,
-            "content": null,
-            "headline": {
-              "type": "paragraph",
-              "snippets": [
-                {
-                  "type": "text",
-                  "string": "Placeholder To Remove"
-                }
-              ]
-            }
           }
         ]
       }
     }
-
   ]
 }

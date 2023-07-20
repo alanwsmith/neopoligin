@@ -26,21 +26,87 @@ use nom::IResult;
 use nom::Parser;
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct AttributesObj {
+    id: Option<String>,
+    class: Option<Vec<String>>
+}
+
+impl AttributesObj {
+    pub fn new() -> AttributesObj {
+        AttributesObj { id: None, class: None}
+    }
+}
+
+
+
+pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
+    let (source, attributesx) = opt(many1(preceded(
+        alt((tag("--"), tag("|"))),
+        alt((
+            id,
+            accesskey,
+            autocapitalize,
+            autofocus,
+            class,
+            contenteditable,
+        )),
+    )))(source)?;
+
+    let mut attro = AttributesObj::new();
+
+    if let Some(d) = attributesx {
+        d.into_iter().for_each(|item| {
+            match item {
+                Attribute::Class(v) => { attro.class = Some(v); }
+                _ => () 
+            }
+        })
+    } 
+
+    dbg!(&attro);
+
+
+//     
+
+//     attributesx.iter().for_each(|attr| 
+// {
+//         dbg!(attr);
+//         ()}
+//         // match attr {
+//         //     AccessKey => {dbg!(&attr); ()},
+//         //     _ => {}
+//         // }
+//     );
+
+
+    Ok((source, attro))
+}
+
+
 pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     let (source, attributes) = opt(many1(preceded(
         alt((tag("--"), tag("|"))),
-        alt((id, accesskey, autocapitalize, autofocus, class)),
+        alt((
+            id,
+            accesskey,
+            autocapitalize,
+            autofocus,
+            class,
+            contenteditable,
+        )),
     )))(source)?;
     Ok((source, attributes))
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
+#[serde(rename_all = "lowercase")]
 pub enum Attribute {
     AccessKey { value: String },
     AutoCapitalize { value: String },
     AutoFocus,
-    Class { value: Vec<String> },
+    ContentEditable { value: String },
+    Class(Vec<String>),
     Id { value: String },
     None,
 }
@@ -88,7 +154,19 @@ pub fn class(source: &str) -> IResult<&str, Attribute> {
         is_not(" |>\n").map(|c: &str| c.to_string()),
     ))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, Attribute::Class { value }))
+    Ok((source, Attribute::Class(value)))
+}
+
+pub fn contenteditable(source: &str) -> IResult<&str, Attribute> {
+    let (source, _) = space0(source)?;
+    let (source, value) = preceded(tag("contenteditable: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((
+        source,
+        Attribute::ContentEditable {
+            value: value.to_string(),
+        },
+    ))
 }
 
 pub fn id(source: &str) -> IResult<&str, Attribute> {

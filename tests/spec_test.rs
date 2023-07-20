@@ -19,7 +19,7 @@ struct SectionTestCase {
     ignore: Option<bool>,
     solo: Option<bool>,
     name: String,
-    notes: Vec<String>,
+    notes: Option<Vec<String>>,
     parts: TestParts,
 }
 
@@ -35,7 +35,7 @@ fn solo_test_specs() {
 
     // // This runs any soloed tests
     // test_data
-    //     .neo_sections
+    //     .sections
     //     .iter()
     //     .filter(|t| match t.solo {
     //         Some(just_me) if just_me == true => true,

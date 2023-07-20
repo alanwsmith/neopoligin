@@ -1,4 +1,5 @@
 use crate::attributes::attributes;
+use crate::attributes::attributes2;
 use crate::attributes::Attribute;
 use crate::blocks::paragraph;
 use crate::blocks::paragraphs;
@@ -15,6 +16,7 @@ use nom::multi::many1;
 use nom::sequence::preceded;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
+use crate::attributes::AttributesObj;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -29,7 +31,7 @@ pub enum Section {
         preface: Option<Vec<Block>>,
     },
     P {
-        attributes: Option<Vec<Attribute>>,
+        attributes: AttributesObj,
         content: Option<Vec<Block>>,
     },
     Title {
@@ -80,7 +82,7 @@ pub fn p(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- p")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
-    let (source, attributes) = attributes(source)?;
+    let (source, attributes) = attributes2(source)?;
     let (source, content) = paragraphs(source)?;
     Ok((
         source,
@@ -90,6 +92,12 @@ pub fn p(source: &str) -> IResult<&str, Section> {
         },
     ))
 }
+
+
+
+
+
+
 
 pub fn title(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- title")(source)?;
