@@ -27,14 +27,38 @@ use nom::Parser;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "lowercase")]
+pub enum Attribute {
+    AccessKey(String),
+    AutoCapitalize(String),
+    AutoFocus,
+    ContentEditable { value: String },
+    Class(Vec<String>),
+    Id { value: String },
+    None,
+}
+
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct AttributesObj {
+    accesskey: Option<String>,
+    autocapitalize: Option<String>,
+    autofocus: Option<bool>,
+    contenteditable: Option<String>,
+    class: Option<Vec<String>>,
     id: Option<String>,
-    class: Option<Vec<String>>
 }
 
 impl AttributesObj {
     pub fn new() -> AttributesObj {
-        AttributesObj { id: None, class: None}
+        AttributesObj { 
+            accesskey: None, 
+            autocapitalize: None,
+            autofocus: None,
+            contenteditable: None,
+            class: None,
+            id: None, 
+        }
     }
 }
 
@@ -44,12 +68,12 @@ pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
     let (source, attributesx) = opt(many1(preceded(
         alt((tag("--"), tag("|"))),
         alt((
-            id,
             accesskey,
             autocapitalize,
             autofocus,
             class,
             contenteditable,
+            id,
         )),
     )))(source)?;
 
@@ -58,26 +82,13 @@ pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
     if let Some(d) = attributesx {
         d.into_iter().for_each(|item| {
             match item {
+                Attribute::AccessKey(v) => { attro.accesskey = Some(v); }
+                Attribute::AutoCapitalize(v) => { attro.autocapitalize = Some(v); }
                 Attribute::Class(v) => { attro.class = Some(v); }
                 _ => () 
             }
         })
     } 
-
-    dbg!(&attro);
-
-
-//     
-
-//     attributesx.iter().for_each(|attr| 
-// {
-//         dbg!(attr);
-//         ()}
-//         // match attr {
-//         //     AccessKey => {dbg!(&attr); ()},
-//         //     _ => {}
-//         // }
-//     );
 
 
     Ok((source, attro))
@@ -99,17 +110,7 @@ pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     Ok((source, attributes))
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "lowercase")]
-pub enum Attribute {
-    AccessKey { value: String },
-    AutoCapitalize { value: String },
-    AutoFocus,
-    ContentEditable { value: String },
-    Class(Vec<String>),
-    Id { value: String },
-    None,
-}
+
 
 pub fn accesskey(source: &str) -> IResult<&str, Attribute> {
     let (source, _) = space0(source)?;
@@ -117,9 +118,7 @@ pub fn accesskey(source: &str) -> IResult<&str, Attribute> {
     let (source, _) = opt(line_ending)(source)?;
     Ok((
         source,
-        Attribute::AccessKey {
-            value: attr.to_string(),
-        },
+        Attribute::AccessKey (attr.to_string())
     ))
 }
 
@@ -133,9 +132,7 @@ pub fn autocapitalize(source: &str) -> IResult<&str, Attribute> {
     let (source, _) = opt(line_ending)(source)?;
     Ok((
         source,
-        Attribute::AutoCapitalize {
-            value: attr.to_string(),
-        },
+        Attribute::AutoCapitalize (attr.to_string())
     ))
 }
 

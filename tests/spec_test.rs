@@ -25,6 +25,7 @@ struct SectionTestCase {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct TestShell {
+    attributes: Vec<SectionTestCase>,
     sections: Vec<SectionTestCase>,
 }
 
@@ -32,6 +33,14 @@ struct TestShell {
 fn solo_test_specs() {
     let json_text = fs::read_to_string("./spec.json").unwrap();
     let test_data: TestShell = serde_json::from_str(json_text.as_str()).unwrap();
+
+    // This does all the attributes
+    test_data.attributes.iter().into_iter().for_each(|x| {
+        dbg!(&x.parts.input);
+        let results = sections(&x.parts.input).unwrap().1;
+        assert_eq!(x.parts.expected, results);
+        ()
+    });
 
     // // This runs any soloed tests
     // test_data
