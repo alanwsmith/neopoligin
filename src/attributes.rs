@@ -41,6 +41,7 @@ pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
 pub fn id(source: &str) -> IResult<&str, Attribute> {
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("id: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
     Ok((
         source,
         Attribute::Id {
@@ -48,3 +49,4 @@ pub fn id(source: &str) -> IResult<&str, Attribute> {
         },
     ))
 }
+

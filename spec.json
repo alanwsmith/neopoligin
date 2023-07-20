@@ -39,7 +39,7 @@
     "html": false,
     "image": false,
     "images": false,
-    "include": false,    
+    "include": false,
     "list": false,
     "menu": false,
     "nav": false,
@@ -123,6 +123,32 @@
   },
 
   "sections": [
+    {
+      "name": "Smoke Test Alfa",
+      "notes": [
+        "Putting a few things to gether to make sure the full assemble works"
+      ],
+      "parts": {
+        "input": "-- aside\n\nTODO: Do this for real",
+        "expected": [
+          {
+            "type": "aside",
+            "attributes": null,
+            "content": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "string": "TODO: Do this for real"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
 
     {
       "name": "Aside: Just Text",
@@ -135,33 +161,113 @@
             "attributes": null,
             "content": [
               {
-              "type": "paragraph",
-              "snippets": [
-                {
-                  "type": "text", 
-                  "string": "alfa bravo"
-                }
-              ]
-            }, 
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "string": "alfa bravo"
+                  }
+                ]
+              },
 
-            {
-              "type": "paragraph",
-              "snippets": [
-                {
-                  "type": "text", 
-                  "string": "charlie delta"
-                }
-              ]
-            }
-
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "string": "charlie delta"
+                  }
+                ]
+              }
             ]
           }
         ]
       }
+    },
+
+
+    {
+      "name": "Title: Just Headline",
+      "notes": [],
+      "parts": {
+        "input": "-- title\n\nalfa bravo",
+        "expected": [
+          {
+            "type": "title",
+            "attributes": null,
+            "content": null,
+            "headline": {
+              "type": "paragraph",
+              "snippets": [
+                {
+                  "type": "text",
+                  "string": "alfa bravo"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "Title: Headline With Attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- title\n-- id: tango\n\nalfa bravo",
+        "expected": [
+          {
+            "type": "title",
+            "attributes": [
+              {"type": "id", "value": "tango"}
+            ]
+            ,
+            "content": null,
+            "headline": {
+              "type": "paragraph",
+              "snippets": [
+                {
+                  "type": "text",
+                  "string": "alfa bravo"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+
+
+
+
+
+    {
+      "name": "PLACEHOLDER FOR JSON",
+      "notes": [
+        "This is just for dev to avoid having errors with extra/missing commas",
+        "TODO: Remove this when all the initial tests are in place"
+      ],
+      "parts": {
+        "input": "-- title\n\nPlaceholder To Remove",
+        "expected": [
+          {
+            "type": "title",
+            "attributes": null,
+            "content": null,
+            "headline": {
+              "type": "paragraph",
+              "snippets": [
+                {
+                  "type": "text",
+                  "string": "Placeholder To Remove"
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
-
-
-
 
   ]
 }

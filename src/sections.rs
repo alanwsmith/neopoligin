@@ -25,8 +25,8 @@ pub enum Section {
     },
     List {
         attributes: Option<Vec<Attribute>>,
-        preface: Option<Vec<Block>>,
         items: Option<Vec<Container>>,
+        preface: Option<Vec<Block>>,
     },
     P {
         attributes: Option<Vec<Attribute>>,
@@ -34,8 +34,8 @@ pub enum Section {
     },
     Title {
         attributes: Option<Vec<Attribute>>,
-        headline: Option<Block>,
         content: Option<Vec<Block>>,
+        headline: Option<Block>,
     },
 }
 
