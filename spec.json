@@ -71,6 +71,9 @@
   },
 
   "attrs_completed": {
+    "AccessKey(String)": true,
+    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
+    "AutoFocus()": true,
     "Class(Vec<String>)": false,
     "ContentEditable(ContentEditableAttrOption)": false,
     "Data(String, String)": false,
@@ -116,39 +119,31 @@
     "Rel()": false,
     "Required()": false,
     "Size()": false,
-    "Step()": false,
-    "AccessKey(String)": true,
-    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
-    "AutoFocus()": true
+    "Step()": false
   },
 
   "sections": [
+
     {
-      "name": "Smoke Test Alfa",
-      "notes": [
-        "Putting a few things to gether to make sure the full assemble works"
-      ],
+      "name": "Attributes Test",
+      "notes": [],
       "parts": {
-        "input": "-- aside\n\nTODO: Do this for real",
+        "input": "-- p\n-- accesskey: s\n",
         "expected": [
           {
-            "type": "aside",
-            "attributes": null,
-            "content": [
-              {
-                "type": "paragraph",
-                "snippets": [
-                  {
-                    "type": "text",
-                    "string": "TODO: Do this for real"
-                  }
-                ]
-              }
-            ]
+            "type": "p",
+            "attributes": [
+              {"type": "accesskey", "value": "s"}
+            ],
+            "content": null
           }
         ]
       }
     },
+
+
+
+
 
     {
       "name": "Aside: Just Text",
@@ -184,6 +179,9 @@
         ]
       }
     },
+
+
+
 
 
     {

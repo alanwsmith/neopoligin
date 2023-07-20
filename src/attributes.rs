@@ -26,16 +26,32 @@ use nom::IResult;
 use nom::Parser;
 use serde::{Deserialize, Serialize};
 
+pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
+    let (source, attributes) = opt(many1(preceded(
+        alt((tag("--"), tag("|"))),
+        alt((id, accesskey)),
+    )))(source)?;
+    Ok((source, attributes))
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Attribute {
+    AccessKey { value: String },
     Id { value: String },
     None,
 }
 
-pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
-    let (source, attributes) = opt(many1(preceded(alt((tag("--"), tag("|"))), id)))(source)?;
-    Ok((source, attributes))
+pub fn accesskey(source: &str) -> IResult<&str, Attribute> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("accesskey: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((
+        source,
+        Attribute::AccessKey {
+            value: attr.to_string(),
+        },
+    ))
 }
 
 pub fn id(source: &str) -> IResult<&str, Attribute> {
@@ -49,4 +65,3 @@ pub fn id(source: &str) -> IResult<&str, Attribute> {
         },
     ))
 }
-
