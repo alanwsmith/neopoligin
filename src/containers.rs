@@ -29,6 +29,7 @@ use crate::attributes::attributes;
 use crate::attributes::Attribute;
 use crate::snippets::Snippet;
 use crate::blocks::Block;
+use crate::blocks::paragraph;
 
 
 
@@ -39,3 +40,7 @@ pub enum Container {
     None,
 }
 
+pub fn list_item(source: &str) -> IResult<&str, Container> {
+    let (source, content) = many1(preceded(tag("- "), paragraph))(source)?;
+    Ok((source, Container::ListItem { content }))
+}

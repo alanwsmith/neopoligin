@@ -29,7 +29,9 @@ use crate::attributes::attributes;
 use crate::attributes::Attribute;
 use crate::snippets::Snippet;
 use crate::containers::Container;
+use crate::snippets::strong;
 
+use crate::snippets::text;
 
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -37,4 +39,19 @@ use crate::containers::Container;
 pub enum Block {
     Paragraph { snippets: Vec<Snippet> },
     None,
+}
+
+
+pub fn paragraphs(source: &str) -> IResult<&str, Option<Vec<Block>>> {
+    let (source, paragraphs) = opt(many1(preceded(multispace0, paragraph)))(source)?;
+    Ok((source, paragraphs))
+}
+
+pub fn paragraph(source: &str) -> IResult<&str, Block> {
+    let (source, _) = not(tag("--"))(source)?;
+    let (source, snippets) = many1(preceded(
+        opt(line_ending),
+        alt((text, strong)),
+    ))(source)?;
+    Ok((source, Block::Paragraph { snippets }))
 }

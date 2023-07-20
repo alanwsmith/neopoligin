@@ -30,6 +30,36 @@ use crate::attributes::Attribute;
 use crate::snippets::Snippet;
 use crate::containers::Container;
 use crate::blocks::Block;
+use crate::containers::list_item;
+use crate::snippets::strong;
+use crate::snippets::text;
+use crate::blocks::paragraphs;
+use crate::blocks::paragraph;
+
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(tag = "type", rename_all = "lowercase")]
+pub enum Section {
+    Aside {
+        attributes: Option<Vec<Attribute>>,
+        content: Option<Vec<Block>>,
+    },
+    List {
+        attributes: Option<Vec<Attribute>>,
+        preface: Option<Vec<Block>>,
+        items: Option<Vec<Container>>,
+    },
+    P {
+        attributes: Option<Vec<Attribute>>,
+        content: Option<Vec<Block>>,
+    },
+    Title {
+        attributes: Option<Vec<Attribute>>,
+        headline: Option<Block>,
+        content: Option<Vec<Block>>,
+    },
+}
+
 
 
 
@@ -71,37 +101,6 @@ pub fn list(source: &str) -> IResult<&str, Section> {
     ))
 }
 
-pub fn list_item(source: &str) -> IResult<&str, Container> {
-    let (source, content) = many1(preceded(tag("- "), paragraph))(source)?;
-    Ok((source, Container::ListItem { content }))
-}
-
-
-pub fn snippet_strong(source: &str) -> IResult<&str, Snippet> {
-    let (source, _) = tag_no_case("<<strong|")(source)?;
-    let (source, content) = is_not("|>")(source)?;
-    dbg!(&source);
-    let (source, attributes) = attributes(source)?;
-    dbg!(&source);
-    let (source, _) = tag(">>")(source)?;
-    Ok((
-        source,
-        Snippet::Strong {
-            string: content.to_string(),
-            attributes,
-        },
-    ))
-}
-
-pub fn snippet_text(source: &str) -> IResult<&str, Snippet> {
-    let (source, content) = is_not("\n<")(source)?;
-    Ok((
-        source,
-        Snippet::Text {
-            string: content.to_string(),
-        },
-    ))
-}
 
 pub fn p(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- p")(source)?;
@@ -118,19 +117,7 @@ pub fn p(source: &str) -> IResult<&str, Section> {
     ))
 }
 
-pub fn paragraphs(source: &str) -> IResult<&str, Option<Vec<Block>>> {
-    let (source, paragraphs) = opt(many1(preceded(multispace0, paragraph)))(source)?;
-    Ok((source, paragraphs))
-}
 
-pub fn paragraph(source: &str) -> IResult<&str, Block> {
-    let (source, _) = not(tag("--"))(source)?;
-    let (source, snippets) = many1(preceded(
-        opt(line_ending),
-        alt((snippet_text, snippet_strong)),
-    ))(source)?;
-    Ok((source, Block::Paragraph { snippets }))
-}
 
 pub fn title(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- title")(source)?;
@@ -148,30 +135,4 @@ pub fn title(source: &str) -> IResult<&str, Section> {
         },
     ))
 }
-
-
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Section {
-    Aside {
-        attributes: Option<Vec<Attribute>>,
-        content: Option<Vec<Block>>,
-    },
-    List {
-        attributes: Option<Vec<Attribute>>,
-        preface: Option<Vec<Block>>,
-        items: Option<Vec<Container>>,
-    },
-    P {
-        attributes: Option<Vec<Attribute>>,
-        content: Option<Vec<Block>>,
-    },
-    Title {
-        attributes: Option<Vec<Attribute>>,
-        headline: Option<Block>,
-        content: Option<Vec<Block>>,
-    },
-}
-
 
