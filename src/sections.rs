@@ -1,41 +1,20 @@
-#![allow(unused_imports)]
-#![allow(unused_variables)]
-#![allow(dead_code)]
-use nom::branch::alt;
-use nom::bytes::complete::is_not;
-use nom::bytes::complete::tag;
-use nom::bytes::complete::tag_no_case;
-use nom::bytes::complete::take_until;
-use nom::character::complete::line_ending;
-use nom::character::complete::multispace0;
-use nom::character::complete::newline;
-use nom::character::complete::not_line_ending;
-use nom::character::complete::space0;
-use nom::combinator::eof;
-use nom::combinator::not;
-use nom::combinator::opt;
-use nom::combinator::rest;
-use nom::multi::many0;
-use nom::multi::many1;
-use nom::multi::many_till;
-use nom::sequence::delimited;
-use nom::sequence::preceded;
-use nom::sequence::terminated;
-use nom::sequence::tuple;
-use nom::IResult;
-use nom::Parser;
-use serde::{Deserialize, Serialize};
 use crate::attributes::attributes;
 use crate::attributes::Attribute;
-use crate::snippets::Snippet;
-use crate::containers::Container;
+use crate::blocks::paragraph;
+use crate::blocks::paragraphs;
 use crate::blocks::Block;
 use crate::containers::list_item;
-use crate::snippets::strong;
-use crate::snippets::text;
-use crate::blocks::paragraphs;
-use crate::blocks::paragraph;
-
+use crate::containers::Container;
+use nom::branch::alt;
+use nom::bytes::complete::tag_no_case;
+use nom::character::complete::line_ending;
+use nom::character::complete::multispace0;
+use nom::character::complete::space0;
+use nom::combinator::opt;
+use nom::multi::many1;
+use nom::sequence::preceded;
+use nom::IResult;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -60,14 +39,10 @@ pub enum Section {
     },
 }
 
-
-
-
 pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
     let (source, sections) = many1(preceded(multispace0, alt((aside, list, p, title))))(source)?;
     Ok((source, sections))
 }
-
 
 pub fn aside(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- aside")(source)?;
@@ -89,7 +64,7 @@ pub fn list(source: &str) -> IResult<&str, Section> {
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
     let (source, attributes) = attributes(source)?;
-    let preface = None;
+    let preface = None; // TODO
     let (source, items) = opt(many1(preceded(multispace0, list_item)))(source)?;
     Ok((
         source,
@@ -100,7 +75,6 @@ pub fn list(source: &str) -> IResult<&str, Section> {
         },
     ))
 }
-
 
 pub fn p(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- p")(source)?;
@@ -116,8 +90,6 @@ pub fn p(source: &str) -> IResult<&str, Section> {
         },
     ))
 }
-
-
 
 pub fn title(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- title")(source)?;
@@ -135,4 +107,3 @@ pub fn title(source: &str) -> IResult<&str, Section> {
         },
     ))
 }
-
