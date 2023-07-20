@@ -84,6 +84,7 @@ pub fn build_site() {
                 .unwrap()
                 .1;
             let title_string = title(&source_file.source_data).unwrap().1;
+
             let output = template
                 .unwrap()
                 .render(context!(
@@ -100,6 +101,8 @@ pub fn build_site() {
             fs::create_dir_all(dir_path).unwrap();
             fs::write(file_path, output).unwrap();
             insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
+
+            //
         }
     });
 

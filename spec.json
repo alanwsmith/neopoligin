@@ -123,6 +123,7 @@
 
   "neo_sections": [
     {
+      "solo": true, 
       "name": "Aside: Just Text",
       "notes": [],
       "parts": {
@@ -1234,20 +1235,49 @@
     },
 
     {
-      "name": "title: TODO",
+      "name": "title: Basic Just Headline",
       "notes": [],
       "parts": {
-        "input": "-- title\n-- accesskey: h\n\ndelta foxtrot\n",
+        "input": "-- title\n\nalfa bravo",
         "expected": [
           {
-            "type": "placeholder",
-            "attrs": [
-              {
-                "type": "accesskey",
-                "content": "h"
-              }
-            ],
-            "text": "TODO: Complete section: title"
+            "type": "title",
+            "attrs": null,
+            "blocks": null,
+            "headline": {
+              "type": "paragraph",
+              "snippets": [
+                {
+                  "type": "text",
+                  "text": "alfa bravo"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "title: Headline And Paragraphs",
+      "notes": [],
+      "parts": {
+        "input": "-- title\n\nalfa bravo\n\ncharlie delta\n\necho foxtrot",
+        "expected": [
+          {
+            "type": "title",
+            "attrs": null,
+            "blocks":null,
+
+            "headline": {
+              "type": "paragraph",
+              "snippets": [
+                {
+                  "type": "text",
+                  "text": "alfa bravo"
+                }
+              ]
+            }
           }
         ]
       }

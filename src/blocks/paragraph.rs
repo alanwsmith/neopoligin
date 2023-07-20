@@ -10,10 +10,14 @@ use nom::IResult;
 use regex::Regex;
 
 pub fn paragraph(source: &str) -> IResult<&str, Block> {
+    dbg!(&source);
     let (source, _) = multispace0(source)?;
+    dbg!(&source);
     let (source, captured) = alt((terminated(take_until("\n\n"), tag("\n\n")), rest))(source)?;
+    dbg!(&source);
     let re = Regex::new(r"\n").unwrap();
     let output = re.replace_all(&captured.trim(), " ").to_string();
+    dbg!(&output);
     Ok((
         source,
         Block::Paragraph {
