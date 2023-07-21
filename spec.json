@@ -144,7 +144,7 @@
 
   "sections": [
     {
-      "name": "Aside: Just Text",
+      "name": "aside",
       "notes": [],
       "parts": {
         "input": "-- aside\n\nalfa bravo\n\ncharlie delta",
@@ -179,7 +179,7 @@
     },
 
     {
-      "name": "Aside: With Attributes",
+      "name": "aside - with attributes",
       "notes": [],
       "parts": {
         "input": "-- aside\n-- id: echo\n\nalfa bravo\n\ncharlie delta",
@@ -205,6 +205,31 @@
                   {
                     "type": "text",
                     "string": "charlie delta"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "list",
+      "notes": null,
+      "parts": {
+        "input": "-- list\n\n- alfa bravo",
+        "expected": [
+          {
+            "type": "list",
+            "attributes": {},
+            "items": [
+              {
+                "type": "listitem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "alfa bravo" }]
                   }
                 ]
               }
