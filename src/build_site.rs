@@ -2,7 +2,7 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 use crate::file_lists::file_lists;
-use crate::page::page;
+// use crate::page::page;
 use crate::page::Page;
 use crate::sections::sections;
 use crate::source_file::title::title;
@@ -19,7 +19,7 @@ use std::vec;
 use walkdir::WalkDir;
 
 pub fn build_site() {
-    dbg!("Building Site");
+    println!("Starting site build");
     let template_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
@@ -29,18 +29,17 @@ pub fn build_site() {
     env.set_loader(path_loader(template_path.as_str()));
     let mut pages: Vec<Page> = vec![];
 
-    // get hashes to check which files have changed
+    println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
     check_db_structure(&conn);
     let file_hashes = get_file_hashes(&conn).unwrap();
 
-    // loop through the content tree
+    println!("Walking content dir: {}", &content_root.display());
     for entry in WalkDir::new(&content_root).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
-
-        // Load data and do initial parse
         if let Some(ext) = initial_path.extension() {
             if ext == "neo" {
+                // Process neo files
                 let source_string = fs::read_to_string(&initial_path).unwrap();
                 let source_hash = digest(source_string.as_str());
                 if !file_hashes.contains(&source_hash) {
@@ -49,11 +48,11 @@ pub fn build_site() {
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
+                    p.run_parser();
                     pages.push(p);
                 }
-            }
-            // copy non-neo files over directly
-            else {
+            } else {
+                // Move everything else over directly
                 let mut output_path = site_root_root.clone();
                 let file_sub_path = initial_path.strip_prefix(&content_root).unwrap();
                 output_path.push(file_sub_path);
@@ -70,7 +69,9 @@ pub fn build_site() {
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
     pages.iter().take(7).for_each(|page| {
-        println!("Making: {}", page.path.as_ref().unwrap().display());
+        println!("Making: \n{}\n\n", page.path.as_ref().unwrap().display());
+        // println!("type: {}\n", page.r#type.as_ref().unwrap());
+        // dbg!(&page.r#type);
 
         //    let template = env.get_template(
         //        format!(

@@ -1,5 +1,4 @@
 #![allow(unused_imports)]
-use neopolengine::page::page;
 use neopolengine::page::Page;
 use neopolengine::sections::sections;
 use neopolengine::sections::Section;
@@ -38,7 +37,8 @@ fn solo_test_specs() {
     // This does all the sections via pages
     test_data.pages.iter().into_iter().for_each(|x| {
         dbg!(&x.parts.input);
-        let p = Page::new_from(&x.parts.input);
+        let mut p = Page::new_from(&x.parts.input);
+        p.run_parser();
         assert_eq!(x.parts.expected, p);
         ()
     });

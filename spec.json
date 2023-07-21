@@ -11,8 +11,10 @@
       "name": "Smoke Test",
       "notes": null,
       "parts": {
-        "input": "-- p\n\nalfa bravo\n\ncharlie delta",
+        "input": "-- p\n\nalfa bravo\n\ncharlie delta\n\n-- attributes\n-- id: test page",
         "expected": {
+        "source": "-- p\n\nalfa bravo\n\ncharlie delta\n\n-- attributes\n-- id: test page",
+          "id": "test page",
           "sections": [
             {
               "type": "p",
@@ -43,12 +45,14 @@
       }
     },
 
+
     {
       "name": "Load Page Attributes",
       "notes": null,
       "parts": {
         "input": "-- attributes\n-- status: draft\n-- date: DATE_AS_A_STRING\n-- time: TIME_AS_A_STRING\n-- id: wkwkwk123 \n-- type: post\n",
         "expected": {
+        "source": "-- attributes\n-- status: draft\n-- date: DATE_AS_A_STRING\n-- time: TIME_AS_A_STRING\n-- id: wkwkwk123 \n-- type: post\n",
           "date": "DATE_AS_A_STRING",
           "id": "wkwkwk123",
           "status": "draft",
@@ -57,6 +61,7 @@
         }
       }
     }
+
 
   ]
 }

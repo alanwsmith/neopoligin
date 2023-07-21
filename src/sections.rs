@@ -53,7 +53,10 @@ pub enum Section {
 }
 
 pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
-    let (source, sections) = many1(preceded(multispace0, alt((aside, list, p, raw_page_attributes, title))))(source)?;
+    let (source, sections) = many1(preceded(multispace0, alt((
+        aside, list, p, 
+        raw_page_attributes, 
+        title))))(source)?;
     Ok((source, sections))
 }
 
@@ -120,10 +123,11 @@ pub fn raw_page_attributes(source: &str) -> IResult<&str, Section> {
             tag(":"),
             space1,
             not_line_ending, 
-            line_ending
-    )).map(|(_, _, key, _, _, value, _): (&str, &str, &str, &str, &str, &str, &str)| {
+            opt(line_ending)
+    )).map(|(_, _, key, _, _, value, _): (&str, &str, &str, &str, &str, &str, Option<&str>)| {
         (key.to_string(), value.to_string())
-    }))(source)?;    
+    }))(source)?;   
+     dbg!(&page_attrs);
     Ok((
         source,
         Section::RawPageAttributes(page_attrs),
