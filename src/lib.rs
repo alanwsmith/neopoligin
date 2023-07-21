@@ -5,4 +5,4 @@ pub mod containers;
 pub mod file_lists;
 pub mod sections;
 pub mod source_file;
-pub mod snippets;
+pub mod contents;

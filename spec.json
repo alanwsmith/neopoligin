@@ -5,6 +5,98 @@
     ]
   },
 
+  "inline_tags": [
+
+
+    {
+      "name": "link - basic",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n<<link|tango kilo|https://www.example.com/>>\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": {},
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "link",
+                    "url": "https://www.example.com/",
+                    "attributes": {},
+                    "string": "tango kilo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "strong",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n<<strong|alfa bravo>>\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": {},
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "strong",
+                    "attributes": {},
+                    "string": "alfa bravo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "strong with attributes",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n<<strong|kilo sierra|id: echo>>\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": {},
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "strong",
+                    "attributes": {
+                      "id": "echo"
+                    },
+                    "string": "kilo sierra"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+
+
+
+
+  ],
+
   "attributes": [
     {
       "name": "accesskey",
@@ -155,7 +247,7 @@
             "content": [
               {
                 "type": "paragraph",
-                "snippets": [
+                "content": [
                   {
                     "type": "text",
                     "string": "alfa bravo"
@@ -165,7 +257,7 @@
 
               {
                 "type": "paragraph",
-                "snippets": [
+                "content": [
                   {
                     "type": "text",
                     "string": "charlie delta"
@@ -192,7 +284,7 @@
             "content": [
               {
                 "type": "paragraph",
-                "snippets": [
+                "content": [
                   {
                     "type": "text",
                     "string": "alfa bravo"
@@ -201,7 +293,7 @@
               },
               {
                 "type": "paragraph",
-                "snippets": [
+                "content": [
                   {
                     "type": "text",
                     "string": "charlie delta"
@@ -229,7 +321,7 @@
                 "content": [
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "alfa bravo" }]
+                    "content": [{ "type": "text", "string": "alfa bravo" }]
                   }
                 ]
               }
@@ -254,11 +346,11 @@
                 "content": [
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "alfa bravo" }]
+                    "content": [{ "type": "text", "string": "alfa bravo" }]
                   },
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "charlie delta" }]
+                    "content": [{ "type": "text", "string": "charlie delta" }]
                   }
                 ]
               }
@@ -283,11 +375,11 @@
                 "content": [
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "echo foxtrot" }]
+                    "content": [{ "type": "text", "string": "echo foxtrot" }]
                   },
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "delta" }]
+                    "content": [{ "type": "text", "string": "delta" }]
                   }
                 ]
               },
@@ -296,11 +388,11 @@
                 "content": [
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "sierra tango" }]
+                    "content": [{ "type": "text", "string": "sierra tango" }]
                   },
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "bravo" }]
+                    "content": [{ "type": "text", "string": "bravo" }]
                   }
                 ]
               }
@@ -325,7 +417,7 @@
                 "content": [
                   {
                     "type": "paragraph",
-                    "snippets": [{ "type": "text", "string": "papa kilo" }]
+                    "content": [{ "type": "text", "string": "papa kilo" }]
                   }
                 ]
               }
@@ -333,7 +425,7 @@
             "preface": [
               {
                 "type": "paragraph",
-                "snippets": [{ "type": "text", "string": "foxtrot lima" }]
+                "content": [{ "type": "text", "string": "foxtrot lima" }]
               }
             ]
           }
@@ -353,11 +445,11 @@
             "content": [
               {
                 "type": "paragraph",
-                "snippets": [{ "type": "text", "string": "papa kilo foxtrot" }]
+                "content": [{ "type": "text", "string": "papa kilo foxtrot" }]
               },
               {
                 "type": "paragraph",
-                "snippets": [{ "type": "text", "string": "bravo alfa" }]
+                "content": [{ "type": "text", "string": "bravo alfa" }]
               }
             ]
           }
@@ -379,11 +471,11 @@
             "content": [
               {
                 "type": "paragraph",
-                "snippets": [{ "type": "text", "string": "papa kilo foxtrot" }]
+                "content": [{ "type": "text", "string": "papa kilo foxtrot" }]
               },
               {
                 "type": "paragraph",
-                "snippets": [{ "type": "text", "string": "bravo alfa" }]
+                "content": [{ "type": "text", "string": "bravo alfa" }]
               }
             ]
           }
@@ -402,7 +494,7 @@
             "attributes": {},
             "headline": {
               "type": "paragraph",
-              "snippets": [{ "type": "text", "string": "kilo papa hotel" }]
+              "content": [{ "type": "text", "string": "kilo papa hotel" }]
             },
             "content": null
           }
@@ -421,12 +513,12 @@
             "attributes": {},
             "headline": {
               "type": "paragraph",
-              "snippets": [{ "type": "text", "string": "delta sierra foxtrot" }]
+              "content": [{ "type": "text", "string": "delta sierra foxtrot" }]
             },
             "content": [
               {
                 "type": "paragraph",
-                "snippets": [{ "type": "text", "string": "hotel bravo alfa" }]
+                "content": [{ "type": "text", "string": "hotel bravo alfa" }]
               }
             ]
           }
