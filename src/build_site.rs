@@ -45,6 +45,7 @@ pub fn build_site() {
                 if !file_hashes.contains(&source_hash) {
                     let mut p = Page::new_from(&source_string);
                     let mut page_path = PathBuf::from("/");
+                    p.source_hash = Some(source_hash);
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
@@ -67,44 +68,32 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
-    pages.iter().take(7).for_each(|page| {
-        println!("Making: \n{}\n\n", page.path.as_ref().unwrap().display());
-        // println!("type: {}\n", page.r#type.as_ref().unwrap());
-        // dbg!(&page.r#type);
+    pages.iter().for_each(|page| {
+        println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
+        let template_id = match (&page.r#type, &page.template) {
+            (None, None) => "post",
+            _ => "post",
+        };
+        let template = env.get_template(format!("{}/index.html", template_id,).as_str());
+        let output = template
+            .unwrap()
+            .render(context!(
+                page => page
+            ))
+            .unwrap();
+        // The `page.path`` has an absolute path from the site
+        // root. If you try to add that directly on top of the
+        // site_root_root, it replaces it instead.
+        // https://doc.rust-lang.org/stable/std/path/struct.PathBuf.html#method.push
+        let mut file_path = site_root_root.clone();
+        let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
+        file_path.push(relative_site_path);
 
-        //    let template = env.get_template(
-        //        format!(
-        //            "{}/index.html",
-        //            &source_file.template(&source_file.source_data).unwrap().1,
-        //        )
-        //        .as_str(),
-        //    );
-        //    //
-        //    let p = page(&source_file.source_data).unwrap().1;
-        //    let the_date = &source_file
-        //        .date(&source_file.source_data, "%B %Y")
-        //        .unwrap()
-        //        .1;
-        //    let title_string = title(&source_file.source_data).unwrap().1;
-        //    let output = template
-        //        .unwrap()
-        //        .render(context!(
-        //            content => p.sections,
-        //            date => the_date,
-        //            title_string => title_string,
-        //            file_lists => file_lists
-        //        ))
-        //        .unwrap();
-        //    let mut file_path = site_root_dir.clone();
-        //    file_path.push(&source_file.source_path);
-        //    file_path.set_extension("html");
-        //    let dir_path = file_path.parent().unwrap();
-        //    fs::create_dir_all(dir_path).unwrap();
-        //    fs::write(file_path, output).unwrap();
-        //    insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
-        //    //
+        let dir_path = file_path.parent().unwrap();
+        fs::create_dir_all(dir_path).unwrap();
+        fs::write(file_path, output).unwrap();
+        insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
     });
-
     println!("Process complete");
 }
 
