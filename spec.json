@@ -266,6 +266,40 @@
           }
         ]
       }
+    },
+
+    {
+      "name": "list - multiple items",
+      "notes": null,
+      "parts": {
+        "input": "-- list\n\n- echo foxtrot\n\n- sierra tango",
+        "expected": [
+          {
+            "type": "list",
+            "attributes": {},
+            "items": [
+              {
+                "type": "listitem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "echo foxtrot" }]
+                  }
+                ]
+              },
+              {
+                "type": "listitem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "sierra tango" }]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
 
 

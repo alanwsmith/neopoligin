@@ -1,4 +1,4 @@
-use crate::blocks::paragraph;
+use crate::blocks::list_paragraph;
 use crate::blocks::Block;
 use nom::bytes::complete::tag;
 use nom::multi::many1;
@@ -16,7 +16,7 @@ pub enum Container {
 
 pub fn list_item(source: &str) -> IResult<&str, Container> {
     let (source, _) = tag("- ")(source)?;
-    let (source, content) = many1(preceded(multispace0, paragraph))(source)?;
+    let (source, content) = many1(preceded(multispace0, list_paragraph))(source)?;
     Ok((source, Container::ListItem { content }))
 }
 

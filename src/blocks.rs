@@ -25,7 +25,15 @@ pub fn paragraphs(source: &str) -> IResult<&str, Option<Vec<Block>>> {
 }
 
 pub fn paragraph(source: &str) -> IResult<&str, Block> {
+    // seeing a `--` means a new section has started
     let (source, _) = not(tag("--"))(source)?;
+    let (source, snippets) = many1(preceded(opt(line_ending), alt((text, strong))))(source)?;
+    Ok((source, Block::Paragraph { snippets }))
+}
+
+pub fn list_paragraph(source: &str) -> IResult<&str, Block> {
+    // seeing a `-` means a new paragraph has started
+    let (source, _) = not(tag("-"))(source)?;
     let (source, snippets) = many1(preceded(opt(line_ending), alt((text, strong))))(source)?;
     Ok((source, Block::Paragraph { snippets }))
 }
