@@ -10,23 +10,7 @@
 
   
 
-  
-      {
-        "name": "Attribute Test: autofocus",
-        "notes": ["autofocus has now value. It either exists in the element or it does not"],
-        "parts": {
-          "input": "-- p\n-- autofocus\n",
-          "expected": [
-            {
-              "type": "p",
-              "attributes": [
-                {"type": "autofocus"}
-              ],
-              "content": null
-            }
-          ]
-        }
-      },
+
   
   
       {

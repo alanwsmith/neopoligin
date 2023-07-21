@@ -36,7 +36,71 @@
           }
         ]
       }
+    },
+
+
+    {
+      "name": "autofocus",
+      "notes": [
+        "autofocus has no value. It either exists in the element or it does not",
+        "If it exists and it's true the value should be added. Otherwise it should not. TBD on testing more of that"
+      ],
+      "parts": {
+        "input": "-- p\n-- autofocus\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": { "autofocus": true},
+            "content": null
+          }
+        ]
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      "ignore": true,
+      "name": "PLACEHOLDER",
+      "notes": ["This is a stub during dev to help avoid issue with trailing commas in json",
+    "TODO: Remove this once the initial test suite is in place"
+    ],
+      "parts": {
+        "input": "-- p\n-- accesskey: a\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": { "accesskey": "a" },
+            "content": null
+          }
+        ]
+      }
     }
+
+
+
+
+
+
 
 
 
@@ -75,6 +139,19 @@
         ]
       }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
   ],
 
 

@@ -84,12 +84,13 @@ pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
             match item {
                 Attribute::AccessKey(v) => { attro.accesskey = Some(v); }
                 Attribute::AutoCapitalize(v) => { attro.autocapitalize = Some(v); }
+                
+                Attribute::AutoFocus => { attro.autofocus = Some(true); }
                 Attribute::Class(v) => { attro.class = Some(v); }
                 _ => () 
             }
         })
     } 
-
 
     Ok((source, attro))
 }
@@ -122,11 +123,12 @@ pub fn accesskey(source: &str) -> IResult<&str, Attribute> {
     ))
 }
 
-// autocapitzlize has a specific set of options but the
-// ROI of limiting to them isn't high for phase 1 so
-// just passing in whatever string. Something to look into
-// for a future iteration maybe
+
 pub fn autocapitalize(source: &str) -> IResult<&str, Attribute> {
+    // autocapitzlize has a specific set of options but the
+    // ROI of limiting to them isn't high for phase 1 so
+    // just passing in whatever string. Something to look into
+    // for a future iteration maybe
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("autocapitalize: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
