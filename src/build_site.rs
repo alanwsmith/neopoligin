@@ -29,10 +29,12 @@ pub fn build_site() {
     env.set_loader(path_loader(template_path.as_str()));
     let mut pages: Vec<Page> = vec![];
 
+    // get hashes to check which files have changed
     let conn = Connection::open(sqlite_path).unwrap();
     check_db_structure(&conn);
     let file_hashes = get_file_hashes(&conn).unwrap();
 
+    // loop through the content tree
     for entry in WalkDir::new(&content_root).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
 
@@ -45,7 +47,8 @@ pub fn build_site() {
                     let mut p = Page::new_from(&source_string);
                     let mut page_path = PathBuf::from("/");
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
-                    p.path = Some(page_path.with_extension("html").display().to_string());
+                    page_path.set_extension("html");
+                    p.path = Some(page_path);
                     pages.push(p);
                 }
             }
@@ -65,81 +68,43 @@ pub fn build_site() {
         }
     }
 
-    // for entry in WalkDir::new(&content_dir).into_iter() {
-    //     let initial_path = entry.as_ref().unwrap().path().to_path_buf();
-    //     let initial_path2 = entry.unwrap().path().to_path_buf();
-    //     let file_sub_path = initial_path2.strip_prefix(&content_dir).unwrap();
-    //     if let Some(ext) = initial_path.extension() {
-    //         if ext == "neo" {
-    //             let source_string = fs::read_to_string(&initial_path).unwrap();
-    //             let sf = SourceFile {
-    //                 source_hash: digest(source_string.as_str()),
-    //                 source_path: initial_path
-    //                     .clone()
-    //                     .strip_prefix(&content_dir)
-    //                     .unwrap()
-    //                     .to_path_buf(),
-    //                 source_data: source_string,
-    //                 url: format!("/{}", file_sub_path.parent().unwrap().display()),
-    //             };
-    //             source_files.push(sf);
-    //         } else {
-    //             let mut output_path = site_root_dir.clone();
-    //             let file_sub_path = initial_path.strip_prefix(&content_dir).unwrap();
-    //             output_path.push(file_sub_path);
-    //             let parent_dir = output_path.parent().unwrap();
-    //             if initial_path.to_path_buf().is_file() {
-    //                 if !parent_dir.exists() {
-    //                     fs::create_dir_all(parent_dir).unwrap();
-    //                 }
-    //                 fs::copy(initial_path, output_path).unwrap();
-    //             }
-    //         }
-    //     }
-    // }
+    // add or remove `.take(7)`` behind `.iter()`` for testing
+    pages.iter().take(7).for_each(|page| {
+        println!("Making: {}", page.path.as_ref().unwrap().display());
 
-    // let file_lists = file_lists(&source_files);
-
-    //// use .take(2) for testing
-    ////source_files.iter().take(2).for_each(|source_file| {
-    //source_files.iter().for_each(|source_file| {
-    //    if file_hashes.contains(&source_file.source_hash) {
-    //        // println!("No Change- IGNORE\n       {}", &source_file.source_path.display());
-    //    } else {
-    //        println!("MAKING: {}", &source_file.source_path.display());
-    //        let template = env.get_template(
-    //            format!(
-    //                "{}/index.html",
-    //                &source_file.template(&source_file.source_data).unwrap().1,
-    //            )
-    //            .as_str(),
-    //        );
-    //        //
-    //        let p = page(&source_file.source_data).unwrap().1;
-    //        let the_date = &source_file
-    //            .date(&source_file.source_data, "%B %Y")
-    //            .unwrap()
-    //            .1;
-    //        let title_string = title(&source_file.source_data).unwrap().1;
-    //        let output = template
-    //            .unwrap()
-    //            .render(context!(
-    //                content => p.sections,
-    //                date => the_date,
-    //                title_string => title_string,
-    //                file_lists => file_lists
-    //            ))
-    //            .unwrap();
-    //        let mut file_path = site_root_dir.clone();
-    //        file_path.push(&source_file.source_path);
-    //        file_path.set_extension("html");
-    //        let dir_path = file_path.parent().unwrap();
-    //        fs::create_dir_all(dir_path).unwrap();
-    //        fs::write(file_path, output).unwrap();
-    //        insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
-    //        //
-    //    }
-    //});
+        //    println!("MAKING: {}", &source_file.source_path.display());
+        //    let template = env.get_template(
+        //        format!(
+        //            "{}/index.html",
+        //            &source_file.template(&source_file.source_data).unwrap().1,
+        //        )
+        //        .as_str(),
+        //    );
+        //    //
+        //    let p = page(&source_file.source_data).unwrap().1;
+        //    let the_date = &source_file
+        //        .date(&source_file.source_data, "%B %Y")
+        //        .unwrap()
+        //        .1;
+        //    let title_string = title(&source_file.source_data).unwrap().1;
+        //    let output = template
+        //        .unwrap()
+        //        .render(context!(
+        //            content => p.sections,
+        //            date => the_date,
+        //            title_string => title_string,
+        //            file_lists => file_lists
+        //        ))
+        //        .unwrap();
+        //    let mut file_path = site_root_dir.clone();
+        //    file_path.push(&source_file.source_path);
+        //    file_path.set_extension("html");
+        //    let dir_path = file_path.parent().unwrap();
+        //    fs::create_dir_all(dir_path).unwrap();
+        //    fs::write(file_path, output).unwrap();
+        //    insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
+        //    //
+    });
 
     println!("Process complete");
 }

@@ -4,6 +4,7 @@ use crate::sections::Section;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::path::PathBuf;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -14,7 +15,7 @@ pub struct Page {
     pub config: Option<HashMap<String, String>>,
     pub css: Option<Vec<String>>,
     pub head: Option<Vec<String>>,
-    pub path: Option<String>,
+    pub path: Option<PathBuf>,
     pub references: Option<Vec<Reference>>,
     pub scripts: Option<Vec<String>>,
     pub sections: Vec<Section>,
