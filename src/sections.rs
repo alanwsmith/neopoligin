@@ -1,6 +1,4 @@
 use crate::attributes::attributes;
-use crate::attributes::attributes2;
-use crate::attributes::Attribute;
 use crate::blocks::paragraph;
 use crate::blocks::paragraphs;
 use crate::blocks::Block;
@@ -26,7 +24,7 @@ pub enum Section {
         content: Option<Vec<Block>>,
     },
     List {
-        attributes: Option<Vec<Attribute>>,
+        attributes: AttributesObj,
         items: Option<Vec<Container>>,
         preface: Option<Vec<Block>>,
     },
@@ -35,7 +33,7 @@ pub enum Section {
         content: Option<Vec<Block>>,
     },
     Title {
-        attributes: Option<Vec<Attribute>>,
+        attributes: AttributesObj,
         content: Option<Vec<Block>>,
         headline: Option<Block>,
     },
@@ -50,7 +48,7 @@ pub fn aside(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- aside")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
-    let (source, attributes) = attributes2(source)?;
+    let (source, attributes) = attributes(source)?;
     let (source, content) = paragraphs(source)?;
     Ok((
         source,
@@ -82,7 +80,7 @@ pub fn p(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- p")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
-    let (source, attributes) = attributes2(source)?;
+    let (source, attributes) = attributes(source)?;
     let (source, content) = paragraphs(source)?;
     Ok((
         source,
@@ -92,8 +90,6 @@ pub fn p(source: &str) -> IResult<&str, Section> {
         },
     ))
 }
-
-
 
 
 pub fn title(source: &str) -> IResult<&str, Section> {

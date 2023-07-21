@@ -63,9 +63,9 @@ impl AttributesObj {
 }
 
 
-
-pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
-    let (source, attributesx) = opt(many1(preceded(
+pub fn attributes(source: &str) -> IResult<&str, AttributesObj> {
+    let mut attr_obj = AttributesObj::new();
+    let (source, attrs) = opt(many1(preceded(
         alt((tag("--"), tag("|"))),
         alt((
             accesskey,
@@ -77,27 +77,25 @@ pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
         )),
     )))(source)?;
 
-    let mut attro = AttributesObj::new();
-
-    if let Some(d) = attributesx {
+    if let Some(d) = attrs {
         d.into_iter().for_each(|item| {
             match item {
-                Attribute::AccessKey(v) => { attro.accesskey = Some(v); }
-                Attribute::AutoCapitalize(v) => { attro.autocapitalize = Some(v); }
-                Attribute::AutoFocus => { attro.autofocus = Some(true); }
-                Attribute::Class(v) => { attro.class = Some(v); }
-                Attribute::ContentEditable(v) => { attro.contenteditable = Some(v); }
-                Attribute::Id(v) => { attro.id = Some(v); }
+                Attribute::AccessKey(v) => { attr_obj.accesskey = Some(v); }
+                Attribute::AutoCapitalize(v) => { attr_obj.autocapitalize = Some(v); }
+                Attribute::AutoFocus => { attr_obj.autofocus = Some(true); }
+                Attribute::Class(v) => { attr_obj.class = Some(v); }
+                Attribute::ContentEditable(v) => { attr_obj.contenteditable = Some(v); }
+                Attribute::Id(v) => { attr_obj.id = Some(v); }
                 _ => () 
             }
         })
     } 
 
-    Ok((source, attro))
+    Ok((source, attr_obj))
 }
 
 
-pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
+pub fn attributes_old(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     let (source, attributes) = opt(many1(preceded(
         alt((tag("--"), tag("|"))),
         alt((
@@ -111,7 +109,6 @@ pub fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>> {
     )))(source)?;
     Ok((source, attributes))
 }
-
 
 
 pub fn accesskey(source: &str) -> IResult<&str, Attribute> {

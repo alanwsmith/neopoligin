@@ -1,10 +1,10 @@
 use crate::attributes::attributes;
-use crate::attributes::Attribute;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
 use nom::bytes::complete::tag_no_case;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
+use crate::attributes::AttributesObj;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -14,7 +14,7 @@ pub enum Snippet {
     },
     Strong {
         string: String,
-        attributes: Option<Vec<Attribute>>,
+        attributes: AttributesObj,
     },
     None,
 }
