@@ -21,23 +21,23 @@
       }
     },
 
-  
     {
       "name": "autocapitalize",
-      "notes": ["The autocapitalize attribute has a specific set of allowed values.",
-    "Right now the spec doesn't limit that. My current parser just takes whatever the input value is but I could see a case for making it more explicit."],
+      "notes": [
+        "The autocapitalize attribute has a specific set of allowed values.",
+        "Right now the spec doesn't limit that. My current parser just takes whatever the input value is but I could see a case for making it more explicit."
+      ],
       "parts": {
         "input": "-- p\n-- autocapitalize: words\n",
         "expected": [
           {
             "type": "p",
-            "attributes": { "autocapitalize": "words"},
+            "attributes": { "autocapitalize": "words" },
             "content": null
           }
         ]
       }
     },
-
 
     {
       "name": "autofocus",
@@ -50,29 +50,29 @@
         "expected": [
           {
             "type": "p",
-            "attributes": { "autofocus": true},
+            "attributes": { "autofocus": true },
             "content": null
           }
         ]
       }
     },
 
-  
     {
       "name": "class (single)",
-      "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
+      "notes": [
+        "class is stored as a vec/array/list of string split on spaces in the original string"
+      ],
       "parts": {
         "input": "-- p\n-- class: tango\n",
         "expected": [
           {
             "type": "p",
-            "attributes": { "class": ["tango"]},
+            "attributes": { "class": ["tango"] },
             "content": null
           }
         ]
       }
     },
-
 
     {
       "name": "class (multiple)",
@@ -82,15 +82,13 @@
         "expected": [
           {
             "type": "p",
-            "attributes": { "class": ["sierra", "foxtrot", "bravo"]},
+            "attributes": { "class": ["sierra", "foxtrot", "bravo"] },
             "content": null
           }
         ]
       }
     },
 
-
-  
     {
       "name": "contenteditable",
       "notes": [
@@ -102,22 +100,13 @@
         "expected": [
           {
             "type": "p",
-            "attributes": 
-              {"contenteditable": "true"}
-            ,
+            "attributes": { "contenteditable": "true" },
             "content": null
           }
         ]
       }
     },
 
-
-  
-  
-  
-  
-  
-  
     {
       "name": "id",
       "notes": null,
@@ -126,39 +115,20 @@
         "expected": [
           {
             "type": "p",
-            "attributes": 
-              { "id": "sierra tango"}
-            ,
+            "attributes": { "id": "sierra tango" },
             "content": null
           }
         ]
       }
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
       "ignore": true,
       "name": "PLACEHOLDER",
-      "notes": ["This is a stub during dev to help avoid issue with trailing commas in json",
-    "TODO: Remove this once the initial test suite is in place"
-    ],
+      "notes": [
+        "This is a stub during dev to help avoid issue with trailing commas in json",
+        "TODO: Remove this once the initial test suite is in place"
+      ],
       "parts": {
         "input": "-- p\n-- accesskey: a\n",
         "expected": [
@@ -170,23 +140,9 @@
         ]
       }
     }
-
-
-
-
-
-
-
-
-
-
-
   ],
 
-
   "sections": [
-  
-  
     {
       "name": "Aside: Just Text",
       "notes": [],
@@ -222,7 +178,6 @@
       }
     },
 
-
     {
       "name": "Aside: With Attributes",
       "notes": [],
@@ -233,8 +188,7 @@
             "type": "aside",
             "attributes": {
               "id": "echo"
-            }
-            ,
+            },
             "content": [
               {
                 "type": "paragraph",
@@ -259,145 +213,5 @@
         ]
       }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  ],
-
-
-
-  
-  "attrs_completed": {
-    "AccessKey(String)": true,
-    "AutoCapitalize(AutoCapitalizeAttrOption)": true,
-    "AutoFocus()": true,
-    "Class(Vec<String>)": true,
-    "ContentEditable(ContentEditableAttrOption)": true,
-    "Data (aka data-*) - (String, String)": false,
-    "Dir(DirAttrOption)": false,
-    "Draggable(bool)": false,
-    "EnterKeyHint(String)": false,
-    "Hidden(Option<HiddenAttrOption>)": false,
-    "Id(String)": false,
-    "Inert()": false,
-    "InputMode(InputModeAttrOption)": false,
-    "Is(String)": false,
-    "ItemId(String)": false,
-    "ItemProp(String)": false,
-    "ItemRef(String)": false,
-    "ItemScope(String)": false,
-    "ItemType(String)": false,
-    "Lang(String)": false,
-    "Nonce(String)": false,
-    "Part(Vec<String>)": false,
-    "Popover(PopoverAttrOption)": false,
-    "PopoverTarget(String)": false,
-    "Spellcheck(bool)": false,
-    "Style(Vec<(String, String)>)": false,
-    "TabIndex(i32)": false,
-    "Title(String)": false,
-    "Translate(TranslateAttrOption)": false,
-    "VirtualKeyboardPolicy(VirtualKeyboardPolicyAttrOption)": false,
-    "// these are specific": false,
-    "Accept()": false,
-    "AutoComplete()": false,
-    "Capture()": false,
-    "CrossOrigin()": false,
-    "Disabled()": false,
-    "ElementTiming()": false,
-    "For()": false,
-    "Max()": false,
-    "MaxLength()": false,
-    "Min()": false,
-    "MinLength()": false,
-    "Multiple()": false,
-    "Pattern()": false,
-    "ReadOnly()": false,
-    "Rel()": false,
-    "Required()": false,
-    "Size()": false,
-    "Step()": false
-  },
-
-
-  "sections_covered_in_tests": {
-    "aside": false,
-    "attributes": false,
-    "audio": false,
-    "blockquote": false,
-    "blurb": false,
-    "canvas": false,
-    "categories": false,
-    "checklist": false,
-    "code": false,
-    "config": false,
-    "css": false,
-    "data": false,
-    "details": false,
-    "dlist": false,
-    "endarticle": false,
-    "endcode": false,
-    "enddiv": false,
-    "endhtml": false,
-    "endneoexample": false,
-    "endsection": false,
-    "ext": false,
-    "h1": false,
-    "h2": false,
-    "h3": false,
-    "h4": false,
-    "h5": false,
-    "h6": false,
-    "head": false,
-    "hidden": false,
-    "hr": false,
-    "html": false,
-    "image": false,
-    "images": false,
-    "include": false,
-    "list": false,
-    "menu": false,
-    "nav": false,
-    "note": false,
-    "notes": false,
-    "object": false,
-    "olist": false,
-    "p": false,
-    "pre": false,
-    "ref": false,
-    "results": false,
-    "script": false,
-    "startarticle": false,
-    "startcode": false,
-    "startdiv": false,
-    "starthtml": false,
-    "startneoexample": false,
-    "startsection": false,
-    "subtitle": false,
-    "table": false,
-    "tabs": false,
-    "textarea": false,
-    "title": false,
-    "todo": false,
-    "vimeo": false,
-    "warning": false,
-    "widget": false,
-    "youtube": false
-  }
-
-
+  ]
 }
