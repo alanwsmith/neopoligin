@@ -10,53 +10,6 @@
 
   
 
-
-  
-      {
-        "name": "Attribute Test: class (multiple)",
-        "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
-        "parts": {
-          "input": "-- p\n-- class: alfa bravo charlie\n",
-          "expected": [
-            {
-              "type": "p",
-              "attributes": [
-                {"type": "class", "value": [
-                  "alfa", "bravo", "charlie"
-                ]}
-              ],
-              "content": null
-            }
-          ]
-        }
-      },
-  
-  
-  
-  
-      {
-        "name": "Attribute Test: contenteditable",
-        "notes": [
-          "there are explicit values for content editable. right now my parser just passes arbitrary input thru",
-          "the values are 'true', 'false', 'plaintext-only'. So, not using a boolean here but a text string."
-        ],
-        "parts": {
-          "input": "-- p\n-- contenteditable: true\n",
-          "expected": [
-            {
-              "type": "p",
-              "attributes": [
-                {"type": "contenteditable", "value": "true"}
-              ],
-              "content": null
-            }
-          ]
-        }
-      },
-  
-  
-  
-  
   
   
   

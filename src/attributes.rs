@@ -32,7 +32,7 @@ pub enum Attribute {
     AccessKey(String),
     AutoCapitalize(String),
     AutoFocus,
-    ContentEditable { value: String },
+    ContentEditable(String),
     Class(Vec<String>),
     Id { value: String },
     None,
@@ -84,9 +84,9 @@ pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
             match item {
                 Attribute::AccessKey(v) => { attro.accesskey = Some(v); }
                 Attribute::AutoCapitalize(v) => { attro.autocapitalize = Some(v); }
-                
                 Attribute::AutoFocus => { attro.autofocus = Some(true); }
                 Attribute::Class(v) => { attro.class = Some(v); }
+                Attribute::ContentEditable(v) => { attro.contenteditable = Some(v); }
                 _ => () 
             }
         })
@@ -162,9 +162,7 @@ pub fn contenteditable(source: &str) -> IResult<&str, Attribute> {
     let (source, _) = opt(line_ending)(source)?;
     Ok((
         source,
-        Attribute::ContentEditable {
-            value: value.to_string(),
-        },
+        Attribute::ContentEditable ( value.to_string())
     ))
 }
 

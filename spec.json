@@ -90,6 +90,28 @@
     },
 
 
+  
+    {
+      "name": "contenteditable",
+      "notes": [
+        "there are explicit values for content editable. right now my parser just passes arbitrary input thru",
+        "the values are 'true', 'false', 'plaintext-only'. So, not using a boolean here but a text string."
+      ],
+      "parts": {
+        "input": "-- p\n-- contenteditable: true\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": 
+              {"contenteditable": "true"}
+            ,
+            "content": null
+          }
+        ]
+      }
+    },
+
+
 
 
 
