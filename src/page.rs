@@ -14,6 +14,7 @@ pub struct Page {
     pub categories: Option<Vec<String>>,
     pub config: Option<HashMap<String, String>>,
     pub css: Option<Vec<String>>,
+    pub date: Option<String>,
     pub head: Option<Vec<String>>,
     pub id: Option<String>,
     pub path: Option<PathBuf>,
@@ -21,6 +22,7 @@ pub struct Page {
     pub scripts: Option<Vec<String>>,
     pub sections: Option<Vec<Section>>,
     pub template: Option<String>,
+    pub time: Option<String>,
     pub title: Option<Vec<Block>>,
     pub r#type: Option<String>,
 }
@@ -33,6 +35,7 @@ impl Page {
             categories: None,
             config: None,
             css: None,
+            date: None,
             head: None,
             id: None,
             references: None,
@@ -40,6 +43,7 @@ impl Page {
             sections: None,
             scripts: None,
             template: None,
+            time: None,
             title: None,
             r#type: None,
         }
@@ -57,8 +61,14 @@ impl Page {
                     Section::RawPageAttributes(key_values) => {
                         key_values.iter().for_each(|(key, value)| {
                             match key.to_lowercase().trim() {
+                                "date" => {
+                                    p.date = Some(value.trim().to_string());
+                                }
                                 "id" => {
                                     p.id = Some(value.trim().to_string());
+                                }
+                                "time" => {
+                                    p.time = Some(value.trim().to_string());
                                 }
                                 "type" => {
                                     p.r#type = Some(value.trim().to_string());

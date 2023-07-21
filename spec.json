@@ -1,5 +1,9 @@
 {
-  "notes": ["The word attributes is used for both page level and elemenet level even though those things are different"],
+  "notes": [
+    "The word attributes is used for both page level and elemenet level even though those things are different", 
+    "Note that attributes are loaded initially but don't show up in the main sections output"
+
+  ],
   "inline_tags": [],
   "attributes": [],
   "pages": [
@@ -37,21 +41,21 @@
           ]
         }
       }
-    }
+    },
 
-      ,
     {
-      "name": "Get Attributes",
+      "name": "Load Page Attributes",
       "notes": null,
       "parts": {
-        "input": "-- attributes\n-- id: wkwkwk123  \n-- type: post\n",
+        "input": "-- attributes\n-- date: DATE_AS_A_STRING\n-- time: TIME_AS_A_STRING\n-- id: wkwkwk123 \n-- type: post\n",
         "expected": {
+          "date": "DATE_AS_A_STRING",
           "id": "wkwkwk123",
+          "time": "TIME_AS_A_STRING",
           "type": "post" 
         }
       }
     }
-
 
   ]
 }

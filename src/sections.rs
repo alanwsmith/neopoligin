@@ -109,11 +109,6 @@ pub fn p(source: &str) -> IResult<&str, Section> {
 }
 
 pub fn raw_page_attributes(source: &str) -> IResult<&str, Section> {
-    // let mut raw_page_attributes_map: HashMap<String, String> = HashMap::new();
-
-    // let mut page_attrs: Vec<(String, String)> = vec![]; 
-
-
     let (source, _) = tag_no_case("-- attributes")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
