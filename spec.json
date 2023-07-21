@@ -237,6 +237,39 @@
           }
         ]
       }
+    },
+
+    {
+      "name": "list - multiple paragraphs",
+      "notes": null,
+      "parts": {
+        "input": "-- list\n\n- alfa bravo\n\ncharlie delta",
+        "expected": [
+          {
+            "type": "list",
+            "attributes": {},
+            "items": [
+              {
+                "type": "listitem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "alfa bravo" }]
+                  },
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "charlie delta" }]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
+
+
+
+
   ]
 }
