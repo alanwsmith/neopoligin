@@ -112,6 +112,33 @@
     },
 
 
+  
+  
+  
+  
+  
+  
+    {
+      "name": "id",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n-- id: sierra tango\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": 
+              { "id": "sierra tango"}
+            ,
+            "content": null
+          }
+        ]
+      }
+    },
+
+
+
+
+
 
 
 
@@ -158,20 +185,28 @@
 
 
   "sections": [
+  
+  
     {
-      "name": "Attribute Test: class (single)",
-      "notes": [
-        "class is stored as a vec/array/list of string split on spaces in the original string"
-      ],
+      "name": "Aside: Just Text",
+      "notes": [],
       "parts": {
-        "input": "-- p\n-- class: tango\n\ncharlie delta",
+        "input": "-- aside\n\nalfa bravo\n\ncharlie delta",
         "expected": [
           {
-            "type": "p",
-            "attributes": {
-              "class": ["tango"]
-            },
+            "type": "aside",
+            "attributes": {},
             "content": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "string": "alfa bravo"
+                  }
+                ]
+              },
+
               {
                 "type": "paragraph",
                 "snippets": [
@@ -182,11 +217,52 @@
                 ]
               }
             ]
+          }
+        ]
+      }
+    },
 
+
+    {
+      "name": "Aside: With Attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- aside\n-- id: echo\n\nalfa bravo\n\ncharlie delta",
+        "expected": [
+          {
+            "type": "aside",
+            "attributes": {
+              "id": "echo"
+            }
+            ,
+            "content": [
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "string": "alfa bravo"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "string": "charlie delta"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
     }
+
+
+
+
 
 
 

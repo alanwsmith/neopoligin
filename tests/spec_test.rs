@@ -42,6 +42,14 @@ fn solo_test_specs() {
         ()
     });
 
+    // This does all the sections
+    test_data.sections.iter().into_iter().for_each(|x| {
+        dbg!(&x.parts.input);
+        let results = sections(&x.parts.input).unwrap().1;
+        assert_eq!(x.parts.expected, results);
+        ()
+    });
+
     // // This runs any soloed tests
     // test_data
     //     .sections

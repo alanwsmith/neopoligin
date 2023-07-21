@@ -34,7 +34,7 @@ pub enum Attribute {
     AutoFocus,
     ContentEditable(String),
     Class(Vec<String>),
-    Id { value: String },
+    Id(String),
     None,
 }
 
@@ -87,6 +87,7 @@ pub fn attributes2(source: &str) -> IResult<&str, AttributesObj> {
                 Attribute::AutoFocus => { attro.autofocus = Some(true); }
                 Attribute::Class(v) => { attro.class = Some(v); }
                 Attribute::ContentEditable(v) => { attro.contenteditable = Some(v); }
+                Attribute::Id(v) => { attro.id = Some(v); }
                 _ => () 
             }
         })
@@ -172,8 +173,7 @@ pub fn id(source: &str) -> IResult<&str, Attribute> {
     let (source, _) = opt(line_ending)(source)?;
     Ok((
         source,
-        Attribute::Id {
-            value: attr.to_string(),
-        },
+        Attribute::Id (attr.to_string(),
+    )
     ))
 }
