@@ -1,5 +1,5 @@
 {
-  "notes": [],
+  "notes": ["The word attributes is used for both page level and elemenet level even though those things are different"],
   "inline_tags": [],
   "attributes": [],
   "pages": [
@@ -20,7 +20,7 @@
           "title": null,
           "sections": [
             {
-              "type": "aside",
+              "type": "p",
               "attributes": {},
               "content": [
                 {
