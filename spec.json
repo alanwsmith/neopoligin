@@ -272,7 +272,7 @@
       "name": "list - multiple items",
       "notes": null,
       "parts": {
-        "input": "-- list\n\n- echo foxtrot\n\n- sierra tango",
+        "input": "-- list\n\n- echo foxtrot\n\ndelta\n\n- sierra tango\n\nbravo",
         "expected": [
           {
             "type": "list",
@@ -284,6 +284,10 @@
                   {
                     "type": "paragraph",
                     "snippets": [{ "type": "text", "string": "echo foxtrot" }]
+                  },
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "delta" }]
                   }
                 ]
               },
@@ -293,8 +297,44 @@
                   {
                     "type": "paragraph",
                     "snippets": [{ "type": "text", "string": "sierra tango" }]
+                  },
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "bravo" }]
                   }
                 ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
+    {
+      "name": "list - with preface",
+      "notes": null,
+      "parts": {
+        "input": "-- list\n\nfoxtrot lima\n\n- papa kilo",
+        "expected": [
+          {
+            "type": "list",
+            "attributes": {},
+            "items": [
+              {
+                "type": "listitem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "snippets": [{ "type": "text", "string": "papa kilo" }]
+                  }
+                ]
+              }
+            ],
+            "preface": [
+              {
+                "type": "paragraph",
+                "snippets": [{ "type": "text", "string": "foxtrot lima" }]
               }
             ]
           }

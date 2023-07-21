@@ -15,6 +15,7 @@ use nom::sequence::preceded;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
 use crate::attributes::AttributesObj;
+use crate::blocks::list_paragraph;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -65,7 +66,7 @@ pub fn list(source: &str) -> IResult<&str, Section> {
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
     let (source, attributes) = attributes(source)?;
-    let preface = None; // TODO
+    let (source, preface) = opt(many1(preceded(multispace0, list_paragraph)))(source)?;
     let (source, items) = opt(many1(preceded(multispace0, list_item)))(source)?;
     Ok((
         source,
