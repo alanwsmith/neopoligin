@@ -4,6 +4,7 @@
     "Note that attributes are loaded initially but don't show up in the main sections output"
 
   ],
+
   "inline_tags": [],
   "attributes": [],
   "pages": [
@@ -13,7 +14,6 @@
       "parts": {
         "input": "-- p\n\nalfa bravo\n\ncharlie delta\n\n-- attributes\n-- id: test page",
         "expected": {
-        "source": "-- p\n\nalfa bravo\n\ncharlie delta\n\n-- attributes\n-- id: test page",
           "id": "test page",
           "sections": [
             {
@@ -52,7 +52,6 @@
       "parts": {
         "input": "-- attributes\n-- status: draft\n-- date: DATE_AS_A_STRING\n-- time: TIME_AS_A_STRING\n-- id: wkwkwk123 \n-- type: post\n",
         "expected": {
-        "source": "-- attributes\n-- status: draft\n-- date: DATE_AS_A_STRING\n-- time: TIME_AS_A_STRING\n-- id: wkwkwk123 \n-- type: post\n",
           "date": "DATE_AS_A_STRING",
           "id": "wkwkwk123",
           "status": "draft",

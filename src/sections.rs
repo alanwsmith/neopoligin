@@ -127,7 +127,6 @@ pub fn raw_page_attributes(source: &str) -> IResult<&str, Section> {
     )).map(|(_, _, key, _, _, value, _): (&str, &str, &str, &str, &str, &str, Option<&str>)| {
         (key.to_string(), value.to_string())
     }))(source)?;   
-     dbg!(&page_attrs);
     Ok((
         source,
         Section::RawPageAttributes(page_attrs),

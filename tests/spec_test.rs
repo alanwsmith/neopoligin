@@ -38,7 +38,6 @@ fn solo_test_specs() {
     test_data.pages.iter().into_iter().for_each(|x| {
         dbg!(&x.parts.input);
         let mut p = Page::new_from(&x.parts.input);
-        p.run_parser();
         assert_eq!(x.parts.expected, p);
         ()
     });

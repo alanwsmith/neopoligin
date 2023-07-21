@@ -20,7 +20,6 @@ pub struct Page {
     pub references: Option<Vec<Reference>>,
     pub scripts: Option<Vec<String>>,
     pub sections: Option<Vec<Section>>,
-    pub source: String,
     pub status: Option<String>,
     pub template: Option<String>,
     pub time: Option<String>,
@@ -29,59 +28,7 @@ pub struct Page {
 }
 
 impl Page {
-    pub fn run_parser(&mut self) {
-        // dbg!("running parser");
-        let raw_sections = sections(&self.source).unwrap().1;
-        // dbg!(&raw_sections);
-
-        let filtered_sections: Option<Vec<Section>> = Some(
-            raw_sections
-                .into_iter()
-                .filter_map(|sec| match sec {
-                    Section::RawPageAttributes(key_values) => {
-                        print!("EEEEEEEEEEEEEEE");
-                        key_values.iter().for_each(|(key, value)| {
-                            match key.to_lowercase().trim() {
-                                "date" => {
-                                    self.date = Some(value.trim().to_string());
-                                }
-                                "id" => {
-                                    self.id = Some(value.trim().to_string());
-                                }
-                                "status" => {
-                                    self.status = Some(value.trim().to_string());
-                                }
-                                "time" => {
-                                    self.time = Some(value.trim().to_string());
-                                }
-                                "type" => {
-                                    self.r#type = Some(value.trim().to_string());
-                                }
-                                _ => {}
-                            }
-                            ()
-                        });
-                        None
-                    }
-                    x => {
-                        print!(".");
-                        Some(x)
-                    }
-                })
-                .collect(),
-        );
-        if filtered_sections.as_ref().unwrap().len() == 0 {
-            self.sections = None;
-        } else {
-            self.sections = filtered_sections;
-        }
-
-        //
-    }
-}
-
-impl Page {
-    pub fn new_from(source: &str) -> Page {
+    pub fn new() -> Page {
         Page {
             attributes: None,
             blurb: None,
@@ -95,15 +42,91 @@ impl Page {
             path: None,
             sections: None,
             scripts: None,
-            source: source.to_string(),
             status: None,
             template: None,
             time: None,
             title: None,
             r#type: None,
         }
+    }
+}
 
-        // let raw_sections = sections(source).unwrap().1;
+//impl Page {
+//    pub fn run_parser(&mut self) {
+//        // dbg!("running parser");
+//         let raw_sections = sections(&self.source).unwrap().1;
+//        // dbg!(&raw_sections);
+//        let filtered_sections: Option<Vec<Section>> = Some(
+//            raw_sections
+//                .into_iter()
+//                .filter_map(|sec| match sec {
+//                    Section::RawPageAttributes(key_values) => {
+//                        print!("EEEEEEEEEEEEEEE");
+//                        key_values.iter().for_each(|(key, value)| {
+//                            match key.to_lowercase().trim() {
+//                                "date" => {
+//                                    self.date = Some(value.trim().to_string());
+//                                }
+//                                "id" => {
+//                                    self.id = Some(value.trim().to_string());
+//                                }
+//                                "status" => {
+//                                    self.status = Some(value.trim().to_string());
+//                                }
+//                                "time" => {
+//                                    self.time = Some(value.trim().to_string());
+//                                }
+//                                "type" => {
+//                                    self.r#type = Some(value.trim().to_string());
+//                                }
+//                                _ => {}
+//                            }
+//                            ()
+//                        });
+//                        None
+//                    }
+//                    x => {
+//                        print!(".");
+//                        Some(x)
+//                    }
+//                })
+//                .collect(),
+//        );
+//        if filtered_sections.as_ref().unwrap().len() == 0 {
+//            self.sections = None;
+//        } else {
+//            self.sections = filtered_sections;
+//        }
+//        //
+//    }
+//}
+
+impl Page {
+    pub fn new_from(source: &str) -> Page {
+        let mut p = Page::new();
+
+        // Page {
+        //     attributes: None,
+        //     blurb: None,
+        //     categories: None,
+        //     config: None,
+        //     css: None,
+        //     date: None,
+        //     head: None,
+        //     id: None,
+        //     references: None,
+        //     path: None,
+        //     sections: None,
+        //     scripts: None,
+        //     source: source.to_string(),
+        //     status: None,
+        //     template: None,
+        //     time: None,
+        //     title: None,
+        //     r#type: None,
+        // }
+
+        let raw_sections = sections(source).unwrap().1;
 
         // &raw_sections.into_iter().for_each(|sec| match sec {
         //     Section::RawPageAttributes(key_values) => {
@@ -134,46 +157,46 @@ impl Page {
         //     _ => (),
         // });
 
-        // let filtered_sections: Option<Vec<Section>> = Some(
-        //     raw_sections
-        //         .into_iter()
-        //         .filter_map(|sec| match sec {
-        //             Section::RawPageAttributes(key_values) => {
-        //                 dbg!("--------------------");
-        //                 key_values.iter().for_each(|(key, value)| {
-        //                     match key.to_lowercase().trim() {
-        //                         "date" => {
-        //                             p.date = Some(value.trim().to_string());
-        //                         }
-        //                         "id" => {
-        //                             p.id = Some(value.trim().to_string());
-        //                         }
-        //                         "status" => {
-        //                             p.status = Some(value.trim().to_string());
-        //                         }
-        //                         "time" => {
-        //                             p.time = Some(value.trim().to_string());
-        //                         }
-        //                         "type" => {
-        //                             p.r#type = Some(value.trim().to_string());
-        //                         }
-        //                         _ => {}
-        //                     }
-        //                     ()
-        //                 });
-        //                 None
-        //             }
-        //             x => Some(x),
-        //         })
-        //         .collect(),
-        // );
+        let filtered_sections: Option<Vec<Section>> = Some(
+            raw_sections
+                .into_iter()
+                .filter_map(|sec| match sec {
+                    Section::RawPageAttributes(key_values) => {
+                        key_values.iter().for_each(|(key, value)| {
+                            match key.to_lowercase().trim() {
+                                "date" => {
+                                    p.date = Some(value.trim().to_string());
+                                }
+                                "id" => {
+                                    p.id = Some(value.trim().to_string());
+                                }
+                                "status" => {
+                                    p.status = Some(value.trim().to_string());
+                                }
+                                "time" => {
+                                    p.time = Some(value.trim().to_string());
+                                }
+                                "type" => {
+                                    p.r#type = Some(value.trim().to_string());
+                                }
+                                _ => {}
+                            }
+                            ()
+                        });
+                        None
+                    }
+                    x => Some(x),
+                })
+                .collect(),
+        );
 
-        // if filtered_sections.as_ref().unwrap().len() == 0 {
-        //     p.sections = None;
-        // } else {
-        //     // p.sections = filtered_sections;
-        //     p.sections = None;
-        // }
+        if filtered_sections.as_ref().unwrap().len() == 0 {
+            p.sections = None;
+        } else {
+            p.sections = filtered_sections;
+        }
+
+        p
 
         //
     }
