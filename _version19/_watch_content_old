@@ -1,0 +1,14 @@
+#!/bin/bash
+
+watchexec --project-origin \
+  /Users/alan/workshop/alanwsmith.com\
+  --debounce 1sec \
+  --watch \
+  /Users/alan/workshop/neopolengine \
+  --watch \
+  /Users/alan/workshop/alanwsmith.com/templates \
+  --watch \
+  /Users/alan/workshop/alanwsmith.com/content \
+  -e rs,neo,j2 cargo run --bin neo 
+
+  # -e rs,neo,j2 target/release/neo 

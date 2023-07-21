@@ -1,0 +1,20 @@
+-> title
+
+Use A Specific File Path
+
+
+This is a test to output the file in
+a specific location instead of using the
+filename to generate the path dynamically
+
+
+-> categories
+>> Miscellaneous
+
+-> attributes
+>> date: 2023-07-08 15:51:05
+>> id: 2sitllvc
+>> site: neopolengine
+>> type: post
+>> status: published
+>> path: index.neo

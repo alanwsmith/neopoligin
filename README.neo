@@ -1,0 +1,20 @@
+-> title
+
+Neopolengine
+
+A static website generator for neopolitan files
+
+See <<alanwsmith.com/neopolengine|link|https://www.alanwsmith.com/neopolengine/index.html>>
+for the documentation on this project
+
+
+This project has two pars:
+
+- neo - which builds the site
+
+- prepneo - which loads files from a central 
+storage into a content folder for use by 
+the `neo`` command
+
+
+

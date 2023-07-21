@@ -1,0 +1,10 @@
+#!/bin/bash
+
+watchexec --project-origin /Users/alan/Grimoire \
+-w /Users/alan/Grimoire \
+-w /Users/alan/workshop/alanwsmith.com/templates \
+-e org bash -c ' \
+/Users/alan/workshop/neopolengine/target/release/prepneo \
+&& /Users/alan/workshop/neopolengine/target/release/neo '
+
+

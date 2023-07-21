@@ -1,0 +1,20 @@
+#!/bin/bash
+
+tput clear
+for i in $( seq 1 $(tput lines))
+do
+  echo ""
+done
+
+export BAR=$(($(tput cols) * 1))
+
+cargo run
+if [[ $? -eq 0 ]]
+then
+  tput setaf 28
+else
+  tput setaf 124
+fi
+
+for i in $( seq 1 $BAR); do printf '%s' '█'; done
+tput sgr0

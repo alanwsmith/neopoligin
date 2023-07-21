@@ -1,0 +1,287 @@
+-- title
+
+Neopolitan
+
+-- subtitle
+
+A plain-text file format for websites
+
+-- h2
+
+Quickstart
+
+-- h3
+
+Sections
+
+Neopolitan documents are made of sections that
+start with `--`` followed by the section name. 
+Attributes can be added to the sections with
+more lines prefaced with `--``. For example, 
+an h2 section with a class and an id looks
+like this:
+
+-- startcode
+-- neo
+
+-- h2
+-- class: alfa 
+-- id: bravo
+
+Hello, I am a headline!
+
+-- endcode
+
+
+-- h3
+
+Section Types
+
+There are sections for the core HTML elements
+that translate more or less directly. 
+Other sections work more behind the 
+scenes. For example, the `-- css`neo` section 
+injects it's content directly to allow
+style customization directly from the content 
+file. Custom scripts and be injected as well.
+For example:
+
+-- startcode
+
+-- css
+
+body { 
+	background-color: black;
+}
+
+-- endcode
+
+
+
+-- h3
+
+Raw Sections
+
+An `-- html`neo` section provides the ability 
+to send raw html directly to the page. There's
+also a `-- opendiv/closediv`neo` pair that 
+wraps content that gets processed in divs so 
+you can add styles. 
+
+GOAL: Those opendiv/closediv sections can be 
+nested. (It gets a little clunky but if you need
+ it it's worth it)
+
+-- h3
+
+Widgets and External Sections
+
+More complicated features can be done by passing
+data to the rendering engine for processing. 
+This can be done by including the data directly 
+in the page with `-- widget`neo` or by calling
+an external process with `-- ext``. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- h2
+
+Scratch Notes
+
+
+-- warning
+
+All the stuff below is a different draft
+
+
+-- h2
+
+Overview
+
+This is the home page for the Neopolitan file
+format. It's designed to address the frictions 
+I kept running into with markdown, mdx, and 
+org-mode. The file format itself is document
+on these pages. I'm also building a static 
+site generator that uses the format. It's
+called Neopolengine and you can <<link|find 
+it here|/neopolengine>>.
+
+
+-- h2
+
+Preview
+
+The format is designed to be simple, fast, 
+and full-features. A basic document looks 
+like this:
+
+-- startcode
+
+-- title
+
+Hello, World
+
+Welcome to Neopolitan. A plain-text
+file format that's designed for websites. 
+
+-- aside
+-- class: highlighted
+
+Neopolitan's goal is not to make sites
+fast. It's to make _publishing__ fast. 
+
+-- endcode 
+
+-- h2
+
+Details
+
+That example shows the three features of
+the format:
+
+-- list
+
+- Sections
+
+- Attributes
+
+- Inline Tags
+
+
+-- h2 
+
+Sections
+
+Sections start with `--` following a blank
+line. There are TKTKTK of them. They cover 
+the main section style elements of HTML. A
+full list is here TKTKTKTK. 
+
+-- h2
+
+Attributes
+
+Attributes can be applied to any section using
+`--` at the start of a file after a section 
+token or another attribute. The basic attribute
+format is a key/value pair as with `class: highlighted`neo`
+above. Sending single values is also acceptable. 
+For example, in my rendering engine if the first
+attribute of a `-- code`neo` section is a single 
+word it's converted into a language class. 
+
+-- startcode
+
+-- code
+-- rust
+
+println!("alfa bravo");
+
+-- endcode
+
+
+-- p
+
+Becomes:
+
+-- startcode
+-- html 
+
+<pre><code class="language-rust">
+	alfa bravo
+</code></pre>
+
+-- endcode 
+
+
+-- h2
+
+Inline Tags
+
+The final feature is inline tags. They're used 
+for links, images, and formatting similar to 
+HTML. The tags look like this:
+
+-- startcode
+-- neo
+
+<<strong|This is emphasised>>
+
+-- endcode
+
+Every inline tag can have attributes added to
+it as well. Here's the same example with
+an id added
+
+-- startcode
+-- neo
+
+<<strong|This is emphasised|id: delta>>
+
+-- endcode
+
+That renders:
+
+-- startcode
+-- html
+
+<strong id="delta">
+	This is emphasised
+</strong>
+
+-- endcode
+
+
+
+
+-- notes
+
+- Theses details are based off the rending engine I'm 
+building. Other rendering engines may treat things 
+differently (e.g. `-- widget`neo` and `-- ext`neo`
+
+
+
+
+
+
+-- ref
+-- title: Neopolengine
+-- url: https://github.com/alanwsmith/neopolengine
+-- subtitle: A static website builder that works off Neopolitan files
+
+
+
+-- categories
+-- Neopolitan 
+
+-- attributes
+-- date: 2023-07-08 17:12:03
+-- id: 2sj3borg
+-- site: aws 
+-- type: post
+-- status: published
+-- path: neopolitan/index.neo
+
+

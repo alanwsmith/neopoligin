@@ -1,0 +1,432 @@
+{
+  "sections_covered_in_tests": {
+    "aside": false,
+    "attributes": false,
+    "audio": false,
+    "blockquote": false,
+    "blurb": false,
+    "canvas": false,
+    "categories": false,
+    "checklist": false,
+    "code": false,
+    "config": false,
+    "css": false,
+    "details": false,
+    "dlist": false,
+    "endarticle": false,
+    "endcode": false,
+    "enddiv": false,
+    "endhtml": false,
+    "endneoexample": false,
+    "endsection": false,
+    "ext": false,
+    "h1": false,
+    "h2": false,
+    "h3": false,
+    "h4": false,
+    "h5": false,
+    "h6": false,
+    "head": false,
+    "hidden": false,
+    "hr": false,
+    "html": false,
+    "image": false,
+    "images": false,
+    "include": false,
+    "list": false,
+    "menu": false,
+    "nav": false,
+    "note": false,
+    "notes": false,
+    "object": false,
+    "olist": false,
+    "p": false,
+    "pre": false,
+    "ref": false,
+    "results": false,
+    "script": false,
+    "startarticle": false,
+    "startcode": false,
+    "startdiv": false,
+    "starthtml": false,
+    "startneoexample": false,
+    "startsection": false,
+    "subtitle": false,
+    "table": false,
+    "textarea": false,
+    "title": false,
+    "todo": false,
+    "vimeo": false,
+    "warning": false,
+    "widget": false,
+    "youtube": false
+  },
+
+
+  "sections_new_version": [
+    {
+      "solo": true,
+      "name": "Aside: Just Text",
+      "notes": [],
+      "parts": {
+        "input": "-- aside_new_version\n\nalfa\nbravo\n\ncharlie delta",
+        "expected": [
+          {
+            "type": "asidenewversion",
+            "attributes": [],
+            "blocks": [
+              {
+                "type": "paragraphnewversion",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "alfa bravo"
+                  }
+                ]
+              },
+              {
+                "type": "paragraphnewversion",
+                "snippets": [
+                  {
+                    "type": "text",
+                    "text": "charlie delta"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+
+
+  "holding": [
+
+    {
+
+      "ignore": true,
+      "name": "Textarea: With Miscellaneous Attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- data-ping: 1234 delta echo",
+        "expected": [
+          {
+            "type": "textarea",
+            "attributes": [
+              { 
+                "key": "data-ping", 
+                "value": "1234 delta echo"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+
+  "_todo_": [
+    "<<kbd|*>>",
+    "-- code\n-- title: Alfa Bravo\n\nsnippet"
+  ],
+
+  "_notes": [
+    "NONE is represented by not having a value. e.g. text in textarea"
+  ],
+
+  "spec_tests": [
+
+    {
+      "ignore": true,
+      "name": "Test Template",
+      "notes": [],
+      "parts": {
+        "input": "-- warning\n\nalfa bravo",
+        "expected": [
+          {
+            "type": "warning",
+            "attrs": [],
+            "paragraphs": [
+              {
+                "type": "paragraph",
+                "tags": [
+                  {
+                    "type": "text",
+                    "text": "alfa bravo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+
+
+
+
+
+
+    {
+      "name": "Code - No attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n\n   some code",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [],
+            "text": "some code"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Code - Language attribute",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n-- html\n\n   some code",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [{ "type": "class", "content": ["language-html"] }],
+            "text": "some code"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Code - Language attribute and class",
+      "notes": [],
+      "parts": {
+        "input": "-- code\n-- html\n-- class: something\n\n   some code",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [{ "type": "class", "content": ["something", "language-html"] }],
+            "text": "some code"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Code - Language attribute and class",
+      "notes": [],
+      "parts": {
+        "input": "-- startcode\n-- html\n-- class: example\n\n<h2 id=\"sierra\">\n  The <strong class=\"tango\">Quick</strong> Brown Fox\n</h2>\n\n\n-- endcode\n",
+        "expected": [
+          {
+            "type": "code",
+            "attrs": [{ "type": "class", "content": ["example", "language-html"] }],
+            "text": "<h2 id=\"sierra\">\n  The <strong class=\"tango\">Quick</strong> Brown Fox\n</h2>"
+          }
+        ]
+      }
+    },
+
+
+
+
+    {
+      "name": "Title: Basic Test",
+      "notes": [],
+      "parts": {
+        "input": "-- title\n\nAlfa Bravo Charlie",
+        "expected": [
+          {
+            "type": "title",
+            "attrs": [],
+            "headline": {
+              "type": "headline",
+              "tags": [
+                {
+                  "type": "text",
+                  "text": "Alfa Bravo Charlie"
+                }
+              ]
+            },
+            "paragraphs": []
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section: Open Only",
+      "notes": [],
+      "parts": {
+        "input": "-- section\n",
+        "expected": [
+          {
+            "type": "sectionstart",
+            "attrs": []
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section: Open/Close With No Content",
+      "notes": [],
+      "parts": {
+        "input": "-- section\n\n-- endsection",
+        "expected": [
+          {
+            "type": "sectionstart",
+            "attrs": []
+          },
+          {
+            "type": "sectionend",
+            "attrs": []
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section: Open With Class",
+      "notes": [],
+      "parts": {
+        "input": "-- section\n-- class: tango",
+        "expected": [
+          {
+            "type": "sectionstart",
+            "attrs": [{ "type": "class", "content": ["tango"] }]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section: Closer",
+      "notes": [],
+      "parts": {
+        "input": "-- endsection\n",
+        "expected": [
+          {
+            "type": "sectionend"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Section Section: Last Line Of Input",
+      "notes": [],
+      "parts": {
+        "input": "-- endsection",
+        "expected": [
+          {
+            "type": "sectionend"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: Token",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n",
+        "expected": [
+          {
+            "type": "textarea"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: Basic Text",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\nHold the hammer",
+        "expected": [
+          {
+            "type": "textarea",
+            "text": "Hold the hammer"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: With Attributes",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- id: sierra\n\n",
+        "expected": [
+          {
+            "type": "textarea",
+            "id": "sierra"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: With Classes",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- class: tango foxtrot\n",
+        "expected": [
+          {
+            "type": "textarea",
+            "classes": ["tango", "foxtrot"]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "Textarea: With Rows And Cols",
+      "notes": [],
+      "parts": {
+        "input": "-- textarea\n\n-- rows: 5\n-- cols: 10\n",
+        "expected": [
+          {
+            "type": "textarea",
+            "rows": 5,
+            "cols": 10
+          }
+        ]
+      }
+    },
+
+
+
+    {
+      "ignore": true,
+      "name": "Warning: Basic Test",
+      "notes": [],
+      "parts": {
+        "input": "-- warning\n\nalfa bravo tango",
+        "expected": [
+          {
+            "type": "warning",
+            "attrs": [],
+            "paragraphs": [
+              {
+                "type": "paragraph",
+                "tags": [
+                  {
+                    "type": "text",
+                    "text": "alfa bravo tango"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+
+
+
+  ]
+}
