@@ -1,28 +1,29 @@
-use serde::{Deserialize, Serialize};
 use crate::blocks::Block;
-use std::collections::HashMap;
+use crate::sections::sections;
 use crate::sections::Section;
 use nom::IResult;
-use crate::sections::sections;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub struct Page {
-    attributes: Option<HashMap<String, String>>,
-    blurb: Option<Vec<Block>>,
-    categories: Option<Vec<String>>,
-    config: Option<HashMap<String, String>>,
-    css: Option<Vec<String>>,
-    head: Option<Vec<String>>,
-    references: Option<Vec<Reference>>,
-    scripts: Option<Vec<String>>,
-    title: Option<Vec<Block>>,
-    sections: Vec<Section>
+    pub attributes: Option<HashMap<String, String>>,
+    pub blurb: Option<Vec<Block>>,
+    pub categories: Option<Vec<String>>,
+    pub config: Option<HashMap<String, String>>,
+    pub css: Option<Vec<String>>,
+    pub head: Option<Vec<String>>,
+    pub path: Option<String>,
+    pub references: Option<Vec<Reference>>,
+    pub scripts: Option<Vec<String>>,
+    pub sections: Vec<Section>,
+    pub title: Option<Vec<Block>>,
 }
 
 impl Page {
     pub fn new() -> Page {
-        Page{
+        Page {
             attributes: None,
             blurb: None,
             categories: None,
@@ -30,13 +31,22 @@ impl Page {
             css: None,
             head: None,
             references: None,
+            path: None,
+            sections: vec![],
             scripts: None,
             title: None,
-            sections: vec![]
         }
     }
 }
 
+impl Page {
+    pub fn new_from(source: &str) -> Page {
+        let mut p = Page::new();
+        let raw_sections = sections(source).unwrap().1;
+        p.sections = raw_sections;
+        p
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Reference {}
