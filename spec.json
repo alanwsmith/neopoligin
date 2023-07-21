@@ -57,11 +57,37 @@
       }
     },
 
+  
+    {
+      "name": "class (single)",
+      "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
+      "parts": {
+        "input": "-- p\n-- class: tango\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": { "class": ["tango"]},
+            "content": null
+          }
+        ]
+      }
+    },
 
 
-
-
-
+    {
+      "name": "class (multiple)",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n-- class: sierra foxtrot bravo\n",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": { "class": ["sierra", "foxtrot", "bravo"]},
+            "content": null
+          }
+        ]
+      }
+    },
 
 
 

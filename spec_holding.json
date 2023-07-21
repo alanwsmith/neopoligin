@@ -12,27 +12,6 @@
 
 
   
-  
-      {
-        "name": "Attribute Test: class (single)",
-        "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
-        "parts": {
-          "input": "-- p\n-- class: tango\n",
-          "expected": [
-            {
-              "type": "p",
-              "attributes": [
-                {"type": "class", "value": [
-                  "tango"
-                ]}
-              ],
-              "content": null
-            }
-          ]
-        }
-      },
-  
-  
       {
         "name": "Attribute Test: class (multiple)",
         "notes": ["class is stored as a vec/array/list of string split on spaces in the original string"],
