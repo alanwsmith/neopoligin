@@ -38,8 +38,8 @@ fn solo_test_specs() {
     // This does all the sections via pages
     test_data.pages.iter().into_iter().for_each(|x| {
         dbg!(&x.parts.input);
-        let results = page(&x.parts.input).unwrap().1;
-        assert_eq!(x.parts.expected, results);
+        let p = Page::new_from(&x.parts.input);
+        assert_eq!(x.parts.expected, p);
         ()
     });
 

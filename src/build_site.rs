@@ -72,7 +72,6 @@ pub fn build_site() {
     pages.iter().take(7).for_each(|page| {
         println!("Making: {}", page.path.as_ref().unwrap().display());
 
-        //    println!("MAKING: {}", &source_file.source_path.display());
         //    let template = env.get_template(
         //        format!(
         //            "{}/index.html",

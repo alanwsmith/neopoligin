@@ -9,15 +9,6 @@
       "parts": {
         "input": "-- p\n\nalfa bravo\n\ncharlie delta",
         "expected": {
-          "attributes": null,
-          "blurb": null,
-          "categories": null,
-          "config": null,
-          "css": null,
-          "head": null,
-          "references": null,
-          "scripts": null,
-          "title": null,
           "sections": [
             {
               "type": "p",
@@ -47,5 +38,20 @@
         }
       }
     }
+
+      ,
+    {
+      "name": "Get Attributes",
+      "notes": null,
+      "parts": {
+        "input": "-- attributes\n-- id: wkwkwk123  \n-- type: post\n",
+        "expected": {
+          "id": "wkwkwk123",
+          "type": "post" 
+        }
+      }
+    }
+
+
   ]
 }
