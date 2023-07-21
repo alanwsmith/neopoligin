@@ -62,6 +62,7 @@ pub fn aside(source: &str) -> IResult<&str, Section> {
 }
 
 pub fn list(source: &str) -> IResult<&str, Section> {
+    // Version 1 tests in place
     let (source, _) = tag_no_case("-- list")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
@@ -79,6 +80,7 @@ pub fn list(source: &str) -> IResult<&str, Section> {
 }
 
 pub fn p(source: &str) -> IResult<&str, Section> {
+    // Version 1 tests in place
     let (source, _) = tag_no_case("-- p")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;
@@ -93,8 +95,8 @@ pub fn p(source: &str) -> IResult<&str, Section> {
     ))
 }
 
-
 pub fn title(source: &str) -> IResult<&str, Section> {
+    // Version 1 tests in place
     let (source, _) = tag_no_case("-- title")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = line_ending(source)?;

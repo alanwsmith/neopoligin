@@ -310,7 +310,6 @@
       }
     },
 
-
     {
       "name": "list - with preface",
       "notes": null,
@@ -340,10 +339,99 @@
           }
         ]
       }
+    },
+
+    {
+      "name": "p",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n\npapa kilo foxtrot\n\nbravo alfa",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": {},
+            "content": [
+              {
+                "type": "paragraph",
+                "snippets": [{ "type": "text", "string": "papa kilo foxtrot" }]
+              },
+              {
+                "type": "paragraph",
+                "snippets": [{ "type": "text", "string": "bravo alfa" }]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "p with attribute",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n-- id: sierra\npapa kilo foxtrot\n\nbravo alfa",
+        "expected": [
+          {
+            "type": "p",
+            "attributes": {
+              "id": "sierra"
+            },
+            "content": [
+              {
+                "type": "paragraph",
+                "snippets": [{ "type": "text", "string": "papa kilo foxtrot" }]
+              },
+              {
+                "type": "paragraph",
+                "snippets": [{ "type": "text", "string": "bravo alfa" }]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "tile - just headline",
+      "notes": null,
+      "parts": {
+        "input": "-- title\n\nkilo papa hotel",
+        "expected": [
+          {
+            "type": "title",
+            "attributes": {},
+            "headline": {
+              "type": "paragraph",
+              "snippets": [{ "type": "text", "string": "kilo papa hotel" }]
+            },
+            "content": null
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "tile - headline and content",
+      "notes": null,
+      "parts": {
+        "input": "-- title\n\ndelta sierra foxtrot\n\nhotel bravo alfa",
+        "expected": [
+          {
+            "type": "title",
+            "attributes": {},
+            "headline": {
+              "type": "paragraph",
+              "snippets": [{ "type": "text", "string": "delta sierra foxtrot" }]
+            },
+            "content": [
+              {
+                "type": "paragraph",
+                "snippets": [{ "type": "text", "string": "hotel bravo alfa" }]
+              }
+            ]
+          }
+        ]
+      }
     }
-
-
-
-
   ]
 }
