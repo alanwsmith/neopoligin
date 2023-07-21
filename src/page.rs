@@ -21,6 +21,7 @@ pub struct Page {
     pub references: Option<Vec<Reference>>,
     pub scripts: Option<Vec<String>>,
     pub sections: Option<Vec<Section>>,
+    pub status: Option<String>,
     pub template: Option<String>,
     pub time: Option<String>,
     pub title: Option<Vec<Block>>,
@@ -42,6 +43,7 @@ impl Page {
             path: None,
             sections: None,
             scripts: None,
+            status: None,
             template: None,
             time: None,
             title: None,
@@ -66,6 +68,9 @@ impl Page {
                                 }
                                 "id" => {
                                     p.id = Some(value.trim().to_string());
+                                }
+                                "status" => {
+                                    p.status = Some(value.trim().to_string());
                                 }
                                 "time" => {
                                     p.time = Some(value.trim().to_string());
