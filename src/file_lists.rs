@@ -1,17 +1,17 @@
-use crate::source_file::title::title;
-use crate::source_file::SourceFile;
+// use crate::source_file::title::title;
+// use crate::source_file::SourceFile;
 
-pub fn file_lists(input_files: &Vec<SourceFile>) -> Vec<(String, String)> {
-    let mut file_list: Vec<(String, String)> = vec![];
+// pub fn file_lists(input_files: &Vec<SourceFile>) -> Vec<(String, String)> {
+//     let mut file_list: Vec<(String, String)> = vec![];
 
-    input_files.iter().for_each(|file| {
-        file_list.push((
-            file.url.clone(),
-            title(file.source_data.as_str()).unwrap().1,
-        ));
-    });
-    file_list
-}
+//     input_files.iter().for_each(|file| {
+//         file_list.push((
+//             file.url.clone(),
+//             title(file.source_data.as_str()).unwrap().1,
+//         ));
+//     });
+//     file_list
+// }
 
 // #[cfg(test)]
 // mod test {

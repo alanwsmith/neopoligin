@@ -1,83 +1,22 @@
 {
-  "notes": [
-    "The word attributes is used for both page level and elemenet level even though those things are different", 
-    "Note that attributes are loaded initially but don't show up in the main sections output"
-
-  ],
-
-  "inline_tags": [],
-  "attributes": [],
-  "pages": [
+  "notes": [],
+  "smoke_tests": [
     {
-      "name": "Smoke Test",
+      "name": "Basic Smoke Test",
       "notes": null,
       "parts": {
-        "input": "-- p\n\nalfa bravo\n\ncharlie delta\n\n-- attributes\n-- id: test page",
+        "input": "-- aside\n\nalfa bravo",
         "expected": {
-          "id": "test page",
           "sections": [
             {
-              "type": "p",
-              "attributes": {},
+              "type": "aside",
               "content": [
                 {
                   "type": "paragraph",
                   "content": [
-                    {
-                      "type": "text",
-                      "string": "alfa bravo"
-                    }
-                  ]
-                },
-                {
-                  "type": "paragraph",
-                  "content": [
-                    {
-                      "type": "text",
-                      "string": "charlie delta"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-
-    {
-      "name": "Load Page Attributes",
-      "notes": null,
-      "parts": {
-        "input": "-- attributes\n-- status: draft\n-- date: DATE_AS_A_STRING\n-- time: TIME_AS_A_STRING\n-- id: wkwkwk123 \n-- type: post\n",
-        "expected": {
-          "date": "DATE_AS_A_STRING",
-          "id": "wkwkwk123",
-          "status": "draft",
-          "time": "TIME_AS_A_STRING",
-          "type": "post" 
-        }
-      }
-    },
-
-    {
-      "name": "Convert single newlines to white space",
-      "notes": null,
-      "parts": {
-        "input": "-- p\n\ndelta\nkilo",
-        "expected": {
-          "sections": [
-            {
-              "type": "p",
-              "attributes": {},
-              "content": [
-                {
-                  "type": "paragraph",
-                  "content": [
-                    {
-                      "type": "text",
-                      "string": "deltal kilo"
-                    }
+                    { "type": "text", "content": "alfa"},
+                    { "type": "space"},
+                    { "type": "text", "content": "bravo"}
                   ]
                 }
               ]
