@@ -62,6 +62,7 @@ pub fn strong(source: &str) -> IResult<&str, Snippet> {
 }
 
 pub fn text(source: &str) -> IResult<&str, Snippet> {
+
     let (source, content) = is_not("\n<")(source)?;
     Ok((
         source,
@@ -69,4 +70,5 @@ pub fn text(source: &str) -> IResult<&str, Snippet> {
             string: content.to_string(),
         },
     ))
+    
 }

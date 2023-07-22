@@ -45,7 +45,6 @@
       }
     },
 
-
     {
       "name": "Load Page Attributes",
       "notes": null,
@@ -59,8 +58,33 @@
           "type": "post" 
         }
       }
+    },
+
+    {
+      "name": "Convert single newlines to white space",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n\ndelta\nkilo",
+        "expected": {
+          "sections": [
+            {
+              "type": "p",
+              "attributes": {},
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "string": "deltal kilo"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
-
-
   ]
 }
