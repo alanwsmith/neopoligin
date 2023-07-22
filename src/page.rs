@@ -52,6 +52,10 @@ fn id_attribute(source: &str) -> IResult<&str, Attribute, VerboseError<&str>> {
     Ok((source, Attribute::Id(value.to_string())))
 }
 
+fn line_cleanup(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
+    let (source, _) = pair(space0, line_ending)(source)?;
+    Ok((source, ""))
+}
 
 fn empty_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
     let (source, _) = pair(space0, line_ending)(source)?;
@@ -181,7 +185,7 @@ pub enum Token {
 }
 
 fn parse(source: &str) -> IResult<&str, Vec<Section>, VerboseError<&str>> {
-    let (source, sections) = separated_list1(spacer_line, section)(source)?;
+    let (source, sections) = separated_list1(empty_line, section)(source)?;
     Ok((source, sections))
 }
 
