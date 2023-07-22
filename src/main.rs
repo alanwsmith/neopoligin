@@ -1,7 +1,7 @@
-// use neopolengine::build_site::build_site;
+use neopolengine::build_site::build_site;
 // use notify::{RecursiveMode, Watcher};
 // use notify_debouncer_full::new_debouncer;
-// use std::fs;
+use std::fs;
 // use std::path::PathBuf;
 // use std::time::Duration;
 // use std::time::SystemTime;
@@ -13,9 +13,9 @@
 
 pub fn main() {
     dbg!("Under construction again");
-    // let db_path = "/Users/alan/Desktop/neopolengine.sqlite";
-    // let _ = fs::remove_file(db_path);
-    // build_site();
+    let db_path = "/Users/alan/Desktop/neopolengine.sqlite";
+    let _ = fs::remove_file(db_path);
+    build_site();
     // let path = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     // let _ = watch_files(path);
 }

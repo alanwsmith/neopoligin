@@ -17,23 +17,72 @@
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "alfa"},
-                    { "type": "space"},
-                    { "type": "link", "content": "bravo", "url": "https://www.example.com/"},
-                    { "type": "space"},
-                    { "type": "text", "content": "kilo"}
+                    { "type": "text", "content": "alfa" },
+                    { "type": "space" },
+                    {
+                      "type": "link",
+                      "content": "bravo",
+                      "url": "https://www.example.com/"
+                    },
+                    { "type": "space" },
+                    { "type": "text", "content": "kilo" }
                   ]
                 },
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "charlie"},
-                    { "type": "space"},
-                    { "type": "text", "content": "delta"},
-                    { "type": "space"},
-                    { "type": "text", "content": "echo"},
-                    { "type": "space"},
-                    { "type": "text", "content": "foxtrot"}
+                    { "type": "text", "content": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "content": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "content": "echo" },
+                    { "type": "space" },
+                    { "type": "text", "content": "foxtrot" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Smoke Test Starting With Title",
+      "notes": null,
+      "parts": {
+        "input": "-- title\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {
+                "id": "tango"
+              },
+              "type": "title",
+              "headline": {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "content": "alfa" },
+                  { "type": "space" },
+                  {
+                    "type": "link",
+                    "content": "bravo",
+                    "url": "https://www.example.com/"
+                  },
+                  { "type": "space" },
+                  { "type": "text", "content": "kilo" }
+                ]
+              },
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "content": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "content": "echo" },
+                    { "type": "space" },
+                    { "type": "text", "content": "foxtrot" }
                   ]
                 }
               ]

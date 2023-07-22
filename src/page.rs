@@ -2,6 +2,8 @@
 #![allow(unused_imports)]
 #![allow(unused_mut)]
 #![allow(dead_code)]
+use crate::attributes::attributes;
+use crate::attributes::AttributesObj;
 use nom::branch::alt;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
@@ -25,9 +27,9 @@ use nom::sequence::preceded;
 use nom::sequence::terminated;
 use nom::IResult;
 use nom::Parser;
-use crate::attributes::attributes;
 use serde::{Deserialize, Serialize};
-use crate::attributes::AttributesObj;
+use std::collections::HashMap;
+use std::path::PathBuf;
 
 fn line_cleanup(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
     let (source, _) = pair(space0, line_ending)(source)?;
@@ -39,7 +41,6 @@ fn empty_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
     Ok((source, ""))
 }
 
-
 fn spacer_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
     let (source, _) = pair(line_ending, line_ending)(source)?;
     Ok((source, ""))
@@ -49,47 +50,45 @@ fn spacer_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
 #[serde(tag = "type", rename_all = "lowercase")]
 pub struct Page {
     // pub attributes: Option<HashMap<String, String>>,
-    // pub blurb: Option<Vec<Block>>,
-    // pub categories: Option<Vec<String>>,
-    // pub config: Option<HashMap<String, String>>,
-    // pub css: Option<Vec<String>>,
+    pub blurb: Option<Vec<Block>>,
+    pub categories: Option<Vec<String>>,
+    pub config: Option<HashMap<String, String>>,
+    pub css: Option<Vec<String>>,
     pub date: Option<String>,
-    // pub head: Option<Vec<String>>,
+    pub head: Option<Vec<String>>,
     pub id: Option<String>,
-    // pub path: Option<PathBuf>,
+    pub path: Option<PathBuf>,
     // pub references: Option<Vec<Reference>>,
-    // pub scripts: Option<Vec<String>>,
+    pub scripts: Option<Vec<String>>,
     pub sections: Option<Vec<Section>>,
-    // pub source_hash: Option<String>,
+    pub source_hash: Option<String>,
     pub status: Option<String>,
-    // pub template: Option<String>,
+    pub template: Option<String>,
     pub time: Option<String>,
-    // pub title: Option<Vec<Block>>,
+    pub title: Option<Vec<Block>>,
     pub r#type: Option<String>,
 }
 
 impl Page {
     pub fn new_from(source: &str) -> Page {
-        dbg!("LOADING:");
-        dbg!(source);
         let mut p = Page {
             // attributes: None,
-            // blurb: None,
-            // categories: None,
-            // config: None,
-            // css: None,
+            blurb: None,
+            categories: None,
+            config: None,
+            css: None,
             date: None,
-            // head: None,
+            head: None,
             id: None,
             // references: None,
-            // path: None,
+            path: None,
             sections: None,
-            // scripts: None,
-            // source_hash: None,
+            scripts: None,
+            source_hash: None,
             status: None,
-            // template: None,
+            template: None,
             time: None,
-            // title: None,
+            title: None,
             r#type: None,
         };
         let raw_sections = parse(source).unwrap().1;
@@ -141,6 +140,11 @@ pub enum Section {
         attributes: Option<AttributesObj>,
         content: Option<Vec<Block>>,
     },
+    Title {
+        attributes: Option<AttributesObj>,
+        content: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
     // P {
     //     attributes: Option<String>,
     //     content: Option<Vec<Block>>,
@@ -151,13 +155,13 @@ pub enum Section {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Block {
-    Paragraph { content: Vec<Token> },
+    Paragraph { content: Vec<Token> }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Token {
-    Link{ url: String, content: String},
+    Link { url: String, content: String },
     Space,
     Text { content: String },
 }
@@ -168,19 +172,14 @@ fn parse(source: &str) -> IResult<&str, Vec<Section>, VerboseError<&str>> {
 }
 
 fn section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
-    let (source, section) = aside_section(source)?;
+    let (source, section) = alt((aside_section, title_section))(source)?;
     Ok((source, section))
 }
 
-
 fn aside_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
     let (source, _) = tag("-- aside")(source)?;
-    dbg!(&source);
     let (source, _) = pair(space0, line_ending)(source)?;
-    dbg!(&source);
     let (source, attributes) = attributes(source)?;
-    dbg!(&attributes);
-    dbg!(&source);
     let (source, _) = empty_line(source)?;
     let (source, content) = opt(many1(block))(source)?;
     Ok((
@@ -188,6 +187,23 @@ fn aside_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
         Section::Aside {
             attributes: Some(attributes),
             content,
+        },
+    ))
+}
+
+fn title_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
+    let (source, _) = tag("-- title")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attributes) = attributes(source)?;
+    let (source, _) = empty_line(source)?;
+    let (source, headline) = opt(block)(source)?;
+    let (source, content) = opt(many1(block))(source)?;
+    Ok((
+        source,
+        Section::Title {
+            attributes: Some(attributes),
+            content,
+            headline
         },
     ))
 }
@@ -230,5 +246,11 @@ fn link_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, _) = tag("|")(source)?;
     let (source, url) = is_not(">")(source)?;
     let (source, _) = tag(">>")(source)?;
-    Ok((source, Token::Link { content: text.to_string(), url: url.to_string()}))
+    Ok((
+        source,
+        Token::Link {
+            content: text.to_string(),
+            url: url.to_string(),
+        },
+    ))
 }
