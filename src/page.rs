@@ -8,9 +8,15 @@ use nom::bytes::complete::tag;
 use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
 use nom::character::complete::multispace1;
+use nom::character::complete::not_line_ending;
 use nom::character::complete::one_of;
+use nom::character::complete::space0;
+use nom::character::complete::space1;
 use nom::combinator::eof;
 use nom::combinator::not;
+use nom::combinator::opt;
+use nom::error::VerboseError;
+use nom::error::VerboseErrorKind;
 use nom::multi::many0;
 use nom::multi::many1;
 use nom::multi::separated_list1;
@@ -19,15 +25,44 @@ use nom::sequence::preceded;
 use nom::sequence::terminated;
 use nom::IResult;
 use nom::Parser;
-use nom::combinator::opt;
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "lowercase")]
+pub enum Attribute {
+    Id(String),
+    None,
+}
 
-fn spacer_line(source: &str) -> IResult<&str, &str> {
-    let (source, _) = pair(line_ending, line_ending)(source)?;
+fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>, VerboseError<&str>> {
+    dbg!("-----------------------");
+    dbg!(&source);
+    let (source, attributes) = opt(many1(id_attribute))(source)?;
+    dbg!(&source);
+    dbg!("======================");
+    Ok((source, attributes))
+}
+
+fn id_attribute(source: &str) -> IResult<&str, Attribute, VerboseError<&str>> {
+    let (source, _) = tag("-- id:")(source)?;
+    dbg!(&source);
+    let (source, _) = space1(source)?;
+    let (source, value) = not_line_ending(source)?;
+    let (source, _) = line_ending(source)?;
+    Ok((source, Attribute::Id(value.to_string())))
+}
+
+
+fn empty_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
+    let (source, _) = pair(space0, line_ending)(source)?;
     Ok((source, ""))
 }
 
+
+fn spacer_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
+    let (source, _) = pair(line_ending, line_ending)(source)?;
+    Ok((source, ""))
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -129,9 +164,7 @@ pub enum Section {
         attributes: Option<String>,
         content: Option<Vec<Block>>,
     },
-    RawPageAttributes(
-        Vec<(String, String)>
-    ),
+    RawPageAttributes(Vec<(String, String)>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -143,52 +176,70 @@ pub enum Block {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Token {
-    Text{ content: String },
+    Text { content: String },
     Space,
 }
 
-fn parse(source: &str) -> IResult<&str, Vec<Section>> {
+fn parse(source: &str) -> IResult<&str, Vec<Section>, VerboseError<&str>> {
     let (source, sections) = separated_list1(spacer_line, section)(source)?;
     Ok((source, sections))
 }
 
-fn section(source: &str) -> IResult<&str, Section> {
+fn section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
     let (source, section) = aside_section(source)?;
     Ok((source, section))
 }
 
-fn aside_section(source: &str) -> IResult<&str, Section> {
+
+fn aside_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
     let (source, _) = tag("-- aside")(source)?;
-    let (source, _) = spacer_line(source)?;
+    dbg!(&source);
+    let (source, _) = pair(space0, line_ending)(source)?;
+    dbg!(&source);
+    let (source, attributes) = attributes(source)?;
+    dbg!(&attributes);
+    dbg!(&source);
+    let (source, _) = empty_line(source)?;
     let (source, content) = opt(many1(block))(source)?;
-    Ok((source, Section::Aside{ attributes: None, content }))
+    Ok((
+        source,
+        Section::Aside {
+            attributes: None,
+            content,
+        },
+    ))
 }
 
-fn block(source: &str) -> IResult<&str, Block> {
+fn block(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
     let (source, _) = not(pair(multispace0, tag("--")))(source)?;
     let (source, block) = preceded(multispace0, paragraph_block)(source)?;
     Ok((source, block))
 }
 
-fn paragraph_block(source: &str) -> IResult<&str, Block> {
+fn paragraph_block(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
     let (source, content) = many1(token)(source)?;
-    Ok((source, Block::Paragraph{ content }))
+    Ok((source, Block::Paragraph { content }))
 }
 
-fn token(source: &str) -> IResult<&str, Token> {
+fn token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, _) = not(spacer_line)(source)?;
     let (source, token) = alt((text_token, space_token))(source)?;
     Ok((source, token))
 }
 
-fn space_token(source: &str) -> IResult<&str, Token> {
+fn space_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, _) = multispace1(source)?;
     Ok((source, Token::Space))
 }
 
-fn text_token(source: &str) -> IResult<&str, Token> {
+fn text_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, token) = is_not(" \n\t\r")(source)?;
-    Ok((source, Token::Text{ content: token.to_string() }))
+    Ok((
+        source,
+        Token::Text {
+            content: token.to_string(),
+        },
+    ))
 }
 
 // fn link_token(source: &str) -> IResult<&str, Token> {
