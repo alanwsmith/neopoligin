@@ -5,7 +5,7 @@
       "name": "Basic Smoke Test",
       "notes": null,
       "parts": {
-        "input": "-- aside\n-- id: tango\n\nalfa bravo\n\ncharlie delta\necho\nfoxtrot",
+        "input": "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
         "expected": {
           "sections": [
             {
@@ -19,7 +19,9 @@
                   "content": [
                     { "type": "text", "content": "alfa"},
                     { "type": "space"},
-                    { "type": "text", "content": "bravo"}
+                    { "type": "link", "content": "bravo", "url": "https://www.example.com/"},
+                    { "type": "space"},
+                    { "type": "text", "content": "kilo"}
                   ]
                 },
                 {

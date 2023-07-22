@@ -157,8 +157,9 @@ pub enum Block {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Token {
-    Text { content: String },
+    Link{ url: String, content: String},
     Space,
+    Text { content: String },
 }
 
 fn parse(source: &str) -> IResult<&str, Vec<Section>, VerboseError<&str>> {
@@ -204,7 +205,7 @@ fn paragraph_block(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
 
 fn token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, _) = not(spacer_line)(source)?;
-    let (source, token) = alt((text_token, space_token))(source)?;
+    let (source, token) = alt((text_token, link_token, space_token))(source)?;
     Ok((source, token))
 }
 
@@ -214,7 +215,7 @@ fn space_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
 }
 
 fn text_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
-    let (source, token) = is_not(" \n\t\r")(source)?;
+    let (source, token) = is_not("< \n\t\r")(source)?;
     Ok((
         source,
         Token::Text {
@@ -223,11 +224,11 @@ fn text_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     ))
 }
 
-// fn link_token(source: &str) -> IResult<&str, Token> {
-//     let (source, _) = tag("<<link|")(source)?;
-//     let (source, text) = is_not("|")(source)?;
-//     let (source, _) = tag("|")(source)?;
-//     let (source, url) = is_not(">")(source)?;
-//     let (source, _) = tag(">>")(source)?;
-//     Ok((source, Token::Link(text.to_string(), url.to_string())))
-// }
+fn link_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
+    let (source, _) = tag("<<link|")(source)?;
+    let (source, text) = is_not("|")(source)?;
+    let (source, _) = tag("|")(source)?;
+    let (source, url) = is_not(">")(source)?;
+    let (source, _) = tag(">>")(source)?;
+    Ok((source, Token::Link { content: text.to_string(), url: url.to_string()}))
+}
