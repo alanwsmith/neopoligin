@@ -20,12 +20,7 @@ use nom::sequence::terminated;
 use nom::IResult;
 use nom::Parser;
 use nom::combinator::opt;
-// use crate::blocks::Block;
-// use crate::sections::sections;
-// use crate::sections::Section;
 use serde::{Deserialize, Serialize};
-// use std::collections::HashMap;
-// use std::path::PathBuf;
 
 
 fn spacer_line(source: &str) -> IResult<&str, &str> {
@@ -81,10 +76,7 @@ impl Page {
             // title: None,
             r#type: None,
         };
-
         let raw_sections = parse(source).unwrap().1;
-
-
         let filtered_sections: Option<Vec<Section>> = Some(
             raw_sections
                 .into_iter()
@@ -117,19 +109,11 @@ impl Page {
                 })
                 .collect(),
         );
-
-
-
         if filtered_sections.as_ref().unwrap().len() == 0 {
             p.sections = None;
         } else {
             p.sections = filtered_sections;
         }
-
-
-
-
-
         p
     }
 }
@@ -162,12 +146,6 @@ pub enum Token {
     Text{ content: String },
     Space,
 }
-
-
-// pub fn sections(source: &str) -> IResult<&str, Vec<Section>> {
-//     Ok((source, vec![]))
-// }
-
 
 fn parse(source: &str) -> IResult<&str, Vec<Section>> {
     let (source, sections) = separated_list1(spacer_line, section)(source)?;
