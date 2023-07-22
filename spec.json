@@ -9,6 +9,9 @@
         "expected": {
           "sections": [
             {
+              "attributes": {
+                "id": "tango"
+              },
               "type": "aside",
               "content": [
                 {

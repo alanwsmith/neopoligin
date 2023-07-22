@@ -25,32 +25,9 @@ use nom::sequence::preceded;
 use nom::sequence::terminated;
 use nom::IResult;
 use nom::Parser;
+use crate::attributes::attributes;
 use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "lowercase")]
-pub enum Attribute {
-    Id(String),
-    None,
-}
-
-fn attributes(source: &str) -> IResult<&str, Option<Vec<Attribute>>, VerboseError<&str>> {
-    dbg!("-----------------------");
-    dbg!(&source);
-    let (source, attributes) = opt(many1(id_attribute))(source)?;
-    dbg!(&source);
-    dbg!("======================");
-    Ok((source, attributes))
-}
-
-fn id_attribute(source: &str) -> IResult<&str, Attribute, VerboseError<&str>> {
-    let (source, _) = tag("-- id:")(source)?;
-    dbg!(&source);
-    let (source, _) = space1(source)?;
-    let (source, value) = not_line_ending(source)?;
-    let (source, _) = line_ending(source)?;
-    Ok((source, Attribute::Id(value.to_string())))
-}
+use crate::attributes::AttributesObj;
 
 fn line_cleanup(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
     let (source, _) = pair(space0, line_ending)(source)?;
@@ -161,13 +138,13 @@ impl Page {
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Section {
     Aside {
-        attributes: Option<String>,
+        attributes: Option<AttributesObj>,
         content: Option<Vec<Block>>,
     },
-    P {
-        attributes: Option<String>,
-        content: Option<Vec<Block>>,
-    },
+    // P {
+    //     attributes: Option<String>,
+    //     content: Option<Vec<Block>>,
+    // },
     RawPageAttributes(Vec<(String, String)>),
 }
 
@@ -208,7 +185,7 @@ fn aside_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
     Ok((
         source,
         Section::Aside {
-            attributes: None,
+            attributes: Some(attributes),
             content,
         },
     ))
