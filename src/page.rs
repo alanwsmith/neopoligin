@@ -199,14 +199,14 @@ fn paragraph_block(source: &str) -> IResult<&str, Block> {
 
 fn token(source: &str) -> IResult<&str, Token> {
     let (source, _) = not(spacer_line)(source)?;
-    let (source, token) = alt((text_token, text_token))(source)?;
+    let (source, token) = alt((text_token, space_token))(source)?;
     Ok((source, token))
 }
 
-// fn space_token(source: &str) -> IResult<&str, Token> {
-//     let (source, _) = multispace1(source)?;
-//     Ok((source, Token::Space))
-// }
+fn space_token(source: &str) -> IResult<&str, Token> {
+    let (source, _) = multispace1(source)?;
+    Ok((source, Token::Space))
+}
 
 fn text_token(source: &str) -> IResult<&str, Token> {
     let (source, token) = is_not(" \n\t\r")(source)?;
