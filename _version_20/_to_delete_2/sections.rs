@@ -76,7 +76,6 @@ pub fn aside(source: &str) -> IResult<&str, Section> {
     ))
 }
 
-
 pub fn list(source: &str) -> IResult<&str, Section> {
     // Version 1 tests in place
     let (source, _) = tag_no_case("-- list")(source)?;

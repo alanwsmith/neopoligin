@@ -150,9 +150,7 @@
               "type": "title",
               "headline": {
                 "type": "paragraph",
-                "content": [
-                  { "type": "text", "content": "alanwsmith.com" }
-                ]
+                "content": [{ "type": "text", "content": "alanwsmith.com" }]
               },
               "content": [
                 {
@@ -209,12 +207,41 @@
           ]
         }
       }
+    },
+
+    {
+      "name": "List Test",
+      "notes": null,
+      "parts": {
+        "input": "-- list\n-- id: tango\n\n- alfa <<link|bravo|https://www.example.com/>> kilo\n\n- charlie delta",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {
+                "id": "tango"
+              },
+              "type": "list",
+              "items": [
+                {
+                  "type": "listitem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        { "type": "text", "content": "You're" },
+                        { "type": "space" },
+                        { "type": "text", "content": "those" },
+                        { "type": "space" },
+                        { "type": "text", "content": "formats." }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
-
-
-
-     
-
-
   ]
 }

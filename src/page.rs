@@ -20,6 +20,7 @@ use nom::combinator::opt;
 use nom::error::VerboseError;
 use nom::error::VerboseErrorKind;
 use nom::multi::many0;
+use nom::bytes::complete::tag_no_case;
 use nom::multi::many1;
 use nom::multi::separated_list1;
 use nom::sequence::pair;
@@ -149,6 +150,11 @@ pub enum Section {
         attributes: Option<AttributesObj>,
         content: Option<Vec<Block>>,
     },
+    List {
+        attributes: Option<AttributesObj>,
+        items: Option<Vec<Container>>,
+        preface: Option<Vec<Block>>,
+    },
     RawPageAttributes(Vec<(String, String)>),
 }
 
@@ -156,6 +162,14 @@ pub enum Section {
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Block {
     Paragraph { content: Vec<Token> },
+}
+
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(tag = "type", rename_all = "lowercase")]
+pub enum Container {
+    ListItem { content: Vec<Block> },
+    None,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -172,7 +186,7 @@ fn parse(source: &str) -> IResult<&str, Vec<Section>, VerboseError<&str>> {
 }
 
 fn section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
-    let (source, section) = alt((aside_section, p_section, title_section))(source)?;
+    let (source, section) = alt((aside_section, list_section, p_section, title_section))(source)?;
     Ok((source, section))
 }
 
@@ -245,7 +259,6 @@ fn single_newline(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     Ok((source, Token::Space))
 }
 
-
 fn space_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, _) = space1(source)?;
     Ok((source, Token::Space))
@@ -275,3 +288,30 @@ fn link_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
         },
     ))
 }
+
+pub fn list_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
+    // Version 1 tests in place
+    let (source, _) = tag_no_case("-- list")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attributes) = opt(attributes)(source)?;
+    let (source, _) = empty_line(source)?;
+    // let (source, _) = line_ending(source)?;
+    // let (source, attributes) = attributes(source)?;
+    // let (source, preface) = opt(many1(preceded(multispace0, list_paragraph)))(source)?;
+    // let (source, items) = opt(many1(preceded(multispace0, list_item)))(source)?;
+    Ok((
+        source,
+        Section::List {
+            attributes ,
+            items: None ,
+            preface: None,
+        },
+    ))
+}
+
+// pub fn list_paragraph(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
+//     // seeing a `-` means a new paragraph has started
+//     // let (source, _) = not(tag("-"))(source)?;
+//     // let (source, content) = many1(preceded(opt(line_ending), contents))(source)?;
+//     // Ok((source, Block::Paragraph { content }))
+// }
