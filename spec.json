@@ -1,5 +1,7 @@
 {
-  "notes": [],
+  "notes": [
+    "Several of these tests have inputs that end with a `\n``. That's required in most cases"
+  ],
   "smoke_tests": [
 
     {
@@ -31,24 +33,22 @@
 
     {
       "name": "Image",
-      "notes": null,
+      "notes": [
+        "the id is what gets defined here",
+        "the src gets filled in later with the full path", 
+        "that split is done so things can be tested without having to mess with the file system"
+      ],
       "parts": {
-        "input": "-- image\n-- delta_echo\n\n-- alt: sierra bravo",
+        "input": "-- image\n-- delta_echo\n",
         "expected": {
           "sections": [
             {
-              "attributes": { "id": "tango" },
-              "type": "aside",
-              "content": [
-                {
-                  "type": "paragraph",
-                  "content": [
-                    { "type": "text", "content": "alfa" },
-                    { "type": "space" },
-                    { "type": "text", "content": "kilo" }
-                  ]
-                }
-              ]
+              "type": "image",
+              "alt": null,
+              "attributes": null,
+              "caption": null,
+              "id": "delta_echo",
+              "src": null
             }
           ]
         }

@@ -35,6 +35,7 @@ use std::path::PathBuf;
 use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
+use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
 use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::title_section::title_section;
@@ -51,6 +52,13 @@ pub enum NeoSection {
     Aside {
         attributes: Option<AttributesObj>,
         content: Option<Vec<Block>>,
+    },
+    Image {
+        alt: Option<String>,
+        attributes: Option<AttributesObj>,
+        caption: Option<Vec<Block>>,
+        id: String,
+        src: Option<String>,
     },
     List {
         attributes: Option<AttributesObj>,
@@ -70,6 +78,12 @@ pub enum NeoSection {
 }
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, section) = alt((aside_section, list_section, p_section, title_section))(source)?;
+    let (source, section) = alt((
+        aside_section,
+        image_section,
+        list_section,
+        p_section,
+        title_section,
+    ))(source)?;
     Ok((source, section))
 }
