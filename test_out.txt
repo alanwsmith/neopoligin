@@ -1,0 +1,29 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test solo_test_specs ... FAILED
+
+failures:
+
+---- solo_test_specs stdout ----
+[tests/spec_test.rs:37] &x.parts.input = "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot"
+[tests/spec_test.rs:37] &x.parts.input = "-- title\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot"
+[tests/spec_test.rs:37] &x.parts.input = "-- p\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot"
+thread 'solo_test_specs' panicked at 'called `Result::unwrap()` on an `Err` value: Error(VerboseError { errors: [("-- p\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot", Nom(Tag)), ("-- p\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot", Nom(Alt))] })', src/page.rs:94:42
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    solo_test_specs
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

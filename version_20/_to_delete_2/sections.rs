@@ -95,21 +95,21 @@ pub fn list(source: &str) -> IResult<&str, Section> {
     ))
 }
 
-pub fn p(source: &str) -> IResult<&str, Section> {
-    // Version 1 tests in place
-    let (source, _) = tag_no_case("-- p")(source)?;
-    let (source, _) = space0(source)?;
-    let (source, _) = line_ending(source)?;
-    let (source, attributes) = attributes(source)?;
-    let (source, content) = paragraphs(source)?;
-    Ok((
-        source,
-        Section::P {
-            attributes,
-            content,
-        },
-    ))
-}
+// pub fn p(source: &str) -> IResult<&str, Section> {
+//     // Version 1 tests in place
+//     let (source, _) = tag_no_case("-- p")(source)?;
+//     let (source, _) = space0(source)?;
+//     let (source, _) = line_ending(source)?;
+//     let (source, attributes) = attributes(source)?;
+//     let (source, content) = paragraphs(source)?;
+//     Ok((
+//         source,
+//         Section::P {
+//             attributes,
+//             content,
+//         },
+//     ))
+// }
 
 pub fn raw_page_attributes(source: &str) -> IResult<&str, Section> {
     let (source, _) = tag_no_case("-- attributes")(source)?;

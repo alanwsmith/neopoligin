@@ -145,17 +145,17 @@ pub enum Section {
         content: Option<Vec<Block>>,
         headline: Option<Block>,
     },
-    // P {
-    //     attributes: Option<String>,
-    //     content: Option<Vec<Block>>,
-    // },
+    P {
+        attributes: Option<AttributesObj>,
+        content: Option<Vec<Block>>,
+    },
     RawPageAttributes(Vec<(String, String)>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Block {
-    Paragraph { content: Vec<Token> }
+    Paragraph { content: Vec<Token> },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -167,12 +167,12 @@ pub enum Token {
 }
 
 fn parse(source: &str) -> IResult<&str, Vec<Section>, VerboseError<&str>> {
-    let (source, sections) = separated_list1(empty_line, section)(source)?;
+    let (source, sections) = separated_list1(empty_line, preceded(multispace0, section))(source)?;
     Ok((source, sections))
 }
 
 fn section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
-    let (source, section) = alt((aside_section, title_section))(source)?;
+    let (source, section) = alt((aside_section, p_section, title_section))(source)?;
     Ok((source, section))
 }
 
@@ -191,6 +191,21 @@ fn aside_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
     ))
 }
 
+fn p_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
+    let (source, _) = tag("-- p")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attributes) = attributes(source)?;
+    let (source, _) = empty_line(source)?;
+    let (source, content) = opt(many1(block))(source)?;
+    Ok((
+        source,
+        Section::P {
+            attributes: Some(attributes),
+            content,
+        },
+    ))
+}
+
 fn title_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
     let (source, _) = tag("-- title")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
@@ -203,7 +218,7 @@ fn title_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> {
         Section::Title {
             attributes: Some(attributes),
             content,
-            headline
+            headline,
         },
     ))
 }
@@ -221,12 +236,18 @@ fn paragraph_block(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
 
 fn token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     let (source, _) = not(spacer_line)(source)?;
-    let (source, token) = alt((text_token, link_token, space_token))(source)?;
+    let (source, token) = alt((single_newline, text_token, link_token, space_token))(source)?;
     Ok((source, token))
 }
 
+fn single_newline(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
+    let (source, _) = pair(line_ending, not(line_ending))(source)?;
+    Ok((source, Token::Space))
+}
+
+
 fn space_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
-    let (source, _) = multispace1(source)?;
+    let (source, _) = space1(source)?;
     Ok((source, Token::Space))
 }
 

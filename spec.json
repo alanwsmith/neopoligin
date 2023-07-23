@@ -90,6 +90,131 @@
           ]
         }
       }
+    },
+
+    {
+      "name": "Paragraphs test",
+      "notes": null,
+      "parts": {
+        "input": "-- p\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {
+                "id": "tango"
+              },
+              "type": "p",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "alfa" },
+                    { "type": "space" },
+                    {
+                      "type": "link",
+                      "content": "bravo",
+                      "url": "https://www.example.com/"
+                    },
+                    { "type": "space" },
+                    { "type": "text", "content": "kilo" }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "content": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "content": "echo" },
+                    { "type": "space" },
+                    { "type": "text", "content": "foxtrot" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "name": "Paragraphs From Issue",
+      "notes": null,
+      "parts": {
+        "input": "-- title\n\nalanwsmith.com\n\nHello and Welcome!\n\n-- p\n\nYou're those formats.\n\nThe format overhead. \n\nNeopolitan you can. \n\n",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {},
+              "type": "title",
+              "headline": {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "content": "alanwsmith.com" }
+                ]
+              },
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "Hello" },
+                    { "type": "space" },
+                    { "type": "text", "content": "and" },
+                    { "type": "space" },
+                    { "type": "text", "content": "Welcome!" }
+                  ]
+                }
+              ]
+            },
+
+            {
+              "attributes": {},
+              "type": "p",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "You're" },
+                    { "type": "space" },
+                    { "type": "text", "content": "those" },
+                    { "type": "space" },
+                    { "type": "text", "content": "formats." }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "The" },
+                    { "type": "space" },
+                    { "type": "text", "content": "format" },
+                    { "type": "space" },
+                    { "type": "text", "content": "overhead." },
+                    { "type": "space" }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "Neopolitan" },
+                    { "type": "space" },
+                    { "type": "text", "content": "you" },
+                    { "type": "space" },
+                    { "type": "text", "content": "can." },
+                    { "type": "space" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
     }
+
+
+
+     
+
+
   ]
 }

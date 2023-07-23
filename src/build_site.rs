@@ -69,7 +69,7 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
-    pages.iter().take(7).for_each(|page| {
+    pages.iter().for_each(|page| {
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         let template_id = match (&page.r#type, &page.template) {
             (None, None) => "post",
