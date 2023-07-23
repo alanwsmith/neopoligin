@@ -35,7 +35,7 @@ use std::path::PathBuf;
 
 
 
-fn line_cleanup(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
+pub fn line_cleanup(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
     let (source, _) = pair(space0, line_ending)(source)?;
     Ok((source, ""))
 }
