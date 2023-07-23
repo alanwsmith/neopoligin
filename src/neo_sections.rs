@@ -54,10 +54,8 @@ pub enum NeoSection {
         content: Option<Vec<Block>>,
     },
     Image {
-        alt: Option<String>,
         attributes: Option<AttributesObj>,
         caption: Option<Vec<Block>>,
-        id: String,
         src: Option<String>,
     },
     List {
