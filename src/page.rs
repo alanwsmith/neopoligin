@@ -295,6 +295,10 @@ pub fn list_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> 
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(attributes)(source)?;
     let (source, _) = empty_line(source)?;
+    // let (source, preface) = opt(block)(source)?;
+    let (source, items) = opt(many1(preceded(multispace0, list_item)))(source)?;
+    
+
     // let (source, _) = line_ending(source)?;
     // let (source, attributes) = attributes(source)?;
     // let (source, preface) = opt(many1(preceded(multispace0, list_paragraph)))(source)?;
@@ -303,15 +307,21 @@ pub fn list_section(source: &str) -> IResult<&str, Section, VerboseError<&str>> 
         source,
         Section::List {
             attributes ,
-            items: None ,
+            items ,
             preface: None,
         },
     ))
 }
 
-// pub fn list_paragraph(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
-//     // seeing a `-` means a new paragraph has started
-//     // let (source, _) = not(tag("-"))(source)?;
-//     // let (source, content) = many1(preceded(opt(line_ending), contents))(source)?;
-//     // Ok((source, Block::Paragraph { content }))
-// }
+pub fn list_paragraph(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
+    // seeing a `-` means a new paragraph has started
+    let (source, _) = not(tag("-"))(source)?;
+    let (source, content) = many1(token)(source)?;
+    Ok((source, Block::Paragraph { content }))
+}
+
+pub fn list_item(source: &str) -> IResult<&str, Container, VerboseError<&str>> {
+    let (source, _) = tag("- ")(source)?;
+    let (source, content) = many1(preceded(multispace0, list_paragraph))(source)?;
+    Ok((source, Container::ListItem { content }))
+}

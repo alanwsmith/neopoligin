@@ -10,19 +10,12 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 
 running 1 test
-test solo_test_specs ... FAILED
+test solo_test_specs ... ok
 
-failures:
-
----- solo_test_specs stdout ----
-thread 'solo_test_specs' panicked at 'assertion failed: `(left == right)`
-  left: `Page { blurb: None, categories: None, config: None, css: None, date: None, head: None, id: None, path: None, scripts: None, sections: Some([List { attributes: Some(AttributesObj { accesskey: None, autocapitalize: None, autofocus: None, contenteditable: None, class: None, id: Some("tango") }), items: Some([ListItem { content: [Paragraph { content: [Text { content: "You're" }, Space, Text { content: "those" }, Space, Text { content: "formats." }] }] }]), preface: None }]), source_hash: None, status: None, template: None, time: None, title: None, type: None }`,
- right: `Page { blurb: None, categories: None, config: None, css: None, date: None, head: None, id: None, path: None, scripts: None, sections: Some([List { attributes: Some(AttributesObj { accesskey: None, autocapitalize: None, autofocus: None, contenteditable: None, class: None, id: Some("tango") }), items: None, preface: None }]), source_hash: None, status: None, template: None, time: None, title: None, type: None }`', tests/spec_test.rs:39:9
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 
-failures:
-    solo_test_specs
+running 0 tests
 
-test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 

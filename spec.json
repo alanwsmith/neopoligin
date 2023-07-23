@@ -228,15 +228,30 @@
                     {
                       "type": "paragraph",
                       "content": [
-                        { "type": "text", "content": "You're" },
+                        { "type": "text", "content": "alfa" },
                         { "type": "space" },
-                        { "type": "text", "content": "those" },
+                        { "type": "link", "content": "bravo", "url": "https://www.example.com/"  },
                         { "type": "space" },
-                        { "type": "text", "content": "formats." }
+                        { "type": "text", "content": "kilo" }
+                      ]
+                    }
+                  ]
+                },
+
+                {
+                  "type": "listitem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        { "type": "text", "content": "charlie" },
+                        { "type": "space" },
+                        { "type": "text", "content": "delta" }
                       ]
                     }
                   ]
                 }
+
               ]
             }
           ]
