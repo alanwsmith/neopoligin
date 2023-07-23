@@ -31,6 +31,98 @@
     },
 
     {
+      "name": "H1",
+      "notes": null,
+      "parts": {
+        "input": "-- h1\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {
+                "id": "tango"
+              },
+              "type": "h1",
+              "headline": {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "content": "alfa" },
+                  { "type": "space" },
+                  {
+                    "type": "link",
+                    "content": "bravo",
+                    "url": "https://www.example.com/"
+                  },
+                  { "type": "space" },
+                  { "type": "text", "content": "kilo" }
+                ]
+              },
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "content": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "content": "echo" },
+                    { "type": "space" },
+                    { "type": "text", "content": "foxtrot" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+ 
+    {
+      "name": "Basic Smoke Test",
+      "notes": null,
+      "parts": {
+        "input": "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {
+                "id": "tango"
+              },
+              "type": "aside",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "alfa" },
+                    { "type": "space" },
+                    {
+                      "type": "link",
+                      "content": "bravo",
+                      "url": "https://www.example.com/"
+                    },
+                    { "type": "space" },
+                    { "type": "text", "content": "kilo" }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "content": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "content": "echo" },
+                    { "type": "space" },
+                    { "type": "text", "content": "foxtrot" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+
+    {
       "name": "Image",
       "notes": [
         "The src gets defined here, it's hard coded to my directory", 
