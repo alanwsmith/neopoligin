@@ -32,20 +32,6 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-fn line_cleanup(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
-    let (source, _) = pair(space0, line_ending)(source)?;
-    Ok((source, ""))
-}
-
-fn empty_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
-    let (source, _) = pair(space0, line_ending)(source)?;
-    Ok((source, ""))
-}
-
-fn spacer_line(source: &str) -> IResult<&str, &str, VerboseError<&str>> {
-    let (source, _) = pair(line_ending, line_ending)(source)?;
-    Ok((source, ""))
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -134,43 +120,7 @@ impl Page {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Section {
-    Aside {
-        attributes: Option<AttributesObj>,
-        content: Option<Vec<Block>>,
-    },
-    Title {
-        attributes: Option<AttributesObj>,
-        content: Option<Vec<Block>>,
-        headline: Option<Block>,
-    },
-    P {
-        attributes: Option<AttributesObj>,
-        content: Option<Vec<Block>>,
-    },
-    List {
-        attributes: Option<AttributesObj>,
-        items: Option<Vec<Container>>,
-        preface: Option<Vec<Block>>,
-    },
-    RawPageAttributes(Vec<(String, String)>),
-}
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Block {
-    Paragraph { content: Vec<Token> },
-}
-
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Container {
-    ListItem { content: Vec<Block> },
-    None,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]

@@ -1,17 +1,16 @@
 {
   "notes": [],
   "smoke_tests": [
+
     {
-      "name": "Basic Smoke Test",
+      "name": "Test Template",
       "notes": null,
       "parts": {
-        "input": "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+        "input": "-- aside\n-- id: tango\n\nalfa kilo",
         "expected": {
           "sections": [
             {
-              "attributes": {
-                "id": "tango"
-              },
+              "attributes": { "id": "tango" },
               "type": "aside",
               "content": [
                 {
@@ -19,25 +18,7 @@
                   "content": [
                     { "type": "text", "content": "alfa" },
                     { "type": "space" },
-                    {
-                      "type": "link",
-                      "content": "bravo",
-                      "url": "https://www.example.com/"
-                    },
-                    { "type": "space" },
                     { "type": "text", "content": "kilo" }
-                  ]
-                },
-                {
-                  "type": "paragraph",
-                  "content": [
-                    { "type": "text", "content": "charlie" },
-                    { "type": "space" },
-                    { "type": "text", "content": "delta" },
-                    { "type": "space" },
-                    { "type": "text", "content": "echo" },
-                    { "type": "space" },
-                    { "type": "text", "content": "foxtrot" }
                   ]
                 }
               ]
@@ -46,6 +27,36 @@
         }
       }
     },
+
+
+    {
+      "name": "Image",
+      "notes": null,
+      "parts": {
+        "input": "-- image\n-- delta_echo\n\n-- alt: sierra bravo",
+        "expected": {
+          "sections": [
+            {
+              "attributes": { "id": "tango" },
+              "type": "aside",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "alfa" },
+                    { "type": "space" },
+                    { "type": "text", "content": "kilo" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+
+
+
     {
       "name": "Smoke Test Starting With Title",
       "notes": null,
@@ -91,6 +102,53 @@
         }
       }
     },
+ 
+    {
+      "name": "Basic Smoke Test",
+      "notes": null,
+      "parts": {
+        "input": "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+        "expected": {
+          "sections": [
+            {
+              "attributes": {
+                "id": "tango"
+              },
+              "type": "aside",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "alfa" },
+                    { "type": "space" },
+                    {
+                      "type": "link",
+                      "content": "bravo",
+                      "url": "https://www.example.com/"
+                    },
+                    { "type": "space" },
+                    { "type": "text", "content": "kilo" }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "content": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "content": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "content": "echo" },
+                    { "type": "space" },
+                    { "type": "text", "content": "foxtrot" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+
 
     {
       "name": "Paragraphs test",
