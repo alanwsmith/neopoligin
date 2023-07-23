@@ -11,6 +11,7 @@ use minijinja::context;
 use minijinja::path_loader;
 use minijinja::Environment;
 use rusqlite::{Connection, Result};
+use serde::{Deserialize, Serialize};
 use sha256::digest;
 use std::collections::HashSet;
 use std::fs;
@@ -18,12 +19,37 @@ use std::path::PathBuf;
 use std::vec;
 use walkdir::WalkDir;
 
-
-
 pub struct Universe {
-    pub pages: Vec<Page>
+    pub pages: Vec<Page>,
+    pub all_links_cache: Option<Vec<Link>>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(tag = "type", rename_all = "lowercase")]
+pub enum Link {
+    Internal { url: String, text: String },
+}
+
+impl Universe {
+    pub fn all_links(&mut self) -> Vec<Link> {
+        match self.all_links_cache.clone() {
+            None => {
+                self.all_links_cache = Some(
+                    self.pages
+                        .clone()
+                        .into_iter()
+                        .map(|page| Link::Internal {
+                            url: page.path.as_ref().unwrap().display().to_string(),
+                            text: page.path.as_ref().unwrap().display().to_string(),
+                        })
+                        .collect(),
+                );
+                self.all_links_cache.clone().unwrap()
+            }
+            Some(cache) => cache,
+        }
+    }
+}
 
 pub fn build_site() {
     println!("Starting site build");
@@ -37,10 +63,9 @@ pub fn build_site() {
     env.set_loader(path_loader(template_path.as_str()));
 
     let mut u = Universe {
-        pages: vec![]
+        pages: vec![],
+        all_links_cache: None,
     };
-
-    //let mut pages: Vec<Page> = vec![];
 
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
@@ -81,7 +106,7 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
-    u.pages.iter().for_each(|page| {
+    u.pages.clone().into_iter().for_each(|page| {
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         let template_id = match (&page.r#type, &page.template) {
             (None, None) => "post",
@@ -91,7 +116,9 @@ pub fn build_site() {
         let output = template
             .unwrap()
             .render(context!(
-                page => page
+                page => page,
+             all_links => u.all_links()
+
             ))
             .unwrap();
         // The `page.path`` has an absolute path from the site
