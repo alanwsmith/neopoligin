@@ -17,9 +17,9 @@ pub mod text_token;
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Token {
-    Link { url: String, content: String },
+    Link { url: String, string: String },
     Space,
-    Text { content: String },
+    Text { string: String },
 }
 
 pub fn token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {

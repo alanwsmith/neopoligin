@@ -18,9 +18,9 @@
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "alfa" },
+                    { "type": "text", "string": "alfa" },
                     { "type": "space" },
-                    { "type": "text", "content": "kilo" }
+                    { "type": "text", "string": "kilo" }
                   ]
                 }
               ]
@@ -45,28 +45,28 @@
               "headline": {
                 "type": "paragraph",
                 "content": [
-                  { "type": "text", "content": "alfa" },
+                  { "type": "text", "string": "alfa" },
                   { "type": "space" },
                   {
                     "type": "link",
-                    "content": "bravo",
+                    "string": "bravo",
                     "url": "https://www.example.com/"
                   },
                   { "type": "space" },
-                  { "type": "text", "content": "kilo" }
+                  { "type": "text", "string": "kilo" }
                 ]
               },
               "body": [
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "charlie" },
+                    { "type": "text", "string": "charlie" },
                     { "type": "space" },
-                    { "type": "text", "content": "delta" },
+                    { "type": "text", "string": "delta" },
                     { "type": "space" },
-                    { "type": "text", "content": "echo" },
+                    { "type": "text", "string": "echo" },
                     { "type": "space" },
-                    { "type": "text", "content": "foxtrot" }
+                    { "type": "text", "string": "foxtrot" }
                   ]
                 }
               ]
@@ -92,27 +92,27 @@
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "alfa" },
+                    { "type": "text", "string": "alfa" },
                     { "type": "space" },
                     {
                       "type": "link",
-                      "content": "bravo",
+                      "string": "bravo",
                       "url": "https://www.example.com/"
                     },
                     { "type": "space" },
-                    { "type": "text", "content": "kilo" }
+                    { "type": "text", "string": "kilo" }
                   ]
                 },
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "charlie" },
+                    { "type": "text", "string": "charlie" },
                     { "type": "space" },
-                    { "type": "text", "content": "delta" },
+                    { "type": "text", "string": "delta" },
                     { "type": "space" },
-                    { "type": "text", "content": "echo" },
+                    { "type": "text", "string": "echo" },
                     { "type": "space" },
-                    { "type": "text", "content": "foxtrot" }
+                    { "type": "text", "string": "foxtrot" }
                   ]
                 }
               ]
@@ -159,28 +159,28 @@
               "headline": {
                 "type": "paragraph",
                 "content": [
-                  { "type": "text", "content": "alfa" },
+                  { "type": "text", "string": "alfa" },
                   { "type": "space" },
                   {
                     "type": "link",
-                    "content": "bravo",
+                    "string": "bravo",
                     "url": "https://www.example.com/"
                   },
                   { "type": "space" },
-                  { "type": "text", "content": "kilo" }
+                  { "type": "text", "string": "kilo" }
                 ]
               },
               "content": [
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "charlie" },
+                    { "type": "text", "string": "charlie" },
                     { "type": "space" },
-                    { "type": "text", "content": "delta" },
+                    { "type": "text", "string": "delta" },
                     { "type": "space" },
-                    { "type": "text", "content": "echo" },
+                    { "type": "text", "string": "echo" },
                     { "type": "space" },
-                    { "type": "text", "content": "foxtrot" }
+                    { "type": "text", "string": "foxtrot" }
                   ]
                 }
               ]
@@ -206,27 +206,27 @@
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "alfa" },
+                    { "type": "text", "string": "alfa" },
                     { "type": "space" },
                     {
                       "type": "link",
-                      "content": "bravo",
+                      "string": "bravo",
                       "url": "https://www.example.com/"
                     },
                     { "type": "space" },
-                    { "type": "text", "content": "kilo" }
+                    { "type": "text", "string": "kilo" }
                   ]
                 },
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "charlie" },
+                    { "type": "text", "string": "charlie" },
                     { "type": "space" },
-                    { "type": "text", "content": "delta" },
+                    { "type": "text", "string": "delta" },
                     { "type": "space" },
-                    { "type": "text", "content": "echo" },
+                    { "type": "text", "string": "echo" },
                     { "type": "space" },
-                    { "type": "text", "content": "foxtrot" }
+                    { "type": "text", "string": "foxtrot" }
                   ]
                 }
               ]
@@ -253,27 +253,27 @@
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "alfa" },
+                    { "type": "text", "string": "alfa" },
                     { "type": "space" },
                     {
                       "type": "link",
-                      "content": "bravo",
+                      "string": "bravo",
                       "url": "https://www.example.com/"
                     },
                     { "type": "space" },
-                    { "type": "text", "content": "kilo" }
+                    { "type": "text", "string": "kilo" }
                   ]
                 },
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "charlie" },
+                    { "type": "text", "string": "charlie" },
                     { "type": "space" },
-                    { "type": "text", "content": "delta" },
+                    { "type": "text", "string": "delta" },
                     { "type": "space" },
-                    { "type": "text", "content": "echo" },
+                    { "type": "text", "string": "echo" },
                     { "type": "space" },
-                    { "type": "text", "content": "foxtrot" }
+                    { "type": "text", "string": "foxtrot" }
                   ]
                 }
               ]
@@ -295,17 +295,17 @@
               "type": "title",
               "headline": {
                 "type": "paragraph",
-                "content": [{ "type": "text", "content": "alanwsmith.com" }]
+                "content": [{ "type": "text", "string": "alanwsmith.com" }]
               },
               "content": [
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "Hello" },
+                    { "type": "text", "string": "Hello" },
                     { "type": "space" },
-                    { "type": "text", "content": "and" },
+                    { "type": "text", "string": "and" },
                     { "type": "space" },
-                    { "type": "text", "content": "Welcome!" }
+                    { "type": "text", "string": "Welcome!" }
                   ]
                 }
               ]
@@ -318,32 +318,32 @@
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "You're" },
+                    { "type": "text", "string": "You're" },
                     { "type": "space" },
-                    { "type": "text", "content": "those" },
+                    { "type": "text", "string": "those" },
                     { "type": "space" },
-                    { "type": "text", "content": "formats." }
+                    { "type": "text", "string": "formats." }
                   ]
                 },
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "The" },
+                    { "type": "text", "string": "The" },
                     { "type": "space" },
-                    { "type": "text", "content": "format" },
+                    { "type": "text", "string": "format" },
                     { "type": "space" },
-                    { "type": "text", "content": "overhead." },
+                    { "type": "text", "string": "overhead." },
                     { "type": "space" }
                   ]
                 },
                 {
                   "type": "paragraph",
                   "content": [
-                    { "type": "text", "content": "Neopolitan" },
+                    { "type": "text", "string": "Neopolitan" },
                     { "type": "space" },
-                    { "type": "text", "content": "you" },
+                    { "type": "text", "string": "you" },
                     { "type": "space" },
-                    { "type": "text", "content": "can." },
+                    { "type": "text", "string": "can." },
                     { "type": "space" }
                   ]
                 }
@@ -373,11 +373,11 @@
                     {
                       "type": "paragraph",
                       "content": [
-                        { "type": "text", "content": "alfa" },
+                        { "type": "text", "string": "alfa" },
                         { "type": "space" },
-                        { "type": "link", "content": "bravo", "url": "https://www.example.com/"  },
+                        { "type": "link", "string": "bravo", "url": "https://www.example.com/"  },
                         { "type": "space" },
-                        { "type": "text", "content": "kilo" }
+                        { "type": "text", "string": "kilo" }
                       ]
                     }
                   ]
@@ -389,9 +389,9 @@
                     {
                       "type": "paragraph",
                       "content": [
-                        { "type": "text", "content": "charlie" },
+                        { "type": "text", "string": "charlie" },
                         { "type": "space" },
-                        { "type": "text", "content": "delta" }
+                        { "type": "text", "string": "delta" }
                       ]
                     }
                   ]

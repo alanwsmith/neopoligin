@@ -4,11 +4,11 @@ use nom::error::VerboseError;
 use nom::IResult;
 
 pub fn text_token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
-    let (source, token) = is_not("< \n\t\r")(source)?;
+    let (source, string) = is_not("< \n\t\r")(source)?;
     Ok((
         source,
         Token::Text {
-            content: token.to_string(),
+            string: string.to_string(),
         },
     ))
 }
