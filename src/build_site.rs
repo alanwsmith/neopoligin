@@ -18,6 +18,13 @@ use std::path::PathBuf;
 use std::vec;
 use walkdir::WalkDir;
 
+
+
+pub struct Universe {
+    pub pages: Vec<Page>
+}
+
+
 pub fn build_site() {
     println!("Starting site build");
 
@@ -28,7 +35,12 @@ pub fn build_site() {
     let mut env = Environment::new();
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
-    let mut pages: Vec<Page> = vec![];
+
+    let mut u = Universe {
+        pages: vec![]
+    };
+
+    //let mut pages: Vec<Page> = vec![];
 
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
@@ -50,7 +62,7 @@ pub fn build_site() {
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
-                    pages.push(p);
+                    u.pages.push(p);
                 }
             } else {
                 // Move everything else over directly
@@ -69,7 +81,7 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
-    pages.iter().for_each(|page| {
+    u.pages.iter().for_each(|page| {
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         let template_id = match (&page.r#type, &page.template) {
             (None, None) => "post",
