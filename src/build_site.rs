@@ -2,6 +2,7 @@
 use crate::build_site::check_db_structure::check_db_structure;
 use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::page::Page;
+use crate::payload::Payload;
 use crate::universe::Universe;
 use minijinja::context;
 use minijinja::path_loader;
@@ -30,10 +31,7 @@ pub fn build_site() {
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
 
-    let mut u = Universe {
-        pages: vec![],
-        all_links_cache: None,
-    };
+    let mut u = Universe { pages: vec![] };
 
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
@@ -74,14 +72,16 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
-    u.pages.clone().into_iter().take(1).for_each(|page| {
-        println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
 
+    u.pages.clone().into_iter().for_each(|page| {
+        // page.universe = Some(u.clone());
+
+        println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         let template_id = "dev_testing".to_string();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
         // let tmpl = env.template_from_str("Check: {{ ping }}").unwrap();
-        let ctx = Value::from_struct_object(u.clone());
+        let ctx = Value::from_struct_object(page);
         let rv = tmpl.expect("Boom").render(ctx).unwrap();
         dbg!(rv);
 

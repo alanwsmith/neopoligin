@@ -2,6 +2,8 @@ use crate::blocks::Block;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
+use crate::universe::Universe;
+use minijinja::value::{StructObject, Value};
 use nom::character::complete::multispace0;
 use nom::error::VerboseError;
 use nom::multi::separated_list1;
@@ -30,8 +32,9 @@ pub struct Page {
     pub status: Option<String>,
     pub template: Option<String>,
     pub time: Option<String>,
-    pub title: Option<Vec<Block>>,
+    // pub title: Option<Vec<Block>>,
     pub r#type: Option<String>,
+    pub universe: Option<Universe>,
 }
 
 impl Page {
@@ -53,8 +56,9 @@ impl Page {
             status: None,
             template: None,
             time: None,
-            title: None,
+            // title: None,
             r#type: None,
+            universe: None,
         };
         let raw_sections = page(source).unwrap().1;
         let filtered_sections: Option<Vec<NeoSection>> = Some(
@@ -98,8 +102,29 @@ impl Page {
     }
 }
 
+impl StructObject for Page {
+    fn get_field(&self, field: &str) -> Option<Value> {
+        match field {
+            "title" => Some(Value::from(self.title())),
+            "tango" => Some(Value::from(self.tango())),
+            _ => None,
+        }
+    }
+}
+
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
     let (source, sections) =
         separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
     Ok((source, sections))
+}
+
+impl Page {
+    pub fn title(&self) -> String {
+        "I AM SPARTICS".to_string()
+    }
+
+    pub fn tango(&self) -> String {
+        // "TANGO".to_string()
+        self.universe.clone().expect("BOOM?").rumba()
+    }
 }
