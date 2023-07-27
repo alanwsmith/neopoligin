@@ -73,16 +73,29 @@ pub fn build_site() {
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
 
-    u.pages.clone().into_iter().take(1).for_each(|page| {
+    u.pages.clone().into_iter().for_each(|page| {
         // page.universe = Some(u.clone());
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
-        let template_id = "dev_testing".to_string();
+        // TODO: Get the post template here
+        let template_id = "post".to_string();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
         // let tmpl = env.template_from_str("Check: {{ ping }}").unwrap();
-        let ctx = Value::from_struct_object(page);
+        let ctx = Value::from_struct_object(page.clone());
         let rv = tmpl.expect("Boom").render(ctx).unwrap();
-        dbg!(rv);
+        // dbg!(rv);
+        let mut file_path = site_root_root.clone();
+        // dbg!(file_path);
+
+        let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
+        file_path.push(relative_site_path);
+        dbg!(&file_path);
+        let dir_path = file_path.parent().unwrap();
+        dbg!(&dir_path);
+
+        fs::create_dir_all(dir_path).unwrap();
+        fs::write(file_path, rv).unwrap();
+        // insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
 
         // let output = template
         //     .unwrap()
