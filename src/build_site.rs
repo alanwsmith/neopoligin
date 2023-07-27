@@ -1,59 +1,27 @@
 #![allow(unused_imports)]
-#![allow(dead_code)]
-#![allow(unused_variables)]
-// use crate::file_lists::file_lists;
-// use crate::page::page;
+use crate::build_site::check_db_structure::check_db_structure;
+use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::page::Page;
-// use crate::sections::sections;
-// use crate::source_file::title::title;
-// use crate::source_file::SourceFile;
+use crate::universe::Universe;
 use minijinja::context;
 use minijinja::path_loader;
+use minijinja::value::{StructObject, Value};
 use minijinja::Environment;
-use rusqlite::{Connection, Result};
+use rusqlite::Connection;
 use serde::{Deserialize, Serialize};
 use sha256::digest;
-use std::collections::HashSet;
 use std::fs;
 use std::path::PathBuf;
 use std::vec;
 use walkdir::WalkDir;
 
-pub struct Universe {
-    pub pages: Vec<Page>,
-    pub all_links_cache: Option<Vec<Link>>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum Link {
-    Internal { url: String, text: String },
-}
-
-impl Universe {
-    pub fn all_links(&mut self) -> Vec<Link> {
-        match self.all_links_cache.clone() {
-            None => {
-                self.all_links_cache = Some(
-                    self.pages
-                        .clone()
-                        .into_iter()
-                        .map(|page| Link::Internal {
-                            url: page.path.as_ref().unwrap().display().to_string(),
-                            text: page.path.as_ref().unwrap().display().to_string(),
-                        })
-                        .collect(),
-                );
-                self.all_links_cache.clone().unwrap()
-            }
-            Some(cache) => cache,
-        }
-    }
-}
+pub mod check_db_structure;
+pub mod get_file_hashes;
+pub mod insert_hash;
+pub mod table_exists;
 
 pub fn build_site() {
     println!("Starting site build");
-
     let template_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
@@ -106,69 +74,52 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
-    u.pages.clone().into_iter().for_each(|page| {
+    u.pages.clone().into_iter().take(1).for_each(|page| {
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
-        let template_id = match (&page.r#type, &page.template) {
-            (None, None) => "post",
-            _ => "post",
-        };
-        let template = env.get_template(format!("{}/index.html", template_id,).as_str());
-        let output = template
-            .unwrap()
-            .render(context!(
-                page => page,
-             all_links => u.all_links()
 
-            ))
-            .unwrap();
-        // The `page.path`` has an absolute path from the site
-        // root. If you try to add that directly on top of the
-        // site_root_root, it replaces it instead.
-        // https://doc.rust-lang.org/stable/std/path/struct.PathBuf.html#method.push
-        let mut file_path = site_root_root.clone();
-        let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
-        file_path.push(relative_site_path);
-        let dir_path = file_path.parent().unwrap();
-        fs::create_dir_all(dir_path).unwrap();
-        fs::write(file_path, output).unwrap();
-        insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
+        let template_id = "dev_testing".to_string();
+        let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
+
+        // let tmpl = env.template_from_str("Check: {{ ping }}").unwrap();
+        let ctx = Value::from_struct_object(u.clone());
+        let rv = tmpl.expect("Boom").render(ctx).unwrap();
+        dbg!(rv);
+
+        // let output = template
+        //     .unwrap()
+        //     .render(context!(
+        //         page => page,
+        //         u => u
+        //     ))
+        //     .unwrap();
+        // fs::write("/Users/alan/Desktop/ping.txt", output).unwrap();
+
+        // dbg!(&output);
+
+        // let template_id = match (&page.r#type, &page.template) {
+        //     (None, None) => "post",
+        //     _ => "post",
+        // };
+        // let template = env.get_template(format!("{}/index.html", template_id,).as_str());
+        // let output = template
+        //     .unwrap()
+        //     .render(context!(
+        //         page => page,
+        //         all_links => u.all_links()
+        //     ))
+        //     .unwrap();
+        // // The `page.path`` has an absolute path from the site
+        // // root. If you try to add that directly on top of the
+        // // site_root_root, it replaces it instead.
+        // // https://doc.rust-lang.org/stable/std/path/struct.PathBuf.html#method.push
+        // let mut file_path = site_root_root.clone();
+        // let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
+        // file_path.push(relative_site_path);
+        // let dir_path = file_path.parent().unwrap();
+        // fs::create_dir_all(dir_path).unwrap();
+        // fs::write(file_path, output).unwrap();
+        // insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
     });
 
     println!("Process complete");
-}
-
-fn insert_hash(conn: &Connection, hash: &str) -> Result<()> {
-    let mut stmt = conn.prepare("INSERT INTO file_hashes (hash) VALUES (?1)")?;
-    stmt.execute([hash])?;
-    Ok(())
-}
-
-fn table_exists(conn: &Connection, table_name: &str) -> Result<bool> {
-    let mut stmt = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?1")?;
-    let rows = stmt.query_map([table_name], |_| Ok(()))?;
-    if rows.count() == 1 {
-        Ok(true)
-    } else {
-        Ok(false)
-    }
-}
-
-fn check_db_structure(conn: &Connection) {
-    match table_exists(&conn, "file_hashes") {
-        Ok(false) => {
-            conn.execute("CREATE TABLE file_hashes (hash TEXT)", ())
-                .unwrap();
-        }
-        _ => {}
-    }
-}
-
-fn get_file_hashes(conn: &Connection) -> Result<HashSet<String>> {
-    let mut stmt = conn.prepare("SELECT hash FROM file_hashes")?;
-    let rows = stmt.query_map([], |row| row.get(0))?;
-    let mut hashes = HashSet::new();
-    for hash in rows {
-        hashes.insert(hash?);
-    }
-    Ok(hashes)
 }

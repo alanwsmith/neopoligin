@@ -36,7 +36,7 @@ pub fn image_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&st
     let (source, _) = tag("-- image")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, basename) = preceded(tag("-- "), not_line_ending)(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     // let (source, _) = line_ending(source)?;
     // let (source, attributes) = attributes(source)?;
     // let (source, _) = empty_line(source)?;
