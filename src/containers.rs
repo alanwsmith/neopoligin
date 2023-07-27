@@ -1,7 +1,3 @@
-#![allow(unused_variables)]
-#![allow(unused_imports)]
-#![allow(unused_mut)]
-#![allow(dead_code)]
 use crate::attributes::attributes;
 use crate::attributes::AttributesObj;
 use crate::blocks::Block;

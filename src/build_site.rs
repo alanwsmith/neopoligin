@@ -1,4 +1,3 @@
-#![allow(unused_imports)]
 use crate::build_site::check_db_structure::check_db_structure;
 use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::page::Page;

@@ -1,5 +1,3 @@
-#![allow(unused_imports)]
-// use crate::link::Link;
 use crate::page::Page;
 use minijinja::value::{StructObject, Value};
 use serde::{Deserialize, Serialize};
