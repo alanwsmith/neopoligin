@@ -4,7 +4,7 @@ use crate::page::Page;
 use crate::universe::Universe;
 
 use minijinja::path_loader;
-use minijinja::value::{Value};
+use minijinja::value::Value;
 use minijinja::Environment;
 use rusqlite::Connection;
 
@@ -70,8 +70,8 @@ pub fn build_site() {
     }
 
     // add or remove `.take(7)`` behind `.into_iter()`` for testing
-    // u.pages.clone().into_iter().for_each(|page| {
-    u.pages.clone().into_iter().take(1).for_each(|page| {
+    u.pages.clone().into_iter().for_each(|page| {
+        // u.pages.clone().into_iter().take(1).for_each(|page| {
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         // TODO: Get the post template here
         let template_id = "post".to_string();

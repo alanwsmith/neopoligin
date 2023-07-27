@@ -1,10 +1,6 @@
-#![allow(unused_imports)]
-// use crate::blocks::Block;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::neo_section;
-// use crate::neo_sections::title_section::title_section;
 use crate::neo_sections::NeoSection;
-use crate::universe::Universe;
 use minijinja::value::{StructObject, Value};
 use nom::character::complete::multispace0;
 use nom::error::VerboseError;
@@ -12,7 +8,6 @@ use nom::multi::separated_list1;
 use nom::sequence::preceded;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -36,7 +31,7 @@ impl Page {
 }
 
 impl Page {
-    pub fn sections(&mut self) -> Vec<NeoSection> {
+    pub fn raw_sections(&mut self) -> Vec<NeoSection> {
         match &self.section_storage {
             Some(x) => x.clone(),
             None => {
@@ -48,24 +43,22 @@ impl Page {
 }
 
 impl Page {
-    pub fn title(&mut self) -> NeoSection {
-        self.sections().into_iter().nth(0).unwrap()
+    pub fn title_data(&mut self) -> NeoSection {
+        self.raw_sections().into_iter().nth(0).unwrap()
     }
 }
 
 impl StructObject for Page {
     fn get_field(&self, field: &str) -> Option<Value> {
         match field {
-            "title" => {
-                // let t = self.clone().title();
-                Some(Value::from_serializable(&self.clone().title()))
-            }
+            "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
             _ => None,
         }
     }
 }
 
 // impl Page {
+//
 //     pub fn title_section(&self) -> Option<NeoSection> {
 //         None
 //     }
