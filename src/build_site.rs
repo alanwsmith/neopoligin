@@ -73,9 +73,8 @@ pub fn build_site() {
 
     // add or remove `.take(7)`` behind `.iter()`` for testing
 
-    u.pages.clone().into_iter().for_each(|page| {
+    u.pages.clone().into_iter().take(1).for_each(|page| {
         // page.universe = Some(u.clone());
-
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         let template_id = "dev_testing".to_string();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
