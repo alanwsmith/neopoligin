@@ -1,8 +1,8 @@
 #![allow(unused_imports)]
-use crate::blocks::Block;
-use crate::helpers::empty_line::empty_line;
-use crate::neo_sections::neo_section;
-use crate::neo_sections::title_section::title_section;
+// use crate::blocks::Block;
+// use crate::helpers::empty_line::empty_line;
+// use crate::neo_sections::neo_section;
+// use crate::neo_sections::title_section::title_section;
 use crate::neo_sections::NeoSection;
 use crate::universe::Universe;
 use minijinja::value::{StructObject, Value};
@@ -21,31 +21,8 @@ pub struct Page {
     pub source_hash: Option<String>,
     pub path: Option<PathBuf>,
     pub raw_file: String,
+    pub section_storage: Option<Vec<NeoSection>>,
 }
-
-// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "type", rename_all = "lowercase")]
-// pub struct Page {
-//     // pub attributes: Option<HashMap<String, String>>,
-//     pub blurb: Option<Vec<Block>>,
-//     pub categories: Option<Vec<String>>,
-//     pub config: Option<HashMap<String, String>>,
-//     pub css: Option<Vec<String>>,
-//     pub date: Option<String>,
-//     pub head: Option<Vec<String>>,
-//     pub id: Option<String>,
-//     pub path: Option<PathBuf>,
-//     // pub references: Option<Vec<Reference>>,
-//     pub scripts: Option<Vec<String>>,
-//     pub sections: Option<Vec<NeoSection>>,
-//     pub source_hash: Option<String>,
-//     pub status: Option<String>,
-//     pub template: Option<String>,
-//     pub time: Option<String>,
-//     // pub title: Option<Vec<Block>>,
-//     pub r#type: Option<String>,
-//     pub universe: Option<Universe>,
-// }
 
 impl Page {
     pub fn new_from(source: &str) -> Page {
@@ -53,21 +30,48 @@ impl Page {
             path: None,
             source_hash: None,
             raw_file: source.to_string(),
+            section_storage: None,
         }
     }
 }
 
 impl Page {
-    pub fn title(&self) -> Option<NeoSection> {
-        // "asdfasdfasdf".to_string()
-        Some(self.parse_title().unwrap().1)
-    }
-
-    pub fn parse_title(&self) -> IResult<&str, NeoSection, VerboseError<&str>> {
-        Ok(title_section(self.raw_file.as_str())?)
-        // "BOLERO".to_string()
+    pub fn sections(&self) -> &Vec<NeoSection> {
+        &self.section_storage.as_ref().unwrap()
     }
 }
+
+impl Page {
+    pub fn title(&self) -> String {
+        "here".to_string()
+    }
+}
+
+impl StructObject for Page {
+    fn get_field(&self, field: &str) -> Option<Value> {
+        match field {
+            "title" => Some(Value::from_serializable(&self.title())),
+            _ => None,
+        }
+    }
+}
+
+// impl Page {
+//     pub fn title_section(&self) -> Option<NeoSection> {
+//         None
+//     }
+// }
+
+// impl Page {
+//     // pub fn title(&self) -> Option<NeoSection> {
+//     //     // "asdfasdfasdf".to_string()
+//     //     Some(self.parse_title().unwrap().1)
+//     // }
+//     // pub fn parse_title(&self) -> IResult<&str, NeoSection, VerboseError<&str>> {
+//     //     Ok(title_section(self.raw_file.as_str())?)
+//     //     // "BOLERO".to_string()
+//     // }
+// }
 
 // impl Page {
 //     pub fn new_from(source: &str) -> Page {
@@ -133,15 +137,6 @@ impl Page {
 //         p
 //     }
 // }
-
-impl StructObject for Page {
-    fn get_field(&self, field: &str) -> Option<Value> {
-        match field {
-            "title" => Some(Value::from_serializable(&self.title())),
-            _ => None,
-        }
-    }
-}
 
 // pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
 //     let (source, sections) =
