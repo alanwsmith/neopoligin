@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 // use crate::blocks::Block;
-// use crate::helpers::empty_line::empty_line;
-// use crate::neo_sections::neo_section;
+use crate::helpers::empty_line::empty_line;
+use crate::neo_sections::neo_section;
 // use crate::neo_sections::title_section::title_section;
 use crate::neo_sections::NeoSection;
 use crate::universe::Universe;
@@ -20,7 +20,7 @@ use std::path::PathBuf;
 pub struct Page {
     pub source_hash: Option<String>,
     pub path: Option<PathBuf>,
-    pub raw_file: String,
+    pub source: String,
     pub section_storage: Option<Vec<NeoSection>>,
 }
 
@@ -29,28 +29,37 @@ impl Page {
         Page {
             path: None,
             source_hash: None,
-            raw_file: source.to_string(),
+            source: source.to_string(),
             section_storage: None,
         }
     }
 }
 
 impl Page {
-    pub fn sections(&self) -> &Vec<NeoSection> {
-        &self.section_storage.as_ref().unwrap()
+    pub fn sections(&mut self) -> Vec<NeoSection> {
+        match &self.section_storage {
+            Some(x) => x.clone(),
+            None => {
+                self.section_storage = Some(page(self.source.as_str()).unwrap().1);
+                self.section_storage.clone().unwrap()
+            }
+        }
     }
 }
 
 impl Page {
-    pub fn title(&self) -> String {
-        "here".to_string()
+    pub fn title(&mut self) -> NeoSection {
+        self.sections().into_iter().nth(0).unwrap()
     }
 }
 
 impl StructObject for Page {
     fn get_field(&self, field: &str) -> Option<Value> {
         match field {
-            "title" => Some(Value::from_serializable(&self.title())),
+            "title" => {
+                // let t = self.clone().title();
+                Some(Value::from_serializable(&self.clone().title()))
+            }
             _ => None,
         }
     }
@@ -138,11 +147,11 @@ impl StructObject for Page {
 //     }
 // }
 
-// pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
-//     let (source, sections) =
-//         separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
-//     Ok((source, sections))
-// }
+pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
+    let (source, sections) =
+        separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
+    Ok((source, sections))
+}
 
 // impl Page {
 //     pub fn title(&self) -> String {
