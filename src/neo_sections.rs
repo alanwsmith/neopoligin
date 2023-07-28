@@ -42,27 +42,27 @@ pub enum NeoSection {
         headline: Option<Block>,
     },
     H2 {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
     H3 {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
     H4 {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
     H5 {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
     H6 {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
