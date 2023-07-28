@@ -69,26 +69,30 @@ pub fn build_site() {
         }
     }
 
+    let mut counter = 0;
+
     // add or remove `.take(7)`` behind `.into_iter()`` for testing
-    u.pages.clone().into_iter().for_each(|page| {
-        // u.pages.clone().into_iter().take(1).for_each(|page| {
+    // u.pages.clone().into_iter().for_each(|page| {
+    u.pages.clone().into_iter().take(1).for_each(|page| {
+        counter += 1;
+        dbg!(&counter);
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         // TODO: Get the post template here
         let template_id = "post".to_string();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
-        let ctx = Value::from_struct_object(page.clone());
-
-        // println!("{}", tmpl.render(context!(name => "John")).unwrap());
-
-        let rv = tmpl.expect("Boom").render(context!(page => ctx)).unwrap();
+        let uv = Value::from_struct_object(u.clone());
+        let pg = Value::from_struct_object(page.clone());
+        let rv = tmpl
+            .expect("Boom")
+            .render(context!(pg => pg, uv => uv))
+            .unwrap();
         let mut file_path = site_root_root.clone();
 
         let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
         file_path.push(relative_site_path);
         dbg!(&file_path);
         let dir_path = file_path.parent().unwrap();
-        dbg!(&dir_path);
 
         fs::create_dir_all(dir_path).unwrap();
         fs::write(file_path, rv).unwrap();
