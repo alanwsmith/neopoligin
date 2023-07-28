@@ -1,0 +1,23 @@
+{
+  "tests": [
+    {
+      "input": "-- aside\n-- id: tango\n\nalfa kilo",
+      "expected": [
+        {
+          "attributes": [{ "key": "id", "value": "tango" }],
+          "type": "aside",
+          "blocks": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

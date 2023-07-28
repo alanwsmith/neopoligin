@@ -16,12 +16,12 @@ pub fn aside_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&st
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, _attributes) = attributes_v2(source)?;
     let (source, _) = empty_line(source)?;
-    let (source, content) = opt(many1(block))(source)?;
+    let (source, blocks) = opt(many1(block))(source)?;
     Ok((
         source,
         NeoSection::Aside {
             attributes: vec![AttributeV2::Id("tango".to_string())],
-            content,
+            blocks,
         },
     ))
 }

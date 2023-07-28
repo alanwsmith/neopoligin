@@ -34,7 +34,7 @@ pub mod title_section;
 pub enum NeoSection {
     Aside {
         attributes: Vec<AttributeV2>,
-        content: Option<Vec<Block>>,
+        blocks: Option<Vec<Block>>,
     },
     H1 {
         attributes: Option<AttributesObj>,
