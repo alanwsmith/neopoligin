@@ -10,7 +10,17 @@ pub struct Universe {
 
 impl Universe {
     pub fn home_page_links(&self) -> Vec<(String, String)> {
-        vec![("a".to_string(), "b".to_string())]
+        self.pages
+            .clone()
+            .into_iter()
+            .map(|p| {
+                (
+                    p.path.as_ref().unwrap().display().to_string(),
+                    p.path.as_ref().unwrap().display().to_string(),
+                )
+            })
+            .collect()
+        // vec![("a".to_string(), "b".to_string())]
     }
 }
 
