@@ -6,7 +6,7 @@
         {
           "attributes": [{ "key": "id", "value": "tango" }],
           "type": "aside",
-          "blocks": [
+          "body": [
             {
               "type": "paragraph",
               "content": [

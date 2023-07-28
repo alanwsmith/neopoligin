@@ -4,78 +4,7 @@
     ],
     "smoke_tests": [
   
-      {
-        "name": "Test Template",
-        "notes": null,
-        "parts": {
-          "input": "-- aside\n-- id: tango\n\nalfa kilo",
-          "expected": {
-            "sections": [
-              {
-                "attributes": { "id": "tango" },
-                "type": "aside",
-                "content": [
-                  {
-                    "type": "paragraph",
-                    "content": [
-                      { "type": "text", "string": "alfa" },
-                      { "type": "space" },
-                      { "type": "text", "string": "kilo" }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
-  
-      {
-        "name": "H1",
-        "notes": null,
-        "parts": {
-          "input": "-- h1\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
-          "expected": {
-            "sections": [
-              {
-                "attributes": {
-                  "id": "tango"
-                },
-                "type": "h1",
-                "headline": {
-                  "type": "paragraph",
-                  "content": [
-                    { "type": "text", "string": "alfa" },
-                    { "type": "space" },
-                    {
-                      "type": "link",
-                      "string": "bravo",
-                      "url": "https://www.example.com/"
-                    },
-                    { "type": "space" },
-                    { "type": "text", "string": "kilo" }
-                  ]
-                },
-                "body": [
-                  {
-                    "type": "paragraph",
-                    "content": [
-                      { "type": "text", "string": "charlie" },
-                      { "type": "space" },
-                      { "type": "text", "string": "delta" },
-                      { "type": "space" },
-                      { "type": "text", "string": "echo" },
-                      { "type": "space" },
-                      { "type": "text", "string": "foxtrot" }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
-   
+
       {
         "name": "Basic Smoke Test",
         "notes": null,
