@@ -7,3 +7,12 @@ A static website generator for neopolitan files
 See <<alanwsmith.com/neopoligin|link|https://www.alanwsmith.com/neopoligin/index.html>>
 for the documentation on this project
 
+-- h2
+
+Spec Test
+
+Spec tests for Neopolitan are currently
+housed here. TBD on if they stay in this
+directory or are moved into the Neopolitan
+repo. (Or if these get merged back into
+the same repo)
