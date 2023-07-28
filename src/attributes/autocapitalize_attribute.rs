@@ -6,10 +6,9 @@ use nom::combinator::opt;
 use nom::error::VerboseError;
 use nom::sequence::preceded;
 use nom::IResult;
+use crate::attributes::*;
 
-use crate::attributes::Attribute;
-
-pub fn autocapitalize_attribute(source: &str) -> IResult<&str, Attribute, VerboseError<&str>> {
+pub fn autocapitalize_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     // autocapitzlize has a specific set of options but the
     // ROI of limiting to them isn't high for phase 1 so
     // just passing in whatever string. Something to look into
@@ -17,5 +16,5 @@ pub fn autocapitalize_attribute(source: &str) -> IResult<&str, Attribute, Verbos
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("autocapitalize: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, Attribute::AutoCapitalize(attr.to_string())))
+    Ok((source, AttributeV2::AutoCapitalize(attr.to_string())))
 }

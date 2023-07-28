@@ -46,9 +46,7 @@ impl AttributesObj {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(tag = "key", content = "value", rename_all = "lowercase")]
-//#[serde(rename_all = "lowercase")]
-#[serde(tag = "t", content = "c", rename_all = "lowercase")]
+#[serde(tag = "key", content = "value", rename_all = "lowercase")]
 pub enum AttributeV2 {
     AccessKey(String),
     AutoCapitalize(String),
@@ -71,6 +69,21 @@ pub enum Attribute {
     None,
 }
 
+pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, VerboseError<&str>> {
+    let (source, attrs) = opt(many1(preceded(
+        alt((tag("--"), tag("|"))),
+        alt((
+            accesskey_attribute,
+            autocapitalize_attribute,
+            autofocus_attribute,
+            class_attribute,
+            contenteditable_attribute,
+            id_attribute,
+        )),
+    )))(source)?;
+    Ok((source, attrs))
+}
+
 pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&str>> {
     let mut attr_obj = AttributesObj::new();
     let (source, attrs) = opt(many1(preceded(
@@ -85,28 +98,29 @@ pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&st
         )),
     )))(source)?;
 
-    if let Some(d) = attrs {
-        d.into_iter().for_each(|item| match item {
-            Attribute::AccessKey(v) => {
-                attr_obj.accesskey = Some(v);
-            }
-            Attribute::AutoCapitalize(v) => {
-                attr_obj.autocapitalize = Some(v);
-            }
-            Attribute::AutoFocus => {
-                attr_obj.autofocus = Some(true);
-            }
-            Attribute::Class(v) => {
-                attr_obj.class = Some(v);
-            }
-            Attribute::ContentEditable(v) => {
-                attr_obj.contenteditable = Some(v);
-            }
-            Attribute::Id(v) => {
-                attr_obj.id = Some(v);
-            }
-            _ => (),
-        })
-    }
+    // if let Some(d) = attrs {
+    //     d.into_iter().for_each(|item| match item {
+    //         Attribute::AccessKey(v) => {
+    //             attr_obj.accesskey = Some(v);
+    //         }
+    //         Attribute::AutoCapitalize(v) => {
+    //             attr_obj.autocapitalize = Some(v);
+    //         }
+    //         Attribute::AutoFocus => {
+    //             attr_obj.autofocus = Some(true);
+    //         }
+    //         Attribute::Class(v) => {
+    //             attr_obj.class = Some(v);
+    //         }
+    //         Attribute::ContentEditable(v) => {
+    //             attr_obj.contenteditable = Some(v);
+    //         }
+    //         Attribute::Id(v) => {
+    //             attr_obj.id = Some(v);
+    //         }
+    //         _ => (),
+    //     })
+    // }
+
     Ok((source, attr_obj))
 }

@@ -6,12 +6,11 @@ use nom::combinator::opt;
 use nom::error::VerboseError;
 use nom::sequence::preceded;
 use nom::IResult;
+use crate::attributes::*;
 
-use crate::attributes::Attribute;
-
-pub fn accesskey_attribute(source: &str) -> IResult<&str, Attribute, VerboseError<&str>> {
+pub fn accesskey_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("accesskey: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, Attribute::AccessKey(attr.to_string())))
+    Ok((source, AttributeV2::AccessKey(attr.to_string())))
 }

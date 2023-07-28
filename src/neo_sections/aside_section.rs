@@ -14,7 +14,7 @@ use nom::IResult;
 pub fn aside_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, _) = tag("-- aside")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, _attributes) = attributes(source)?;
+    let (source, _attributes) = attributes_v2(source)?;
     let (source, _) = empty_line(source)?;
     let (source, content) = opt(many1(block))(source)?;
     Ok((
