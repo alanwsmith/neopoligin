@@ -1,13 +1,13 @@
 use crate::build_site::check_db_structure::check_db_structure;
 use crate::build_site::get_file_hashes::get_file_hashes;
+use crate::build_site::insert_hash::insert_hash;
 use crate::page::Page;
 use crate::universe::Universe;
-
+use minijinja::context;
 use minijinja::path_loader;
 use minijinja::value::Value;
 use minijinja::Environment;
 use rusqlite::Connection;
-
 use sha256::digest;
 use std::fs;
 use std::path::PathBuf;
@@ -78,7 +78,10 @@ pub fn build_site() {
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
         let ctx = Value::from_struct_object(page.clone());
-        let rv = tmpl.expect("Boom").render(ctx).unwrap();
+
+        // println!("{}", tmpl.render(context!(name => "John")).unwrap());
+
+        let rv = tmpl.expect("Boom").render(context!(page => ctx)).unwrap();
         let mut file_path = site_root_root.clone();
 
         let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
@@ -89,7 +92,7 @@ pub fn build_site() {
 
         fs::create_dir_all(dir_path).unwrap();
         fs::write(file_path, rv).unwrap();
-        // insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
+        insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
     });
 
     println!("Process complete");
