@@ -19,6 +19,16 @@ pub struct Page {
     pub section_storage: Option<Vec<NeoSection>>,
 }
 
+impl StructObject for Page {
+    fn get_field(&self, field: &str) -> Option<Value> {
+        match field {
+            "body_data" => Some(Value::from_serializable(&self.clone().body_data())),
+            "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
+            _ => None,
+        }
+    }
+}
+
 impl Page {
     pub fn new_from(source: &str) -> Page {
         Page {
@@ -48,12 +58,9 @@ impl Page {
     }
 }
 
-impl StructObject for Page {
-    fn get_field(&self, field: &str) -> Option<Value> {
-        match field {
-            "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
-            _ => None,
-        }
+impl Page {
+    pub fn body_data(&mut self) -> Vec<NeoSection> {
+        self.raw_sections()
     }
 }
 
