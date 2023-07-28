@@ -1,3 +1,4 @@
+use crate::blocks::Block;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
@@ -53,7 +54,40 @@ impl Page {
 }
 
 impl Page {
+    pub fn title_string(&mut self) -> Option<Block> {
+        let title_section = self
+            .raw_sections()
+            .into_iter()
+            .find_map(|s| match s.clone() {
+                NeoSection::Title { .. } => Some(s),
+                _ => None,
+            });
+
+        match title_section {
+            Some(s) => match s {
+                NeoSection::Title {
+                    attributes,
+                    content,
+                    headline,
+                } => headline,
+                _ => None,
+            },
+
+            None => None,
+        }
+
+        // if let Some(s) = title_section {
+        //     dbg!(s.s);
+        //     "asdf".to_string()
+        // } else {
+        // }
+    }
+}
+
+impl Page {
     pub fn title_data(&mut self) -> NeoSection {
+        // TODO: Make this actually look for the title
+        // instead of just the first thing
         self.raw_sections().into_iter().nth(0).unwrap()
     }
 }

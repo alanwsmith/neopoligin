@@ -29,7 +29,10 @@ pub fn build_site() {
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
 
-    let mut u = Universe { pages: vec![] };
+    let mut u = Universe {
+        pages: vec![],
+        cache_full_link_list: None,
+    };
 
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
@@ -72,8 +75,8 @@ pub fn build_site() {
     let mut counter = 0;
 
     // add or remove `.take(7)`` behind `.into_iter()`` for testing
-    // u.pages.clone().into_iter().for_each(|page| {
-    u.pages.clone().into_iter().take(1).for_each(|page| {
+    u.pages.clone().into_iter().for_each(|page| {
+        //u.pages.clone().into_iter().take(1).for_each(|page| {
         counter += 1;
         dbg!(&counter);
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
