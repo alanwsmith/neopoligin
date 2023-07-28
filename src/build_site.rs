@@ -7,7 +7,6 @@ use minijinja::context;
 use minijinja::path_loader;
 use minijinja::value::Value;
 use minijinja::Environment;
-use minijinja::{Error, ErrorKind};
 use rusqlite::Connection;
 use sha256::digest;
 use std::fs;
@@ -19,20 +18,6 @@ pub mod check_db_structure;
 pub mod get_file_hashes;
 pub mod insert_hash;
 pub mod table_exists;
-
-// struct W {}
-
-// impl W {
-//     pub fn foxtrot(&self) -> Value {
-//         let e = Value::from_safe_string("asdf".to_string());
-//         e
-//     }
-// }
-
-// pub fn tango() -> Value {
-//     let e = Value::from_safe_string("asdf".to_string());
-//     e
-// }
 
 pub fn make_full_link_list(e: &Environment, u: Universe) {
     let uvx = Value::from_struct_object(u.clone());
@@ -46,7 +31,6 @@ pub fn make_full_link_list(e: &Environment, u: Universe) {
 
 pub fn build_site() {
     println!("Starting site build");
-
     let template_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
