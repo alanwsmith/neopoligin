@@ -66,8 +66,8 @@ impl Page {
         match title_section {
             Some(s) => match s {
                 NeoSection::Title {
-                    attributes,
-                    content,
+                    attributes: _,
+                    content: _,
                     headline,
                 } => headline,
                 _ => None,
@@ -75,12 +75,6 @@ impl Page {
 
             None => None,
         }
-
-        // if let Some(s) = title_section {
-        //     dbg!(s.s);
-        //     "asdf".to_string()
-        // } else {
-        // }
     }
 }
 

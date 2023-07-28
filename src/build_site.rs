@@ -7,6 +7,7 @@ use minijinja::context;
 use minijinja::path_loader;
 use minijinja::value::Value;
 use minijinja::Environment;
+use minijinja::{Error, ErrorKind};
 use rusqlite::Connection;
 use sha256::digest;
 use std::fs;
@@ -19,12 +20,38 @@ pub mod get_file_hashes;
 pub mod insert_hash;
 pub mod table_exists;
 
+// struct W {}
+
+// impl W {
+//     pub fn foxtrot(&self) -> Value {
+//         let e = Value::from_safe_string("asdf".to_string());
+//         e
+//     }
+// }
+
+// pub fn tango() -> Value {
+//     let e = Value::from_safe_string("asdf".to_string());
+//     e
+// }
+
+pub fn make_full_link_list(e: &Environment, u: Universe) {
+    let uvx = Value::from_struct_object(u.clone());
+    let tmpl = e.get_template("_src/templates/full_link_list.html");
+    let rv = tmpl.expect("Boom").render(context!(uvx => uvx)).unwrap();
+    let _ = fs::write(
+        "/Users/alan/workshop/alanwsmith.com/templates/_src/includes/full_link_list.html",
+        rv,
+    );
+}
+
 pub fn build_site() {
     println!("Starting site build");
+
     let template_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let content_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
     let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
     let sqlite_path = "/Users/alan/Desktop/neopolengine.sqlite";
+
     let mut env = Environment::new();
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
@@ -73,6 +100,8 @@ pub fn build_site() {
     }
 
     let mut counter = 0;
+    let uv = Value::from_struct_object(u.clone());
+    make_full_link_list(&env, u.clone());
 
     // add or remove `.take(7)`` behind `.into_iter()`` for testing
     u.pages.clone().into_iter().for_each(|page| {
@@ -84,7 +113,6 @@ pub fn build_site() {
         let template_id = "post".to_string();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
-        let uv = Value::from_struct_object(u.clone());
         let pg = Value::from_struct_object(page.clone());
         let rv = tmpl
             .expect("Boom")
