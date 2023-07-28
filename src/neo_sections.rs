@@ -33,7 +33,7 @@ pub mod title_section;
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum NeoSection {
     Aside {
-        attributes: Vec<AttributeV2>,
+        attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
     },
     H1 {

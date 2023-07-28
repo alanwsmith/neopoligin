@@ -1,10 +1,10 @@
 {
   "tests": [
     {
-      "input": "-- aside\n-- id: tango\n\nalfa kilo",
+      "input": "-- aside\n-- id: foxtrot\n\nalfa kilo",
       "expected": [
         {
-          "attributes": [{ "key": "id", "value": "tango" }],
+          "attributes": [{ "key": "id", "value": "foxtrot" }],
           "type": "aside",
           "body": [
             {
