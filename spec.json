@@ -9,7 +9,7 @@
   ],
   "smoke_tests": [
     {
-      "name": "Test Template",
+      "name": "Template",
       "notes": null,
       "parts": {
         "input": "-- aside\n-- id: tango\n\nalfa kilo",

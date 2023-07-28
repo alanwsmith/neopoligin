@@ -84,9 +84,10 @@ pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, Ve
     Ok((source, attrs))
 }
 
+// TODO: Remove this when _v2 is all the way in place
 pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&str>> {
-    let mut attr_obj = AttributesObj::new();
-    let (source, attrs) = opt(many1(preceded(
+    let attr_obj = AttributesObj::new();
+    let (source, _attrs) = opt(many1(preceded(
         alt((tag("--"), tag("|"))),
         alt((
             accesskey_attribute,
@@ -97,7 +98,6 @@ pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&st
             id_attribute,
         )),
     )))(source)?;
-
     // if let Some(d) = attrs {
     //     d.into_iter().for_each(|item| match item {
     //         Attribute::AccessKey(v) => {
@@ -121,6 +121,5 @@ pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&st
     //         _ => (),
     //     })
     // }
-
     Ok((source, attr_obj))
 }
