@@ -1,4 +1,4 @@
-use crate::attributes::AttributesObj;
+use crate::attributes::*;
 use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
@@ -33,7 +33,7 @@ pub mod title_section;
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum NeoSection {
     Aside {
-        attributes: Option<AttributesObj>,
+        attributes: Vec<AttributeV2>,
         content: Option<Vec<Block>>,
     },
     H1 {

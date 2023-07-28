@@ -2,6 +2,7 @@
 use neopolengine::page::Page;
 // use neopolengine::sections::sections;
 // use neopolengine::sections::Section;
+use neopolengine::neo_sections::NeoSection;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 use serde_json::Value;
@@ -10,7 +11,7 @@ use std::fs;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct TestParts {
     input: String,
-    expected: Page,
+    expected: Vec<NeoSection>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -34,9 +35,8 @@ fn solo_test_specs() {
 
     // This does all the sections via pages
     test_data.smoke_tests.iter().into_iter().for_each(|x| {
-        // dbg!(&x.parts.input);
-        let p = Page::new_from(&x.parts.input);
-        assert_eq!(x.parts.expected, p);
+        let mut p = Page::new_from(&x.parts.input);
+        assert_eq!(x.parts.expected, p.raw_sections());
         ()
     });
 

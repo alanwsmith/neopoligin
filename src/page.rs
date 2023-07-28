@@ -16,7 +16,7 @@ use std::path::PathBuf;
 pub struct Page {
     pub source_hash: Option<String>,
     pub path: Option<PathBuf>,
-    pub source: String,
+    pub source: Option<String>,
     pub section_storage: Option<Vec<NeoSection>>,
 }
 
@@ -31,11 +31,17 @@ impl StructObject for Page {
 }
 
 impl Page {
+    pub fn body_data(&mut self) -> Vec<NeoSection> {
+        self.raw_sections()
+    }
+}
+
+impl Page {
     pub fn new_from(source: &str) -> Page {
         Page {
             path: None,
             source_hash: None,
-            source: source.to_string(),
+            source: Some(source.to_string()),
             section_storage: None,
         }
     }
@@ -46,7 +52,7 @@ impl Page {
         match &self.section_storage {
             Some(x) => x.clone(),
             None => {
-                self.section_storage = Some(page(self.source.as_str()).unwrap().1);
+                self.section_storage = Some(page(self.source.clone().unwrap().as_str()).unwrap().1);
                 self.section_storage.clone().unwrap()
             }
         }
@@ -54,27 +60,28 @@ impl Page {
 }
 
 impl Page {
-    pub fn title_string(&mut self) -> Option<Block> {
-        let title_section = self
-            .raw_sections()
-            .into_iter()
-            .find_map(|s| match s.clone() {
-                NeoSection::Title { .. } => Some(s),
-                _ => None,
-            });
+    pub fn template(&self) -> String {
+        let attributes_section =
+            self.clone()
+                .raw_sections()
+                .into_iter()
+                .find_map(|s| match s.clone() {
+                    NeoSection::RawPageAttributes { .. } => Some(s),
+                    _ => None,
+                });
 
-        match title_section {
-            Some(s) => match s {
-                NeoSection::Title {
-                    attributes: _,
-                    content: _,
-                    headline,
-                } => headline,
-                _ => None,
-            },
+        dbg!(attributes_section);
 
-            None => None,
-        }
+        // match attributes_section {
+        //     Some(s) => match s {
+        //         NeoSection::RawPageAttributes{
+        //         } => headline,
+        //         _ => None,
+        //     },
+        //     None => None,
+        // }
+
+        dbg!("post".to_string())
     }
 }
 
@@ -87,8 +94,25 @@ impl Page {
 }
 
 impl Page {
-    pub fn body_data(&mut self) -> Vec<NeoSection> {
-        self.raw_sections()
+    pub fn title_string(&mut self) -> Option<Block> {
+        let title_section = self
+            .raw_sections()
+            .into_iter()
+            .find_map(|s| match s.clone() {
+                NeoSection::Title { .. } => Some(s),
+                _ => None,
+            });
+        match title_section {
+            Some(s) => match s {
+                NeoSection::Title {
+                    attributes: _,
+                    content: _,
+                    headline,
+                } => headline,
+                _ => None,
+            },
+            None => None,
+        }
     }
 }
 

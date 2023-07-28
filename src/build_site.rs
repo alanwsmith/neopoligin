@@ -85,16 +85,19 @@ pub fn build_site() {
 
     let mut counter = 0;
     let uv = Value::from_struct_object(u.clone());
-    make_full_link_list(&env, u.clone());
+
+    // TODO: Turn this on when you're done testing
+    // make_full_link_list(&env, u.clone());
 
     // add or remove `.take(7)`` behind `.into_iter()`` for testing
-    u.pages.clone().into_iter().for_each(|page| {
-        //u.pages.clone().into_iter().take(1).for_each(|page| {
+    //u.pages.clone().into_iter().for_each(|page| {
+    u.pages.clone().into_iter().take(1).for_each(|page| {
         counter += 1;
         dbg!(&counter);
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         // TODO: Get the post template here
-        let template_id = "post".to_string();
+        //let template_id = "post".to_string();
+        let template_id = page.template();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
         let pg = Value::from_struct_object(page.clone());

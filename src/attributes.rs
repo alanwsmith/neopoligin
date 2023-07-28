@@ -20,6 +20,8 @@ pub mod class_attribute;
 pub mod contenteditable_attribute;
 pub mod id_attribute;
 
+// TODO: Move away from AttributesObj
+// to AttrubteList
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct AttributesObj {
     accesskey: Option<String>,
@@ -41,6 +43,20 @@ impl AttributesObj {
             id: None,
         }
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+// #[serde(tag = "key", content = "value", rename_all = "lowercase")]
+//#[serde(rename_all = "lowercase")]
+#[serde(tag = "t", content = "c", rename_all = "lowercase")]
+pub enum AttributeV2 {
+    AccessKey(String),
+    AutoCapitalize(String),
+    AutoFocus,
+    ContentEditable(String),
+    Class(Vec<String>),
+    Id(String),
+    None,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

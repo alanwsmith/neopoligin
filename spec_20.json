@@ -1,0 +1,408 @@
+{
+    "notes": [
+      "Several of these tests have inputs that end with a `\n``. That's required in most cases"
+    ],
+    "smoke_tests": [
+  
+      {
+        "name": "Test Template",
+        "notes": null,
+        "parts": {
+          "input": "-- aside\n-- id: tango\n\nalfa kilo",
+          "expected": {
+            "sections": [
+              {
+                "attributes": { "id": "tango" },
+                "type": "aside",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "alfa" },
+                      { "type": "space" },
+                      { "type": "text", "string": "kilo" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+  
+      {
+        "name": "H1",
+        "notes": null,
+        "parts": {
+          "input": "-- h1\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {
+                  "id": "tango"
+                },
+                "type": "h1",
+                "headline": {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "alfa" },
+                    { "type": "space" },
+                    {
+                      "type": "link",
+                      "string": "bravo",
+                      "url": "https://www.example.com/"
+                    },
+                    { "type": "space" },
+                    { "type": "text", "string": "kilo" }
+                  ]
+                },
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "delta" },
+                      { "type": "space" },
+                      { "type": "text", "string": "echo" },
+                      { "type": "space" },
+                      { "type": "text", "string": "foxtrot" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+   
+      {
+        "name": "Basic Smoke Test",
+        "notes": null,
+        "parts": {
+          "input": "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {
+                  "id": "tango"
+                },
+                "type": "aside",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "alfa" },
+                      { "type": "space" },
+                      {
+                        "type": "link",
+                        "string": "bravo",
+                        "url": "https://www.example.com/"
+                      },
+                      { "type": "space" },
+                      { "type": "text", "string": "kilo" }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "delta" },
+                      { "type": "space" },
+                      { "type": "text", "string": "echo" },
+                      { "type": "space" },
+                      { "type": "text", "string": "foxtrot" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+  
+      {
+        "name": "Image",
+        "notes": [
+          "The src gets defined here, it's hard coded to my directory", 
+          "It needs the file to exist for the test to pass"
+        ],
+        "parts": {
+          "input": "-- image\n-- hackers-frame-000034326\n",
+          "expected": {
+            "sections": [
+              {
+                "type": "image",
+                "attributes": null,
+                "caption": null,
+                "src": "/images/stills/hackers/images/hackers-frame-000034326.jpg"
+              }
+            ]
+          }
+        }
+      },
+  
+  
+      {
+        "name": "Smoke Test Starting With Title",
+        "notes": null,
+        "parts": {
+          "input": "-- title\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {
+                  "id": "tango"
+                },
+                "type": "title",
+                "headline": {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "alfa" },
+                    { "type": "space" },
+                    {
+                      "type": "link",
+                      "string": "bravo",
+                      "url": "https://www.example.com/"
+                    },
+                    { "type": "space" },
+                    { "type": "text", "string": "kilo" }
+                  ]
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "delta" },
+                      { "type": "space" },
+                      { "type": "text", "string": "echo" },
+                      { "type": "space" },
+                      { "type": "text", "string": "foxtrot" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+   
+      {
+        "name": "Basic Smoke Test",
+        "notes": null,
+        "parts": {
+          "input": "-- aside\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {
+                  "id": "tango"
+                },
+                "type": "aside",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "alfa" },
+                      { "type": "space" },
+                      {
+                        "type": "link",
+                        "string": "bravo",
+                        "url": "https://www.example.com/"
+                      },
+                      { "type": "space" },
+                      { "type": "text", "string": "kilo" }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "delta" },
+                      { "type": "space" },
+                      { "type": "text", "string": "echo" },
+                      { "type": "space" },
+                      { "type": "text", "string": "foxtrot" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+  
+  
+      {
+        "name": "Paragraphs test",
+        "notes": null,
+        "parts": {
+          "input": "-- p\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {
+                  "id": "tango"
+                },
+                "type": "p",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "alfa" },
+                      { "type": "space" },
+                      {
+                        "type": "link",
+                        "string": "bravo",
+                        "url": "https://www.example.com/"
+                      },
+                      { "type": "space" },
+                      { "type": "text", "string": "kilo" }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "delta" },
+                      { "type": "space" },
+                      { "type": "text", "string": "echo" },
+                      { "type": "space" },
+                      { "type": "text", "string": "foxtrot" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+  
+      {
+        "name": "Paragraphs From Issue",
+        "notes": null,
+        "parts": {
+          "input": "-- title\n\nalanwsmith.com\n\nHello and Welcome!\n\n-- p\n\nYou're those formats.\n\nThe format overhead. \n\nNeopolitan you can. \n\n",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {},
+                "type": "title",
+                "headline": {
+                  "type": "paragraph",
+                  "content": [{ "type": "text", "string": "alanwsmith.com" }]
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "Hello" },
+                      { "type": "space" },
+                      { "type": "text", "string": "and" },
+                      { "type": "space" },
+                      { "type": "text", "string": "Welcome!" }
+                    ]
+                  }
+                ]
+              },
+  
+              {
+                "attributes": {},
+                "type": "p",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "You're" },
+                      { "type": "space" },
+                      { "type": "text", "string": "those" },
+                      { "type": "space" },
+                      { "type": "text", "string": "formats." }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "The" },
+                      { "type": "space" },
+                      { "type": "text", "string": "format" },
+                      { "type": "space" },
+                      { "type": "text", "string": "overhead." },
+                      { "type": "space" }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "Neopolitan" },
+                      { "type": "space" },
+                      { "type": "text", "string": "you" },
+                      { "type": "space" },
+                      { "type": "text", "string": "can." },
+                      { "type": "space" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+  
+      {
+        "name": "List Test",
+        "notes": null,
+        "parts": {
+          "input": "-- list\n-- id: tango\n\n- alfa <<link|bravo|https://www.example.com/>> kilo\n\n- charlie delta",
+          "expected": {
+            "sections": [
+              {
+                "attributes": {
+                  "id": "tango"
+                },
+                "type": "list",
+                "items": [
+                  {
+                    "type": "listitem",
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          { "type": "text", "string": "alfa" },
+                          { "type": "space" },
+                          { "type": "link", "string": "bravo", "url": "https://www.example.com/"  },
+                          { "type": "space" },
+                          { "type": "text", "string": "kilo" }
+                        ]
+                      }
+                    ]
+                  },
+  
+                  {
+                    "type": "listitem",
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          { "type": "text", "string": "charlie" },
+                          { "type": "space" },
+                          { "type": "text", "string": "delta" }
+                        ]
+                      }
+                    ]
+                  }
+  
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+  
