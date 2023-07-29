@@ -1,33 +1,12 @@
 use crate::attributes::attributes;
-
-
-
 use nom::bytes::complete::tag;
-
 use nom::character::complete::line_ending;
-
-
-
-
 use nom::character::complete::space0;
-
-
-
 use nom::combinator::opt;
 use nom::error::VerboseError;
-
-
 use nom::multi::many1;
-
 use nom::sequence::pair;
-
-
 use nom::IResult;
-
-
-
-
-
 use crate::blocks::block;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::NeoSection;

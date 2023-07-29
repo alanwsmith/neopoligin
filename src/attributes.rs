@@ -4,6 +4,7 @@ use crate::attributes::autofocus_attribute::autofocus_attribute;
 use crate::attributes::class_attribute::class_attribute;
 use crate::attributes::contenteditable_attribute::contenteditable_attribute;
 use crate::attributes::id_attribute::id_attribute;
+use crate::attributes::type_attribute::type_attribute;
 use nom::branch::alt;
 use nom::bytes::complete::tag;
 use nom::combinator::opt;
@@ -19,6 +20,7 @@ pub mod autofocus_attribute;
 pub mod class_attribute;
 pub mod contenteditable_attribute;
 pub mod id_attribute;
+pub mod type_attribute;
 
 // TODO: Move away from AttributesObj
 // to AttrubteList
@@ -54,6 +56,7 @@ pub enum AttributeV2 {
     ContentEditable(String),
     Class(Vec<String>),
     Id(String),
+    Type(String),
     None,
 }
 
@@ -79,6 +82,7 @@ pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, Ve
             class_attribute,
             contenteditable_attribute,
             id_attribute,
+            type_attribute,
         )),
     )))(source)?;
     Ok((source, attrs))

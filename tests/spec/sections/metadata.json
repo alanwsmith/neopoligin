@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "input": "-- metadata\n-- type: sierra\n\n",
+      "expected": [
+        {
+          "attributes": [{ "key": "type", "value": "sierra" }],
+          "type": "metadata"
+        }
+      ]
+    }
+  ]
+}

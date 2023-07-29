@@ -69,7 +69,6 @@ impl Page {
                     NeoSection::RawPageAttributes { .. } => Some(s),
                     _ => None,
                 });
-
         dbg!(attributes_section);
 
         // match attributes_section {
@@ -106,7 +105,7 @@ impl Page {
             Some(s) => match s {
                 NeoSection::Title {
                     attributes: _,
-                    content: _,
+                    body: _,
                     headline,
                 } => headline,
                 _ => None,

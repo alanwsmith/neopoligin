@@ -90,8 +90,8 @@ pub fn build_site() {
     // make_full_link_list(&env, u.clone());
 
     // add or remove `.take(7)`` behind `.into_iter()`` for testing
-    //u.pages.clone().into_iter().for_each(|page| {
-    u.pages.clone().into_iter().take(1).for_each(|page| {
+    u.pages.clone().into_iter().for_each(|page| {
+        // u.pages.clone().into_iter().take(1).for_each(|page| {
         counter += 1;
         dbg!(&counter);
         println!("::Making:: {}\n", page.path.as_ref().unwrap().display());

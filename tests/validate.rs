@@ -26,8 +26,12 @@ fn solo_test_specs() {
             let json_text = fs::read_to_string(file_path).unwrap();
             let test_shell: TestShell = serde_json::from_str(json_text.as_str()).unwrap();
             test_shell.tests.into_iter().for_each(|test| {
+                let expected = test.expected;
                 let mut p = Page::new_from(&test.input);
-                assert_eq!(test.expected, p.raw_sections());
+                let results = p.raw_sections();
+                // dbg!(&expected);
+                // dbg!(&results);
+                assert_eq!(expected, results);
             });
         }
     }
