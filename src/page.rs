@@ -51,29 +51,38 @@ impl Page {
 
 impl Page {
     pub fn page_type(&mut self) -> Option<String> {
-        let metadata_section =
+        if let Some(metadata_section) =
             self.raw_sections()
                 .clone()
                 .into_iter()
                 .find_map(|s| match s.clone() {
-                    NeoSection::MetaData { .. } => {
-                        dbg!(&self.section_storage);
-                        dbg!(&self.path);
-                        dbg!(&s);
-                        Some(s)
-                    }
+                    NeoSection::MetaData { .. } => Some(s),
                     _ => None,
-                });
-
-        if let Some(metadata_items) = metadata_section {
-            dbg!(metadata_items);
-
-            // Some(s) => match s {
-            //     NeoSection::MetaData { attributes } => Some("TTTTTTTTTTTTTT".to_string()),
-            //     _ => Some("RRRRRRRRRRRRRRR".to_string()),
-            // },
-            // None => Some("EEEEEEEEEEEEEEEEEEEEEEEEE".to_string()),
+                })
+        {
+            match metadata_section {
+                NeoSection::MetaData { attributes } => {
+                    let type_value: Option<String> =
+                        attributes
+                            .unwrap()
+                            .into_iter()
+                            .find_map(|a| match a.clone() {
+                                AttributeV2::Type(x) => Some(x.trim().to_string()),
+                                _ => None,
+                            });
+                }
+                _ => {}
+            }
         }
+
+        // if let Some(metadata_items) = metadata_section {
+        //     dbg!(metadata_items);
+        //     // Some(s) => match s {
+        //     //     NeoSection::MetaData { attributes } => Some("TTTTTTTTTTTTTT".to_string()),
+        //     //     _ => Some("RRRRRRRRRRRRRRR".to_string()),
+        //     // },
+        //     // None => Some("EEEEEEEEEEEEEEEEEEEEEEEEE".to_string()),
+        // }
 
         Some("DDDDDDDDDDDDDDDDDDDDD".to_string())
     }
