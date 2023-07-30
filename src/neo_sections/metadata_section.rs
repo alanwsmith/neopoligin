@@ -15,7 +15,7 @@ pub fn metadata_section(source: &str) -> IResult<&str, NeoSection, VerboseError<
     let (source, _) = tag("-- metadata")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = attributes_v2(source)?;
-    let (source, _) = empty_line(source)?;
+    //let (source, _) = empty_line(source)?;
     Ok((
         source,
         NeoSection::MetaData {

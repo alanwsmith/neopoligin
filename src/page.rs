@@ -1,3 +1,4 @@
+use crate::attributes::AttributeV2;
 use crate::blocks::Block;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::neo_section;
@@ -25,6 +26,7 @@ impl StructObject for Page {
         match field {
             "body_data" => Some(Value::from_serializable(&self.clone().body_data())),
             "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
+            "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
             _ => None,
         }
     }
@@ -44,6 +46,36 @@ impl Page {
             source: Some(source.to_string()),
             section_storage: None,
         }
+    }
+}
+
+impl Page {
+    pub fn page_type(&mut self) -> Option<String> {
+        let metadata_section =
+            self.raw_sections()
+                .clone()
+                .into_iter()
+                .find_map(|s| match s.clone() {
+                    NeoSection::MetaData { .. } => {
+                        dbg!(&self.section_storage);
+                        dbg!(&self.path);
+                        dbg!(&s);
+                        Some(s)
+                    }
+                    _ => None,
+                });
+
+        if let Some(metadata_items) = metadata_section {
+            dbg!(metadata_items);
+
+            // Some(s) => match s {
+            //     NeoSection::MetaData { attributes } => Some("TTTTTTTTTTTTTT".to_string()),
+            //     _ => Some("RRRRRRRRRRRRRRR".to_string()),
+            // },
+            // None => Some("EEEEEEEEEEEEEEEEEEEEEEEEE".to_string()),
+        }
+
+        Some("DDDDDDDDDDDDDDDDDDDDD".to_string())
     }
 }
 
@@ -69,7 +101,7 @@ impl Page {
                     NeoSection::RawPageAttributes { .. } => Some(s),
                     _ => None,
                 });
-        dbg!(attributes_section);
+        // dbg!(attributes_section);
 
         // match attributes_section {
         //     Some(s) => match s {
@@ -80,7 +112,7 @@ impl Page {
         //     None => None,
         // }
 
-        dbg!("post".to_string())
+        "post".to_string()
     }
 }
 
@@ -101,6 +133,7 @@ impl Page {
                 NeoSection::Title { .. } => Some(s),
                 _ => None,
             });
+
         match title_section {
             Some(s) => match s {
                 NeoSection::Title {

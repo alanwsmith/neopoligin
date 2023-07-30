@@ -93,8 +93,8 @@ pub fn build_site() {
     u.pages.clone().into_iter().for_each(|page| {
         // u.pages.clone().into_iter().take(1).for_each(|page| {
         counter += 1;
-        dbg!(&counter);
-        println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
+        // dbg!(&counter);
+        // println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         // TODO: Get the post template here
         //let template_id = "post".to_string();
         let template_id = page.template();
@@ -109,7 +109,7 @@ pub fn build_site() {
 
         let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
         file_path.push(relative_site_path);
-        dbg!(&file_path);
+        // dbg!(&file_path);
         let dir_path = file_path.parent().unwrap();
 
         fs::create_dir_all(dir_path).unwrap();
