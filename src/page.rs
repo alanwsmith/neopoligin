@@ -1,16 +1,16 @@
 #![allow(unused_imports)]
-// use crate::attributes::AttributeV2;
-// use crate::blocks::Block;
+use crate::attributes::*;
+use crate::blocks::*;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
-// use minijinja::value::{StructObject, Value};
+use minijinja::value::{StructObject, Value};
 use nom::branch::alt;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
 use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
-// use nom::character::complete::not_line_ending;
+use nom::character::complete::not_line_ending;
 use nom::character::complete::space0;
 use nom::error::VerboseError;
 use nom::multi::many1;
@@ -20,7 +20,7 @@ use nom::sequence::preceded;
 use nom::IResult;
 use nom::Parser;
 use serde::{Deserialize, Serialize};
-// use std::fs;
+use std::fs;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -32,22 +32,22 @@ pub struct Page {
     pub section_storage: Option<Vec<NeoSection>>,
 }
 
-// impl StructObject for Page {
-//     fn get_field(&self, field: &str) -> Option<Value> {
-//         match field {
-//             "body_data" => Some(Value::from_serializable(&self.clone().body_data())),
-//             "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
-//             "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
-//             _ => None,
-//         }
-//     }
-// }
+impl StructObject for Page {
+    fn get_field(&self, field: &str) -> Option<Value> {
+        match field {
+            "body_data" => Some(Value::from_serializable(&self.clone().body_data())),
+            "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
+            "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
+            _ => None,
+        }
+    }
+}
 
-// impl Page {
-//     pub fn body_data(&mut self) -> Vec<NeoSection> {
-//         self.raw_sections()
-//     }
-// }
+impl Page {
+    pub fn body_data(&mut self) -> Vec<NeoSection> {
+        self.raw_sections()
+    }
+}
 
 impl Page {
     pub fn new_from(source: &str) -> Page {
@@ -105,37 +105,46 @@ fn multi_line(source: &str) -> IResult<&str, String> {
 
 
 
-// impl Page {
-//     pub fn page_type(&mut self) -> Option<String> {
-//         if let Some(metadata_section) =
-//             self.raw_sections()
-//                 .clone()
-//                 .into_iter()
-//                 .find_map(|s| match s.clone() {
-//                     NeoSection::MetaData { .. } => Some(s),
-//                     _ => None,
-//                 })
-//         {
-//             match metadata_section {
-//                 NeoSection::MetaData { attributes } => {
-//                     attributes
-//                         .unwrap()
-//                         .into_iter()
-//                         .find_map(|a| match a.clone() {
-//                             AttributeV2::Type(x) => {
-//                                 dbg!(&x);
-//                                 Some(x.trim().to_string())
-//                             }
-//                             _ => None,
-//                         })
-//                 }
-//                 _ => None,
-//             }
-//         } else {
-//             None
-//         }
-//     }
-// }
+
+
+impl Page {
+
+
+    pub fn page_type(&mut self) -> Option<String> {
+
+    //     if let Some(metadata_section) =
+    //         self.raw_sections()
+    //             .clone()
+    //             .into_iter()
+    //             .find_map(|s| match s.clone() {
+    //                 NeoSection::MetaData { .. } => Some(s),
+    //                 _ => None,
+    //             })
+    //     {
+    //         match metadata_section {
+    //             NeoSection::MetaData { attributes } => {
+    //                 attributes
+    //                     .unwrap()
+    //                     .into_iter()
+    //                     .find_map(|a| match a.clone() {
+    //                         AttributeV2::Type(x) => {
+    //                             dbg!(&x);
+    //                             Some(x.trim().to_string())
+    //                         }
+    //                         _ => None,
+    //                     })
+    //             }
+    //             _ => None,
+    //         }
+    //     } else {
+    //         None
+    //     }
+
+        None
+    }
+
+
+}
 
 impl Page {
     pub fn raw_sections(&mut self) -> Vec<NeoSection> {
@@ -172,37 +181,36 @@ impl Page {
 //     }
 // }
 
-// impl Page {
-//     pub fn title_data(&mut self) -> NeoSection {
-//         // TODO: Make this actually look for the title
-//         // instead of just the first thing
-//         self.raw_sections().into_iter().nth(0).unwrap()
-//     }
-// }
+impl Page {
+    pub fn title_data(&mut self) -> NeoSection {
+        // TODO: Make this actually look for the title
+        // instead of just the first thing
+        self.raw_sections().into_iter().nth(0).unwrap()
+    }
+}
 
-// impl Page {
-//     pub fn title_string(&mut self) -> Option<Block> {
-//         let title_section = self
-//             .raw_sections()
-//             .into_iter()
-//             .find_map(|s| match s.clone() {
-//                 NeoSection::Title { .. } => Some(s),
-//                 _ => None,
-//             });
-
-//         match title_section {
-//             Some(s) => match s {
-//                 NeoSection::Title {
-//                     attributes: _,
-//                     body: _,
-//                     headline,
-//                 } => headline,
-//                 _ => None,
-//             },
-//             None => None,
-//         }
-//     }
-// }
+impl Page {
+    pub fn title_string(&mut self) -> Option<Block> {
+        let title_section = self
+            .raw_sections()
+            .into_iter()
+            .find_map(|s| match s.clone() {
+                NeoSection::Title { .. } => Some(s),
+                _ => None,
+            });
+        match title_section {
+            Some(s) => match s {
+                NeoSection::Title {
+                    attributes: _,
+                    body: _,
+                    headline,
+                } => headline,
+                _ => None,
+            },
+            None => None,
+        }
+    }
+}
 
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
     // dbg!(&source);
