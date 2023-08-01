@@ -1,12 +1,12 @@
 {
     "tests": [
         {
-            "title": "H2: basic",
-            "input": "-- h2\n\nbravo bravo\n",
+            "title": "H1: basic",
+            "input": "-- h1\n\nbravo bravo\n",
             "expected": [
               {
                 "attributes": null,
-                "type": "h2",
+                "type": "h1",
                 "headline": {
                   "type": "paragraph",
                   "content": [

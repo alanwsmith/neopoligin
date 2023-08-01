@@ -4,12 +4,12 @@ use crate::containers::Container;
 // use crate::neo_sections::aside_section::aside_section;
 // use crate::neo_sections::endcode_section::endcode_section;
 // use crate::neo_sections::endresults_section::endresults_section;
-// use crate::neo_sections::h1_section::h1_section;
+use crate::neo_sections::h1_section::h1_section;
 use crate::neo_sections::h2_section::h2_section;
-// use crate::neo_sections::h3_section::h3_section;
-// use crate::neo_sections::h4_section::h4_section;
-// use crate::neo_sections::h5_section::h5_section;
-// use crate::neo_sections::h6_section::h6_section;
+use crate::neo_sections::h3_section::h3_section;
+use crate::neo_sections::h4_section::h4_section;
+use crate::neo_sections::h5_section::h5_section;
+use crate::neo_sections::h6_section::h6_section;
 // use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
 // use crate::neo_sections::metadata_section::metadata_section;
@@ -25,13 +25,13 @@ use serde::{Deserialize, Serialize};
 // pub mod aside_section;
 // pub mod endcode_section;
 // pub mod endresults_section;
-// pub mod h1_section;
 
+pub mod h1_section;
 pub mod h2_section;
-// pub mod h3_section;
-// pub mod h4_section;
-// pub mod h5_section;
-// pub mod h6_section;
+pub mod h3_section;
+pub mod h4_section;
+pub mod h5_section;
+pub mod h6_section;
 // pub mod image_section;
 
 pub mod list_section;
@@ -56,7 +56,32 @@ pub enum NeoSection {
     //     attributes: Option<Vec<AttributeV2>>,
     //     body: Option<String>,
     // },  
+    H1 {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
     H2 {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
+    H3 {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
+    H4 {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
+    H5 {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
+    H6 {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
@@ -91,7 +116,6 @@ pub enum NeoSection {
 }
 
 
-
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     // dbg!(&source);
     let (source, _) = multispace0(source)?;
@@ -102,12 +126,12 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     //     endcode_section,
     //     endresults_section,
     //     image_section,
-    //     h1_section,
+        h1_section,
         h2_section,
-    //     h3_section,
-    //     h4_section,
-    //     h5_section,
-    //     h6_section,
+        h3_section,
+        h4_section,
+        h5_section,
+        h6_section,
         list_section,
     //     metadata_section,
         p_section,
