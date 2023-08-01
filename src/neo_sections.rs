@@ -3,6 +3,7 @@ use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
 use crate::neo_sections::endcode_section::endcode_section;
+use crate::neo_sections::endresults_section::endresults_section;
 use crate::neo_sections::h1_section::h1_section;
 use crate::neo_sections::h2_section::h2_section;
 use crate::neo_sections::h3_section::h3_section;
@@ -14,6 +15,7 @@ use crate::neo_sections::list_section::list_section;
 use crate::neo_sections::metadata_section::metadata_section;
 use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::startcode_section::startcode_section;
+use crate::neo_sections::startresults_section::startresults_section;
 use crate::neo_sections::title_section::title_section;
 use nom::branch::alt;
 use nom::error::VerboseError;
@@ -22,6 +24,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod aside_section;
 pub mod endcode_section;
+pub mod endresults_section;
 pub mod h1_section;
 pub mod h2_section;
 pub mod h3_section;
@@ -33,6 +36,7 @@ pub mod list_section;
 pub mod metadata_section;
 pub mod p_section;
 pub mod startcode_section;
+pub mod startresults_section;
 pub mod title_section;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -89,6 +93,10 @@ pub enum NeoSection {
     MetaData {
         attributes: Option<Vec<AttributeV2>>,
     },
+    Results {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },
     Title {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -105,6 +113,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     let (source, section) = alt((
         aside_section,
         endcode_section,
+        endresults_section,
         image_section,
         h1_section,
         h2_section,
@@ -116,6 +125,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         metadata_section,
         p_section,
         startcode_section,
+        startresults_section,
         title_section,
     ))(source)?;
     Ok((source, section))

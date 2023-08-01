@@ -1,31 +1,14 @@
 use crate::attributes::attributes;
-
-
-
-
 use nom::bytes::complete::tag_no_case;
 use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
-
-
-
 use nom::character::complete::space0;
-
-
-
 use nom::combinator::opt;
 use nom::error::VerboseError;
-
-
 use nom::multi::many1;
-
 use nom::sequence::pair;
 use nom::sequence::preceded;
-
 use nom::IResult;
-
-
-
 
 
 

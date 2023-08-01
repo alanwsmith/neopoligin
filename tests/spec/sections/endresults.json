@@ -1,0 +1,103 @@
+{    
+    "tests": [
+        {
+            "input": "-- endresults\n\ncharlie victor\n\n",
+            "expected": [
+              {
+                "attributes": null,
+                "type": "p",
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "victor" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+
+          {
+            "input": "-- startresults\n\na\n\n-- endresults\n\ncharlie victor",
+            "expected": [
+              {
+                "attributes": null,
+                "type": "results",
+                "body": "a"
+              },
+              {
+                "attributes": null,
+                "type": "p",
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "charlie" },
+                      { "type": "space" },
+                      { "type": "text", "string": "victor" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+      
+          
+
+
+
+          
+    ],
+
+  "testss": [
+    {
+      "input": "-- endresults\n\necho sierra\n\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "echo" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "input": "-- startresults\n\na\n\n-- endresults\n\ncharlie victor\n\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "results",
+          "body": "a"
+        },
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "charlie" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+    
+  ]
+}

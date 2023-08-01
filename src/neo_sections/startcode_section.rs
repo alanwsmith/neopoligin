@@ -12,16 +12,10 @@ use nom::IResult;
 
 pub fn startcode_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, _) = tag("-- startcode")(source)?;
-    dbg!(source);
     let (source, _) = pair(space0, line_ending)(source)?;
-    dbg!(source);
     let (source, attributes) = attributes_v2(source)?;
-    dbg!(source);
     let (source, _) = empty_line(source)?;
-    dbg!(source);
     let (source, body) = take_until("\n\n-- endcode")(source)?;
-    dbg!("OUTPUT:");
-    dbg!(source);
     Ok((
         source,
         NeoSection::Code {
