@@ -62,29 +62,22 @@ impl Page {
         {
             match metadata_section {
                 NeoSection::MetaData { attributes } => {
-                    let type_value: Option<String> =
-                        attributes
-                            .unwrap()
-                            .into_iter()
-                            .find_map(|a| match a.clone() {
-                                AttributeV2::Type(x) => Some(x.trim().to_string()),
-                                _ => None,
-                            });
+                    attributes
+                        .unwrap()
+                        .into_iter()
+                        .find_map(|a| match a.clone() {
+                            AttributeV2::Type(x) => {
+                                dbg!(&x);
+                                Some(x.trim().to_string())
+                            }
+                            _ => None,
+                        })
                 }
-                _ => {}
+                _ => None,
             }
+        } else {
+            None
         }
-
-        // if let Some(metadata_items) = metadata_section {
-        //     dbg!(metadata_items);
-        //     // Some(s) => match s {
-        //     //     NeoSection::MetaData { attributes } => Some("TTTTTTTTTTTTTT".to_string()),
-        //     //     _ => Some("RRRRRRRRRRRRRRR".to_string()),
-        //     // },
-        //     // None => Some("EEEEEEEEEEEEEEEEEEEEEEEEE".to_string()),
-        // }
-
-        Some("DDDDDDDDDDDDDDDDDDDDD".to_string())
     }
 }
 
@@ -102,14 +95,15 @@ impl Page {
 
 impl Page {
     pub fn template(&self) -> String {
-        let attributes_section =
-            self.clone()
-                .raw_sections()
-                .into_iter()
-                .find_map(|s| match s.clone() {
-                    NeoSection::RawPageAttributes { .. } => Some(s),
-                    _ => None,
-                });
+
+        // let attributes_section =
+        //     self.clone()
+        //         .raw_sections()
+        //         .into_iter()
+        //         .find_map(|s| match s.clone() {
+        //             NeoSection::RawPageAttributes { .. } => Some(s),
+        //             _ => None,
+        //         });
         // dbg!(attributes_section);
 
         // match attributes_section {

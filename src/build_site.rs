@@ -97,7 +97,15 @@ pub fn build_site() {
         // println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
         // TODO: Get the post template here
         //let template_id = "post".to_string();
-        let template_id = page.template();
+
+        let template_id = match page.clone().page_type() {
+            Some(x) => x,
+            None => "post".to_string(),
+        };
+
+        dbg!(&template_id);
+        //let template_id = page.page_type();
+
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
 
         let pg = Value::from_struct_object(page.clone());

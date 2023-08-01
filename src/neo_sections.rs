@@ -12,6 +12,7 @@ use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
 use crate::neo_sections::metadata_section::metadata_section;
 use crate::neo_sections::p_section::p_section;
+use crate::neo_sections::startcode_section::startcode_section;
 use crate::neo_sections::title_section::title_section;
 use nom::branch::alt;
 use nom::error::VerboseError;
@@ -29,6 +30,7 @@ pub mod image_section;
 pub mod list_section;
 pub mod metadata_section;
 pub mod p_section;
+pub mod startcode_section;
 pub mod title_section;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -37,6 +39,10 @@ pub enum NeoSection {
     Aside {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
+    },
+    Code {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
     },
     H1 {
         attributes: Option<Vec<AttributeV2>>,
@@ -106,6 +112,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         h6_section,
         list_section,
         p_section,
+        startcode_section,
         title_section,
     ))(source)?;
     Ok((source, section))

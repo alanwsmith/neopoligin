@@ -16,6 +16,7 @@ pub mod paragraph_block;
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Block {
     Paragraph { content: Vec<Token> },
+    RawString { content: String },
 }
 
 pub fn block(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
