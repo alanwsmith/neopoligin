@@ -20,10 +20,7 @@ pub enum Block {
 }
 
 pub fn block(source: &str) -> IResult<&str, Block, VerboseError<&str>> {
-    dbg!(source);
     let (source, _) = not(pair(multispace0, tag("--")))(source)?;
-    dbg!(source);
     let (source, block) = preceded(multispace0, paragraph_block)(source)?;
-    dbg!(source);
     Ok((source, block))
 }

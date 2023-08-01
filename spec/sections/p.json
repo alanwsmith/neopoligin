@@ -1,0 +1,101 @@
+{
+  "tests": [
+    {
+      "title": "Paragraph on one line",
+      "input": "-- p\n\nalfa kilo\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
+    }, 
+    {
+      "solo": true,
+      "title": "Paragraph on one line without line ending",
+      "input": "-- p\n\ndelta sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }, 
+    {
+      "title": "Paragraph split across lines",
+      "input": "-- p\n\nbravo delta\nsierra charlie\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+      ]
+    }, 
+    {
+      "title": "Multi paragraph",
+      "input": "-- p\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" },
+                { "type": "space" },
+                { "type": "text", "string": "mike" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

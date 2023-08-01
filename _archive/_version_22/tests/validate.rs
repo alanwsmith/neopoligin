@@ -8,7 +8,6 @@ use std::fs;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct TestParts {
-    solo: Option<bool>,
     input: String,
     expected: Vec<NeoSection>,
 }
@@ -20,21 +19,19 @@ struct TestShell {
 
 #[test]
 fn solo_test_specs() {
-    let paths = fs::read_dir("./spec/sections").unwrap();
+    let paths = fs::read_dir("./tests/spec/sections").unwrap();
     for path in paths {
         let file_path = path.unwrap().path().display().to_string();
         if file_path.find(".json") != None {
             let json_text = fs::read_to_string(file_path).unwrap();
             let test_shell: TestShell = serde_json::from_str(json_text.as_str()).unwrap();
             test_shell.tests.into_iter().for_each(|test| {
-                // if let Some(_) = test.solo {
-                    let expected = test.expected;
-                    let mut p = Page::new_from(&test.input);
-                    let results = p.raw_sections();
-                    // dbg!(&expected);
-                    // dbg!(&results);
-                    assert_eq!(expected, results);
-                // }
+                let expected = test.expected;
+                let mut p = Page::new_from(&test.input);
+                let results = p.raw_sections();
+                // dbg!(&expected);
+                // dbg!(&results);
+                assert_eq!(expected, results);
             });
         }
     }
