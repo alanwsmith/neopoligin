@@ -11,12 +11,19 @@ use crate::blocks::block;
 use crate::helpers::empty_line::empty_line;
 use crate::neo_sections::NeoSection;
 
-pub fn p_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- p")(source)?;
+pub fn endcode_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
+    dbg!("INPUT");
+    dbg!(source);
+    let (source, _) = tag("-- endcode")(source)?;
+    dbg!(source);
     let (source, _) = pair(space0, line_ending)(source)?;
+    // dbg!(source);
     let (source, attributes) = attributes_v2(source)?;
+    // dbg!(source);
     let (source, _) = empty_line(source)?;
+    // dbg!(source);
     let (source, body) = opt(many1(block))(source)?;
+    // dbg!(source);
     Ok((
         source,
         NeoSection::P {

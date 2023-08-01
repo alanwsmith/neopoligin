@@ -18,6 +18,39 @@
           ]
         }
       ]
+    },
+    {
+      "input": "-- aside\n-- id: foxtrot\n\nalfa kilo\n\n-- aside\n-- id: foxtrot\n\nalfa kilo",
+      "expected": [
+        {
+          "attributes": [{ "key": "id", "value": "foxtrot" }],
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        },
+        {
+          "attributes": [{ "key": "id", "value": "foxtrot" }],
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

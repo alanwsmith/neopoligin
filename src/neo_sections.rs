@@ -2,6 +2,7 @@ use crate::attributes::*;
 use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
+use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::h1_section::h1_section;
 use crate::neo_sections::h2_section::h2_section;
 use crate::neo_sections::h3_section::h3_section;
@@ -20,6 +21,7 @@ use nom::IResult;
 use serde::{Deserialize, Serialize};
 
 pub mod aside_section;
+pub mod endcode_section;
 pub mod h1_section;
 pub mod h2_section;
 pub mod h3_section;
@@ -93,16 +95,16 @@ pub enum NeoSection {
         headline: Option<Block>,
     },
     P {
-        attributes: Option<AttributesObj>,
-        content: Option<Vec<Block>>,
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     },
     RawPageAttributes(Vec<(String, String)>),
 }
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, section) = alt((
-        metadata_section,
         aside_section,
+        endcode_section,
         image_section,
         h1_section,
         h2_section,
@@ -111,6 +113,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         h5_section,
         h6_section,
         list_section,
+        metadata_section,
         p_section,
         startcode_section,
         title_section,
