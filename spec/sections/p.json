@@ -21,7 +21,6 @@
       ]
     }, 
     {
-      "solo": true,
       "title": "Paragraph on one line without line ending",
       "input": "-- p\n\ndelta sierra",
       "expected": [

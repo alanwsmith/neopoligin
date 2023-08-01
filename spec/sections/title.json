@@ -1,0 +1,24 @@
+{
+    "tests": [
+      {
+        "solo": true,
+        "input": "-- title\n\ncharlie delta\n",
+        "expected": [
+          {
+              "attributes": null,
+            "type": "title",
+            "headline": {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "charlie" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" }
+              ]
+            },
+            "body": null
+          }
+        ]
+      }
+    ]
+  }
+  

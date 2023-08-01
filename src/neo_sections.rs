@@ -16,8 +16,8 @@ use crate::blocks::Block;
 use crate::neo_sections::p_section::p_section;
 // use crate::neo_sections::startcode_section::startcode_section;
 // use crate::neo_sections::startresults_section::startresults_section;
-// use crate::neo_sections::title_section::title_section;
-// use nom::branch::alt;
+use crate::neo_sections::title_section::title_section;
+use nom::branch::alt;
 use nom::error::VerboseError;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
@@ -38,7 +38,8 @@ use serde::{Deserialize, Serialize};
 pub mod p_section;
 // pub mod startcode_section;
 // pub mod startresults_section;
-// pub mod title_section;
+
+pub mod title_section;
 
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -99,11 +100,11 @@ pub enum NeoSection {
     //     attributes: Option<Vec<AttributeV2>>,
     //     body: Option<String>,
     // },
-    // Title {
-    //     attributes: Option<Vec<AttributeV2>>,
-    //     body: Option<Vec<Block>>,
-    //     headline: Option<Block>,
-    // },
+    Title {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
     P {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -114,10 +115,10 @@ pub enum NeoSection {
 
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    dbg!(&source);
-    let (source, section) = p_section(source)?;
-    dbg!(&source);
-    //     let (source, section) = alt((
+    // dbg!(&source);
+    // let (source, section) = p_section(source)?;
+    // dbg!(&source);
+        let (source, section) = alt((
     //     aside_section,
     //     endcode_section,
     //     endresults_section,
@@ -130,10 +131,10 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     //     h6_section,
     //     list_section,
     //     metadata_section,
-    //     p_section,
+        p_section,
     //     startcode_section,
     //     startresults_section,
-    //     title_section,
-    // ))(source)?;
+        title_section,
+    ))(source)?;
     Ok((source, section))
 }

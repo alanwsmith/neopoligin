@@ -65,9 +65,9 @@ impl Page {
 // move content from single newlines into place
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
-    dbg!(&source);
+    // dbg!(&source);
     let (source, value) = many1(alt((multi_line, line)))(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     // let (source, value) = many1(multi_line)(source)?;
     // dbg!(&value);
     let mut response = value.join("\n");
@@ -77,24 +77,24 @@ fn flatten(source: &str) -> IResult<&str, String> {
 }
 
 fn line(source: &str) -> IResult<&str, String> {
-    dbg!(&source);
+    // dbg!(&source);
     let (source, value) = is_not("\n")(source)?;
     let (source, _) = tag("\n")(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     let (source, _) = pair(space0, line_ending)(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     let (source, _) = multispace0(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     Ok((source, value.to_string()))
 }
 
 fn multi_line(source: &str) -> IResult<&str, String> {
     // dbg!(source);
-    dbg!(&source);
+    // dbg!(&source);
     let (source, value) = many1(pair(is_not("\n"), tag("\n")).map(|(a, _b)| a))(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     let (source, _) = multispace0(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     Ok((source, value.join(" ")))
 }
 
@@ -200,9 +200,9 @@ impl Page {
 // }
 
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
-    dbg!(&source);
+    // dbg!(&source);
     let (source, sections) = many1(neo_section)(source)?;
         //separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
-        dbg!(&source);
+        // dbg!(&source);
     Ok((source, sections))
 }

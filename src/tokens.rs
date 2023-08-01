@@ -26,9 +26,9 @@ pub enum Token {
 pub fn token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
     // dbg!(&source);
     // let (source, _) = is_not("\n")(source)?;
-    dbg!(&source);
+    // dbg!(&source);
     let (source, token) = alt((text_token, link_token, space_token))(source)?;
-    dbg!(&token);
-    dbg!(&source);
+    // dbg!(&token);
+    // dbg!(&source);
     Ok((source, token))
 }

@@ -26,15 +26,19 @@ fn solo_test_specs() {
         if file_path.find(".json") != None {
             let json_text = fs::read_to_string(file_path).unwrap();
             let test_shell: TestShell = serde_json::from_str(json_text.as_str()).unwrap();
+            // Run Solo Tests First
             test_shell.tests.into_iter().for_each(|test| {
-                // if let Some(_) = test.solo {
-                    let expected = test.expected;
+                if let Some(_) = test.solo {
+                    let expected = test.clone().expected;
                     let mut p = Page::new_from(&test.input);
                     let results = p.raw_sections();
-                    // dbg!(&expected);
-                    // dbg!(&results);
                     assert_eq!(expected, results);
-                // }
+                }
+                // Then run everything
+                // let expected = test.expected;
+                // let mut p = Page::new_from(&test.input);
+                // let results = p.raw_sections();
+                // assert_eq!(expected, results);
             });
         }
     }

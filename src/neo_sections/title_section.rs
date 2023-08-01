@@ -11,22 +11,17 @@ use nom::multi::many1;
 use nom::sequence::pair;
 use nom::IResult;
 
-pub fn p_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    // dbg!(source);
-    let (source, _) = tag("-- p")(source)?;
-    // dbg!(source);
+pub fn title_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
+    let (source, _) = tag("-- title")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    // dbg!(source);
-
-    // let (source, attributes) = attributes_v2(source)?;
-    // let (source, _) = empty_line(source)?;
+    let (source, headline) = opt(block)(source)?;
     let (source, body) = opt(many1(block))(source)?;
-    // dbg!(source);
     Ok((
         source,
-        NeoSection::P {
+        NeoSection::Title {
             attributes: None,
             body,
+            headline,
         },
     ))
 }
