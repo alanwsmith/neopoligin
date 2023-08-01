@@ -35,10 +35,10 @@ fn solo_test_specs() {
                     assert_eq!(expected, results);
                 }
                 // Then run everything
-                // let expected = test.expected;
-                // let mut p = Page::new_from(&test.input);
-                // let results = p.raw_sections();
-                // assert_eq!(expected, results);
+                let expected = test.expected;
+                let mut p = Page::new_from(&test.input);
+                let results = p.raw_sections();
+                assert_eq!(expected, results);
             });
         }
     }
