@@ -1,0 +1,41 @@
+{
+  "tests": [
+    {
+      "input": "-- title\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
+      "expected": [
+        {
+            "attributes": [{ "key": "id", "value": "tango" }],
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "alfa" },
+              { "type": "space" },
+              {
+                "type": "link",
+                "string": "bravo",
+                "url": "https://www.example.com/"
+              },
+              { "type": "space" },
+              { "type": "text", "string": "kilo" }
+            ]
+          },
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "charlie" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" },
+                { "type": "space" },
+                { "type": "text", "string": "foxtrot" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

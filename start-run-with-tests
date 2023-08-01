@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tmux select-pane -T "Run with tests: Neopoligin"
+cargo watch -q -s "./scripts/run-all-tests"

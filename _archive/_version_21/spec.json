@@ -1,0 +1,35 @@
+{
+  "spec_version": {
+    "major": 0,
+    "minor": 1,
+    "patch": 0
+  },
+  "notes": [
+    "Several of these tests have inputs that end with a `\n``. That's required in most cases"
+  ],
+  "smoke_tests": [
+    {
+      "name": "Template",
+      "notes": null,
+      "parts": {
+        "input": "-- aside\n-- id: tango\n\nalfa kilo",
+        "expected": [
+          {
+            "attributes": [{"key": "id", "value": "tango"}],
+            "type": "aside",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "alfa" },
+                  { "type": "space" },
+                  { "type": "text", "string": "kilo" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

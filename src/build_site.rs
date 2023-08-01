@@ -1,152 +1,117 @@
-#![allow(unused_imports)]
-#![allow(dead_code)]
-#![allow(unused_variables)]
-use crate::file_lists::file_lists;
-// use crate::neo_sections::neo_sections;
-use crate::sections::sections;
-use crate::source_file::title::title;
-use crate::source_file::SourceFile;
+use crate::build_site::check_db_structure::check_db_structure;
+use crate::build_site::get_file_hashes::get_file_hashes;
+use crate::build_site::insert_hash::insert_hash;
+use crate::page::Page;
+use crate::universe::Universe;
 use minijinja::context;
 use minijinja::path_loader;
+use minijinja::value::Value;
 use minijinja::Environment;
-use rusqlite::{Connection, Result};
+use rusqlite::Connection;
 use sha256::digest;
-use std::collections::HashSet;
 use std::fs;
 use std::path::PathBuf;
 use std::vec;
 use walkdir::WalkDir;
 
+pub mod check_db_structure;
+pub mod get_file_hashes;
+pub mod insert_hash;
+pub mod table_exists;
+
+pub fn make_full_link_list(e: &Environment, u: Universe) {
+    let uvx = Value::from_struct_object(u.clone());
+    let tmpl = e.get_template("_src/templates/full_link_list.html");
+    let rv = tmpl.expect("Boom").render(context!(uvx => uvx)).unwrap();
+    let _ = fs::write(
+        "/Users/alan/workshop/alanwsmith.com/templates/_src/includes/full_link_list.html",
+        rv,
+    );
+}
+
 pub fn build_site() {
-    dbg!("Building Site");
-    let template_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
-    let content_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
-    let site_root_dir = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
-    let sqlite_path = "/Users/alan/Desktop/neopolengine.sqlite";
-    let mut env = Environment::new();
-    let template_path = template_dir.display().to_string();
-    env.set_loader(path_loader(template_path.as_str()));
-    let mut source_files: Vec<SourceFile> = vec![];
 
-    let conn = Connection::open(sqlite_path).unwrap();
-    check_db_structure(&conn);
-
-    let file_hashes = get_file_hashes(&conn).unwrap();
-
-    for entry in WalkDir::new(&content_dir).into_iter() {
-        let initial_path = entry.as_ref().unwrap().path().to_path_buf();
-        let initial_path2 = entry.unwrap().path().to_path_buf();
-        let file_sub_path = initial_path2.strip_prefix(&content_dir).unwrap();
-        if let Some(ext) = initial_path.extension() {
-            if ext == "neo" {
-                let source_string = fs::read_to_string(&initial_path).unwrap();
-                let sf = SourceFile {
-                    source_hash: digest(source_string.as_str()),
-                    source_path: initial_path
-                        .clone()
-                        .strip_prefix(&content_dir)
-                        .unwrap()
-                        .to_path_buf(),
-                    source_data: source_string,
-                    url: format!("/{}", file_sub_path.parent().unwrap().display()),
-                };
-                source_files.push(sf);
-            } else {
-                let mut output_path = site_root_dir.clone();
-                let file_sub_path = initial_path.strip_prefix(&content_dir).unwrap();
-                output_path.push(file_sub_path);
-                let parent_dir = output_path.parent().unwrap();
-                if initial_path.to_path_buf().is_file() {
-                    if !parent_dir.exists() {
-                        fs::create_dir_all(parent_dir).unwrap();
-                    }
-                    fs::copy(initial_path, output_path).unwrap();
-                }
-            }
-        }
-    }
-
-    let file_lists = file_lists(&source_files);
-
-    // use .take(2) for testing
-    // source_files.iter().take(2).for_each(|source_file| {
-    source_files.iter().for_each(|source_file| {
-        if file_hashes.contains(&source_file.source_hash) {
-            // println!("IGNORE\n       {}", &source_file.source_path.display());
-        } else {
-            println!("MAKING: {}", &source_file.source_path.display());
-            let template = env.get_template(
-                format!(
-                    "{}/index.html",
-                    &source_file.template(&source_file.source_data).unwrap().1,
-                )
-                .as_str(),
-            );
-            //
-
-            let the_content = sections(&source_file.source_data).unwrap().1;
-            let the_date = &source_file
-                .date(&source_file.source_data, "%B %Y")
-                .unwrap()
-                .1;
-            let title_string = title(&source_file.source_data).unwrap().1;
-
-            let output = template
-                .unwrap()
-                .render(context!(
-                    content => the_content,
-                    date => the_date,
-                    title_string => title_string,
-                    file_lists => file_lists
-                ))
-                .unwrap();
-            let mut file_path = site_root_dir.clone();
-            file_path.push(&source_file.source_path);
-            file_path.set_extension("html");
-            let dir_path = file_path.parent().unwrap();
-            fs::create_dir_all(dir_path).unwrap();
-            fs::write(file_path, output).unwrap();
-            insert_hash(&conn, &source_file.source_hash.as_str()).unwrap();
-
-            //
-        }
-    });
+       println!("Starting site build");
+       let template_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
+       let content_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/content");
+       let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
+       let sqlite_path = "/Users/alan/Desktop/neopolengine.sqlite";
+       let mut env = Environment::new();
+       let template_path = template_root.display().to_string();
+       env.set_loader(path_loader(template_path.as_str()));
+       let mut u = Universe {
+           pages: vec![],
+           cache_full_link_list: None,
+       };
+       println!("Getting file change hash checks");
+       let conn = Connection::open(sqlite_path).unwrap();
+       check_db_structure(&conn);
+       let file_hashes = get_file_hashes(&conn).unwrap();
+       println!("Walking content dir: {}", &content_root.display());
+       for entry in WalkDir::new(&content_root).into_iter() {
+           let initial_path = entry.as_ref().unwrap().path().to_path_buf();
+           if let Some(ext) = initial_path.extension() {
+               if ext == "neo" {
+                   // Process neo files
+                   let source_string = fs::read_to_string(&initial_path).unwrap();
+                   let source_hash = digest(source_string.as_str());
+                   if !file_hashes.contains(&source_hash) {
+                       let mut p = Page::new_from(&source_string);
+                       let mut page_path = PathBuf::from("/");
+                       p.source_hash = Some(source_hash);
+                       page_path.push(initial_path.strip_prefix(&content_root).unwrap());
+                       page_path.set_extension("html");
+                       p.path = Some(page_path);
+                       u.pages.push(p);
+                   }
+               } else {
+                   // Move everything else over directly
+                   let mut output_path = site_root_root.clone();
+                   let file_sub_path = initial_path.strip_prefix(&content_root).unwrap();
+                   output_path.push(file_sub_path);
+                   let parent_dir = output_path.parent().unwrap();
+                   if initial_path.to_path_buf().is_file() {
+                       if !parent_dir.exists() {
+                           fs::create_dir_all(parent_dir).unwrap();
+                       }
+                       fs::copy(initial_path, output_path).unwrap();
+                   }
+               }
+           }
+       }
+       let mut counter = 0;
+       let uv = Value::from_struct_object(u.clone());
+       // TODO: Turn this on when you're done testing
+       // make_full_link_list(&env, u.clone());
+       // add or remove `.take(7)`` behind `.into_iter()`` for testing
+       u.pages.clone().into_iter().for_each(|page| {
+           // u.pages.clone().into_iter().take(1).for_each(|page| {
+           counter += 1;
+           // dbg!(&counter);
+           // println!("::Making:: {}\n", page.path.as_ref().unwrap().display());
+           // TODO: Get the post template here
+           //let template_id = "post".to_string();
+           let template_id = match page.clone().page_type() {
+               Some(x) => x,
+               None => "post".to_string(),
+           };
+           dbg!(&template_id);
+           //let template_id = page.page_type();
+           let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
+           let pg = Value::from_struct_object(page.clone());
+           let rv = tmpl
+               .expect("Boom")
+               .render(context!(pg => pg, uv => uv))
+               .unwrap();
+           let mut file_path = site_root_root.clone();
+           let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
+           file_path.push(relative_site_path);
+           // dbg!(&file_path);
+           let dir_path = file_path.parent().unwrap();
+           fs::create_dir_all(dir_path).unwrap();
+           fs::write(file_path, rv).unwrap();
+           insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
+       });
 
     println!("Process complete");
-}
-
-fn insert_hash(conn: &Connection, hash: &str) -> Result<()> {
-    let mut stmt = conn.prepare("INSERT INTO file_hashes (hash) VALUES (?1)")?;
-    stmt.execute([hash])?;
-    Ok(())
-}
-
-fn table_exists(conn: &Connection, table_name: &str) -> Result<bool> {
-    let mut stmt = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?1")?;
-    let rows = stmt.query_map([table_name], |_| Ok(()))?;
-    if rows.count() == 1 {
-        Ok(true)
-    } else {
-        Ok(false)
-    }
-}
-
-fn check_db_structure(conn: &Connection) {
-    match table_exists(&conn, "file_hashes") {
-        Ok(false) => {
-            conn.execute("CREATE TABLE file_hashes (hash TEXT)", ())
-                .unwrap();
-        }
-        _ => {}
-    }
-}
-
-fn get_file_hashes(conn: &Connection) -> Result<HashSet<String>> {
-    let mut stmt = conn.prepare("SELECT hash FROM file_hashes")?;
-    let rows = stmt.query_map([], |row| row.get(0))?;
-    let mut hashes = HashSet::new();
-    for hash in rows {
-        hashes.insert(hash?);
-    }
-    Ok(hashes)
 }

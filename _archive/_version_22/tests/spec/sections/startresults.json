@@ -1,0 +1,25 @@
+{
+    "tests": [
+      {
+        "input": "-- startresults\n\nfoxtrot sierra\n\n-- endresults",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "results",
+            "body": "foxtrot sierra"
+          }
+        ]
+      },
+      {
+        "input": "-- startresults\n-- id: bravo\n\nalfa alfa\n\n-- endresults",
+        "expected": [
+          {
+            "attributes": [{ "key": "id", "value": "bravo" }],
+            "type": "results",
+            "body": "alfa alfa"
+          }
+        ]
+      }
+    ]
+  }
+  

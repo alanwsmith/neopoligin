@@ -1,0 +1,116 @@
+{
+  "tests": [
+    {
+      "input": "-- endcode\n\ncharlie victor\n\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "charlie" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "input": "-- startcode\n\na\n\n-- endcode\n\ncharlie victor",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "code",
+          "body": "a"
+        },
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "charlie" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "title": "End code, text, next section",
+      "input": "-- endcode\n\nhotel foxtrot\n\n-- aside\n\nbravo charlie",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "foxtrot" }
+              ]
+            }
+          ]
+        },
+
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+
+      ]
+    },
+
+
+    {
+      "input": "-- endcode\n\n-- aside\n\nmike sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": null
+        },
+
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "mike" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+
+
+  ]
+
+}

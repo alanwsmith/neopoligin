@@ -1,0 +1,38 @@
+{
+  "tests": [
+    {
+      "input": "-- metadata\n-- type: sierra\n\n",
+      "expected": [
+        {
+          "attributes": [{ "key": "type", "value": "sierra" }],
+          "type": "metadata"
+        }
+      ]
+    }, 
+
+    {
+      "input": "-- aside\n\nHERE\n\n-- metadata\n-- id: alfa\n-- type: sierra\n\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "HERE" }
+              ]
+            }
+          ]
+        },
+        {
+          "attributes": [
+            { "key": "id", "value": "alfa" },
+            { "key": "type", "value": "sierra" }
+          ],
+          "type": "metadata"
+        }
+      ]
+    }
+  ]
+}
