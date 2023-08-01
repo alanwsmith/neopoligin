@@ -38,6 +38,35 @@
           "body": null
         }
       ]
+    },
+    {
+      "title": "Title: with body",
+      "solo": true,
+      "input": "-- title\n\necho foxtrot\n\nsierra alfa",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "echo" },
+              { "type": "space" },
+              { "type": "text", "string": "foxtrot" }
+            ]
+          },
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "alfa" }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
