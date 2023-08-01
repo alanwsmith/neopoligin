@@ -1,24 +1,43 @@
 {
-    "tests": [
-      {
-        "solo": true,
-        "input": "-- title\n\ncharlie delta\n",
-        "expected": [
-          {
-              "attributes": null,
-            "type": "title",
-            "headline": {
-              "type": "paragraph",
-              "content": [
-                { "type": "text", "string": "charlie" },
-                { "type": "space" },
-                { "type": "text", "string": "delta" }
-              ]
-            },
-            "body": null
-          }
-        ]
-      }
-    ]
-  }
-  
+  "tests": [
+    {
+      "title": "Title: basic",
+      "input": "-- title\n\ncharlie delta\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "charlie" },
+              { "type": "space" },
+              { "type": "text", "string": "delta" }
+            ]
+          },
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Title: with attributes",
+      "solo": true,
+      "input": "-- title\n-- id: victor\ncharlie delta\n",
+      "expected": [
+        {
+          "attributes": [{"key": "id", "value": "victor"}],
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "charlie" },
+              { "type": "space" },
+              { "type": "text", "string": "delta" }
+            ]
+          },
+          "body": null
+        }
+      ]
+    }
+  ]
+}

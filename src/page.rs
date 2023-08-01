@@ -66,7 +66,7 @@ impl Page {
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
     // dbg!(&source);
-    let (source, value) = many1(alt((multi_line, line)))(source)?;
+    let (source, value) = many1(alt((attr_line, multi_line, line)))(source)?;
     // dbg!(&source);
     // let (source, value) = many1(multi_line)(source)?;
     // dbg!(&value);
@@ -75,6 +75,13 @@ fn flatten(source: &str) -> IResult<&str, String> {
     response.push_str(source);
     Ok(("", response))
 }
+
+fn attr_line(source: &str) -> IResult<&str, String> {
+    let (source, captured) = pair(tag("-- "), is_not("\n"))(source)?;
+    let (source, _) = tag("\n")(source)?;
+    Ok((source, format!("{}{}", captured.0, captured.1)))
+}
+
 
 fn line(source: &str) -> IResult<&str, String> {
     // dbg!(&source);

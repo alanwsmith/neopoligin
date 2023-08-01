@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 use crate::attributes::accesskey_attribute::accesskey_attribute;
 use crate::attributes::autocapitalize_attribute::autocapitalize_attribute;
 use crate::attributes::autofocus_attribute::autofocus_attribute;
@@ -60,20 +62,9 @@ pub enum AttributeV2 {
     None,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "lowercase")]
-pub enum Attribute {
-    AccessKey(String),
-    AutoCapitalize(String),
-    AutoFocus,
-    ContentEditable(String),
-    Class(Vec<String>),
-    Id(String),
-    None,
-}
 
-pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, VerboseError<&str>> {
-    let (source, attrs) = opt(many1(preceded(
+pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, attrs) = preceded(
         alt((tag("--"), tag("|"))),
         alt((
             accesskey_attribute,
@@ -84,46 +75,77 @@ pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, Ve
             id_attribute,
             type_attribute,
         )),
-    )))(source)?;
+    )(source)?;
     Ok((source, attrs))
 }
 
-// TODO: Remove this when _v2 is all the way in place
-pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&str>> {
-    let attr_obj = AttributesObj::new();
-    let (source, _attrs) = opt(many1(preceded(
-        alt((tag("--"), tag("|"))),
-        alt((
-            accesskey_attribute,
-            autocapitalize_attribute,
-            autofocus_attribute,
-            class_attribute,
-            contenteditable_attribute,
-            id_attribute,
-        )),
-    )))(source)?;
-    // if let Some(d) = attrs {
-    //     d.into_iter().for_each(|item| match item {
-    //         Attribute::AccessKey(v) => {
-    //             attr_obj.accesskey = Some(v);
-    //         }
-    //         Attribute::AutoCapitalize(v) => {
-    //             attr_obj.autocapitalize = Some(v);
-    //         }
-    //         Attribute::AutoFocus => {
-    //             attr_obj.autofocus = Some(true);
-    //         }
-    //         Attribute::Class(v) => {
-    //             attr_obj.class = Some(v);
-    //         }
-    //         Attribute::ContentEditable(v) => {
-    //             attr_obj.contenteditable = Some(v);
-    //         }
-    //         Attribute::Id(v) => {
-    //             attr_obj.id = Some(v);
-    //         }
-    //         _ => (),
-    //     })
-    // }
-    Ok((source, attr_obj))
-}
+
+
+
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+// #[serde(rename_all = "lowercase")]
+// pub enum Attribute {
+//     AccessKey(String),
+//     AutoCapitalize(String),
+//     AutoFocus,
+//     ContentEditable(String),
+//     Class(Vec<String>),
+//     Id(String),
+//     None,
+// }
+
+// pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, VerboseError<&str>> {
+//     let (source, attrs) = opt(many1(preceded(
+//         alt((tag("--"), tag("|"))),
+//         alt((
+//             accesskey_attribute,
+//             autocapitalize_attribute,
+//             autofocus_attribute,
+//             class_attribute,
+//             contenteditable_attribute,
+//             id_attribute,
+//             type_attribute,
+//         )),
+//     )))(source)?;
+//     Ok((source, attrs))
+// }
+
+// // TODO: Remove this when _v2 is all the way in place
+// pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&str>> {
+//     let attr_obj = AttributesObj::new();
+//     let (source, _attrs) = opt(many1(preceded(
+//         alt((tag("--"), tag("|"))),
+//         alt((
+//             accesskey_attribute,
+//             autocapitalize_attribute,
+//             autofocus_attribute,
+//             class_attribute,
+//             contenteditable_attribute,
+//             id_attribute,
+//         )),
+//     )))(source)?;
+//     // if let Some(d) = attrs {
+//     //     d.into_iter().for_each(|item| match item {
+//     //         Attribute::AccessKey(v) => {
+//     //             attr_obj.accesskey = Some(v);
+//     //         }
+//     //         Attribute::AutoCapitalize(v) => {
+//     //             attr_obj.autocapitalize = Some(v);
+//     //         }
+//     //         Attribute::AutoFocus => {
+//     //             attr_obj.autofocus = Some(true);
+//     //         }
+//     //         Attribute::Class(v) => {
+//     //             attr_obj.class = Some(v);
+//     //         }
+//     //         Attribute::ContentEditable(v) => {
+//     //             attr_obj.contenteditable = Some(v);
+//     //         }
+//     //         Attribute::Id(v) => {
+//     //             attr_obj.id = Some(v);
+//     //         }
+//     //         _ => (),
+//     //     })
+//     // }
+//     Ok((source, attr_obj))
+// }
