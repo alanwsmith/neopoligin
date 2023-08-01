@@ -21,7 +21,6 @@
     },
     {
       "title": "Title: with attributes",
-      "solo": true,
       "input": "-- title\n-- id: victor\ncharlie delta\n",
       "expected": [
         {
@@ -41,7 +40,6 @@
     },
     {
       "title": "Title: with body",
-      "solo": true,
       "input": "-- title\n\necho foxtrot\n\nsierra alfa",
       "expected": [
         {
@@ -62,6 +60,45 @@
                 { "type": "text", "string": "sierra" },
                 { "type": "space" },
                 { "type": "text", "string": "alfa" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Title: with body and attributes",
+      "solo": true,
+      "input": "-- title\n-- id: echo\nbravo sierra\nalfa\n\ndelta tango\n\nfoxtrot foxtrot",
+      "expected": [
+        {
+            "attributes": [{"key": "id", "value": "echo"}],
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "bravo" },
+              { "type": "space" },
+              { "type": "text", "string": "sierra" },
+              { "type": "space" },
+              { "type": "text", "string": "alfa" }
+            ]
+          },
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "tango" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "foxtrot" }
               ]
             }
           ]
