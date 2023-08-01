@@ -79,7 +79,33 @@
           ]
         }
 
+      ]
+    },
 
+
+    {
+      "input": "-- endcode\n\n-- aside\n\nmike sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": null
+        },
+
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "mike" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
       ]
     }
 
