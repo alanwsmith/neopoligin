@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+        "solo": true,
+      "title": "List: basic example",
+      "input": "-- list\n\n- charlie sierra\n\n- foxtrot juliette\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "list",
+          "preface": null,
+          "items": [
+            {
+                "type": "listitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "string": "sierra" }
+                  ]
+                }
+              ]
+            },
+            {
+            "type": "listitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "foxtrot" },
+                    { "type": "space" },
+                    { "type": "text", "string": "juliette" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
