@@ -8,6 +8,7 @@ use minijinja::value::{StructObject, Value};
 use nom::branch::alt;
 use nom::bytes::complete::is_not;
 use nom::bytes::complete::tag;
+use nom::bytes::complete::take_until;
 use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
 use nom::character::complete::not_line_ending;
@@ -36,6 +37,7 @@ impl StructObject for Page {
     fn get_field(&self, field: &str) -> Option<Value> {
         match field {
             "body_data" => Some(Value::from_serializable(&self.clone().body_data())),
+            "source_data" => Some(Value::from_serializable(&self.clone().source_data())),
             "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
             "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
             _ => None,
@@ -46,6 +48,12 @@ impl StructObject for Page {
 impl Page {
     pub fn body_data(&mut self) -> Vec<NeoSection> {
         self.raw_sections()
+    }
+}
+
+impl Page {
+    pub fn source_data(&mut self) -> Option<String> {
+        self.clone().source
     }
 }
 
@@ -66,11 +74,21 @@ impl Page {
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
     // dbg!(&source);
-    let (source, value) = many1(alt((attr_line, multi_line, line)))(source)?;
+    let (source, value) = many1(alt((startcode_section, attr_line, multi_line, line)))(source)?;
     let mut response = value.join("\n");
     response.push_str("\n");
     response.push_str(source);
     Ok(("", response))
+}
+
+fn startcode_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = tag("-- startcode")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endcode")(source)?;
+
+    // pair(tag("-- "), is_not("\n"))(source)?;
+
+    Ok((source, format!("-- startcode\n{}", body)))
 }
 
 fn attr_line(source: &str) -> IResult<&str, String> {
@@ -79,7 +97,6 @@ fn attr_line(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;
     Ok((source, format!("{}{}", captured.0, captured.1)))
 }
-
 
 fn line(source: &str) -> IResult<&str, String> {
     // dbg!(&source);
@@ -103,47 +120,38 @@ fn multi_line(source: &str) -> IResult<&str, String> {
     Ok((source, value.join(" ")))
 }
 
-
-
-
-
 impl Page {
-
-
     pub fn page_type(&mut self) -> Option<String> {
-
-    //     if let Some(metadata_section) =
-    //         self.raw_sections()
-    //             .clone()
-    //             .into_iter()
-    //             .find_map(|s| match s.clone() {
-    //                 NeoSection::MetaData { .. } => Some(s),
-    //                 _ => None,
-    //             })
-    //     {
-    //         match metadata_section {
-    //             NeoSection::MetaData { attributes } => {
-    //                 attributes
-    //                     .unwrap()
-    //                     .into_iter()
-    //                     .find_map(|a| match a.clone() {
-    //                         AttributeV2::Type(x) => {
-    //                             dbg!(&x);
-    //                             Some(x.trim().to_string())
-    //                         }
-    //                         _ => None,
-    //                     })
-    //             }
-    //             _ => None,
-    //         }
-    //     } else {
-    //         None
-    //     }
+        //     if let Some(metadata_section) =
+        //         self.raw_sections()
+        //             .clone()
+        //             .into_iter()
+        //             .find_map(|s| match s.clone() {
+        //                 NeoSection::MetaData { .. } => Some(s),
+        //                 _ => None,
+        //             })
+        //     {
+        //         match metadata_section {
+        //             NeoSection::MetaData { attributes } => {
+        //                 attributes
+        //                     .unwrap()
+        //                     .into_iter()
+        //                     .find_map(|a| match a.clone() {
+        //                         AttributeV2::Type(x) => {
+        //                             dbg!(&x);
+        //                             Some(x.trim().to_string())
+        //                         }
+        //                         _ => None,
+        //                     })
+        //             }
+        //             _ => None,
+        //         }
+        //     } else {
+        //         None
+        //     }
 
         None
     }
-
-
 }
 
 impl Page {
@@ -215,7 +223,7 @@ impl Page {
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
     // dbg!(&source);
     let (source, sections) = many1(neo_section)(source)?;
-        //separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
-        // dbg!(&source);
+    //separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
+    // dbg!(&source);
     Ok((source, sections))
 }
