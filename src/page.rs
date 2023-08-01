@@ -51,7 +51,7 @@ pub struct Page {
 
 impl Page {
     pub fn new_from(source: &str) -> Page {
-        dbg!(&source);
+        // dbg!(&source);
         Page {
             path: None,
             source_hash: None,
@@ -67,9 +67,6 @@ impl Page {
 fn flatten(source: &str) -> IResult<&str, String> {
     // dbg!(&source);
     let (source, value) = many1(alt((attr_line, multi_line, line)))(source)?;
-    // dbg!(&source);
-    // let (source, value) = many1(multi_line)(source)?;
-    // dbg!(&value);
     let mut response = value.join("\n");
     response.push_str("\n");
     response.push_str(source);
@@ -79,6 +76,7 @@ fn flatten(source: &str) -> IResult<&str, String> {
 fn attr_line(source: &str) -> IResult<&str, String> {
     let (source, captured) = pair(tag("-- "), is_not("\n"))(source)?;
     let (source, _) = tag("\n")(source)?;
+    let (source, _) = multispace0(source)?;
     Ok((source, format!("{}{}", captured.0, captured.1)))
 }
 

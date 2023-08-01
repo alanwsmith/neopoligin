@@ -68,7 +68,6 @@
     },
     {
       "title": "Title: with body and attributes",
-      "solo": true,
       "input": "-- title\n-- id: echo\nbravo sierra\nalfa\n\ndelta tango\n\nfoxtrot foxtrot",
       "expected": [
         {
