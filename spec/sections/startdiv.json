@@ -1,0 +1,18 @@
+{
+    "TODOs": [
+      "attributes"
+    ],
+    "tests": [
+      {
+        "title": "Startdiv",
+        "input": "-- startdiv\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "startdiv"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,4 +1,10 @@
 {
+  "TODOs": [
+    "attributes",
+    "export",
+    "title",
+    "language"
+  ],
   "tests": [
     {
       "title": "Startcode basic",

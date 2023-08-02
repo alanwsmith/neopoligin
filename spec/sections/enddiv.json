@@ -1,0 +1,16 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "Enddiv",
+      "input": "-- enddiv\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": null
+        }
+      ]
+    }
+  ]
+}

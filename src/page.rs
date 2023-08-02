@@ -74,7 +74,13 @@ impl Page {
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
     // dbg!(&source);
-    let (source, value) = many1(alt((startcode_section, attr_line, multi_line, line)))(source)?;
+    let (source, value) = many1(alt((
+        startcode_section,
+        startresults_section,
+        attr_line,
+        multi_line,
+        line,
+    )))(source)?;
     let mut response = value.join("\n");
     response.push_str("\n");
     response.push_str(source);
@@ -85,10 +91,14 @@ fn startcode_section(source: &str) -> IResult<&str, String> {
     let (source, _) = tag("-- startcode")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endcode")(source)?;
-
-    // pair(tag("-- "), is_not("\n"))(source)?;
-
     Ok((source, format!("-- startcode\n{}", body)))
+}
+
+fn startresults_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = tag("-- startresults")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endresults")(source)?;
+    Ok((source, format!("-- startresults\n{}", body)))
 }
 
 fn attr_line(source: &str) -> IResult<&str, String> {
