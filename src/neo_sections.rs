@@ -5,6 +5,7 @@ use crate::neo_sections::aside_section::aside_section;
 use crate::neo_sections::blockquote_section::blockquote_section;
 use crate::neo_sections::checklist_section::checklist_section;
 use crate::neo_sections::code_section::code_section;
+use crate::neo_sections::css_section::css_section;
 use crate::neo_sections::endarticle_section::endarticle_section;
 use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::endcss_section::endcss_section;
@@ -21,6 +22,7 @@ use crate::neo_sections::h3_section::h3_section;
 use crate::neo_sections::h4_section::h4_section;
 use crate::neo_sections::h5_section::h5_section;
 use crate::neo_sections::h6_section::h6_section;
+use crate::neo_sections::html_section::html_section;
 use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
 use crate::neo_sections::note_section::note_section;
@@ -28,6 +30,8 @@ use crate::neo_sections::notes_section::notes_section;
 // use crate::neo_sections::metadata_section::metadata_section;
 use crate::neo_sections::olist_section::olist_section;
 use crate::neo_sections::p_section::p_section;
+use crate::neo_sections::pre_section::pre_section;
+use crate::neo_sections::script_section::script_section;
 use crate::neo_sections::startcode_section::startcode_section;
 use crate::neo_sections::startdiv_section::startdiv_section;
 use crate::neo_sections::startresults_section::startresults_section;
@@ -46,6 +50,7 @@ pub mod aside_section;
 pub mod blockquote_section;
 pub mod checklist_section;
 pub mod code_section;
+pub mod css_section;
 pub mod endarticle_section;
 pub mod endcode_section;
 pub mod endcss_section;
@@ -62,6 +67,7 @@ pub mod h3_section;
 pub mod h4_section;
 pub mod h5_section;
 pub mod h6_section;
+pub mod html_section;
 pub mod image_section;
 pub mod list_section;
 pub mod note_section;
@@ -71,6 +77,8 @@ pub mod notes_section;
 
 pub mod olist_section;
 pub mod p_section;
+pub mod pre_section;
+pub mod script_section;
 pub mod startcode_section;
 pub mod startdiv_section;
 pub mod startresults_section;
@@ -98,6 +106,10 @@ pub enum NeoSection {
         preface: Option<Vec<Block>>,
     },
     Code {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },
+    Css {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
     },
@@ -167,6 +179,10 @@ pub enum NeoSection {
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
+    Html {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },
     Image {
         attributes: Option<Vec<AttributeV2>>,
         name: Option<String>,
@@ -198,7 +214,15 @@ pub enum NeoSection {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
     },
+    Pre {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },
     Results {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },
+    Script {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
     },
@@ -242,6 +266,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
             aside_section,
             blockquote_section,
             checklist_section,
+            html_section,
         image_section,
         list_section,
         olist_section,
@@ -250,6 +275,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         //     metadata_section,
         startcode_section,
         startdiv_section,
+        pre_section,
 
     )),
 
@@ -270,17 +296,19 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         warning_section,
         warnings_section,
         youtube_section,
-        p_section,
     )), 
     alt ((
         code_section,
+        css_section,
         h1_section,
         h2_section,
         h3_section,
         h4_section,
         h5_section,
         h6_section,
+        script_section,
         title_section,
+        p_section,
     ))
     ))(source)?;
     Ok((source, section))

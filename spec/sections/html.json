@@ -1,0 +1,17 @@
+{
+    "TODOs": [],
+    "tests": [
+      {
+        "title": "HTML Section",
+        "input": "-- html\n\n<p>Hello, world</p>\n\n-- ",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "html",
+            "body": "<p>Hello, world</p>"
+          }
+        ]
+      }
+    ]
+  }
+  
