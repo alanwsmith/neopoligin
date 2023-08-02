@@ -18,7 +18,8 @@ pub fn image_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&st
         source,
         NeoSection::Image {
             attributes: None,
-            name
+            name,
+            src: None
         },
     ))
 }

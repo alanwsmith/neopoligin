@@ -61,6 +61,7 @@ pub fn build_site() {
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
+                    p.load_image_paths();
                     u.pages.push(p);
                 }
             } else {

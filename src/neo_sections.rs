@@ -19,9 +19,9 @@ use crate::neo_sections::startcode_section::startcode_section;
 use crate::neo_sections::startdiv_section::startdiv_section;
 use crate::neo_sections::startresults_section::startresults_section;
 use crate::neo_sections::title_section::title_section;
-use nom::{branch::alt, character::complete::multispace0};
 use nom::error::VerboseError;
 use nom::IResult;
+use nom::{branch::alt, character::complete::multispace0};
 use serde::{Deserialize, Serialize};
 
 // pub mod aside_section;
@@ -47,7 +47,6 @@ pub mod startresults_section;
 
 pub mod title_section;
 
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum NeoSection {
@@ -58,7 +57,7 @@ pub enum NeoSection {
     Code {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
-    },  
+    },
     H1 {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -92,6 +91,7 @@ pub enum NeoSection {
     Image {
         attributes: Option<AttributesObj>,
         name: Option<String>,
+        src: Option<String>,
     },
     List {
         attributes: Option<AttributesObj>,
@@ -117,21 +117,19 @@ pub enum NeoSection {
     Results {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
-    },  
+    },
     StartDiv {
         attributes: Option<Vec<AttributeV2>>,
-    }
-    // RawPageAttributes(Vec<(String, String)>),
+    }, // RawPageAttributes(Vec<(String, String)>),
 }
-
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     // dbg!(&source);
     let (source, _) = multispace0(source)?;
     // let (source, section) = p_section(source)?;
     // dbg!(&source);
-        let (source, section) = alt((
-    //     aside_section,
+    let (source, section) = alt((
+        //     aside_section,
         endcode_section,
         enddiv_section,
         endresults_section,
@@ -143,7 +141,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         h5_section,
         h6_section,
         list_section,
-    //     metadata_section,
+        //     metadata_section,
         p_section,
         startcode_section,
         startdiv_section,

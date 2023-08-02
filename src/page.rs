@@ -2,6 +2,7 @@
 use crate::attributes::*;
 use crate::blocks::*;
 use crate::helpers::empty_line::empty_line;
+use crate::helpers::get_image_path::get_image_path;
 use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
 use minijinja::value::{StructObject, Value};
@@ -204,6 +205,27 @@ impl Page {
         // TODO: Make this actually look for the title
         // instead of just the first thing
         self.raw_sections().into_iter().nth(0).unwrap()
+    }
+}
+
+impl Page {
+    pub fn load_image_paths(&mut self) {
+        self.raw_sections();
+        self.section_storage.iter_mut().for_each(|top| {
+            top.iter_mut().for_each(|s| match s {
+                NeoSection::Image {
+                    ref mut src, name, ..
+                } => {
+                    if let Some(n) = name {
+                        // let newthing = n.to_string();
+                        *src = get_image_path(n);
+                        dbg!(&src);
+                    }
+                    ()
+                }
+                _ => (),
+            })
+        });
     }
 }
 
