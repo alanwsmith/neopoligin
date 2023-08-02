@@ -11,7 +11,7 @@ use crate::neo_sections::h3_section::h3_section;
 use crate::neo_sections::h4_section::h4_section;
 use crate::neo_sections::h5_section::h5_section;
 use crate::neo_sections::h6_section::h6_section;
-// use crate::neo_sections::image_section::image_section;
+use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
 // use crate::neo_sections::metadata_section::metadata_section;
 use crate::neo_sections::p_section::p_section;
@@ -29,15 +29,13 @@ use serde::{Deserialize, Serialize};
 pub mod endcode_section;
 pub mod enddiv_section;
 pub mod endresults_section;
-
 pub mod h1_section;
 pub mod h2_section;
 pub mod h3_section;
 pub mod h4_section;
 pub mod h5_section;
 pub mod h6_section;
-// pub mod image_section;
-
+pub mod image_section;
 pub mod list_section;
 
 // pub mod metadata_section;
@@ -91,11 +89,10 @@ pub enum NeoSection {
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
-    // Image {
-    //     attributes: Option<AttributesObj>,
-    //     caption: Option<Vec<Block>>,
-    //     src: Option<String>,
-    // },
+    Image {
+        attributes: Option<AttributesObj>,
+        name: Option<String>,
+    },
     List {
         attributes: Option<AttributesObj>,
         items: Option<Vec<Container>>,
@@ -138,7 +135,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         endcode_section,
         enddiv_section,
         endresults_section,
-    //     image_section,
+        image_section,
         h1_section,
         h2_section,
         h3_section,

@@ -1,0 +1,21 @@
+{
+    "TODOs": [
+        "add attributes",
+        "add alt text",
+        "add caption"
+    ],
+    "tests": [
+      {
+        "title": "Image basic",
+        "input": "-- image\n\n-- hackers-frame-000030324",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "image",
+            "name": "hackers-frame-000030324"
+          }
+        ]
+      }
+    ]
+  }
+  
