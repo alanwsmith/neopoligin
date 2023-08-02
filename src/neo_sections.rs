@@ -5,6 +5,7 @@ use crate::containers::Container;
 use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::enddiv_section::enddiv_section;
 use crate::neo_sections::endresults_section::endresults_section;
+use crate::neo_sections::endsection_section::endsection_section;
 use crate::neo_sections::h1_section::h1_section;
 use crate::neo_sections::h2_section::h2_section;
 use crate::neo_sections::h3_section::h3_section;
@@ -18,7 +19,9 @@ use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::startcode_section::startcode_section;
 use crate::neo_sections::startdiv_section::startdiv_section;
 use crate::neo_sections::startresults_section::startresults_section;
+use crate::neo_sections::startsection_section::startsection_section;
 use crate::neo_sections::title_section::title_section;
+use crate::neo_sections::youtube_section::youtube_section;
 use nom::error::VerboseError;
 use nom::IResult;
 use nom::{branch::alt, character::complete::multispace0};
@@ -29,6 +32,7 @@ use serde::{Deserialize, Serialize};
 pub mod endcode_section;
 pub mod enddiv_section;
 pub mod endresults_section;
+pub mod endsection_section;
 pub mod h1_section;
 pub mod h2_section;
 pub mod h3_section;
@@ -44,8 +48,9 @@ pub mod p_section;
 pub mod startcode_section;
 pub mod startdiv_section;
 pub mod startresults_section;
-
+pub mod startsection_section;
 pub mod title_section;
+pub mod youtube_section;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
@@ -57,6 +62,14 @@ pub enum NeoSection {
     Code {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
+    },
+    EndDiv {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
+    EndSection {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     },
     H1 {
         attributes: Option<Vec<AttributeV2>>,
@@ -120,7 +133,16 @@ pub enum NeoSection {
     },
     StartDiv {
         attributes: Option<Vec<AttributeV2>>,
-    }, // RawPageAttributes(Vec<(String, String)>),
+    }, 
+    StartSection {
+        attributes: Option<Vec<AttributeV2>>,
+    }, 
+    Youtube {
+        attributes: Option<AttributesObj>,
+        id: Option<String>,
+    },
+    
+    
 }
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
@@ -133,6 +155,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         endcode_section,
         enddiv_section,
         endresults_section,
+        endsection_section,
         image_section,
         h1_section,
         h2_section,
@@ -146,7 +169,9 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         startcode_section,
         startdiv_section,
         startresults_section,
+        startsection_section,
         title_section,
+        youtube_section
     ))(source)?;
     Ok((source, section))
 }

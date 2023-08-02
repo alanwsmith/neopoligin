@@ -1,0 +1,25 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "startsection",
+      "input": "-- startsection\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "startsection"
+        }
+      ]
+    },
+    {
+      "title": "startsection with attributes",
+      "input": "-- startsection\n-- class: foxtrot sierra",
+      "expected": [
+        {
+          "attributes": [{ "key": "class", "value": ["foxtrot", "sierra"] }],
+          "type": "startsection"
+        }
+      ]
+    }
+  ]
+}

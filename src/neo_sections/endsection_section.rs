@@ -9,13 +9,13 @@ use nom::multi::many1;
 use nom::sequence::pair;
 use nom::IResult;
 
-pub fn enddiv_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- enddiv")(source)?;
+pub fn endsection_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
+    let (source, _) = tag("-- endsection")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = opt(many1(block))(source)?;
     Ok((
         source,
-        NeoSection::EndDiv {
+        NeoSection::EndSection {
             attributes: None,
             body,
         },

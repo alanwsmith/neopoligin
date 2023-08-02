@@ -106,7 +106,6 @@ pub fn build_site() {
         let mut file_path = site_root_root.clone();
         let relative_site_path = page.path.as_ref().unwrap().strip_prefix("/").unwrap();
         file_path.push(relative_site_path);
-        // dbg!(&file_path);
         let dir_path = file_path.parent().unwrap();
         fs::create_dir_all(dir_path).unwrap();
         fs::write(file_path, rv).unwrap();

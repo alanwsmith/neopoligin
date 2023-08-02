@@ -2,12 +2,12 @@
   "TODOs": ["attributes", "paragraphs"],
   "tests": [
     {
-      "title": "Enddiv",
-      "input": "-- enddiv\n",
+      "title": "endsection",
+      "input": "-- endsection\n",
       "expected": [
         {
           "attributes": null,
-          "type": "enddiv",
+          "type": "endsection",
           "body": null
         }
       ]
