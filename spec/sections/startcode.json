@@ -1,0 +1,15 @@
+{
+  "tests": [
+    {
+      "title": "Startcode basic",
+      "input": "-- startcode\n\n-- p\n\ndelta echo\n\n-- endcode",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "code",
+          "body": "-- p\n\ndelta echo"
+        }
+      ]
+    }
+  ]
+}

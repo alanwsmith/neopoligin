@@ -14,7 +14,7 @@ use crate::neo_sections::h6_section::h6_section;
 use crate::neo_sections::list_section::list_section;
 // use crate::neo_sections::metadata_section::metadata_section;
 use crate::neo_sections::p_section::p_section;
-// use crate::neo_sections::startcode_section::startcode_section;
+use crate::neo_sections::startcode_section::startcode_section;
 // use crate::neo_sections::startresults_section::startresults_section;
 use crate::neo_sections::title_section::title_section;
 use nom::{branch::alt, character::complete::multispace0};
@@ -39,7 +39,7 @@ pub mod list_section;
 // pub mod metadata_section;
 
 pub mod p_section;
-// pub mod startcode_section;
+pub mod startcode_section;
 // pub mod startresults_section;
 
 pub mod title_section;
@@ -52,10 +52,10 @@ pub enum NeoSection {
     //     attributes: Option<Vec<AttributeV2>>,
     //     body: Option<Vec<Block>>,
     // },
-    // Code {
-    //     attributes: Option<Vec<AttributeV2>>,
-    //     body: Option<String>,
-    // },  
+    Code {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },  
     H1 {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -135,7 +135,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         list_section,
     //     metadata_section,
         p_section,
-    //     startcode_section,
+        startcode_section,
     //     startresults_section,
         title_section,
     ))(source)?;
