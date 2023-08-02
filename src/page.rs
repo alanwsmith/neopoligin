@@ -42,6 +42,7 @@ impl StructObject for Page {
             "title_data" => Some(Value::from_serializable(&self.clone().title_data())),
             "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
             "css_blocks" => Some(Value::from_serializable(&self.clone().css_blocks())),
+            "script_blocks" => Some(Value::from_serializable(&self.clone().script_blocks())),
             _ => None,
         }
     }
@@ -237,6 +238,19 @@ impl Page {
             .into_iter()
             .find_map(|s| match s.clone() {
                 NeoSection::Css { body, .. } => Some(response.push(body.unwrap())),
+                _ => None,
+            });
+        response
+    }
+}
+
+impl Page {
+    pub fn script_blocks(&mut self) -> Vec<String> {
+        let mut response = vec![];
+        self.raw_sections()
+            .into_iter()
+            .find_map(|s| match s.clone() {
+                NeoSection::Script { body, .. } => Some(response.push(body.unwrap())),
                 _ => None,
             });
         response
