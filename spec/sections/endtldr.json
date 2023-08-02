@@ -1,52 +1,56 @@
 {
   "tests": [
     {
-      "title": "Paragraph on one line",
-      "input": "-- p\n\nalfa kilo\n",
+      "title": "endtldr on one line",
+      "input": "-- endtldr\n\nfoxtrot delta echo\n",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "endtldr",
           "body": [
             {
               "type": "paragraph",
               "content": [
-                { "type": "text", "string": "alfa" },
+                { "type": "text", "string": "foxtrot" },
                 { "type": "space" },
-                { "type": "text", "string": "kilo" }
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
               ]
             }
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Paragraph on one line",
-      "input": "-- p\n-- id: tango\n\nsierra alfa\n",
+      "title": "endtldr attributes",
+      "input": "-- endtldr\n-- id: tango\n\nfoxtrot delta echo\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "tango"}],
-          "type": "p",
+          "attributes": [{ "key": "id", "value": "tango" }],
+          "type": "endtldr",
           "body": [
             {
               "type": "paragraph",
               "content": [
-                { "type": "text", "string": "sierra" },
+                { "type": "text", "string": "foxtrot" },
                 { "type": "space" },
-                { "type": "text", "string": "alfa" }
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
               ]
             }
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Paragraph on one line without line ending",
-      "input": "-- p\n\ndelta sierra",
+      "title": "endtldr on one line without line ending",
+      "input": "-- endtldr\n\ndelta sierra",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "endtldr",
           "body": [
             {
               "type": "paragraph",
@@ -59,14 +63,14 @@
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Paragraph split across lines",
-      "input": "-- p\n\nbravo delta\nsierra charlie\n",
+      "title": "endtldr split across lines",
+      "input": "-- endtldr\n\nbravo delta\nsierra charlie\n",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "endtldr",
           "body": [
             {
               "type": "paragraph",
@@ -83,14 +87,14 @@
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Multi paragraph",
-      "input": "-- p\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "title": "endtldr multi paragraph",
+      "input": "-- endtldr\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "endtldr",
           "body": [
             {
               "type": "paragraph",

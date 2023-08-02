@@ -24,7 +24,7 @@
       "input": "-- title\n-- id: victor\ncharlie delta\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "victor"}],
+          "attributes": [{ "key": "id", "value": "victor" }],
           "type": "title",
           "headline": {
             "type": "paragraph",
@@ -71,7 +71,7 @@
       "input": "-- title\n-- id: echo\nbravo sierra\nalfa\n\ndelta tango\n\nfoxtrot foxtrot",
       "expected": [
         {
-            "attributes": [{"key": "id", "value": "echo"}],
+          "attributes": [{ "key": "id", "value": "echo" }],
           "type": "title",
           "headline": {
             "type": "paragraph",

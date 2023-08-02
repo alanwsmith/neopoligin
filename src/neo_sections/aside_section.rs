@@ -10,14 +10,14 @@ use nom::multi::many1;
 use nom::sequence::pair;
 use nom::IResult;
 
-pub fn p_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- p")(source)?;
+pub fn aside_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
+    let (source, _) = tag("-- aside")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
     let (source, body) = opt(many1(block))(source)?;
     Ok((
         source,
-        NeoSection::P {
+        NeoSection::Aside {
             attributes,
             body,
         },

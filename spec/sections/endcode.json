@@ -19,12 +19,30 @@
           ]
         }
       ]
-    }
-  ],
-  "TODO:": [
+    },
     {
-      "title": "Paragraph on one line without line ending",
-      "input": "-- p\n\ndelta sierra",
+      "title": "endcode with attributes",
+      "input": "-- endcode\n-- id: victor\nwhiskey tango\n",
+      "expected": [
+        {
+          "attributes": [{"key": "id", "value": "victor"}],
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "tango" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "endcode on one line without line ending",
+      "input": "-- endcode\n\ndelta sierra",
       "expected": [
         {
           "attributes": null,
@@ -43,8 +61,8 @@
       ]
     },
     {
-      "title": "Paragraph split across lines",
-      "input": "-- p\n\nbravo delta\nsierra charlie\n",
+      "title": "endcode split across lines",
+      "input": "-- endcode\n\nbravo delta\nsierra charlie\n",
       "expected": [
         {
           "attributes": null,
@@ -67,8 +85,8 @@
       ]
     },
     {
-      "title": "Multi paragraph",
-      "input": "-- p\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "title": "endcode multi paragraph",
+      "input": "-- endcode\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
       "expected": [
         {
           "attributes": null,

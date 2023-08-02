@@ -1,12 +1,12 @@
 {
   "tests": [
     {
-      "title": "Paragraph on one line",
-      "input": "-- p\n\nalfa kilo\n",
+      "title": "aside on one line",
+      "input": "-- aside\n\nalfa kilo\n",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "aside",
           "body": [
             {
               "type": "paragraph",
@@ -19,34 +19,34 @@
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Paragraph on one line",
-      "input": "-- p\n-- id: tango\n\nsierra alfa\n",
+      "title": "aside with attribute",
+      "input": "-- aside\n-- id: echo\n\nalfa hotel\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "tango"}],
-          "type": "p",
+          "attributes": [{"key": "id", "value": "echo"}],
+          "type": "aside",
           "body": [
             {
               "type": "paragraph",
               "content": [
-                { "type": "text", "string": "sierra" },
+                { "type": "text", "string": "alfa" },
                 { "type": "space" },
-                { "type": "text", "string": "alfa" }
+                { "type": "text", "string": "hotel" }
               ]
             }
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Paragraph on one line without line ending",
-      "input": "-- p\n\ndelta sierra",
+      "title": "aside on one line without line ending",
+      "input": "-- aside\n\ndelta sierra",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "aside",
           "body": [
             {
               "type": "paragraph",
@@ -59,14 +59,14 @@
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Paragraph split across lines",
-      "input": "-- p\n\nbravo delta\nsierra charlie\n",
+      "title": "aside split across lines",
+      "input": "-- aside\n\nbravo delta\nsierra charlie\n",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "aside",
           "body": [
             {
               "type": "paragraph",
@@ -83,14 +83,14 @@
           ]
         }
       ]
-    }, 
+    },
     {
-      "title": "Multi paragraph",
-      "input": "-- p\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "title": "aside multi paragraph",
+      "input": "-- aside\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
       "expected": [
         {
           "attributes": null,
-          "type": "p",
+          "type": "aside",
           "body": [
             {
               "type": "paragraph",

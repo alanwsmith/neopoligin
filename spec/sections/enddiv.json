@@ -1,14 +1,118 @@
 {
-  "TODOs": ["attributes", "paragraphs"],
   "tests": [
     {
-      "title": "Enddiv",
-      "input": "-- enddiv\n",
+      "title": "enddiv on one line",
+      "input": "-- enddiv\n\nkilo victor\n",
       "expected": [
         {
           "attributes": null,
           "type": "enddiv",
-          "body": null
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "kilo" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "enddiv with attributes",
+      "input": "-- enddiv\n-- id: victor\n\nwhiskey tango\n",
+      "expected": [
+        {
+          "attributes": [{"key": "id", "value": "victor"}],
+          "type": "enddiv",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "tango" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "enddiv on one line without line ending",
+      "input": "-- enddiv\n\ndelta sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "enddiv",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "enddiv split across lines",
+      "input": "-- enddiv\n\nbravo delta\nsierra charlie\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "enddiv",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "enddiv multi paragraph",
+      "input": "-- enddiv\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "enddiv",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" },
+                { "type": "space" },
+                { "type": "text", "string": "mike" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
         }
       ]
     }

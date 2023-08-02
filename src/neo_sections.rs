@@ -1,11 +1,15 @@
 use crate::attributes::*;
 use crate::blocks::Block;
 use crate::containers::Container;
-// use crate::neo_sections::aside_section::aside_section;
+use crate::neo_sections::aside_section::aside_section;
+use crate::neo_sections::endarticle_section::endarticle_section;
 use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::enddiv_section::enddiv_section;
+use crate::neo_sections::endhtml_section::endhtml_section;
+use crate::neo_sections::endpre_section::endpre_section;
 use crate::neo_sections::endresults_section::endresults_section;
 use crate::neo_sections::endsection_section::endsection_section;
+use crate::neo_sections::endtldr_section::endtldr_section;
 use crate::neo_sections::h1_section::h1_section;
 use crate::neo_sections::h2_section::h2_section;
 use crate::neo_sections::h3_section::h3_section;
@@ -27,12 +31,15 @@ use nom::IResult;
 use nom::{branch::alt, character::complete::multispace0};
 use serde::{Deserialize, Serialize};
 
-// pub mod aside_section;
-
+pub mod aside_section;
+pub mod endarticle_section;
 pub mod endcode_section;
 pub mod enddiv_section;
+pub mod endhtml_section;
+pub mod endpre_section;
 pub mod endresults_section;
 pub mod endsection_section;
+pub mod endtldr_section;
 pub mod h1_section;
 pub mod h2_section;
 pub mod h3_section;
@@ -55,19 +62,39 @@ pub mod youtube_section;
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum NeoSection {
-    // Aside {
-    //     attributes: Option<Vec<AttributeV2>>,
-    //     body: Option<Vec<Block>>,
-    // },
+    Aside {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
     Code {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
+    },
+    EndArticle {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     },
     EndDiv {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
     },
+    EndHtml {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
+    EndPre {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
+    EndResults {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
     EndSection {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
+    EndTlDr {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
     },
@@ -102,27 +129,18 @@ pub enum NeoSection {
         headline: Option<Block>,
     },
     Image {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         name: Option<String>,
         src: Option<String>,
     },
     List {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         items: Option<Vec<Container>>,
         preface: Option<Vec<Block>>,
     },
     // MetaData {
     //     attributes: Option<Vec<AttributeV2>>,
     // },
-    // Results {
-    //     attributes: Option<Vec<AttributeV2>>,
-    //     body: Option<String>,
-    // },
-    Title {
-        attributes: Option<Vec<AttributeV2>>,
-        body: Option<Vec<Block>>,
-        headline: Option<Block>,
-    },
     P {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -137,12 +155,15 @@ pub enum NeoSection {
     StartSection {
         attributes: Option<Vec<AttributeV2>>,
     }, 
+    Title {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+        headline: Option<Block>,
+    },
     Youtube {
-        attributes: Option<AttributesObj>,
+        attributes: Option<Vec<AttributeV2>>,
         id: Option<String>,
     },
-    
-    
 }
 
 pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
@@ -151,11 +172,8 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     // let (source, section) = p_section(source)?;
     // dbg!(&source);
     let (source, section) = alt((
-        //     aside_section,
-        endcode_section,
-        enddiv_section,
-        endresults_section,
-        endsection_section,
+        alt((
+        aside_section,
         image_section,
         h1_section,
         h2_section,
@@ -172,6 +190,18 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         startsection_section,
         title_section,
         youtube_section
+    )),
+
+    alt((
+        endarticle_section,
+        endcode_section,
+        enddiv_section,
+        endhtml_section,
+        endpre_section,
+        endresults_section,
+        endsection_section,
+        endtldr_section,
+    ))
     ))(source)?;
     Ok((source, section))
 }

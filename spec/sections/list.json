@@ -40,11 +40,11 @@
       ]
     },
     {
-      "title": "List: basic example",
-      "input": "-- list\n\n- sierra victor\n\ndelta tango\n",
+      "title": "List: attributes",
+      "input": "-- list\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
       "expected": [
         {
-          "attributes": null,
+          "attributes": [{"key": "id", "value": "charlie"}],
           "type": "list",
           "preface": null,
           "items": [
@@ -73,6 +73,5 @@
         }
       ]
     }
-
   ]
 }

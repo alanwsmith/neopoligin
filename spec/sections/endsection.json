@@ -1,14 +1,122 @@
 {
-  "TODOs": ["attributes", "paragraphs"],
   "tests": [
     {
-      "title": "endsection",
-      "input": "-- endsection\n",
+      "title": "endsection on one line",
+      "input": "-- endsection\n\nfoxtrot delta echo\n",
       "expected": [
         {
           "attributes": null,
           "type": "endsection",
-          "body": null
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "endsection attributes",
+      "input": "-- endsection\n-- id: tango\n\nfoxtrot delta echo\n",
+      "expected": [
+        {
+          "attributes": [{ "key": "id", "value": "tango" }],
+          "type": "endsection",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "endsection on one line without line ending",
+      "input": "-- endsection\n\ndelta sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "endsection",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "endsection split across lines",
+      "input": "-- endsection\n\nbravo delta\nsierra charlie\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "endsection",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "endsection multi paragraph",
+      "input": "-- endsection\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "endsection",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" },
+                { "type": "space" },
+                { "type": "text", "string": "mike" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
         }
       ]
     }

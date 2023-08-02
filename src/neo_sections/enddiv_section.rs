@@ -1,3 +1,4 @@
+use crate::attributes::attribute;
 use crate::blocks::block;
 use crate::neo_sections::NeoSection;
 use nom::bytes::complete::tag;
@@ -12,12 +13,14 @@ use nom::IResult;
 pub fn enddiv_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, _) = tag("-- enddiv")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attributes) = opt(many1(attribute))(source)?;
     let (source, body) = opt(many1(block))(source)?;
     Ok((
         source,
         NeoSection::EndDiv {
-            attributes: None,
+            attributes,
             body,
         },
     ))
 }
+
