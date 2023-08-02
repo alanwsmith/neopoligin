@@ -1,0 +1,121 @@
+{
+    "tests": [
+      {
+        "title": "blockquote on one line",
+        "input": "-- blockquote\n\nalfa kilo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "blockquote",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "alfa" },
+                  { "type": "space" },
+                  { "type": "text", "string": "kilo" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "blockquote with attribute",
+        "input": "-- blockquote\n-- id: echo\n\nalfa hotel\n",
+        "expected": [
+          {
+            "attributes": [{"key": "id", "value": "echo"}],
+            "type": "blockquote",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "alfa" },
+                  { "type": "space" },
+                  { "type": "text", "string": "hotel" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "blockquote on one line without line ending",
+        "input": "-- blockquote\n\ndelta sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "blockquote",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "blockquote split across lines",
+        "input": "-- blockquote\n\nbravo delta\nsierra charlie\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "blockquote",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "bravo" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "charlie" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "blockquote multi paragraph",
+        "input": "-- blockquote\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "blockquote",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "tango" },
+                  { "type": "space" },
+                  { "type": "text", "string": "whiskey" },
+                  { "type": "space" },
+                  { "type": "text", "string": "victor" },
+                  { "type": "space" },
+                  { "type": "text", "string": "mike" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

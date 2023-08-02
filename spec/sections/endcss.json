@@ -1,0 +1,125 @@
+{
+    "tests": [
+      {
+        "title": "endcss on one line",
+        "input": "-- endcss\n\nfoxtrot delta echo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "endcss",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "echo" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "endcss attributes",
+        "input": "-- endcss\n-- id: tango\n\nfoxtrot delta echo\n",
+        "expected": [
+          {
+            "attributes": [{ "key": "id", "value": "tango" }],
+            "type": "endcss",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "echo" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "endcss on one line without line ending",
+        "input": "-- endcss\n\ndelta sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "endcss",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "endcss split across lines",
+        "input": "-- endcss\n\nbravo delta\nsierra charlie\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "endcss",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "bravo" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "charlie" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "endcss multi paragraph",
+        "input": "-- endcss\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "endcss",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "tango" },
+                  { "type": "space" },
+                  { "type": "text", "string": "whiskey" },
+                  { "type": "space" },
+                  { "type": "text", "string": "victor" },
+                  { "type": "space" },
+                  { "type": "text", "string": "mike" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
