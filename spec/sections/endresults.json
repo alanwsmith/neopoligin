@@ -45,7 +45,6 @@
         ]
       },
       {
-        "solo": true,
         "title": "Paragraph split across lines",
         "input": "-- p\n\nbravo delta\nsierra charlie\n",
         "expected": [

@@ -1,7 +1,6 @@
 {
   "tests": [
     {
-      "solo": true,
       "title": "Title: basic",
       "input": "-- title\n\ncharlie delta\n\n-- p\n\nwhiskey sierra",
       "expected": [
