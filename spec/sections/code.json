@@ -1,0 +1,16 @@
+{
+  "TODOs": ["attributes", "export", "title", "language"],
+  "tests": [
+    {
+      "title": "Code basic",
+      "input": "-- code\n\nthis is some code\n\n-- ",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "code",
+          "body": "this is some code"
+        }
+      ]
+    }
+  ]
+}

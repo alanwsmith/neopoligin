@@ -4,6 +4,7 @@ use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
 use crate::neo_sections::blockquote_section::blockquote_section;
 use crate::neo_sections::checklist_section::checklist_section;
+use crate::neo_sections::code_section::code_section;
 use crate::neo_sections::endarticle_section::endarticle_section;
 use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::endcss_section::endcss_section;
@@ -23,13 +24,16 @@ use crate::neo_sections::h6_section::h6_section;
 use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
 use crate::neo_sections::note_section::note_section;
+use crate::neo_sections::notes_section::notes_section;
 // use crate::neo_sections::metadata_section::metadata_section;
+use crate::neo_sections::olist_section::olist_section;
 use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::startcode_section::startcode_section;
 use crate::neo_sections::startdiv_section::startdiv_section;
 use crate::neo_sections::startresults_section::startresults_section;
 use crate::neo_sections::startsection_section::startsection_section;
 use crate::neo_sections::title_section::title_section;
+use crate::neo_sections::vimeo_section::vimeo_section;
 use crate::neo_sections::warning_section::warning_section;
 use crate::neo_sections::warnings_section::warnings_section;
 use crate::neo_sections::youtube_section::youtube_section;
@@ -41,6 +45,7 @@ use serde::{Deserialize, Serialize};
 pub mod aside_section;
 pub mod blockquote_section;
 pub mod checklist_section;
+pub mod code_section;
 pub mod endarticle_section;
 pub mod endcode_section;
 pub mod endcss_section;
@@ -60,15 +65,18 @@ pub mod h6_section;
 pub mod image_section;
 pub mod list_section;
 pub mod note_section;
+pub mod notes_section;
 
 // pub mod metadata_section;
 
+pub mod olist_section;
 pub mod p_section;
 pub mod startcode_section;
 pub mod startdiv_section;
 pub mod startresults_section;
 pub mod startsection_section;
 pub mod title_section;
+pub mod vimeo_section;
 pub mod warning_section;
 pub mod warnings_section;
 pub mod youtube_section;
@@ -173,9 +181,19 @@ pub enum NeoSection {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
     },
+    Notes {
+        attributes: Option<Vec<AttributeV2>>,
+        items: Option<Vec<Container>>,
+        preface: Option<Vec<Block>>,
+    },
     // MetaData {
     //     attributes: Option<Vec<AttributeV2>>,
     // },
+    Olist {
+        attributes: Option<Vec<AttributeV2>>,
+        items: Option<Vec<Container>>,
+        preface: Option<Vec<Block>>,
+    },
     P {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -194,6 +212,10 @@ pub enum NeoSection {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
         headline: Option<Block>,
+    },
+    Vimeo {
+        attributes: Option<Vec<AttributeV2>>,
+        id: Option<String>,
     },
     Warning {
         attributes: Option<Vec<AttributeV2>>,
@@ -221,24 +243,14 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
             blockquote_section,
             checklist_section,
         image_section,
-        h1_section,
-        h2_section,
-        h3_section,
-        h4_section,
-        h5_section,
-        h6_section,
         list_section,
+        olist_section,
+        notes_section,
         note_section,
         //     metadata_section,
-        p_section,
         startcode_section,
         startdiv_section,
-        startresults_section,
-        startsection_section,
-        title_section,
-        warning_section,
-        warnings_section,
-        youtube_section,
+
     )),
 
     alt((
@@ -251,7 +263,24 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         endresults_section,
         endscript_section,
         endsection_section,
+        startresults_section,
+        startsection_section,
         endtldr_section,
+        vimeo_section,
+        warning_section,
+        warnings_section,
+        youtube_section,
+        p_section,
+    )), 
+    alt ((
+        code_section,
+        h1_section,
+        h2_section,
+        h3_section,
+        h4_section,
+        h5_section,
+        h6_section,
+        title_section,
     ))
     ))(source)?;
     Ok((source, section))

@@ -9,10 +9,10 @@ use nom::IResult;
 use nom::bytes::complete::take_until;
 use nom::Parser;
 
-pub fn startcode_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- startcode")(source)?;
+pub fn code_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
+    let (source, _) = tag("-- code")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = opt(take_until("-- endcode").map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, body) = opt(take_until("-- ").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
         NeoSection::Code {
