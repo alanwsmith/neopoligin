@@ -12,6 +12,9 @@ use nom::character::complete::line_ending;
 use nom::character::complete::space0;
 use nom::sequence::terminated;
 use nom::Parser;
+use nom::combinator::not;
+
+use crate::neo_sections::neo_section;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", content = "value", rename_all = "lowercase")]
@@ -32,6 +35,10 @@ pub enum AttributeV2 {
 
 
 pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    // because lines are flattened you have to make sure something that
+    // starts with two dashes isn't a neo section before looking for
+    // attributes
+    let (source, _) = not(neo_section)(source)?;
     let (source, attrs) = preceded(
         alt((tag("--"), tag("|"))),
         alt((

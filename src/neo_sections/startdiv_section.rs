@@ -8,15 +8,18 @@ use nom::sequence::pair;
 use nom::IResult;
 use nom::multi::many1;
 use nom::combinator::opt;
+use crate::blocks::block;
 
 pub fn startdiv_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, _) = tag("-- startdiv")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
+    let (source, body) = opt(many1(block))(source)?;
      Ok((
         source,
         NeoSection::StartDiv {
             attributes,
+            body
         },
     ))
 }

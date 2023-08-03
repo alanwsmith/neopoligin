@@ -9,7 +9,8 @@
         "expected": [
           {
             "attributes": null,
-            "type": "startdiv"
+            "type": "startdiv",
+            "body": null
           }
         ]
       },
@@ -19,7 +20,28 @@
         "expected": [
           {
             "attributes":  [{"type": "class", "value": ["delta", "tango"]}],
-            "type": "startdiv"
+            "type": "startdiv",
+            "body": null
+          }
+        ]
+      },
+      {
+        "title": "Startdiv",
+        "input": "-- startdiv\n-- class: bravo\n\nfoxtrot hotel",
+        "expected": [
+          {
+            "attributes":  [{"type": "class", "value": ["bravo"]}],
+            "type": "startdiv",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "hotel" }
+                ]
+              }
+            ]
           }
         ]
       }

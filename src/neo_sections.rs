@@ -263,11 +263,17 @@ pub enum NeoSection {
     StartArticle {
         attributes: Option<Vec<AttributeV2>>,
     }, 
+    StartCode {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<String>,
+    },
     StartDiv {
         attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     }, 
     StartSection {
         attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     }, 
     StartTlDr {
         attributes: Option<Vec<AttributeV2>>,
@@ -307,6 +313,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     // dbg!(&source);
     let (source, section) = alt((
         alt((
+            startsection_section,
             aside_section,
             blockquote_section,
             checklist_section,
@@ -337,7 +344,6 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         endscript_section,
         endsection_section,
         startresults_section,
-        startsection_section,
         starttldr_section,
         endtldr_section,
         vimeo_section,
