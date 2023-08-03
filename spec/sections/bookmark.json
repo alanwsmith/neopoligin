@@ -1,0 +1,40 @@
+{
+  "tests": [
+    {
+      "title": "bookmark basic",
+      "input": "-- bookmark\n-- title: Alfa Bravo\n",
+      "expected": [
+        {
+          "type": "bookmark",
+          "attributes": [{ "key": "title", "value": "Alfa Bravo" }],
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "bookmark basic",
+      "input": "-- bookmark\n-- title: Alfa Bravo\n-- subtitle: Charlie Delta\n-- url: https://www.example.com/\n-- id: foxtrot\n\nEcho foxtrot\n",
+      "expected": [
+        {
+          "type": "bookmark",
+          "attributes": [
+            { "key": "title", "value": "Alfa Bravo" },
+            { "key": "subtitle", "value": "Charlie Delta" },
+            { "key": "url", "value": "https://www.example.com/" },
+            { "key": "id", "value":  "foxtrot" }
+          ],
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "Echo" },
+                { "type": "space" },
+                { "type": "text", "string": "foxtrot" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

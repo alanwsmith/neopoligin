@@ -3,6 +3,7 @@ use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
 use crate::neo_sections::blockquote_section::blockquote_section;
+use crate::neo_sections::bookmark_section::bookmark_section;
 use crate::neo_sections::categories_section::categories_section;
 use crate::neo_sections::checklist_section::checklist_section;
 use crate::neo_sections::code_section::code_section;
@@ -57,6 +58,7 @@ use nom::{branch::alt, character::complete::multispace0};
 use serde::{Deserialize, Serialize};
 
 pub mod aside_section;
+pub mod bookmark_section;
 pub mod blockquote_section;
 pub mod categories_section;
 pub mod checklist_section;
@@ -117,6 +119,10 @@ pub enum NeoSection {
         body: Option<Vec<Block>>,
     },
     Blockquote {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
+    Bookmark {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
     },
@@ -357,7 +363,8 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         nav_section,
         categories_section,
         metadata_section,
-        hidden_section
+        hidden_section,
+        bookmark_section,
     ))
     ))(source)?;
     Ok((source, section))
