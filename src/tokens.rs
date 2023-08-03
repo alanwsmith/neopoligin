@@ -9,6 +9,8 @@ use nom::branch::alt;
 use nom::error::VerboseError;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
+use nom::combinator::not;
+use nom::character::complete::line_ending;
 
 pub mod link_token;
 pub mod single_newline;
@@ -24,6 +26,7 @@ pub enum Token {
 }
 
 pub fn token(source: &str) -> IResult<&str, Token, VerboseError<&str>> {
+    let (source, _) = not(line_ending)(source)?;
     // dbg!(&source);
     // let (source, _) = is_not("\n")(source)?;
     // dbg!(&source);

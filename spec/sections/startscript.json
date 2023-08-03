@@ -1,0 +1,16 @@
+{
+    "tests": [
+      {
+        "title": "startscript",
+        "input": "-- startscript\n\nconsole.log('hotel victor')\n\n-- endscript",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "script",
+            "body": "console.log('hotel victor')"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,37 @@
+{
+  "tests": [
+    {
+      "title": "Title: basic",
+      "input": "-- title\n\ncharlie delta\n\n-- p\n\nwhiskey sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "charlie" },
+              { "type": "space" },
+              { "type": "text", "string": "delta" }
+            ]
+          },
+          "body": null
+        },
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

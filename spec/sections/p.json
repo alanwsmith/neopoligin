@@ -21,6 +21,26 @@
       ]
     }, 
     {
+      "title": "Paragraph on one line",
+      "input": "-- p\n-- id: tango\n\nsierra alfa\n",
+      "expected": [
+        {
+          "attributes": [{"key": "id", "value": "tango"}],
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "alfa" }
+              ]
+            }
+          ]
+        }
+      ]
+    }, 
+    {
       "title": "Paragraph on one line without line ending",
       "input": "-- p\n\ndelta sierra",
       "expected": [
@@ -41,7 +61,6 @@
       ]
     }, 
     {
-      "solo": true,
       "title": "Paragraph split across lines",
       "input": "-- p\n\nbravo delta\nsierra charlie\n",
       "expected": [

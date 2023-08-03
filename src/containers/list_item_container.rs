@@ -1,37 +1,21 @@
-
-
-use crate::blocks::list_paragraph_block::list_paragraph_block;
+use crate::blocks::paragraph_block::paragraph_block;
 use crate::containers::Container;
-
-
 use nom::bytes::complete::tag;
-
-
-use nom::character::complete::multispace0;
-
-
-
-
-
-
-
-
 use nom::error::VerboseError;
-
-
 use nom::multi::many1;
-
-
-use nom::sequence::preceded;
-
 use nom::IResult;
-
-
-
-
+use nom::character::complete::multispace0;
+use nom::character::complete::line_ending;
+use nom::sequence::terminated;
 
 pub fn list_item_container(source: &str) -> IResult<&str, Container, VerboseError<&str>> {
+    // dbg!(&source);
+    let (source, _) = multispace0(source)?;
+    // dbg!(&source);
     let (source, _) = tag("- ")(source)?;
-    let (source, content) = many1(preceded(multispace0, list_paragraph_block))(source)?;
-    Ok((source, Container::ListItem { content }))
+    // dbg!(&source);
+    let (source, body) = many1(terminated(paragraph_block, line_ending))(source)?;
+    // dbg!(&body);
+    // dbg!(&source);
+    Ok((source, Container::ListItem { body }))
 }

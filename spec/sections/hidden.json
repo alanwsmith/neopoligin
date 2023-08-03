@@ -1,0 +1,14 @@
+{
+    "tests": [
+      {
+        "title": "hidden",
+        "input": "-- hidden\n\nthis is some code\n\n-- ",
+        "expected": [
+          {
+            "type": "hidden"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,17 @@
+{
+    "TODOs": [],
+    "tests": [
+      {
+        "title": "Script Section",
+        "input": "-- script\n\nconsole.log('tango alfa')\n\n-- ",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "script",
+            "body": "console.log('tango alfa')"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,15 @@
+{
+    "tests": [
+      {
+        "title": "metadata",
+        "input": "-- metadata\n-- status: example\n-- type: sample\n",
+        "expected": [
+          {
+            "type": "metadata",
+            "list": [{"t": "generic", "key": "status", "value": "example"}, {"t": "generic", "key": "type", "value": "sample"}]
+          }
+        ]
+      }
+    ]
+  }
+  

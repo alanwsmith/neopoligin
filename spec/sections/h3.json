@@ -1,0 +1,113 @@
+{
+    "tests": [
+        {
+            "title": "H3: basic",
+            "input": "-- h3\n\nbravo bravo\n",
+            "expected": [
+              {
+                "attributes": null,
+                "type": "h3",
+                "headline": {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "bravo" },
+                    { "type": "space" },
+                    { "type": "text", "string": "bravo" }
+                  ]
+                },
+                "body": null
+              }
+            ]
+          }
+    ],
+
+    "TODO": [
+
+      {
+        "title": "Title: with attributes",
+        "input": "-- title\n-- id: victor\ncharlie delta\n",
+        "expected": [
+          {
+            "attributes": [{"key": "id", "value": "victor"}],
+            "type": "title",
+            "headline": {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "charlie" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" }
+              ]
+            },
+            "body": null
+          }
+        ]
+      },
+      {
+        "title": "Title: with body",
+        "input": "-- title\n\necho foxtrot\n\nsierra alfa",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "title",
+            "headline": {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "echo" },
+                { "type": "space" },
+                { "type": "text", "string": "foxtrot" }
+              ]
+            },
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "alfa" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Title: with body and attributes",
+        "input": "-- title\n-- id: echo\nbravo sierra\nalfa\n\ndelta tango\n\nfoxtrot foxtrot",
+        "expected": [
+          {
+              "attributes": [{"key": "id", "value": "echo"}],
+            "type": "title",
+            "headline": {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "alfa" }
+              ]
+            },
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "tango" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "foxtrot" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

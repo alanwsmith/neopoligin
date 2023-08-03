@@ -1,0 +1,17 @@
+{
+    "TODOs": [],
+    "tests": [
+      {
+        "title": "CSS",
+        "input": "-- css\n\nbody { background-color: #123; }\n\n-- ",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "css",
+            "body": "body { background-color: #123; }"
+          }
+        ]
+      }
+    ]
+  }
+  

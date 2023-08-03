@@ -1,0 +1,120 @@
+{
+    "tests": [
+      {
+        "title": "subtitle on one line",
+        "input": "-- subtitle\n\nalfa kilo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "subtitle",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "alfa" },
+                  { "type": "space" },
+                  { "type": "text", "string": "kilo" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "subtitle on one line",
+        "input": "-- subtitle\n-- id: tango\n\nsierra alfa\n",
+        "expected": [
+          {
+            "attributes": [{"key": "id", "value": "tango"}],
+            "type": "subtitle",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "alfa" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "subtitle on one line without line ending",
+        "input": "-- subtitle\n\ndelta sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "subtitle",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "subtitle split across lines",
+        "input": "-- subtitle\n\nbravo delta\nsierra charlie\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "subtitle",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "bravo" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "charlie" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "Multi Note",
+        "input": "-- subtitle\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "subtitle",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "tango" },
+                  { "type": "space" },
+                  { "type": "text", "string": "whiskey" },
+                  { "type": "space" },
+                  { "type": "text", "string": "victor" },
+                  { "type": "space" },
+                  { "type": "text", "string": "mike" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

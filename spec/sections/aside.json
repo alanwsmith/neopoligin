@@ -1,0 +1,120 @@
+{
+  "tests": [
+    {
+      "title": "aside on one line",
+      "input": "-- aside\n\nalfa kilo\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "aside with attribute",
+      "input": "-- aside\n-- id: echo\n\nalfa hotel\n",
+      "expected": [
+        {
+          "attributes": [{"key": "id", "value": "echo"}],
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "hotel" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "aside on one line without line ending",
+      "input": "-- aside\n\ndelta sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "aside split across lines",
+      "input": "-- aside\n\nbravo delta\nsierra charlie\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "aside multi paragraph",
+      "input": "-- aside\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "aside",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" },
+                { "type": "space" },
+                { "type": "text", "string": "mike" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

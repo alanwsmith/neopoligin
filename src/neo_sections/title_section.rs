@@ -13,13 +13,9 @@ use nom::sequence::pair;
 use nom::IResult;
 
 pub fn title_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    // dbg!(source);
     let (source, _) = tag("-- title")(source)?;
-    // dbg!(source);
     let (source, _) = pair(space0, line_ending)(source)?;
-    // dbg!(source);
     let (source, attributes) = opt(many1(attribute))(source)?;
-    // dbg!(source);
     let (source, headline) = opt(block)(source)?;
     let (source, body) = opt(many1(block))(source)?;
     Ok((

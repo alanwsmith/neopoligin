@@ -1,0 +1,120 @@
+{
+    "tests": [
+      {
+        "title": "Note on one line",
+        "input": "-- note\n\nalfa kilo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "note",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "alfa" },
+                  { "type": "space" },
+                  { "type": "text", "string": "kilo" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "Note on one line",
+        "input": "-- note\n-- id: tango\n\nsierra alfa\n",
+        "expected": [
+          {
+            "attributes": [{"key": "id", "value": "tango"}],
+            "type": "note",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "alfa" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "Note on one line without line ending",
+        "input": "-- note\n\ndelta sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "note",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "Note split across lines",
+        "input": "-- note\n\nbravo delta\nsierra charlie\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "note",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "bravo" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "charlie" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "Multi Note",
+        "input": "-- note\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "note",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "tango" },
+                  { "type": "space" },
+                  { "type": "text", "string": "whiskey" },
+                  { "type": "space" },
+                  { "type": "text", "string": "victor" },
+                  { "type": "space" },
+                  { "type": "text", "string": "mike" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

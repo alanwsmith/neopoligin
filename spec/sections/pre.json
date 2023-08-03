@@ -1,0 +1,17 @@
+{
+    "TODOs": [],
+    "tests": [
+      {
+        "title": "Pre Section",
+        "input": "-- pre\n\nalfa bravo charlie\n\n-- ",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "pre",
+            "body": "alfa bravo charlie"
+          }
+        ]
+      }
+    ]
+  }
+  

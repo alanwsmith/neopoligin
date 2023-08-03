@@ -1,0 +1,28 @@
+{
+    "TODOs": [
+      "attributes"
+    ],
+    "tests": [
+      {
+        "title": "Startdiv",
+        "input": "-- startdiv\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "startdiv"
+          }
+        ]
+      },
+      {
+        "title": "Startdiv",
+        "input": "-- startdiv\n-- class: delta tango",
+        "expected": [
+          {
+            "attributes":  [{"key": "class", "value": ["delta", "tango"]}],
+            "type": "startdiv"
+          }
+        ]
+      }
+    ]
+  }
+  

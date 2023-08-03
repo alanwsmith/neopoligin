@@ -1,0 +1,77 @@
+{
+  "tests": [
+    {
+      "title": "nav: basic example",
+      "input": "-- nav\n\n- charlie sierra\n\n- foxtrot juliette\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "nav",
+          "preface": null,
+          "items": [
+            {
+              "type": "listitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "charlie" },
+                    { "type": "space" },
+                    { "type": "text", "string": "sierra" }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "foxtrot" },
+                    { "type": "space" },
+                    { "type": "text", "string": "juliette" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "nav: attributes",
+      "input": "-- nav\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
+      "expected": [
+        {
+          "attributes": [{ "key": "id", "value": "charlie" }],
+          "type": "nav",
+          "preface": null,
+          "items": [
+            {
+              "type": "listitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "sierra" },
+                    { "type": "space" },
+                    { "type": "text", "string": "victor" }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "string": "tango" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

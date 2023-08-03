@@ -1,0 +1,120 @@
+{
+    "tests": [
+      {
+        "title": "warning on one line",
+        "input": "-- warning\n\nalfa kilo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "warning",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "alfa" },
+                  { "type": "space" },
+                  { "type": "text", "string": "kilo" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "warning on one line",
+        "input": "-- warning\n-- id: tango\n\nsierra alfa\n",
+        "expected": [
+          {
+            "attributes": [{"key": "id", "value": "tango"}],
+            "type": "warning",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "alfa" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "warning on one line without line ending",
+        "input": "-- warning\n\ndelta sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "warning",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "warning split across lines",
+        "input": "-- warning\n\nbravo delta\nsierra charlie\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "warning",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "bravo" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "charlie" }
+                ]
+              }
+            ]
+          }
+        ]
+      }, 
+      {
+        "title": "Multi warning",
+        "input": "-- warning\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "warning",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "tango" },
+                  { "type": "space" },
+                  { "type": "text", "string": "whiskey" },
+                  { "type": "space" },
+                  { "type": "text", "string": "victor" },
+                  { "type": "space" },
+                  { "type": "text", "string": "mike" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
