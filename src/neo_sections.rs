@@ -3,6 +3,7 @@ use crate::blocks::Block;
 use crate::containers::Container;
 use crate::neo_sections::aside_section::aside_section;
 use crate::neo_sections::blockquote_section::blockquote_section;
+use crate::neo_sections::categories_section::categories_section;
 use crate::neo_sections::checklist_section::checklist_section;
 use crate::neo_sections::code_section::code_section;
 use crate::neo_sections::css_section::css_section;
@@ -22,9 +23,12 @@ use crate::neo_sections::h3_section::h3_section;
 use crate::neo_sections::h4_section::h4_section;
 use crate::neo_sections::h5_section::h5_section;
 use crate::neo_sections::h6_section::h6_section;
+use crate::neo_sections::hidden_section::hidden_section;
 use crate::neo_sections::html_section::html_section;
 use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
+use crate::neo_sections::metadata_section::*;
+use crate::neo_sections::nav_section::nav_section;
 use crate::neo_sections::note_section::note_section;
 use crate::neo_sections::notes_section::notes_section;
 // use crate::neo_sections::metadata_section::metadata_section;
@@ -32,10 +36,16 @@ use crate::neo_sections::olist_section::olist_section;
 use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::pre_section::pre_section;
 use crate::neo_sections::script_section::script_section;
+use crate::neo_sections::startarticle_section::startarticle_section;
 use crate::neo_sections::startcode_section::startcode_section;
 use crate::neo_sections::startdiv_section::startdiv_section;
+use crate::neo_sections::starthtml_section::starthtml_section;
+use crate::neo_sections::startpre_section::startpre_section;
 use crate::neo_sections::startresults_section::startresults_section;
+use crate::neo_sections::startscript_section::startscript_section;
 use crate::neo_sections::startsection_section::startsection_section;
+use crate::neo_sections::starttldr_section::starttldr_section;
+use crate::neo_sections::subtitle_section::subtitle_section;
 use crate::neo_sections::title_section::title_section;
 use crate::neo_sections::vimeo_section::vimeo_section;
 use crate::neo_sections::warning_section::warning_section;
@@ -48,6 +58,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod aside_section;
 pub mod blockquote_section;
+pub mod categories_section;
 pub mod checklist_section;
 pub mod code_section;
 pub mod css_section;
@@ -67,9 +78,12 @@ pub mod h3_section;
 pub mod h4_section;
 pub mod h5_section;
 pub mod h6_section;
+pub mod hidden_section;
 pub mod html_section;
 pub mod image_section;
 pub mod list_section;
+pub mod metadata_section;
+pub mod nav_section;
 pub mod note_section;
 pub mod notes_section;
 
@@ -79,10 +93,16 @@ pub mod olist_section;
 pub mod p_section;
 pub mod pre_section;
 pub mod script_section;
+pub mod startarticle_section;
 pub mod startcode_section;
 pub mod startdiv_section;
+pub mod starthtml_section;
+pub mod startpre_section;
 pub mod startresults_section;
+pub mod startscript_section;
 pub mod startsection_section;
+pub mod starttldr_section;
+pub mod subtitle_section;
 pub mod title_section;
 pub mod vimeo_section;
 pub mod warning_section;
@@ -99,6 +119,9 @@ pub enum NeoSection {
     Blockquote {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
+    },
+    Categories {
+        list: Option<Vec<String>>
     },
     Checklist {
         attributes: Option<Vec<AttributeV2>>,
@@ -179,6 +202,7 @@ pub enum NeoSection {
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
+    Hidden {},
     Html {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
@@ -193,6 +217,10 @@ pub enum NeoSection {
         items: Option<Vec<Container>>,
         preface: Option<Vec<Block>>,
     },
+    Nav {
+        attributes: Option<Vec<AttributeV2>>,
+        items: Option<Vec<Container>>,
+    },
     Note {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -202,9 +230,9 @@ pub enum NeoSection {
         items: Option<Vec<Container>>,
         preface: Option<Vec<Block>>,
     },
-    // MetaData {
-    //     attributes: Option<Vec<AttributeV2>>,
-    // },
+    Metadata {
+        list: Option<Vec<MetadataItem>>,
+    },
     Olist {
         attributes: Option<Vec<AttributeV2>>,
         items: Option<Vec<Container>>,
@@ -226,12 +254,22 @@ pub enum NeoSection {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
     },
+    StartArticle {
+        attributes: Option<Vec<AttributeV2>>,
+    }, 
     StartDiv {
         attributes: Option<Vec<AttributeV2>>,
     }, 
     StartSection {
         attributes: Option<Vec<AttributeV2>>,
     }, 
+    StartTlDr {
+        attributes: Option<Vec<AttributeV2>>,
+    }, 
+    Subtitle {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
     Title {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
@@ -274,9 +312,12 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         note_section,
         //     metadata_section,
         startcode_section,
+        startarticle_section,
         startdiv_section,
+        starthtml_section,
+        startpre_section,
+        startscript_section,
         pre_section,
-
     )),
 
     alt((
@@ -291,6 +332,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         endsection_section,
         startresults_section,
         startsection_section,
+        starttldr_section,
         endtldr_section,
         vimeo_section,
         warning_section,
@@ -307,8 +349,15 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         h5_section,
         h6_section,
         script_section,
+        metadata_section,
         title_section,
+        pre_section,
         p_section,
+        subtitle_section,
+        nav_section,
+        categories_section,
+        metadata_section,
+        hidden_section
     ))
     ))(source)?;
     Ok((source, section))

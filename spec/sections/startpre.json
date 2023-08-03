@@ -1,0 +1,16 @@
+{
+    "tests": [
+      {
+        "title": "startpre",
+        "input": "-- startpre\n\necho tango\n\n-- endpre",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "pre",
+            "body": "echo tango"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,12 +1,12 @@
 {
   "tests": [
     {
-      "title": "List: basic example",
-      "input": "-- list\n\n- charlie sierra\n\n- foxtrot juliette\n",
+      "title": "nav: basic example",
+      "input": "-- nav\n\n- charlie sierra\n\n- foxtrot juliette\n",
       "expected": [
         {
           "attributes": null,
-          "type": "list",
+          "type": "nav",
           "preface": null,
           "items": [
             {
@@ -40,12 +40,12 @@
       ]
     },
     {
-      "title": "List: attributes",
-      "input": "-- list\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
+      "title": "nav: attributes",
+      "input": "-- nav\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
       "expected": [
         {
           "attributes": [{ "key": "id", "value": "charlie" }],
-          "type": "list",
+          "type": "nav",
           "preface": null,
           "items": [
             {

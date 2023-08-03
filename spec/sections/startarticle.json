@@ -1,0 +1,25 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "startarticle",
+      "input": "-- startarticle\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "startarticle"
+        }
+      ]
+    },
+    {
+      "title": "startarticle",
+      "input": "-- startarticle\n-- class: delta tango",
+      "expected": [
+        {
+          "attributes": [{ "key": "class", "value": ["delta", "tango"] }],
+          "type": "startarticle"
+        }
+      ]
+    }
+  ]
+}

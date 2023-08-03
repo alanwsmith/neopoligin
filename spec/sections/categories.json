@@ -1,0 +1,15 @@
+{
+    "tests": [
+      {
+        "title": "categories",
+        "input": "-- categories\n-- alfa\n-- bravo\n",
+        "expected": [
+          {
+            "type": "categories",
+            "list": ["alfa", "bravo"]
+          }
+        ]
+      }
+    ]
+  }
+  

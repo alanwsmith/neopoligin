@@ -1,0 +1,25 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "starttldr",
+      "input": "-- starttldr\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "starttldr"
+        }
+      ]
+    },
+    {
+      "title": "starttldr",
+      "input": "-- starttldr\n-- class: delta tango",
+      "expected": [
+        {
+          "attributes": [{ "key": "class", "value": ["delta", "tango"] }],
+          "type": "starttldr"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+    "tests": [
+      {
+        "title": "starthtml",
+        "input": "-- starthtml\n\n<p>delta alfa</p>\n\n-- endhtml",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "html",
+            "body": "<p>delta alfa</p>"
+          }
+        ]
+      }
+    ]
+  }
+  
