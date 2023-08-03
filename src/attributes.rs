@@ -26,6 +26,7 @@ pub enum AttributeV2 {
     Class(Vec<String>),
     Generic((String, String)),
     Id(String),
+    Show,
     Subtitle(String),
     Title(String),
     Type(String),
@@ -48,6 +49,7 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
             class_attribute,
             contenteditable_attribute,
             id_attribute,
+            show_attribute,
             subtitle_attribute,
             title_attribute,
             type_attribute,
@@ -126,6 +128,13 @@ pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&st
     Ok((source, AttributeV2::Id(attr.to_string())))
 }
 
+
+pub fn show_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag_no_case("show")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Show))
+}
 
 pub fn subtitle_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;

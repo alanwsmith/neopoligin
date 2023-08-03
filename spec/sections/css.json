@@ -11,6 +11,17 @@
             "body": "body { background-color: #123; }"
           }
         ]
+      },
+      {
+        "title": "CSS",
+        "input": "-- css\n-- show\n\nbody { background-color: #aabbcc; }\n\n-- ",
+        "expected": [
+          {
+            "attributes": [{"type": "show"}],
+            "type": "css",
+            "body": "body { background-color: #aabbcc; }"
+          }
+        ]
       }
     ]
   }
