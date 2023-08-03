@@ -20,6 +20,26 @@
           "type": "starttldr"
         }
       ]
+    },
+    {
+      "title": "starttldr",
+      "input": "-- starttldr\n\nsierra bravo",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "starttldr",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "bravo" }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

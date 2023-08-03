@@ -262,6 +262,7 @@ pub enum NeoSection {
     },
     StartArticle {
         attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     }, 
     StartCode {
         attributes: Option<Vec<AttributeV2>>,
@@ -277,6 +278,7 @@ pub enum NeoSection {
     }, 
     StartTlDr {
         attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
     }, 
     Subtitle {
         attributes: Option<Vec<AttributeV2>>,
