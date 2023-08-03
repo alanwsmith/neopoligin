@@ -14,7 +14,7 @@
       "input": "-- startcode\n-- id: delta\n\nsierra bravo\n\n-- endcode",
       "expected": [
         {
-          "attributes": [{ "key": "id", "value": "delta" }],
+          "attributes": [{ "type": "id", "value": "delta" }],
           "type": "code",
           "body": "sierra bravo"
         }

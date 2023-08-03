@@ -16,7 +16,7 @@
       "input": "-- startsection\n-- class: foxtrot sierra",
       "expected": [
         {
-          "attributes": [{ "key": "class", "value": ["foxtrot", "sierra"] }],
+          "attributes": [{ "type": "class", "value": ["foxtrot", "sierra"] }],
           "type": "startsection"
         }
       ]

@@ -44,7 +44,7 @@
         "input": "-- notes\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
         "expected": [
           {
-            "attributes": [{"key": "id", "value": "charlie"}],
+            "attributes": [{ "type": "id", "value": "charlie"}],
             "type": "notes",
             "preface": null,
             "items": [

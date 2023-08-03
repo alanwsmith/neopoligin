@@ -4,7 +4,7 @@
         "input": "-- h3\n-- id: tango\n\nalfa kilo\n\ncharlie delta\necho\nfoxtrot",
         "expected": [
           {
-           "attributes": [{ "key": "id", "value": "tango" }],
+           "attributes": [{ "type": "id", "value": "tango" }],
             "type": "h3",
             "headline": {
               "type": "paragraph",

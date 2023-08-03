@@ -6,7 +6,7 @@
       "expected": [
         {
           "type": "bookmark",
-          "attributes": [{ "key": "title", "value": "Alfa Bravo" }],
+          "attributes": [{ "type": "title", "value": "Alfa Bravo" }],
           "body": null
         }
       ]
@@ -18,10 +18,10 @@
         {
           "type": "bookmark",
           "attributes": [
-            { "key": "title", "value": "Alfa Bravo" },
-            { "key": "subtitle", "value": "Charlie Delta" },
-            { "key": "url", "value": "https://www.example.com/" },
-            { "key": "id", "value":  "foxtrot" }
+            { "type": "title", "value": "Alfa Bravo" },
+            { "type": "subtitle", "value": "Charlie Delta" },
+            { "type": "url", "value": "https://www.example.com/" },
+            { "type": "id", "value":  "foxtrot" }
           ],
           "body": [
             {

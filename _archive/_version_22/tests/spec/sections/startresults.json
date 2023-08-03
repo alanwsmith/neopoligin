@@ -14,7 +14,7 @@
         "input": "-- startresults\n-- id: bravo\n\nalfa alfa\n\n-- endresults",
         "expected": [
           {
-            "attributes": [{ "key": "id", "value": "bravo" }],
+            "attributes": [{ "type": "id", "value": "bravo" }],
             "type": "results",
             "body": "alfa alfa"
           }

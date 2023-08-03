@@ -15,7 +15,7 @@
         "input": "-- aside\n-- id: tango\n\nalfa kilo",
         "expected": [
           {
-            "attributes": [{"key": "id", "value": "tango"}],
+            "attributes": [{ "type": "id", "value": "tango"}],
             "type": "aside",
             "content": [
               {

@@ -14,7 +14,7 @@ use nom::sequence::terminated;
 use nom::Parser;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "key", content = "value", rename_all = "lowercase")]
+#[serde(tag = "type", content = "value", rename_all = "lowercase")]
 pub enum AttributeV2 {
     AccessKey(String),
     AutoCapitalize(String),
@@ -29,6 +29,7 @@ pub enum AttributeV2 {
     Url(String),
     None,
 }
+
 
 pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, attrs) = preceded(
@@ -52,13 +53,13 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
 }
 
 
-
 pub fn accesskey_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("accesskey: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::AccessKey(attr.to_string())))
 }
+
 
 pub fn autocapitalize_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     // autocapitzlize has a specific set of options but the
@@ -71,16 +72,13 @@ pub fn autocapitalize_attribute(source: &str) -> IResult<&str, AttributeV2, Verb
     Ok((source, AttributeV2::AutoCapitalize(attr.to_string())))
 }
 
+
 pub fn autofocus_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, _attr) = tag_no_case("autofocus")(source)?;
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::AutoFocus))
 }
-
-
-
-
 
 
 pub fn class_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
@@ -94,14 +92,13 @@ pub fn class_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<
     Ok((source, AttributeV2::Class(value)))
 }
 
+
 pub fn contenteditable_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, value) = preceded(tag("contenteditable: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::ContentEditable(value.to_string())))
 }
-
-
 
 
 pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
@@ -114,6 +111,7 @@ pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseErro
     Ok((source, AttributeV2::Generic((key.to_string(), value.to_string()))))
 }
 
+
 pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("id: "), is_not("|>\n"))(source)?;
@@ -122,14 +120,13 @@ pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&st
 }
 
 
-
-
 pub fn subtitle_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("subtitle: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::Subtitle(attr.to_string())))
 }
+
 
 pub fn title_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
@@ -145,7 +142,6 @@ pub fn type_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::Type(attr.to_string())))
 }
-
 
 
 pub fn url_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {

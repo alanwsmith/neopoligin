@@ -27,7 +27,7 @@
         "input": "-- endcss\n-- id: tango\n\nfoxtrot delta echo\n",
         "expected": [
           {
-            "attributes": [{ "key": "id", "value": "tango" }],
+            "attributes": [{ "type": "id", "value": "tango" }],
             "type": "endcss",
             "body": [
               {

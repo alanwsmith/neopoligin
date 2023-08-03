@@ -25,7 +25,7 @@
       "input": "-- enddiv\n-- id: victor\n\nwhiskey tango\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "victor"}],
+          "attributes": [{ "type": "id", "value": "victor"}],
           "type": "enddiv",
           "body": [
             {

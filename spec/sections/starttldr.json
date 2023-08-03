@@ -16,7 +16,7 @@
       "input": "-- starttldr\n-- class: delta tango",
       "expected": [
         {
-          "attributes": [{ "key": "class", "value": ["delta", "tango"] }],
+          "attributes": [{ "type": "class", "value": ["delta", "tango"] }],
           "type": "starttldr"
         }
       ]
