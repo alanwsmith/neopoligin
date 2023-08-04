@@ -95,7 +95,7 @@ pub fn build_site() {
             Some(x) => x,
             None => "post".to_string(),
         };
-        dbg!(&template_id);
+        //dbg!(&template_id);
         //let template_id = page.page_type();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
         let pg = Value::from_struct_object(page.clone());
@@ -111,6 +111,5 @@ pub fn build_site() {
         fs::write(file_path, rv).unwrap();
         insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
     });
-
     println!("Process complete");
 }

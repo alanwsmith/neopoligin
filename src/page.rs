@@ -79,6 +79,7 @@ fn flatten(source: &str) -> IResult<&str, String> {
     // dbg!(&source);
     let (source, value) = many1(alt((
         startcode_section,
+        startcss_section,
         startresults_section,
         attr_line,
         multi_line,
@@ -95,6 +96,13 @@ fn startcode_section(source: &str) -> IResult<&str, String> {
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endcode")(source)?;
     Ok((source, format!("-- startcode\n{}", body)))
+}
+
+fn startcss_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = tag("-- startcss")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endcss")(source)?;
+    Ok((source, format!("-- startcss\n{}", body.trim())))
 }
 
 fn startresults_section(source: &str) -> IResult<&str, String> {
@@ -221,7 +229,7 @@ impl Page {
                     if let Some(n) = name {
                         // let newthing = n.to_string();
                         *src = get_image_path(n);
-                        dbg!(&src);
+                        // dbg!(&src);
                     }
                     ()
                 }
@@ -279,6 +287,9 @@ impl Page {
         }
     }
 }
+
+// pub fn override_path() -> {
+// }
 
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
     // dbg!(&source);

@@ -1,15 +1,63 @@
 {
-    "tests": [
-      {
-        "title": "metadata",
-        "input": "-- metadata\n-- status: example\n-- type: sample\n",
-        "expected": [
-          {
-            "type": "metadata",
-            "list": [{"t": "generic", "key": "status", "value": "example"}, {"t": "generic", "key": "type", "value": "sample"}]
-          }
-        ]
-      }
-    ]
-  }
-  
+  "tests": [
+    {
+      "title": "metadata",
+      "input": "-- metadata\n-- status: example\n-- type: sample\n-- path: /place.html\n",
+      "expected": [
+        {
+          "type": "metadata",
+          "list": [
+            { "t": "status", "value": "example" },
+            { "t": "type", "value": "sample" },
+            { "t": "path", "value": "/place.html" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "metadata",
+      "input": "-- metadata\n-- date: 2023-07-08 18:57:17\n",
+      "expected": [
+        {
+          "type": "metadata",
+          "list": [{ "t": "date", "value": "2023-07-08 18:57:17" }]
+        }
+      ]
+    },
+    {
+      "title": "metadata",
+      "input": "-- metadata\n-- template: alfa\n",
+      "expected": [
+        {
+          "type": "metadata",
+          "list": [{ "t": "template", "value": "alfa" }]
+        }
+      ]
+    },
+    {
+      "title": "metadata",
+      "input": "-- metadata\n-- id: sierra\n",
+      "expected": [
+        {
+          "type": "metadata",
+          "list": [{ "t": "id", "value": "sierra" }]
+        }
+      ]
+    },
+    {
+      "title": "metadata",
+      "input": "-- metadata\n-- something_else: foxtrot echo\n",
+      "expected": [
+        {
+          "type": "metadata",
+          "list": [
+            {
+              "t": "generic",
+              "value": { "name": "something_else", "string": "foxtrot echo" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

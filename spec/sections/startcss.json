@@ -2,8 +2,8 @@
     "TODOs": [],
     "tests": [
       {
-        "title": "CSS",
-        "input": "-- css\n\nbody { background-color: #123; }\n\n-- ",
+        "title": "startcss",
+        "input": "-- startcss\n\nbody { background-color: #123; }\n\n-- endcss",
         "expected": [
           {
             "attributes": null,
@@ -13,8 +13,8 @@
         ]
       },
       {
-        "title": "CSS",
-        "input": "-- css\n-- show\n\nbody { background-color: #aabbcc; }\n\n-- ",
+        "title": "startcss",
+        "input": "-- startcss\n-- show\n\nbody { background-color: #aabbcc; }\n\n-- endcss",
         "expected": [
           {
             "attributes": [{"type": "show"}],

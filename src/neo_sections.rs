@@ -7,7 +7,6 @@ use crate::neo_sections::bookmark_section::bookmark_section;
 use crate::neo_sections::categories_section::categories_section;
 use crate::neo_sections::checklist_section::checklist_section;
 use crate::neo_sections::code_section::code_section;
-use crate::neo_sections::css_section::css_section;
 use crate::neo_sections::endarticle_section::endarticle_section;
 use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::endcss_section::endcss_section;
@@ -32,13 +31,13 @@ use crate::neo_sections::metadata_section::*;
 use crate::neo_sections::nav_section::nav_section;
 use crate::neo_sections::note_section::note_section;
 use crate::neo_sections::notes_section::notes_section;
-// use crate::neo_sections::metadata_section::metadata_section;
 use crate::neo_sections::olist_section::olist_section;
 use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::pre_section::pre_section;
 use crate::neo_sections::script_section::script_section;
 use crate::neo_sections::startarticle_section::startarticle_section;
 use crate::neo_sections::startcode_section::startcode_section;
+use crate::neo_sections::startcss_section::startcss_section;
 use crate::neo_sections::startdiv_section::startdiv_section;
 use crate::neo_sections::starthtml_section::starthtml_section;
 use crate::neo_sections::startpre_section::startpre_section;
@@ -63,7 +62,7 @@ pub mod blockquote_section;
 pub mod categories_section;
 pub mod checklist_section;
 pub mod code_section;
-pub mod css_section;
+// pub mod css_section;
 pub mod endarticle_section;
 pub mod endcode_section;
 pub mod endcss_section;
@@ -88,15 +87,13 @@ pub mod metadata_section;
 pub mod nav_section;
 pub mod note_section;
 pub mod notes_section;
-
-// pub mod metadata_section;
-
 pub mod olist_section;
 pub mod p_section;
 pub mod pre_section;
 pub mod script_section;
 pub mod startarticle_section;
 pub mod startcode_section;
+pub mod startcss_section;
 pub mod startdiv_section;
 pub mod starthtml_section;
 pub mod startpre_section;
@@ -327,6 +324,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         note_section,
         //     metadata_section,
         startcode_section,
+        startcss_section,
         startarticle_section,
         startdiv_section,
         starthtml_section,
@@ -355,7 +353,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     )), 
     alt ((
         code_section,
-        css_section,
+        // css_section,
         h1_section,
         h2_section,
         h3_section,
@@ -370,7 +368,6 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         subtitle_section,
         nav_section,
         categories_section,
-        metadata_section,
         hidden_section,
         bookmark_section,
     ))
