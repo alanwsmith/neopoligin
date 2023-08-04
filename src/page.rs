@@ -3,6 +3,7 @@ use crate::attributes::*;
 use crate::blocks::*;
 use crate::helpers::empty_line::empty_line;
 use crate::helpers::get_image_path::get_image_path;
+use crate::neo_sections::metadata_section::MetadataItem;
 use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
 use minijinja::value::{StructObject, Value};
@@ -287,9 +288,6 @@ impl Page {
         }
     }
 }
-
-// pub fn override_path() -> {
-// }
 
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
     // dbg!(&source);

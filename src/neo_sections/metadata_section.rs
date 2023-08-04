@@ -1,3 +1,4 @@
+use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
 use nom::branch::alt;
 use nom::bytes::complete::is_not;
@@ -6,6 +7,7 @@ use nom::character::complete::line_ending;
 use nom::character::complete::not_line_ending;
 use nom::character::complete::space0;
 use nom::character::complete::space1;
+use nom::combinator::not;
 use nom::combinator::opt;
 use nom::error::VerboseError;
 use nom::multi::many1;
@@ -30,18 +32,23 @@ pub enum MetadataItem {
 pub fn metadata_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, _) = tag("-- metadata")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, list) = opt(many1(
-        alt((
-            date_metadata,
-            id_metadata,
-            path_metadata,
-            status_metadata,
-            template_metadata,
-            type_metadata,
-            generic_metadata,
-        )), // metadata_item
-    ))(source)?;
+    let (source, list) = opt(many1(metadata_item))(source)?;
     Ok((source, NeoSection::Metadata { list }))
+}
+
+pub fn metadata_item(source: &str) -> IResult<&str, MetadataItem, VerboseError<&str>> {
+    // this bails out if you hit another section
+    let (source, _) = not(neo_section)(source)?;
+    let (source, item) = alt((
+        date_metadata,
+        id_metadata,
+        path_metadata,
+        status_metadata,
+        template_metadata,
+        type_metadata,
+        generic_metadata,
+    ))(source)?;
+    Ok((source, item))
 }
 
 pub fn date_metadata(source: &str) -> IResult<&str, MetadataItem, VerboseError<&str>> {
@@ -54,12 +61,11 @@ pub fn generic_metadata(source: &str) -> IResult<&str, MetadataItem, VerboseErro
     let (source, name) =
         delimited(pair(tag("--"), space1), is_not(":"), pair(tag(":"), space0))(source)?;
     let (source, value) = terminated(not_line_ending, line_ending)(source)?;
-
     Ok((
         source,
         MetadataItem::Generic {
-            name: name.trim().to_string(),
-            string: value.trim().to_string(),
+            name: name.to_string(),
+            string: value.to_string(),
         },
     ))
 }
