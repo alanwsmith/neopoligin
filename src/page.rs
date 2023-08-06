@@ -15,6 +15,7 @@ use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
 use nom::character::complete::not_line_ending;
 use nom::character::complete::space0;
+use nom::combinator::not;
 use nom::error::VerboseError;
 use nom::multi::many1;
 use nom::multi::separated_list1;
@@ -63,7 +64,6 @@ impl Page {
 
 impl Page {
     pub fn new_from(source: &str) -> Page {
-        // dbg!(&source);
         Page {
             path: None,
             source_hash: None,
@@ -77,8 +77,8 @@ impl Page {
 // move content from single newlines into place
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
-    // dbg!(&source);
     let (source, value) = many1(alt((
+        startscript_section,
         startcode_section,
         startcss_section,
         startresults_section,
@@ -93,6 +93,7 @@ fn flatten(source: &str) -> IResult<&str, String> {
 }
 
 fn startcode_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, _) = tag("-- startcode")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endcode")(source)?;
@@ -100,6 +101,7 @@ fn startcode_section(source: &str) -> IResult<&str, String> {
 }
 
 fn startcss_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, _) = tag("-- startcss")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endcss")(source)?;
@@ -107,13 +109,23 @@ fn startcss_section(source: &str) -> IResult<&str, String> {
 }
 
 fn startresults_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, _) = tag("-- startresults")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endresults")(source)?;
     Ok((source, format!("-- startresults\n{}", body)))
 }
 
+fn startscript_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- startscript")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endscript")(source)?;
+    Ok((source, format!("-- startscript\n{}", body.trim())))
+}
+
 fn attr_line(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, captured) = pair(tag("-- "), is_not("\n"))(source)?;
     let (source, _) = tag("\n")(source)?;
     let (source, _) = multispace0(source)?;
@@ -121,24 +133,20 @@ fn attr_line(source: &str) -> IResult<&str, String> {
 }
 
 fn line(source: &str) -> IResult<&str, String> {
-    // dbg!(&source);
+    let (source, _) = multispace0(source)?;
+    let (source, _) = not(tag("--"))(source)?;
     let (source, value) = is_not("\n")(source)?;
     let (source, _) = tag("\n")(source)?;
-    // dbg!(&source);
     let (source, _) = pair(space0, line_ending)(source)?;
-    // dbg!(&source);
     let (source, _) = multispace0(source)?;
-    // dbg!(&source);
     Ok((source, value.to_string()))
 }
 
 fn multi_line(source: &str) -> IResult<&str, String> {
-    // dbg!(source);
-    // dbg!(&source);
-    let (source, value) = many1(pair(is_not("\n"), tag("\n")).map(|(a, _b)| a))(source)?;
-    // dbg!(&source);
     let (source, _) = multispace0(source)?;
-    // dbg!(&source);
+    let (source, _) = not(tag("--"))(source)?;
+    let (source, value) = many1(pair(is_not("\n"), tag("\n")).map(|(a, _b)| a))(source)?;
+    let (source, _) = multispace0(source)?;
     Ok((source, value.join(" ")))
 }
 
@@ -160,7 +168,6 @@ impl Page {
         //                     .into_iter()
         //                     .find_map(|a| match a.clone() {
         //                         AttributeV2::Type(x) => {
-        //                             dbg!(&x);
         //                             Some(x.trim().to_string())
         //                         }
         //                         _ => None,
@@ -230,7 +237,6 @@ impl Page {
                     if let Some(n) = name {
                         // let newthing = n.to_string();
                         *src = get_image_path(n);
-                        // dbg!(&src);
                     }
                     ()
                 }
@@ -290,9 +296,7 @@ impl Page {
 }
 
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
-    // dbg!(&source);
     let (source, sections) = many1(neo_section)(source)?;
     //separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
-    // dbg!(&source);
     Ok((source, sections))
 }

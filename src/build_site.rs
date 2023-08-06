@@ -54,15 +54,24 @@ pub fn build_site() {
                 // Process neo files
                 let source_string = fs::read_to_string(&initial_path).unwrap();
                 let source_hash = digest(source_string.as_str());
-                if !file_hashes.contains(&source_hash) {
+                // this is the original way to do things that only
+                // outputs changed files but that's off right now
+                // untill the links can all be generated.
+                // if !file_hashes.contains(&source_hash) {
+
+                if 1 == 1 {
                     let mut p = Page::new_from(&source_string);
                     let mut page_path = PathBuf::from("/");
                     p.source_hash = Some(source_hash);
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
+                    dbg!(&p.path);
                     p.load_image_paths();
-                    u.pages.push(p);
+                    match p.title_string() {
+                        Some(_) => u.pages.push(p),
+                        None => {}
+                    }
                 }
             } else {
                 // Move everything else over directly
