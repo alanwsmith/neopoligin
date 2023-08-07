@@ -2,7 +2,7 @@
   "tests": [
     {
       "title": "link - basic tag middle of content",
-      "input": "-- p\n\ntango <<link|victor|/bravo.html>> foxtrot\n",
+      "input": "-- p\n\ntango <<link|victor|/path.html>> foxtrot\n",
       "expected": [
         {
           "attributes": null,
@@ -13,9 +13,31 @@
               "content": [
                 { "type": "text", "string": "tango" },
                 { "type": "space" },
-                { "type": "link", "url": "/bravo.html", "string": "victor"},
+                { "type": "link", "url": "/path.html", "string": "victor"},
                 { "type": "space" },
                 { "type": "text", "string": "foxtrot" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "link - multiline",
+      "input": "-- p\n\nromeo <<link\n| lima\n|/path.html>> november\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "romeo" },
+                { "type": "space" },
+                { "type": "link", "url": "/path.html", "string": " lima "},
+                { "type": "space" },
+                { "type": "text", "string": "november" }
               ]
             }
           ]
