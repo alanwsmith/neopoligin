@@ -47,6 +47,7 @@ use crate::neo_sections::startsection_section::startsection_section;
 use crate::neo_sections::starttldr_section::starttldr_section;
 use crate::neo_sections::subtitle_section::subtitle_section;
 use crate::neo_sections::title_section::title_section;
+use crate::neo_sections::todo_section::todo_section;
 use crate::neo_sections::vimeo_section::vimeo_section;
 use crate::neo_sections::warning_section::warning_section;
 use crate::neo_sections::warnings_section::warnings_section;
@@ -103,6 +104,7 @@ pub mod startsection_section;
 pub mod starttldr_section;
 pub mod subtitle_section;
 pub mod title_section;
+pub mod todo_section;
 pub mod vimeo_section;
 pub mod warning_section;
 pub mod warnings_section;
@@ -286,6 +288,11 @@ pub enum NeoSection {
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
+    Todo {
+        attributes: Option<Vec<AttributeV2>>,
+        items: Option<Vec<Container>>,
+        preface: Option<Vec<Block>>,
+    },
     Vimeo {
         attributes: Option<Vec<AttributeV2>>,
         id: Option<String>,
@@ -350,6 +357,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         warning_section,
         warnings_section,
         youtube_section,
+        todo_section,
     )), 
     alt ((
         code_section,
@@ -364,12 +372,12 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         metadata_section,
         title_section,
         pre_section,
-        p_section,
         subtitle_section,
         nav_section,
         categories_section,
         hidden_section,
         bookmark_section,
+        p_section,
     ))
     ))(source)?;
     Ok((source, section))

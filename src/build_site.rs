@@ -1,5 +1,5 @@
 use crate::build_site::check_db_structure::check_db_structure;
-use crate::build_site::get_file_hashes::get_file_hashes;
+// use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::build_site::insert_hash::insert_hash;
 use crate::page::Page;
 use crate::universe::Universe;
@@ -45,7 +45,7 @@ pub fn build_site() {
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
     check_db_structure(&conn);
-    let file_hashes = get_file_hashes(&conn).unwrap();
+    // let file_hashes = get_file_hashes(&conn).unwrap();
     println!("Walking content dir: {}", &content_root.display());
     for entry in WalkDir::new(&content_root).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();

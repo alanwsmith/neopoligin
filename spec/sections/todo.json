@@ -1,0 +1,48 @@
+{
+    "tests": [
+      {
+        "title": "todo: basic example",
+        "input": "-- todo\n\n[] tango charlie\n\n[done] alfa foxtrot\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "todo",
+            "preface": null,
+            "items": [
+              {
+                "type": "todoitem",
+                "status": null,
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "tango" },
+                      { "type": "space" },
+                      { "type": "text", "string": "charlie" }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "todoitem",
+                "status": "done",
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "alfa" },
+                      { "type": "space" },
+                      { "type": "text", "string": "foxtrot" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+
+    ]
+  }
+  
+
