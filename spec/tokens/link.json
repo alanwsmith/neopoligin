@@ -1,0 +1,26 @@
+{
+  "tests": [
+    {
+      "title": "link - basic tag middle of content",
+      "input": "-- p\n\ntango <<link|victor|/bravo.html>> foxtrot\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "link", "url": "/bravo.html", "string": "victor"},
+                { "type": "space" },
+                { "type": "text", "string": "foxtrot" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
