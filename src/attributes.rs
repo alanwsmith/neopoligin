@@ -36,6 +36,7 @@ pub enum AttributeV2 {
 
 
 pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    // dbg!(&source);
     // because lines are flattened you have to make sure something that
     // starts with two dashes isn't a neo section before looking for
     // attributes

@@ -13,7 +13,12 @@
               "content": [
                 { "type": "text", "string": "tango" },
                 { "type": "space" },
-                { "type": "link", "url": "/path.html", "string": "victor"},
+                {
+                  "type": "link",
+                  "url": "/path.html",
+                  "string": "victor",
+                  "attributes": null
+                },
                 { "type": "space" },
                 { "type": "text", "string": "foxtrot" }
               ]
@@ -35,9 +40,41 @@
               "content": [
                 { "type": "text", "string": "romeo" },
                 { "type": "space" },
-                { "type": "link", "url": "/path.html", "string": " lima "},
+                {
+                  "type": "link",
+                  "url": "/path.html",
+                  "string": " lima ",
+                  "attributes": null
+                },
                 { "type": "space" },
                 { "type": "text", "string": "november" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "link - attributes",
+      "input": "-- p\n\nuniform <<link|papa|/path.html|class: bravo>> hotel\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "uniform" },
+                { "type": "space" },
+                {
+                  "type": "link",
+                  "url": "/path.html",
+                  "string": "papa",
+                  "attributes": [{ "type": "class", "value": ["bravo"] }]
+                },
+                { "type": "space" },
+                { "type": "text", "string": "hotel" }
               ]
             }
           ]
@@ -46,3 +83,4 @@
     }
   ]
 }
+
