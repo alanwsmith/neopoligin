@@ -152,34 +152,32 @@ fn multi_line(source: &str) -> IResult<&str, String> {
 
 impl Page {
     pub fn page_type(&mut self) -> Option<String> {
-        //     if let Some(metadata_section) =
-        //         self.raw_sections()
-        //             .clone()
-        //             .into_iter()
-        //             .find_map(|s| match s.clone() {
-        //                 NeoSection::MetaData { .. } => Some(s),
-        //                 _ => None,
-        //             })
-        //     {
-        //         match metadata_section {
-        //             NeoSection::MetaData { attributes } => {
-        //                 attributes
-        //                     .unwrap()
-        //                     .into_iter()
-        //                     .find_map(|a| match a.clone() {
-        //                         AttributeV2::Type(x) => {
-        //                             Some(x.trim().to_string())
-        //                         }
-        //                         _ => None,
-        //                     })
-        //             }
-        //             _ => None,
-        //         }
-        //     } else {
-        //         None
-        //     }
+        if let Some(metadata_section) =
+            self.raw_sections()
+                .clone()
+                .into_iter()
+                .find_map(|s| match s.clone() {
+                    NeoSection::Metadata { .. } => Some(s),
+                    _ => None,
+                })
+        {
+            match metadata_section {
+                NeoSection::Metadata { list } => {
+                    list.unwrap().into_iter().find_map(|a| match a.clone() {
+                        MetadataItem::Type(x) => {
+                            dbg!(&x);
+                            Some(x.trim().to_string())
+                        }
+                        _ => None,
+                    })
+                }
+                _ => None,
+            }
+        } else {
+            None
+        }
 
-        None
+        // None
     }
 }
 
