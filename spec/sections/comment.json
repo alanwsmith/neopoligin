@@ -1,0 +1,14 @@
+{
+    "tests": [
+      {
+        "title": "comment",
+        "input": "-- comment\n\nthis is some code\n\n-- ",
+        "expected": [
+          {
+            "type": "comment"
+          }
+        ]
+      }
+    ]
+  }
+  

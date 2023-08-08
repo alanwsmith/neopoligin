@@ -2,11 +2,23 @@
   "tests": [
     {
       "title": "Attributes: title",
-      "input": "-- p\n-- title: sierra romeo",
+      "input": "-- p\n-- title: sierra romeo\n",
       "expected": [
         {
           "attributes": 
           [{"type": "title", "value": "sierra romeo"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: hidden",
+      "input": "-- p\n-- hidden\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "hidden"}],
           "type": "p",
           "body": null
         }

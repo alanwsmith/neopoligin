@@ -22,6 +22,17 @@
             "body": "body { background-color: #aabbcc; }"
           }
         ]
+      },
+      {
+        "title": "startcss",
+        "input": "-- startcss\n-- hidden\n\nbody { background-color: #aabbcc; }\n\n-- endcss",
+        "expected": [
+          {
+            "attributes": [{"type": "hidden"}],
+            "type": "css",
+            "body": "body { background-color: #aabbcc; }"
+          }
+        ]
       }
     ]
   }

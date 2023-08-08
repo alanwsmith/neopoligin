@@ -23,7 +23,7 @@ use crate::neo_sections::h3_section::h3_section;
 use crate::neo_sections::h4_section::h4_section;
 use crate::neo_sections::h5_section::h5_section;
 use crate::neo_sections::h6_section::h6_section;
-use crate::neo_sections::hidden_section::hidden_section;
+use crate::neo_sections::comment_section::comment_section;
 use crate::neo_sections::html_section::html_section;
 use crate::neo_sections::image_section::image_section;
 use crate::neo_sections::list_section::list_section;
@@ -80,7 +80,7 @@ pub mod h3_section;
 pub mod h4_section;
 pub mod h5_section;
 pub mod h6_section;
-pub mod hidden_section;
+pub mod comment_section;
 pub mod html_section;
 pub mod image_section;
 pub mod list_section;
@@ -207,7 +207,7 @@ pub enum NeoSection {
         body: Option<Vec<Block>>,
         headline: Option<Block>,
     },
-    Hidden {},
+    Comment {},
     Html {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
@@ -329,7 +329,6 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         olist_section,
         notes_section,
         note_section,
-        //     metadata_section,
         startcode_section,
         startcss_section,
         startarticle_section,
@@ -375,7 +374,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         subtitle_section,
         nav_section,
         categories_section,
-        hidden_section,
+        comment_section,
         bookmark_section,
         p_section,
     ))

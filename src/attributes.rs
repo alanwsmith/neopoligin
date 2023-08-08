@@ -25,6 +25,7 @@ pub enum AttributeV2 {
     ContentEditable(String),
     Class(Vec<String>),
     Generic((String, String)),
+    Hidden,
     Id(String),
     Show,
     Subtitle(String),
@@ -44,6 +45,7 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
     let (source, attrs) = preceded(
         alt((tag("--"), tag("|"))),
         alt((
+            hidden_attribute,
             accesskey_attribute,
             autocapitalize_attribute,
             autofocus_attribute,
@@ -121,6 +123,16 @@ pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseErro
     Ok((source, AttributeV2::Generic((key.trim().to_string(), value.trim().to_string()))))
 }
 
+pub fn hidden_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    dbg!(&source);
+    let (source, _) = space0(source)?;
+    dbg!(&source);
+    let (source, _attr) = tag_no_case("hidden")(source)?;
+    dbg!(&source);
+    let (source, _) = opt(line_ending)(source)?;
+    dbg!(&source);
+    Ok((source, AttributeV2::Hidden))
+}
 
 pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
