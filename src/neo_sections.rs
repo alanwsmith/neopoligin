@@ -233,7 +233,7 @@ pub enum NeoSection {
     Notes {
         attributes: Option<Vec<AttributeV2>>,
         items: Option<Vec<Container>>,
-        preface: Option<Vec<Block>>,
+        prelude: Option<Vec<Block>>,
     },
     Metadata {
         list: Option<Vec<MetadataItem>>,
