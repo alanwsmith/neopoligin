@@ -67,7 +67,7 @@ pub fn accesskey_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseEr
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("accesskey: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::AccessKey(attr.to_string())))
+    Ok((source, AttributeV2::AccessKey(attr.trim().to_string())))
 }
 
 
@@ -79,7 +79,7 @@ pub fn autocapitalize_attribute(source: &str) -> IResult<&str, AttributeV2, Verb
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("autocapitalize: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::AutoCapitalize(attr.to_string())))
+    Ok((source, AttributeV2::AutoCapitalize(attr.trim().to_string())))
 }
 
 
@@ -96,7 +96,7 @@ pub fn class_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<
     let (source, _attr) = tag("class:")(source)?;
     let (source, value) = many1(preceded(
         space0,
-        is_not(" |>\n").map(|c: &str| c.to_string()),
+        is_not(" |>\n").map(|c: &str| c.trim().to_string()),
     ))(source)?;
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::Class(value)))
@@ -107,7 +107,7 @@ pub fn contenteditable_attribute(source: &str) -> IResult<&str, AttributeV2, Ver
     let (source, _) = space0(source)?;
     let (source, value) = preceded(tag("contenteditable: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::ContentEditable(value.to_string())))
+    Ok((source, AttributeV2::ContentEditable(value.trim().to_string())))
 }
 
 
@@ -118,7 +118,7 @@ pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseErro
     let (source, value) = is_not("|>\n")(source)?;
     let (source, _) = space0(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Generic((key.to_string(), value.to_string()))))
+    Ok((source, AttributeV2::Generic((key.trim().to_string(), value.trim().to_string()))))
 }
 
 
@@ -126,7 +126,7 @@ pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&st
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("id: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Id(attr.to_string())))
+    Ok((source, AttributeV2::Id(attr.trim().to_string())))
 }
 
 
@@ -141,7 +141,7 @@ pub fn subtitle_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseErr
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("subtitle: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Subtitle(attr.to_string())))
+    Ok((source, AttributeV2::Subtitle(attr.trim().to_string())))
 }
 
 
@@ -149,7 +149,7 @@ pub fn title_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("title: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Title(attr.to_string())))
+    Ok((source, AttributeV2::Title(attr.trim().to_string())))
 }
 
 
@@ -157,7 +157,7 @@ pub fn type_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("type: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Type(attr.to_string())))
+    Ok((source, AttributeV2::Type(attr.trim().to_string())))
 }
 
 
@@ -165,5 +165,5 @@ pub fn url_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&s
     let (source, _) = space0(source)?;
     let (source, attr) = preceded(tag("url: "), is_not("|>\n"))(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Url(attr.to_string())))
+    Ok((source, AttributeV2::Url(attr.trim().to_string())))
 }

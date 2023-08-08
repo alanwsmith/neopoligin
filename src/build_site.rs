@@ -1,5 +1,5 @@
 use crate::build_site::check_db_structure::check_db_structure;
-// use crate::build_site::get_file_hashes::get_file_hashes;
+use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::build_site::insert_hash::insert_hash;
 use crate::page::Page;
 use crate::universe::Universe;
@@ -7,11 +7,13 @@ use minijinja::context;
 use minijinja::path_loader;
 use minijinja::value::Value;
 use minijinja::Environment;
+use minijinja::Error;
 use rusqlite::Connection;
 use sha256::digest;
 use std::fs;
 use std::path::PathBuf;
 use std::vec;
+use uuid::Uuid;
 use walkdir::WalkDir;
 
 pub mod check_db_structure;
@@ -29,6 +31,13 @@ pub fn make_full_link_list(e: &Environment, u: Universe) {
     );
 }
 
+// used for making label ids for checkboxes
+pub fn nonce() -> Result<String, Error> {
+    let id = Uuid::new_v4().simple().to_string();
+    let token = id.get(0..6).unwrap();
+    Ok(token.to_string())
+}
+
 pub fn build_site() {
     println!("Starting site build");
     let template_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
@@ -38,6 +47,7 @@ pub fn build_site() {
     let mut env = Environment::new();
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
+    env.add_function("nonce", nonce);
     let mut u = Universe {
         pages: vec![],
         cache_full_link_list: None,
@@ -45,7 +55,7 @@ pub fn build_site() {
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
     check_db_structure(&conn);
-    // let file_hashes = get_file_hashes(&conn).unwrap();
+    let file_hashes = get_file_hashes(&conn).unwrap();
     println!("Walking content dir: {}", &content_root.display());
     for entry in WalkDir::new(&content_root).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
@@ -57,16 +67,15 @@ pub fn build_site() {
                 // this is the original way to do things that only
                 // outputs changed files but that's off right now
                 // untill the links can all be generated.
-                // if !file_hashes.contains(&source_hash) {
-
-                if 1 == 1 {
+                if !file_hashes.contains(&source_hash) {
+                    // if 1 == 1 {
                     let mut p = Page::new_from(&source_string);
                     let mut page_path = PathBuf::from("/");
                     p.source_hash = Some(source_hash);
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
-                    dbg!(&p.path);
+                    // dbg!(&p.path);
                     p.load_image_paths();
                     match p.title_string() {
                         Some(_) => u.pages.push(p),
