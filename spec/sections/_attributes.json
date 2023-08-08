@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "title": "Attributes: title",
+      "input": "-- p\n-- title: sierra romeo",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "title", "value": "sierra romeo"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    }
+  ]
+}
