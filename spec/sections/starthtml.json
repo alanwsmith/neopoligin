@@ -10,6 +10,17 @@
             "body": "<p>delta alfa</p>"
           }
         ]
+      },
+      {
+        "title": "starthtml",
+        "input": "-- starthtml\n-- show\n\n<p>alfa sierra</p>\n\n-- endhtml",
+        "expected": [
+          {
+            "attributes": [{"type": "show"}],
+            "type": "html",
+            "body": "<p>alfa sierra</p>"
+          }
+        ]
       }
     ]
   }
