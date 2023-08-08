@@ -246,14 +246,13 @@ impl Page {
 
 impl Page {
     pub fn css_blocks(&mut self) -> Vec<String> {
-        let mut response = vec![];
         self.raw_sections()
             .into_iter()
-            .find_map(|s| match s.clone() {
-                NeoSection::Css { body, .. } => Some(response.push(body.unwrap())),
+            .filter_map(|s| match s.clone() {
+                NeoSection::Css { body, .. } => Some(body.unwrap()),
                 _ => None,
-            });
-        response
+            })
+            .collect()
     }
 }
 
