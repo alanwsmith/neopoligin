@@ -7,7 +7,7 @@
           {
             "attributes": null,
             "type": "todo",
-            "preface": null,
+            "prelude": null,
             "items": [
               {
                 "type": "todoitem",
@@ -40,8 +40,74 @@
             ]
           }
         ]
-      }
+      },
 
+      {
+        "title": "todo: basic example",
+        "input": "-- todo\n-- title: whiskey romeo\n\n[] sierra echo\n",
+        "expected": [
+          {
+            "attributes": 
+            [{"type": "title", "value": "whiskey romeo"}]
+            ,
+            "type": "todo",
+            "prelude": null,
+            "items": [
+              {
+                "type": "todoitem",
+                "status": null,
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "sierra" },
+                      { "type": "space" },
+                      { "type": "text", "string": "echo" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "title": "todo: prelude example",
+        "input": "-- todo\n\nnovember foxtrot\n\n[] oscar romeo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "todo",
+            "prelude": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "november" },
+                  { "type": "space" },
+                  { "type": "text", "string": "foxtrot" }
+                ]
+              }
+            ],
+            "items": [
+              {
+                "type": "todoitem",
+                "status": null,
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "oscar" },
+                      { "type": "space" },
+                      { "type": "text", "string": "romeo" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
   

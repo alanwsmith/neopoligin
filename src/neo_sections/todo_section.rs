@@ -1,4 +1,5 @@
 use crate::attributes::attribute;
+use crate::blocks::block;
 use crate::containers::todo_item_container::*;
 use crate::neo_sections::NeoSection;
 use nom::bytes::complete::tag;
@@ -14,13 +15,14 @@ pub fn todo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str
     let (source, _) = tag("-- todo")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
+    let (source, prelude) = opt(many1(block))(source)?;
     let (source, items) = opt(many1(todo_item_container))(source)?;
     Ok((
         source,
         NeoSection::Todo {
             attributes,
             items,
-            preface: None,
+            prelude,
         },
     ))
 }
