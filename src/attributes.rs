@@ -124,13 +124,9 @@ pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseErro
 }
 
 pub fn hidden_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
-    dbg!(&source);
     let (source, _) = space0(source)?;
-    dbg!(&source);
     let (source, _attr) = tag_no_case("hidden")(source)?;
-    dbg!(&source);
     let (source, _) = opt(line_ending)(source)?;
-    dbg!(&source);
     Ok((source, AttributeV2::Hidden))
 }
 

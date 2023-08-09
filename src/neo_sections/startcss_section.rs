@@ -14,9 +14,7 @@ use nom::Parser;
 pub fn startcss_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
     let (source, _) = tag("-- startcss")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    dbg!(source);
     let (source, attributes) = opt(many1(attribute))(source)?;
-    dbg!(source);
     let (source, body) = opt(take_until("-- endcss").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
