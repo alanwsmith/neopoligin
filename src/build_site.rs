@@ -3,6 +3,7 @@ use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::build_site::insert_hash::insert_hash;
 use crate::page::Page;
 use crate::universe::Universe;
+use crate::helpers::highlight_html::*;
 use minijinja::context;
 use minijinja::path_loader;
 use minijinja::value::Value;
@@ -45,6 +46,7 @@ pub fn build_site() {
     let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
     let sqlite_path = "/Users/alan/Desktop/neopolengine.sqlite";
     let mut env = Environment::new();
+    env.add_function("highlight_html", highlight_html);
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
     env.add_function("nonce", nonce);

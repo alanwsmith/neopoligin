@@ -45,10 +45,19 @@ impl StructObject for Page {
             "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
             "css_blocks" => Some(Value::from_serializable(&self.clone().css_blocks())),
             "script_blocks" => Some(Value::from_serializable(&self.clone().script_blocks())),
+            "highlight_html" => Some(Value::from_serializable(&self.clone().highlight_html())),
             _ => None,
         }
     }
 }
+
+
+impl Page {
+    pub fn highlight_html(&mut self) -> String {
+        "HLLLLLOOOOOOOOIOOOO".to_string()
+    }
+}
+
 
 impl Page {
     pub fn body_data(&mut self) -> Vec<NeoSection> {
