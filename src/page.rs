@@ -81,6 +81,7 @@ fn flatten(source: &str) -> IResult<&str, String> {
         startscript_section,
         startcode_section,
         startcss_section,
+        starthtml_section,
         startresults_section,
         attr_line,
         multi_line,
@@ -106,6 +107,14 @@ fn startcss_section(source: &str) -> IResult<&str, String> {
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endcss")(source)?;
     Ok((source, format!("-- startcss\n{}", body.trim())))
+}
+
+fn starthtml_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- starthtml")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endhtml")(source)?;
+    Ok((source, format!("-- starthtml\n{}", body.trim())))
 }
 
 fn startresults_section(source: &str) -> IResult<&str, String> {
