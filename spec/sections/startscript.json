@@ -10,6 +10,17 @@
             "body": "console.log('hotel victor')"
           }
         ]
+      },
+      {
+        "title": "startscript",
+        "input": "-- startscript\n-- show\nconsole.log('alfa charlie')\n\n-- endscript",
+        "expected": [
+          {
+            "attributes": [{"type": "show"}],
+            "type": "script",
+            "body": "console.log('alfa charlie')"
+          }
+        ]
       }
     ]
   }
