@@ -3,6 +3,7 @@ use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::build_site::insert_hash::insert_hash;
 use crate::helpers::highlight_html::*;
 use crate::helpers::highlight_js::*;
+use crate::helpers::is_neo_example::*;
 use crate::helpers::pass_thru::*;
 use crate::page::Page;
 use crate::universe::Universe;
@@ -50,6 +51,7 @@ pub fn build_site() {
     let mut env = Environment::new();
     env.add_function("highlight_html", highlight_html);
     env.add_function("highlight_js", highlight_js);
+    env.add_function("is_neo_example", is_neo_example);
     env.add_function("pass_thru", pass_thru);
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));

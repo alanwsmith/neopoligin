@@ -23,10 +23,10 @@ pub enum AttributeV2 {
     AutoFocus,
     ContentEditable(String),
     Class(Vec<String>),
-    Example,
     Generic((String, String)),
     Hidden,
     Id(String),
+    NeoExample, // Not part of spec, just used for documentation examples
     Show,
     Subtitle(String),
     Title(String),
@@ -51,8 +51,8 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
             autofocus_attribute,
             class_attribute,
             contenteditable_attribute,
-            example_attribute,
             id_attribute,
+            neoexample_attribute,
             show_attribute,
             subtitle_attribute,
             title_attribute,
@@ -113,11 +113,11 @@ pub fn contenteditable_attribute(source: &str) -> IResult<&str, AttributeV2, Ver
     Ok((source, AttributeV2::ContentEditable(value.trim().to_string())))
 }
 
-pub fn example_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+pub fn neoexample_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
-    let (source, _attr) = tag_no_case("example")(source)?;
+    let (source, _attr) = tag_no_case("neoexample")(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Example))
+    Ok((source, AttributeV2::NeoExample))
 }
 
 pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
