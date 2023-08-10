@@ -1,0 +1,15 @@
+{
+    "tests": [
+      {
+        "title": "groups",
+        "input": "-- groups\n-- kilo\n-- hotel\n",
+        "expected": [
+          {
+            "type": "groups",
+            "list": ["kilo", "hotel"]
+          }
+        ]
+      }
+    ]
+  }
+  

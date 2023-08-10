@@ -17,6 +17,7 @@ use crate::neo_sections::endresults_section::endresults_section;
 use crate::neo_sections::endsection_section::endsection_section;
 use crate::neo_sections::endscript_section::endscript_section;
 use crate::neo_sections::endtldr_section::endtldr_section;
+use crate::neo_sections::groups_section::groups_section;
 use crate::neo_sections::h1_section::h1_section;
 use crate::neo_sections::h2_section::h2_section;
 use crate::neo_sections::h3_section::h3_section;
@@ -74,6 +75,7 @@ pub mod endresults_section;
 pub mod endscript_section;
 pub mod endsection_section;
 pub mod endtldr_section;
+pub mod groups_section;
 pub mod h1_section;
 pub mod h2_section;
 pub mod h3_section;
@@ -176,6 +178,9 @@ pub enum NeoSection {
     EndTlDr {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<Vec<Block>>,
+    },
+    Groups {
+        list: Option<Vec<String>>
     },
     H1 {
         attributes: Option<Vec<AttributeV2>>,
@@ -349,6 +354,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         endresults_section,
         endscript_section,
         endsection_section,
+        groups_section,
         startresults_section,
         starttldr_section,
         endtldr_section,
