@@ -183,7 +183,6 @@ impl Page {
                 NeoSection::Metadata { list } => {
                     list.unwrap().into_iter().find_map(|a| match a.clone() {
                         MetadataItem::Type(x) => {
-                            dbg!(&x);
                             Some(x.trim().to_string())
                         }
                         _ => None,
@@ -194,8 +193,6 @@ impl Page {
         } else {
             None
         }
-
-        // None
     }
 }
 

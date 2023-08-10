@@ -35,6 +35,7 @@ use crate::neo_sections::notes_section::notes_section;
 use crate::neo_sections::olist_section::olist_section;
 use crate::neo_sections::p_section::p_section;
 use crate::neo_sections::pre_section::pre_section;
+use crate::neo_sections::ref_section::ref_section;
 use crate::neo_sections::script_section::script_section;
 use crate::neo_sections::startarticle_section::startarticle_section;
 use crate::neo_sections::startcode_section::startcode_section;
@@ -93,6 +94,7 @@ pub mod notes_section;
 pub mod olist_section;
 pub mod p_section;
 pub mod pre_section;
+pub mod ref_section;
 pub mod script_section;
 pub mod startarticle_section;
 pub mod startcode_section;
@@ -260,6 +262,10 @@ pub enum NeoSection {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
     },
+    Ref {
+        attributes: Option<Vec<AttributeV2>>,
+        body: Option<Vec<Block>>,
+    },
     Script {
         attributes: Option<Vec<AttributeV2>>,
         body: Option<String>,
@@ -373,6 +379,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
         h4_section,
         h5_section,
         h6_section,
+        ref_section,
         script_section,
         metadata_section,
         title_section,

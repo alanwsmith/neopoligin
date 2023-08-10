@@ -13,7 +13,6 @@ use nom::character::complete::space0;
 use nom::sequence::terminated;
 use nom::Parser;
 use nom::combinator::not;
-
 use crate::neo_sections::neo_section;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -24,6 +23,7 @@ pub enum AttributeV2 {
     AutoFocus,
     ContentEditable(String),
     Class(Vec<String>),
+    Example,
     Generic((String, String)),
     Hidden,
     Id(String),
@@ -51,6 +51,7 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
             autofocus_attribute,
             class_attribute,
             contenteditable_attribute,
+            example_attribute,
             id_attribute,
             show_attribute,
             subtitle_attribute,
@@ -112,6 +113,12 @@ pub fn contenteditable_attribute(source: &str) -> IResult<&str, AttributeV2, Ver
     Ok((source, AttributeV2::ContentEditable(value.trim().to_string())))
 }
 
+pub fn example_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag_no_case("example")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Example))
+}
 
 pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;

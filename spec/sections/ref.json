@@ -1,0 +1,16 @@
+{
+    "tests": [
+      {
+        "title": "ref basic",
+        "input": "-- ref\n-- title: Hotel Echo\n",
+        "expected": [
+          {
+            "type": "ref",
+            "attributes": [{ "type": "title", "value": "Hotel Echo" }],
+            "body": null
+          }
+        ]
+      }
+    ]
+  }
+  
