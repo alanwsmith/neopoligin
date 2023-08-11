@@ -18,9 +18,12 @@ use nom::character::complete::space0;
 use nom::combinator::not;
 use nom::error::VerboseError;
 use nom::multi::many1;
+use nom::multi::many0;
 use nom::multi::separated_list1;
+use nom::sequence::delimited;
 use nom::sequence::pair;
 use nom::sequence::preceded;
+use nom::sequence::tuple;
 use nom::IResult;
 use nom::Parser;
 use serde::{Deserialize, Serialize};
@@ -87,6 +90,7 @@ impl Page {
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
     let (source, value) = many1(alt((
+        css_section,
         startscript_section,
         startcode_section,
         startcss_section,
@@ -100,6 +104,18 @@ fn flatten(source: &str) -> IResult<&str, String> {
     response.push_str("\n");
     response.push_str(source);
     Ok(("", response))
+}
+
+fn css_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- css")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attrs) = many0(tuple((tag("-- "), not_line_ending, line_ending))
+        .map(|x| format!("{}{}{}", x.0, x.1, x.2)))(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- ")(source)?;
+    let response = format!("-- css\n{}{}", attrs.join(""), body);
+    Ok((source, response))
 }
 
 fn startcode_section(source: &str) -> IResult<&str, String> {
