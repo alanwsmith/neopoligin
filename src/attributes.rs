@@ -21,11 +21,14 @@ pub enum AttributeV2 {
     AccessKey(String),
     AutoCapitalize(String),
     AutoFocus,
-    ContentEditable(String),
+    By(String),
+    Cite(String),
     Class(Vec<String>),
+    ContentEditable(String),
     Generic((String, String)),
     Hidden,
     Id(String),
+    Link(String),
     NeoExample, // Not part of spec, just used for documentation examples
     Show,
     Subtitle(String),
@@ -45,13 +48,16 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
     let (source, attrs) = preceded(
         alt((tag("--"), tag("|"))),
         alt((
-            hidden_attribute,
             accesskey_attribute,
             autocapitalize_attribute,
             autofocus_attribute,
+            by_attribute,
+            cite_attribute,
             class_attribute,
             contenteditable_attribute,
+            hidden_attribute,
             id_attribute,
+            link_attribute,
             neoexample_attribute,
             show_attribute,
             subtitle_attribute,
@@ -93,6 +99,19 @@ pub fn autofocus_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseEr
     Ok((source, AttributeV2::AutoFocus))
 }
 
+pub fn by_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("by: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::By(attr.trim().to_string())))
+}
+
+pub fn cite_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("cite: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Cite(attr.trim().to_string())))
+}
 
 pub fn class_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
@@ -104,7 +123,6 @@ pub fn class_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<
     let (source, _) = opt(line_ending)(source)?;
     Ok((source, AttributeV2::Class(value)))
 }
-
 
 pub fn contenteditable_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
@@ -144,6 +162,12 @@ pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&st
     Ok((source, AttributeV2::Id(attr.trim().to_string())))
 }
 
+pub fn link_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("link: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Link(attr.trim().to_string())))
+}
 
 pub fn show_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;

@@ -1,5 +1,5 @@
 use crate::build_site::check_db_structure::check_db_structure;
-use crate::build_site::get_file_hashes::get_file_hashes;
+// use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::build_site::insert_hash::insert_hash;
 use crate::helpers::highlight_html::*;
 use crate::helpers::highlight_js::*;
@@ -63,7 +63,7 @@ pub fn build_site() {
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
     check_db_structure(&conn);
-    let file_hashes = get_file_hashes(&conn).unwrap();
+    // let file_hashes = get_file_hashes(&conn).unwrap();
     println!("Walking content dir: {}", &content_root.display());
     for entry in WalkDir::new(&content_root).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
@@ -75,8 +75,8 @@ pub fn build_site() {
                 // this is the original way to do things that only
                 // outputs changed files but that's off right now
                 // untill the links can all be generated.
-                if !file_hashes.contains(&source_hash) {
-                    // if 1 == 1 {
+                // if !file_hashes.contains(&source_hash) {
+                if 1 == 1 {
                     let mut p = Page::new_from(&source_string);
                     let mut page_path = PathBuf::from("/");
                     p.source_hash = Some(source_hash);

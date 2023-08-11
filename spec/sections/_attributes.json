@@ -1,6 +1,43 @@
 {
   "tests": [
     {
+      "notes": ["Used for attribution of quotes and blockquotes"],
+      "title": "Attributes: by",
+      "input": "-- blockquote\n-- by: alfa echo\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "by", "value": "alfa echo"}],
+          "type": "blockquote",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: cite",
+      "input": "-- blockquote\n-- cite: bravo alfa\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "cite", "value": "bravo alfa"}],
+          "type": "blockquote",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: link",
+      "input": "-- blockquote\n-- link: kilo charlie\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "link", "value": "kilo charlie"}],
+          "type": "blockquote",
+          "body": null
+        }
+      ]
+    },
+    {
       "title": "Attributes: title",
       "input": "-- p\n-- title: sierra romeo\n",
       "expected": [
