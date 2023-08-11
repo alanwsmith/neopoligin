@@ -7,6 +7,7 @@ use crate::neo_sections::bookmark_section::bookmark_section;
 use crate::neo_sections::categories_section::categories_section;
 use crate::neo_sections::checklist_section::checklist_section;
 use crate::neo_sections::code_section::code_section;
+use crate::neo_sections::css_section::css_section;
 use crate::neo_sections::endarticle_section::endarticle_section;
 use crate::neo_sections::endcode_section::endcode_section;
 use crate::neo_sections::endcss_section::endcss_section;
@@ -65,7 +66,7 @@ pub mod blockquote_section;
 pub mod categories_section;
 pub mod checklist_section;
 pub mod code_section;
-// pub mod css_section;
+pub mod css_section;
 pub mod endarticle_section;
 pub mod endcode_section;
 pub mod endcss_section;
@@ -372,7 +373,7 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
     )), 
     alt ((
         code_section,
-        // css_section,
+        css_section,
         h1_section,
         h2_section,
         h3_section,
