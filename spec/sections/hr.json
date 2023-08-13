@@ -1,0 +1,26 @@
+{
+    "tests": [
+      {
+        "title": "Horizontal Rule",
+        "input": "-- hr\n\nmike hotel sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "hr",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "mike" },
+                  { "type": "space" },
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
