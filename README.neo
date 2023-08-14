@@ -1,18 +1,28 @@
 -> title
 
-Neopoligin (former Neopolengine)
+Neopoligin
 
-A static website generator for neopolitan files
+A static site generator for neopolitan files
 
-See <<alanwsmith.com/neopoligin|link|https://www.alanwsmith.com/neopoligin/index.html>>
-for the documentation on this project
 
 -- h2
 
-Spec Test
+Overview
 
-Spec tests for Neopolitan are currently
-housed here. TBD on if they stay in this
-directory or are moved into the Neopolitan
-repo. (Or if these get merged back into
-the same repo)
+I designed a new file format called Neopolitan.
+You can read more about it here:
+
+https://www.alanwsmith.com/neopolitan/
+
+This project is a prototype site generator
+for the format that builds my personal site. 
+I'm making it generic, but that's still a work
+in progress (i.e. lots of things are hard coded 
+to my machine).
+
+If you don't mind diving into the source code
+to unwind the hard-coding you're welcome 
+to play with it. 
+
+-a
+
