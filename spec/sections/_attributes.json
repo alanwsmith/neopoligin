@@ -84,6 +84,18 @@
           "body": null
         }
       ]
+    },
+    {
+      "title": "Attributes: showtitle",
+      "input": "-- p\n-- showtitle: juliette echo\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "showtitle", "value": "juliette echo"}],
+          "type": "p",
+          "body": null
+        }
+      ]
     }
   ]
 }
