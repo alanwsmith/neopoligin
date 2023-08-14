@@ -25,7 +25,7 @@
       "input": "-- endcode\n-- id: victor\nwhiskey tango\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "victor"}],
+          "attributes": [{ "type": "id", "value": "victor"}],
           "type": "p",
           "body": [
             {

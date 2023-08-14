@@ -4,7 +4,7 @@
       "input": "-- title\n-- id: tango\n\nalfa <<link|bravo|https://www.example.com/>> kilo\n\ncharlie delta\necho\nfoxtrot",
       "expected": [
         {
-            "attributes": [{ "key": "id", "value": "tango" }],
+            "attributes": [{ "type": "id", "value": "tango" }],
           "type": "title",
           "headline": {
             "type": "paragraph",

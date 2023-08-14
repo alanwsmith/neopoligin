@@ -1,5 +1,6 @@
 // use crate::helpers::spacer_line::spacer_line;
 use crate::tokens::link_token::link_token;
+use crate::attributes::*;
 // use crate::tokens::single_newline::single_newline;
 use crate::tokens::space_token::space_token;
 use crate::tokens::text_token::text_token;
@@ -20,7 +21,7 @@ pub mod text_token;
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]
 pub enum Token {
-    Link { url: String, string: String },
+    Link { url: String, string: String, attributes: Option<Vec<AttributeV2>> },
     Space,
     Text { string: String },
 }

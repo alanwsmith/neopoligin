@@ -3,6 +3,7 @@ use crate::attributes::*;
 use crate::blocks::*;
 use crate::helpers::empty_line::empty_line;
 use crate::helpers::get_image_path::get_image_path;
+use crate::neo_sections::metadata_section::MetadataItem;
 use crate::neo_sections::neo_section;
 use crate::neo_sections::NeoSection;
 use minijinja::value::{StructObject, Value};
@@ -14,11 +15,15 @@ use nom::character::complete::line_ending;
 use nom::character::complete::multispace0;
 use nom::character::complete::not_line_ending;
 use nom::character::complete::space0;
+use nom::combinator::not;
 use nom::error::VerboseError;
 use nom::multi::many1;
+use nom::multi::many0;
 use nom::multi::separated_list1;
+use nom::sequence::delimited;
 use nom::sequence::pair;
 use nom::sequence::preceded;
+use nom::sequence::tuple;
 use nom::IResult;
 use nom::Parser;
 use serde::{Deserialize, Serialize};
@@ -43,10 +48,19 @@ impl StructObject for Page {
             "page_type" => Some(Value::from_serializable(&self.clone().page_type())),
             "css_blocks" => Some(Value::from_serializable(&self.clone().css_blocks())),
             "script_blocks" => Some(Value::from_serializable(&self.clone().script_blocks())),
+            "highlight_html" => Some(Value::from_serializable(&self.clone().highlight_html())),
             _ => None,
         }
     }
 }
+
+
+impl Page {
+    pub fn highlight_html(&mut self) -> String {
+        "HLLLLLOOOOOOOOIOOOO".to_string()
+    }
+}
+
 
 impl Page {
     pub fn body_data(&mut self) -> Vec<NeoSection> {
@@ -62,7 +76,6 @@ impl Page {
 
 impl Page {
     pub fn new_from(source: &str) -> Page {
-        // dbg!(&source);
         Page {
             path: None,
             source_hash: None,
@@ -76,9 +89,12 @@ impl Page {
 // move content from single newlines into place
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
-    // dbg!(&source);
     let (source, value) = many1(alt((
+        css_section,
+        startscript_section,
         startcode_section,
+        startcss_section,
+        starthtml_section,
         startresults_section,
         attr_line,
         multi_line,
@@ -90,21 +106,60 @@ fn flatten(source: &str) -> IResult<&str, String> {
     Ok(("", response))
 }
 
+fn css_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- css")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attrs) = many0(tuple((tag("-- "), not_line_ending, line_ending))
+        .map(|x| format!("{}{}{}", x.0, x.1, x.2)))(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- ")(source)?;
+    let response = format!("-- css\n{}{}", attrs.join(""), body);
+    Ok((source, response))
+}
+
 fn startcode_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, _) = tag("-- startcode")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endcode")(source)?;
     Ok((source, format!("-- startcode\n{}", body)))
 }
 
+fn startcss_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- startcss")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endcss")(source)?;
+    Ok((source, format!("-- startcss\n{}", body.trim())))
+}
+
+fn starthtml_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- starthtml")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endhtml")(source)?;
+    Ok((source, format!("-- starthtml\n{}", body.trim())))
+}
+
 fn startresults_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, _) = tag("-- startresults")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, body) = take_until("-- endresults")(source)?;
     Ok((source, format!("-- startresults\n{}", body)))
 }
 
+fn startscript_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- startscript")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- endscript")(source)?;
+    Ok((source, format!("-- startscript\n{}", body.trim())))
+}
+
 fn attr_line(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
     let (source, captured) = pair(tag("-- "), is_not("\n"))(source)?;
     let (source, _) = tag("\n")(source)?;
     let (source, _) = multispace0(source)?;
@@ -112,58 +167,48 @@ fn attr_line(source: &str) -> IResult<&str, String> {
 }
 
 fn line(source: &str) -> IResult<&str, String> {
-    // dbg!(&source);
+    let (source, _) = multispace0(source)?;
+    let (source, _) = not(tag("--"))(source)?;
     let (source, value) = is_not("\n")(source)?;
     let (source, _) = tag("\n")(source)?;
-    // dbg!(&source);
     let (source, _) = pair(space0, line_ending)(source)?;
-    // dbg!(&source);
     let (source, _) = multispace0(source)?;
-    // dbg!(&source);
     Ok((source, value.to_string()))
 }
 
 fn multi_line(source: &str) -> IResult<&str, String> {
-    // dbg!(source);
-    // dbg!(&source);
-    let (source, value) = many1(pair(is_not("\n"), tag("\n")).map(|(a, _b)| a))(source)?;
-    // dbg!(&source);
     let (source, _) = multispace0(source)?;
-    // dbg!(&source);
+    let (source, _) = not(tag("--"))(source)?;
+    let (source, value) = many1(pair(is_not("\n"), tag("\n")).map(|(a, _b)| a))(source)?;
+    let (source, _) = multispace0(source)?;
     Ok((source, value.join(" ")))
 }
 
 impl Page {
     pub fn page_type(&mut self) -> Option<String> {
-        //     if let Some(metadata_section) =
-        //         self.raw_sections()
-        //             .clone()
-        //             .into_iter()
-        //             .find_map(|s| match s.clone() {
-        //                 NeoSection::MetaData { .. } => Some(s),
-        //                 _ => None,
-        //             })
-        //     {
-        //         match metadata_section {
-        //             NeoSection::MetaData { attributes } => {
-        //                 attributes
-        //                     .unwrap()
-        //                     .into_iter()
-        //                     .find_map(|a| match a.clone() {
-        //                         AttributeV2::Type(x) => {
-        //                             dbg!(&x);
-        //                             Some(x.trim().to_string())
-        //                         }
-        //                         _ => None,
-        //                     })
-        //             }
-        //             _ => None,
-        //         }
-        //     } else {
-        //         None
-        //     }
-
-        None
+        if let Some(metadata_section) =
+            self.raw_sections()
+                .clone()
+                .into_iter()
+                .find_map(|s| match s.clone() {
+                    NeoSection::Metadata { .. } => Some(s),
+                    _ => None,
+                })
+        {
+            match metadata_section {
+                NeoSection::Metadata { list } => {
+                    list.unwrap().into_iter().find_map(|a| match a.clone() {
+                        MetadataItem::Type(x) => {
+                            Some(x.trim().to_string())
+                        }
+                        _ => None,
+                    })
+                }
+                _ => None,
+            }
+        } else {
+            None
+        }
     }
 }
 
@@ -221,7 +266,6 @@ impl Page {
                     if let Some(n) = name {
                         // let newthing = n.to_string();
                         *src = get_image_path(n);
-                        dbg!(&src);
                     }
                     ()
                 }
@@ -233,14 +277,13 @@ impl Page {
 
 impl Page {
     pub fn css_blocks(&mut self) -> Vec<String> {
-        let mut response = vec![];
         self.raw_sections()
             .into_iter()
-            .find_map(|s| match s.clone() {
-                NeoSection::Css { body, .. } => Some(response.push(body.unwrap())),
+            .filter_map(|s| match s.clone() {
+                NeoSection::Css { body, .. } => Some(body.unwrap()),
                 _ => None,
-            });
-        response
+            })
+            .collect()
     }
 }
 
@@ -281,9 +324,7 @@ impl Page {
 }
 
 pub fn page(source: &str) -> IResult<&str, Vec<NeoSection>, VerboseError<&str>> {
-    // dbg!(&source);
     let (source, sections) = many1(neo_section)(source)?;
     //separated_list1(empty_line, preceded(multispace0, neo_section))(source)?;
-    // dbg!(&source);
     Ok((source, sections))
 }

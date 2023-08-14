@@ -4,7 +4,7 @@
       "input": "-- metadata\n-- type: sierra\n\n",
       "expected": [
         {
-          "attributes": [{ "key": "type", "value": "sierra" }],
+          "attributes": [{ "type": "type", "value": "sierra" }],
           "type": "metadata"
         }
       ]

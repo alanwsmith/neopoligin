@@ -22,10 +22,19 @@ pub fn main() {
 }
 
 fn watch_files(path: PathBuf) -> notify::Result<()> {
+    // This is a hack, this direcotory should be passed
+    // via a vec
+    let template_path = PathBuf::from("/Users/alan/workshop/alanwsmith.com/templates");
     let (tx, rx) = std::sync::mpsc::channel();
     let mut debouncer = new_debouncer(Duration::from_millis(1000), None, tx)?;
     debouncer.watcher().watch(&path, RecursiveMode::Recursive)?;
     debouncer.cache().add_root(&path, RecursiveMode::Recursive);
+    debouncer
+        .watcher()
+        .watch(&template_path, RecursiveMode::Recursive)?;
+    debouncer
+        .cache()
+        .add_root(&template_path, RecursiveMode::Recursive);
     let mut last_update = SystemTime::now();
     let debounce_time = Duration::from_secs(4);
     for _result in rx {

@@ -1,17 +1,86 @@
 {
-    "TODOs": [],
-    "tests": [
-      {
-        "title": "CSS",
-        "input": "-- css\n\nbody { background-color: #123; }\n\n-- ",
-        "expected": [
-          {
-            "attributes": null,
-            "type": "css",
-            "body": "body { background-color: #123; }"
-          }
-        ]
-      }
-    ]
-  }
-  
+  "TODOs": [],
+  "tests": [
+    {
+      "title": "css show",
+      "input": "-- css\n-- show\n-- title: tango bravo\n\n.set_normal {\nwhite-space: normal;\n}\n\n-- p\n\nalfa kilo",
+      "expected": [
+        {
+          "attributes": [
+            {"type": "show", "value": "below"},
+            { "type": "title", "value": "tango bravo" }
+          ],
+          "type": "css",
+          "body": ".set_normal {\nwhite-space: normal;\n}"
+        },
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+
+      ]
+    },
+    {
+      "title": "css",
+      "input": "-- css\n-- hidden\n\nbody { background-color: #aabbcc; }\n\n-- p\n\nalfa kilo",
+      "expected": [
+        {
+          "attributes": [{ "type": "hidden" }],
+          "type": "css",
+          "body": "body { background-color: #aabbcc; }"
+        },
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "title": "css basic",
+      "input": "-- css\n\nbody { background-color: #123; }\n\n-- p\n\nalfa kilo",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "css",
+          "body": "body { background-color: #123; }"
+        },
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "alfa" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+  ]
+}

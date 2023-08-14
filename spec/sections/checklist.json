@@ -1,78 +1,45 @@
 {
-    "tests": [
-      {
-        "title": "checklist: basic example",
-        "input": "-- checklist\n\n- charlie sierra\n\n- foxtrot juliette\n",
-        "expected": [
-          {
-            "attributes": null,
-            "type": "checklist",
-            "preface": null,
-            "items": [
-              {
-                "type": "checklistitem",
-                "body": [
-                  {
-                    "type": "paragraph",
-                    "content": [
-                      { "type": "text", "string": "charlie" },
-                      { "type": "space" },
-                      { "type": "text", "string": "sierra" }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "checklistitem",
-                "body": [
-                  {
-                    "type": "paragraph",
-                    "content": [
-                      { "type": "text", "string": "foxtrot" },
-                      { "type": "space" },
-                      { "type": "text", "string": "juliette" }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "checklist: attributes",
-        "input": "-- checklist\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
-        "expected": [
-          {
-            "attributes": [{"key": "id", "value": "charlie"}],
-            "type": "checklist",
-            "preface": null,
-            "items": [
-              {
-                "type": "checklistitem",
-                "body": [
-                  {
-                    "type": "paragraph",
-                    "content": [
-                      { "type": "text", "string": "sierra" },
-                      { "type": "space" },
-                      { "type": "text", "string": "victor" }
-                    ]
-                  },
-                  {
-                    "type": "paragraph",
-                    "content": [
-                      { "type": "text", "string": "delta" },
-                      { "type": "space" },
-                      { "type": "text", "string": "tango" }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-  
+  "tests": [
+    {
+      "title": "checklist: basic example",
+      "input": "-- checklist\n\n[] delta echo\n\n[] sierra bravo\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "checklist",
+          "preface": null,
+          "items": [
+            {
+              "type": "checklistitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "delta" },
+                    { "type": "space" },
+                    { "type": "text", "string": "echo" }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "checklistitem",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    { "type": "text", "string": "sierra" },
+                    { "type": "space" },
+                    { "type": "text", "string": "bravo" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+

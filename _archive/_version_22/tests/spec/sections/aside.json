@@ -4,7 +4,7 @@
       "input": "-- aside\n-- id: foxtrot\n\nalfa kilo",
       "expected": [
         {
-          "attributes": [{ "key": "id", "value": "foxtrot" }],
+          "attributes": [{ "type": "id", "value": "foxtrot" }],
           "type": "aside",
           "body": [
             {
@@ -23,7 +23,7 @@
       "input": "-- aside\n-- id: foxtrot\n\nalfa kilo\n\n-- aside\n-- id: foxtrot\n\nalfa kilo",
       "expected": [
         {
-          "attributes": [{ "key": "id", "value": "foxtrot" }],
+          "attributes": [{ "type": "id", "value": "foxtrot" }],
           "type": "aside",
           "body": [
             {
@@ -37,7 +37,7 @@
           ]
         },
         {
-          "attributes": [{ "key": "id", "value": "foxtrot" }],
+          "attributes": [{ "type": "id", "value": "foxtrot" }],
           "type": "aside",
           "body": [
             {

@@ -11,6 +11,17 @@
           "body": "this is some code"
         }
       ]
+    },
+    {
+      "title": "Code with show",
+      "input": "-- code\n-- show\nsierra kilo alfa\n\n-- ",
+      "expected": [
+        {
+          "attributes": [{"type": "show", "value": "below"}],
+          "type": "code",
+          "body": "sierra kilo alfa"
+        }
+      ]
     }
   ]
 }

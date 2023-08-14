@@ -7,17 +7,28 @@
       "expected": [
         {
           "attributes": null,
-          "type": "startarticle"
+          "type": "startarticle",
+          "body": null
         }
       ]
     },
     {
       "title": "startarticle",
-      "input": "-- startarticle\n-- class: delta tango",
+      "input": "-- startarticle\n-- class: delta tango\n\nfoxtrot hotel",
       "expected": [
         {
-          "attributes": [{ "key": "class", "value": ["delta", "tango"] }],
-          "type": "startarticle"
+          "attributes": [{ "type": "class", "value": ["delta", "tango"] }],
+          "type": "startarticle",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "hotel" }
+              ]
+            }
+          ]
         }
       ]
     }

@@ -1,151 +1,225 @@
-#![allow(unused_imports)]
-
-use crate::attributes::accesskey_attribute::accesskey_attribute;
-use crate::attributes::autocapitalize_attribute::autocapitalize_attribute;
-use crate::attributes::autofocus_attribute::autofocus_attribute;
-use crate::attributes::class_attribute::class_attribute;
-use crate::attributes::contenteditable_attribute::contenteditable_attribute;
-use crate::attributes::id_attribute::id_attribute;
-use crate::attributes::type_attribute::type_attribute;
 use nom::branch::alt;
 use nom::bytes::complete::tag;
+use nom::bytes::complete::tag_no_case;
 use nom::combinator::opt;
 use nom::error::VerboseError;
 use nom::multi::many1;
 use nom::sequence::preceded;
 use nom::IResult;
 use serde::{Deserialize, Serialize};
-
-pub mod accesskey_attribute;
-pub mod autocapitalize_attribute;
-pub mod autofocus_attribute;
-pub mod class_attribute;
-pub mod contenteditable_attribute;
-pub mod id_attribute;
-pub mod type_attribute;
-
-// TODO: Move away from AttributesObj
-// to AttrubteList
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-pub struct AttributesObj {
-    accesskey: Option<String>,
-    autocapitalize: Option<String>,
-    autofocus: Option<bool>,
-    contenteditable: Option<String>,
-    class: Option<Vec<String>>,
-    id: Option<String>,
-}
-
-impl AttributesObj {
-    pub fn new() -> AttributesObj {
-        AttributesObj {
-            accesskey: None,
-            autocapitalize: None,
-            autofocus: None,
-            contenteditable: None,
-            class: None,
-            id: None,
-        }
-    }
-}
+use nom::bytes::complete::is_not;
+use nom::character::complete::line_ending;
+use nom::character::complete::space0;
+use nom::sequence::terminated;
+use nom::Parser;
+use nom::combinator::not;
+use crate::neo_sections::neo_section;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "key", content = "value", rename_all = "lowercase")]
+#[serde(tag = "type", content = "value", rename_all = "lowercase")]
 pub enum AttributeV2 {
     AccessKey(String),
     AutoCapitalize(String),
     AutoFocus,
-    ContentEditable(String),
+    By(String),
+    Cite(String),
     Class(Vec<String>),
+    ContentEditable(String),
+    Generic((String, String)),
+    Hidden,
     Id(String),
+    Link(String),
+    NeoExample, // Not part of spec, just used for documentation examples
+    Show(String),
+    ShowTitle(String),
+    Subtitle(String),
+    Title(String),
     Type(String),
+    Url(String),
     None,
 }
 
 
 pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    // dbg!(&source);
+    // because lines are flattened you have to make sure something that
+    // starts with two dashes isn't a neo section before looking for
+    // attributes
+    let (source, _) = not(neo_section)(source)?;
     let (source, attrs) = preceded(
         alt((tag("--"), tag("|"))),
         alt((
             accesskey_attribute,
             autocapitalize_attribute,
             autofocus_attribute,
+            by_attribute,
+            cite_attribute,
             class_attribute,
             contenteditable_attribute,
+            hidden_attribute,
             id_attribute,
+            link_attribute,
+            neoexample_attribute,
+            showtitle_attribute,
+            show_specific_attribute,
+            show_default_attribute,
+            subtitle_attribute,
+            title_attribute,
             type_attribute,
+            url_attribute,
+            // generic must be last
+            generic_attribute,
         )),
     )(source)?;
     Ok((source, attrs))
 }
 
 
+pub fn accesskey_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("accesskey: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::AccessKey(attr.trim().to_string())))
+}
 
 
-// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-// #[serde(rename_all = "lowercase")]
-// pub enum Attribute {
-//     AccessKey(String),
-//     AutoCapitalize(String),
-//     AutoFocus,
-//     ContentEditable(String),
-//     Class(Vec<String>),
-//     Id(String),
-//     None,
-// }
+pub fn autocapitalize_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    // autocapitzlize has a specific set of options but the
+    // ROI of limiting to them isn't high for phase 1 so
+    // just passing in whatever string. Something to look into
+    // for a future iteration maybe
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("autocapitalize: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::AutoCapitalize(attr.trim().to_string())))
+}
 
-// pub fn attributes_v2(source: &str) -> IResult<&str, Option<Vec<AttributeV2>>, VerboseError<&str>> {
-//     let (source, attrs) = opt(many1(preceded(
-//         alt((tag("--"), tag("|"))),
-//         alt((
-//             accesskey_attribute,
-//             autocapitalize_attribute,
-//             autofocus_attribute,
-//             class_attribute,
-//             contenteditable_attribute,
-//             id_attribute,
-//             type_attribute,
-//         )),
-//     )))(source)?;
-//     Ok((source, attrs))
-// }
 
-// // TODO: Remove this when _v2 is all the way in place
-// pub fn attributes(source: &str) -> IResult<&str, AttributesObj, VerboseError<&str>> {
-//     let attr_obj = AttributesObj::new();
-//     let (source, _attrs) = opt(many1(preceded(
-//         alt((tag("--"), tag("|"))),
-//         alt((
-//             accesskey_attribute,
-//             autocapitalize_attribute,
-//             autofocus_attribute,
-//             class_attribute,
-//             contenteditable_attribute,
-//             id_attribute,
-//         )),
-//     )))(source)?;
-//     // if let Some(d) = attrs {
-//     //     d.into_iter().for_each(|item| match item {
-//     //         Attribute::AccessKey(v) => {
-//     //             attr_obj.accesskey = Some(v);
-//     //         }
-//     //         Attribute::AutoCapitalize(v) => {
-//     //             attr_obj.autocapitalize = Some(v);
-//     //         }
-//     //         Attribute::AutoFocus => {
-//     //             attr_obj.autofocus = Some(true);
-//     //         }
-//     //         Attribute::Class(v) => {
-//     //             attr_obj.class = Some(v);
-//     //         }
-//     //         Attribute::ContentEditable(v) => {
-//     //             attr_obj.contenteditable = Some(v);
-//     //         }
-//     //         Attribute::Id(v) => {
-//     //             attr_obj.id = Some(v);
-//     //         }
-//     //         _ => (),
-//     //     })
-//     // }
-//     Ok((source, attr_obj))
-// }
+pub fn autofocus_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag_no_case("autofocus")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::AutoFocus))
+}
+
+pub fn by_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("by: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::By(attr.trim().to_string())))
+}
+
+pub fn cite_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("cite: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Cite(attr.trim().to_string())))
+}
+
+pub fn class_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag("class:")(source)?;
+    let (source, value) = many1(preceded(
+        space0,
+        is_not(" |>\n").map(|c: &str| c.trim().to_string()),
+    ))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Class(value)))
+}
+
+pub fn contenteditable_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, value) = preceded(tag("contenteditable: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::ContentEditable(value.trim().to_string())))
+}
+
+pub fn neoexample_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag_no_case("neoexample")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::NeoExample))
+}
+
+pub fn generic_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, key) = terminated(is_not(":"), tag(":"))(source)?;
+    let (source, _) = space0(source)?;
+    let (source, value) = is_not("|>\n")(source)?;
+    let (source, _) = space0(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Generic((key.trim().to_string(), value.trim().to_string()))))
+}
+
+pub fn hidden_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag_no_case("hidden")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Hidden))
+}
+
+pub fn id_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("id: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Id(attr.trim().to_string())))
+}
+
+pub fn link_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("link: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Link(attr.trim().to_string())))
+}
+
+pub fn show_default_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, _attr) = tag_no_case("show")(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Show("below".to_string())))
+}
+
+pub fn show_specific_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("show:"), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Show(attr.trim().to_string())))
+}
+
+pub fn showtitle_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("showtitle:"), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::ShowTitle(attr.trim().to_string())))
+}
+
+pub fn subtitle_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("subtitle: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Subtitle(attr.trim().to_string())))
+}
+
+
+pub fn title_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("title: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Title(attr.trim().to_string())))
+}
+
+
+pub fn type_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("type: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Type(attr.trim().to_string())))
+}
+
+
+pub fn url_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("url: "), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Url(attr.trim().to_string())))
+}

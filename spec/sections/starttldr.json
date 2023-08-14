@@ -16,8 +16,28 @@
       "input": "-- starttldr\n-- class: delta tango",
       "expected": [
         {
-          "attributes": [{ "key": "class", "value": ["delta", "tango"] }],
+          "attributes": [{ "type": "class", "value": ["delta", "tango"] }],
           "type": "starttldr"
+        }
+      ]
+    },
+    {
+      "title": "starttldr",
+      "input": "-- starttldr\n\nsierra bravo",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "starttldr",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "bravo" }
+              ]
+            }
+          ]
         }
       ]
     }

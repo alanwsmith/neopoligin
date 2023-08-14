@@ -25,7 +25,7 @@
       "input": "-- p\n-- id: tango\n\nsierra alfa\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "tango"}],
+          "attributes": [{ "type": "id", "value": "tango"}],
           "type": "p",
           "body": [
             {

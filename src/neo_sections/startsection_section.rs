@@ -1,4 +1,5 @@
 use crate::neo_sections::NeoSection;
+use crate::blocks::block;
 use crate::neo_sections::attribute;
 use nom::bytes::complete::tag;
 use nom::character::complete::line_ending;
@@ -13,10 +14,12 @@ pub fn startsection_section(source: &str) -> IResult<&str, NeoSection, VerboseEr
     let (source, _) = tag("-- startsection")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
+    let (source, body) = opt(many1(block))(source)?;
      Ok((
         source,
         NeoSection::StartSection {
             attributes,
+            body,
         },
     ))
 }

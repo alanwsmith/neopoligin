@@ -27,7 +27,7 @@
       "input": "-- endresults\n-- id: echo\n\nfoxtrot delta echo\n",
       "expected": [
         {
-          "attributes": [{ "key": "id", "value": "echo" }],
+          "attributes": [{ "type": "id", "value": "echo" }],
           "type": "endresults",
           "body": [
             {

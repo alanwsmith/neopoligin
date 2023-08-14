@@ -11,6 +11,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod list_paragraph_block;
 pub mod paragraph_block;
+pub mod todo_paragraph_block;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase")]

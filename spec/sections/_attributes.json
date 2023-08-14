@@ -1,0 +1,101 @@
+{
+  "tests": [
+    {
+      "notes": ["Used for attribution of quotes and blockquotes"],
+      "title": "Attributes: by",
+      "input": "-- blockquote\n-- by: alfa echo\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "by", "value": "alfa echo"}],
+          "type": "blockquote",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: cite",
+      "input": "-- blockquote\n-- cite: bravo alfa\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "cite", "value": "bravo alfa"}],
+          "type": "blockquote",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: link",
+      "input": "-- blockquote\n-- link: kilo charlie\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "link", "value": "kilo charlie"}],
+          "type": "blockquote",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: title",
+      "input": "-- p\n-- title: sierra romeo\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "title", "value": "sierra romeo"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: hidden",
+      "input": "-- p\n-- hidden\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "hidden"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: show (default value: below)",
+      "input": "-- p\n-- show\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "show", "value": "below"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: show (specified value)",
+      "input": "-- p\n-- show: above\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "show", "value": "above"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: showtitle",
+      "input": "-- p\n-- showtitle: juliette echo\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "showtitle", "value": "juliette echo"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    }
+  ]
+}

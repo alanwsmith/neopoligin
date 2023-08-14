@@ -16,6 +16,17 @@
           "body": "-- p\n\ndelta echo"
         }
       ]
+    },
+    {
+      "title": "Startcode with show flag",
+      "input": "-- startcode\n-- show\n\nfoxtrot hotel echo\n\n-- endcode",
+      "expected": [
+        {
+          "attributes": [{"type": "show", "value": "below"}],
+          "type": "code",
+          "body": "foxtrot hotel echo"
+        }
+      ]
     }
   ]
 }

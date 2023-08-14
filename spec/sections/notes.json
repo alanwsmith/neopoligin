@@ -7,7 +7,7 @@
           {
             "attributes": null,
             "type": "notes",
-            "preface": null,
+            "prelude": null,
             "items": [
               {
                 "type": "listitem",
@@ -44,9 +44,9 @@
         "input": "-- notes\n-- id: charlie\n\n- sierra victor\n\ndelta tango\n",
         "expected": [
           {
-            "attributes": [{"key": "id", "value": "charlie"}],
+            "attributes": [{ "type": "id", "value": "charlie"}],
             "type": "notes",
-            "preface": null,
+            "prelude": null,
             "items": [
               {
                 "type": "listitem",
@@ -65,6 +65,51 @@
                       { "type": "text", "string": "delta" },
                       { "type": "space" },
                       { "type": "text", "string": "tango" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Notes: with prelude",
+        "input": "-- notes\n-- title: Live Example\n\nThis is notes\n\nThis notes\n\n- Pluck the\n",
+        "expected": [
+          {
+            "attributes": [{ "type": "title", "value": "Live Example"}],
+            "type": "notes",
+            "prelude": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "This" },
+                  { "type": "space" },
+                  { "type": "text", "string": "is" },
+                  { "type": "space" },
+                  { "type": "text", "string": "notes" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "This" },
+                  { "type": "space" },
+                  { "type": "text", "string": "notes" }
+                ]
+              }
+            ],
+            "items": [
+              {
+                "type": "listitem",
+                "body": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      { "type": "text", "string": "Pluck" },
+                      { "type": "space" },
+                      { "type": "text", "string": "the" }
                     ]
                   }
                 ]

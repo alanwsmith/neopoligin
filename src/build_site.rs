@@ -1,17 +1,23 @@
 use crate::build_site::check_db_structure::check_db_structure;
-use crate::build_site::get_file_hashes::get_file_hashes;
+// use crate::build_site::get_file_hashes::get_file_hashes;
 use crate::build_site::insert_hash::insert_hash;
+use crate::helpers::highlight_html::*;
+use crate::helpers::highlight_js::*;
+use crate::helpers::is_neo_example::*;
+use crate::helpers::pass_thru::*;
 use crate::page::Page;
 use crate::universe::Universe;
 use minijinja::context;
 use minijinja::path_loader;
 use minijinja::value::Value;
 use minijinja::Environment;
+use minijinja::Error;
 use rusqlite::Connection;
 use sha256::digest;
 use std::fs;
 use std::path::PathBuf;
 use std::vec;
+use uuid::Uuid;
 use walkdir::WalkDir;
 
 pub mod check_db_structure;
@@ -20,13 +26,23 @@ pub mod insert_hash;
 pub mod table_exists;
 
 pub fn make_full_link_list(e: &Environment, u: Universe) {
-    let uvx = Value::from_struct_object(u.clone());
-    let tmpl = e.get_template("_src/templates/full_link_list.html");
-    let rv = tmpl.expect("Boom").render(context!(uvx => uvx)).unwrap();
+    let link_payload = Value::from_struct_object(u.clone());
+    let tmpl = e.get_template("_prod/wrappers/full_link_list.html");
+    let rv = tmpl
+        .expect("Boom")
+        .render(context!(link_payload => link_payload))
+        .unwrap();
     let _ = fs::write(
-        "/Users/alan/workshop/alanwsmith.com/templates/_src/includes/full_link_list.html",
+        "/Users/alan/workshop/alanwsmith.com/templates/_prod/includes/full_link_list.html",
         rv,
     );
+}
+
+// used for making label ids for checkboxes
+pub fn nonce() -> Result<String, Error> {
+    let id = Uuid::new_v4().simple().to_string();
+    let token = id.get(0..6).unwrap();
+    Ok(token.to_string())
 }
 
 pub fn build_site() {
@@ -36,8 +52,13 @@ pub fn build_site() {
     let site_root_root = PathBuf::from("/Users/alan/workshop/alanwsmith.com/_site");
     let sqlite_path = "/Users/alan/Desktop/neopolengine.sqlite";
     let mut env = Environment::new();
+    env.add_function("highlight_html", highlight_html);
+    env.add_function("highlight_js", highlight_js);
+    env.add_function("is_neo_example", is_neo_example);
+    env.add_function("pass_thru", pass_thru);
     let template_path = template_root.display().to_string();
     env.set_loader(path_loader(template_path.as_str()));
+    env.add_function("nonce", nonce);
     let mut u = Universe {
         pages: vec![],
         cache_full_link_list: None,
@@ -45,7 +66,7 @@ pub fn build_site() {
     println!("Getting file change hash checks");
     let conn = Connection::open(sqlite_path).unwrap();
     check_db_structure(&conn);
-    let file_hashes = get_file_hashes(&conn).unwrap();
+    // let file_hashes = get_file_hashes(&conn).unwrap();
     println!("Walking content dir: {}", &content_root.display());
     for entry in WalkDir::new(&content_root).into_iter() {
         let initial_path = entry.as_ref().unwrap().path().to_path_buf();
@@ -54,15 +75,23 @@ pub fn build_site() {
                 // Process neo files
                 let source_string = fs::read_to_string(&initial_path).unwrap();
                 let source_hash = digest(source_string.as_str());
-                if !file_hashes.contains(&source_hash) {
+                // this is the original way to do things that only
+                // outputs changed files but that's off right now
+                // untill the links can all be generated.
+                // if !file_hashes.contains(&source_hash) {
+                if 1 == 1 {
                     let mut p = Page::new_from(&source_string);
                     let mut page_path = PathBuf::from("/");
                     p.source_hash = Some(source_hash);
                     page_path.push(initial_path.strip_prefix(&content_root).unwrap());
                     page_path.set_extension("html");
                     p.path = Some(page_path);
+                    // dbg!(&p.path);
                     p.load_image_paths();
-                    u.pages.push(p);
+                    match p.title_string() {
+                        Some(_) => u.pages.push(p),
+                        None => {}
+                    }
                 }
             } else {
                 // Move everything else over directly
@@ -95,7 +124,7 @@ pub fn build_site() {
             Some(x) => x,
             None => "post".to_string(),
         };
-        dbg!(&template_id);
+        //dbg!(&template_id);
         //let template_id = page.page_type();
         let tmpl = env.get_template(format!("{}/index.html", template_id,).as_str());
         let pg = Value::from_struct_object(page.clone());
@@ -111,6 +140,5 @@ pub fn build_site() {
         fs::write(file_path, rv).unwrap();
         insert_hash(&conn, page.source_hash.as_ref().unwrap().as_str()).unwrap();
     });
-
     println!("Process complete");
 }

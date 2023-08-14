@@ -32,6 +32,52 @@
           ]
         }
       ]
+    },
+    {
+      "title": "Empty Sections",
+"input": "-- title\n\nNeopolitan -- bookmark Section\n\n-- startsection\n\n-- h2\n\nExample\n\n-- endsection\n\n",
+      "dinput": "-- startsection\n\n-- h2\n\nhotel bravo\n\n-- startcode\n\nsierra foxtrot\n\n-- endcode\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "title",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "Neopolitan" },
+              { "type": "space" },
+              { "type": "text", "string": "--" },
+              { "type": "space" },
+              { "type": "text", "string": "bookmark" },
+              { "type": "space" },
+              { "type": "text", "string": "Section" }
+            ]
+          },
+          "body": null
+        },
+        {
+          "attributes": null,
+          "body": null,
+          "type": "startsection"
+        },
+        {
+          "attributes": null,
+          "type": "h2",
+          "headline": {
+            "type": "paragraph",
+            "content": [
+              { "type": "text", "string": "Example" }
+            ]
+          },
+          "body": null
+        },
+        {
+          "attributes": null,
+          "body": null,
+          "type": "endsection"
+        }
+      ]
     }
   ]
 }
+

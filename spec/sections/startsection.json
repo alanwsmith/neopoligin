@@ -7,6 +7,7 @@
       "expected": [
         {
           "attributes": null,
+          "body": null,
           "type": "startsection"
         }
       ]
@@ -16,8 +17,29 @@
       "input": "-- startsection\n-- class: foxtrot sierra",
       "expected": [
         {
-          "attributes": [{ "key": "class", "value": ["foxtrot", "sierra"] }],
+          "attributes": [{ "type": "class", "value": ["foxtrot", "sierra"] }],
+          "body": null,
           "type": "startsection"
+        }
+      ]
+    },
+    {
+      "title": "startsection with paragraphs",
+      "input": "-- startsection\n\njuliette kilo\n\n-- endsections",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "startsection",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "juliette" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
         }
       ]
     }

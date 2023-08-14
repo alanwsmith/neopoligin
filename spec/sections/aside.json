@@ -25,7 +25,7 @@
       "input": "-- aside\n-- id: echo\n\nalfa hotel\n",
       "expected": [
         {
-          "attributes": [{"key": "id", "value": "echo"}],
+          "attributes": [{"type": "id", "value": "echo"}],
           "type": "aside",
           "body": [
             {
