@@ -22,7 +22,7 @@
       "input": "-- startcode\n-- show\n\nfoxtrot hotel echo\n\n-- endcode",
       "expected": [
         {
-          "attributes": [{"type": "show"}],
+          "attributes": [{"type": "show", "value": "below"}],
           "type": "code",
           "body": "foxtrot hotel echo"
         }

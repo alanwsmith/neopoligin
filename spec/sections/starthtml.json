@@ -16,7 +16,7 @@
         "input": "-- starthtml\n-- show\n\n<p>alfa sierra</p>\n\n-- endhtml",
         "expected": [
           {
-            "attributes": [{"type": "show"}],
+            "attributes": [{"type": "show", "value": "below"}],
             "type": "html",
             "body": "<p>alfa sierra</p>"
           }

@@ -25,7 +25,8 @@ fn sections_test() {
     for path in paths {
         let file_path = path.unwrap().path().display().to_string();
         if file_path.find(".json") != None {
-            let json_text = fs::read_to_string(file_path).unwrap();
+            dbg!(&file_path);
+            let json_text = fs::read_to_string(&file_path).unwrap();
             let test_shell: TestShell = serde_json::from_str(json_text.as_str()).unwrap();
             // Run Solo Tests First
             test_shell.tests.into_iter().for_each(|test| {

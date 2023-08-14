@@ -7,7 +7,7 @@
       "expected": [
         {
           "attributes": [
-            { "type": "show" },
+            {"type": "show", "value": "below"},
             { "type": "title", "value": "tango bravo" }
           ],
           "type": "css",

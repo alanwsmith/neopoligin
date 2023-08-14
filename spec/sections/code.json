@@ -17,7 +17,7 @@
       "input": "-- code\n-- show\nsierra kilo alfa\n\n-- ",
       "expected": [
         {
-          "attributes": [{"type": "show"}],
+          "attributes": [{"type": "show", "value": "below"}],
           "type": "code",
           "body": "sierra kilo alfa"
         }

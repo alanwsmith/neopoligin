@@ -60,6 +60,30 @@
           "body": null
         }
       ]
+    },
+    {
+      "title": "Attributes: show (default value: below)",
+      "input": "-- p\n-- show\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "show", "value": "below"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: show (specified value)",
+      "input": "-- p\n-- show: above\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "show", "value": "above"}],
+          "type": "p",
+          "body": null
+        }
+      ]
     }
   ]
 }

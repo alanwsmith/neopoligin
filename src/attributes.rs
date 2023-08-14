@@ -30,7 +30,7 @@ pub enum AttributeV2 {
     Id(String),
     Link(String),
     NeoExample, // Not part of spec, just used for documentation examples
-    Show,
+    Show(String),
     Subtitle(String),
     Title(String),
     Type(String),
@@ -59,7 +59,8 @@ pub fn attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>>
             id_attribute,
             link_attribute,
             neoexample_attribute,
-            show_attribute,
+            show_specific_attribute,
+            show_default_attribute,
             subtitle_attribute,
             title_attribute,
             type_attribute,
@@ -169,11 +170,18 @@ pub fn link_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&
     Ok((source, AttributeV2::Link(attr.trim().to_string())))
 }
 
-pub fn show_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+pub fn show_default_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
     let (source, _) = space0(source)?;
     let (source, _attr) = tag_no_case("show")(source)?;
     let (source, _) = opt(line_ending)(source)?;
-    Ok((source, AttributeV2::Show))
+    Ok((source, AttributeV2::Show("below".to_string())))
+}
+
+pub fn show_specific_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {
+    let (source, _) = space0(source)?;
+    let (source, attr) = preceded(tag("show:"), is_not("|>\n"))(source)?;
+    let (source, _) = opt(line_ending)(source)?;
+    Ok((source, AttributeV2::Show(attr.trim().to_string())))
 }
 
 pub fn subtitle_attribute(source: &str) -> IResult<&str, AttributeV2, VerboseError<&str>> {

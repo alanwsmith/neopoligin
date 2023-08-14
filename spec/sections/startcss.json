@@ -17,7 +17,7 @@
         "input": "-- startcss\n-- show\n\nbody { background-color: #aabbcc; }\n\n-- endcss",
         "expected": [
           {
-            "attributes": [{"type": "show"}],
+            "attributes": [{"type": "show", "value": "below"}],
             "type": "css",
             "body": "body { background-color: #aabbcc; }"
           }

@@ -16,7 +16,7 @@
         "input": "-- startscript\n-- show\nconsole.log('alfa charlie')\n\n-- endscript",
         "expected": [
           {
-            "attributes": [{"type": "show"}],
+            "attributes": [{"type": "show", "value": "below"}],
             "type": "script",
             "body": "console.log('alfa charlie')"
           }

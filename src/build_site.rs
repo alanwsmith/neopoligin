@@ -26,11 +26,14 @@ pub mod insert_hash;
 pub mod table_exists;
 
 pub fn make_full_link_list(e: &Environment, u: Universe) {
-    let uvx = Value::from_struct_object(u.clone());
-    let tmpl = e.get_template("_src/templates/full_link_list.html");
-    let rv = tmpl.expect("Boom").render(context!(uvx => uvx)).unwrap();
+    let link_payload = Value::from_struct_object(u.clone());
+    let tmpl = e.get_template("_prod/wrappers/full_link_list.html");
+    let rv = tmpl
+        .expect("Boom")
+        .render(context!(link_payload => link_payload))
+        .unwrap();
     let _ = fs::write(
-        "/Users/alan/workshop/alanwsmith.com/templates/_src/includes/full_link_list.html",
+        "/Users/alan/workshop/alanwsmith.com/templates/_prod/includes/full_link_list.html",
         rv,
     );
 }
