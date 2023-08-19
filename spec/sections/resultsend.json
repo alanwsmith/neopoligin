@@ -1,8 +1,8 @@
 {
   "tests": [
     {
-      "title": "resultsend on one line",
-      "input": "-- resultsend\n\nfoxtrot delta echo\n",
+      "title": "results end on one line",
+      "input": "-- /results\n\nfoxtrot delta echo\n",
       "expected": [
         {
           "attributes": null,
@@ -23,8 +23,8 @@
       ]
     },
     {
-      "title": "resultsend attributes",
-      "input": "-- resultsend\n-- id: echo\n\nfoxtrot delta echo\n",
+      "title": "results end attributes",
+      "input": "-- /results\n-- id: echo\n\nfoxtrot delta echo\n",
       "expected": [
         {
           "attributes": [{ "type": "id", "value": "echo" }],
@@ -45,8 +45,8 @@
       ]
     },
     {
-      "title": "resultsend on one line without line ending",
-      "input": "-- resultsend\n\ndelta sierra",
+      "title": "results end on one line without line ending",
+      "input": "-- /results\n\ndelta sierra",
       "expected": [
         {
           "attributes": null,
@@ -65,8 +65,8 @@
       ]
     },
     {
-      "title": "resultsend split across lines",
-      "input": "-- resultsend\n\nbravo delta\nsierra charlie\n",
+      "title": "results end split across lines",
+      "input": "-- /results\n\nbravo delta\nsierra charlie\n",
       "expected": [
         {
           "attributes": null,
@@ -89,8 +89,8 @@
       ]
     },
     {
-      "title": "resultsend multi paragraph",
-      "input": "-- resultsend\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "title": "results end multi paragraph",
+      "input": "-- /results\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
       "expected": [
         {
           "attributes": null,

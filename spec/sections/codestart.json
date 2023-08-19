@@ -8,7 +8,7 @@
   "tests": [
     {
       "title": "Startcode basic",
-      "input": "-- codestart\n\n-- p\n\ndelta echo\n\n-- codeend",
+      "input": "-- code/\n\n-- p\n\ndelta echo\n\n-- /code",
       "expected": [
         {
           "attributes": null,
@@ -19,7 +19,7 @@
     },
     {
       "title": "Startcode with show flag",
-      "input": "-- codestart\n-- show\n\nfoxtrot hotel echo\n\n-- codeend",
+      "input": "-- code/\n-- show\n\nfoxtrot hotel echo\n\n-- /code",
       "expected": [
         {
           "attributes": [{"type": "show", "value": "below"}],

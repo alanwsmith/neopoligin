@@ -2,7 +2,7 @@
     "tests": [
       {
         "title": "startscript",
-        "input": "-- scriptstart\n\nconsole.log('hotel victor')\n\n-- scriptend",
+        "input": "-- script/\n\nconsole.log('hotel victor')\n\n-- /script",
         "expected": [
           {
             "attributes": null,
@@ -13,7 +13,7 @@
       },
       {
         "title": "startscript",
-        "input": "-- scriptstart\n-- show\nconsole.log('alfa charlie')\n\n-- scriptend",
+        "input": "-- script/\n-- show\nconsole.log('alfa charlie')\n\n-- /script",
         "expected": [
           {
             "attributes": [{"type": "show", "value": "below"}],

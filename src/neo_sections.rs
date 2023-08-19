@@ -40,7 +40,6 @@ use crate::neo_sections::pre_section::pre_section;
 use crate::neo_sections::preend_section::preend_section;
 use crate::neo_sections::prestart_section::prestart_section;
 use crate::neo_sections::ref_section::ref_section;
-use crate::neo_sections::results_section::results_section;
 use crate::neo_sections::resultsend_section::resultsend_section;
 use crate::neo_sections::resultsstart_section::resultsstart_section;
 use crate::neo_sections::script_section::script_section;
@@ -101,7 +100,6 @@ pub mod pre_section;
 pub mod preend_section;
 pub mod prestart_section;
 pub mod ref_section;
-pub mod results_section;
 pub mod resultsend_section;
 pub mod resultsstart_section;
 pub mod script_section;
@@ -351,7 +349,6 @@ pub fn neo_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>
             warnings_section,
             youtube_section,
             todo_section,
-            results_section,
             resultsend_section,
             resultsstart_section,
         )),

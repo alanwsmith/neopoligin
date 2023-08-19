@@ -12,10 +12,10 @@ use nom::bytes::complete::take_until;
 use nom::Parser;
 
 pub fn cssstart_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- cssstart")(source)?;
+    let (source, _) = tag("-- css/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
-    let (source, body) = opt(take_until("-- cssend").map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, body) = opt(take_until("-- /css").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
         NeoSection::Css {

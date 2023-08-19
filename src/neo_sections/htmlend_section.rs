@@ -11,7 +11,7 @@ use nom::sequence::pair;
 use nom::IResult;
 
 pub fn htmlend_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- htmlend")(source)?;
+    let (source, _) = tag("-- /html")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
     let (source, body) = opt(many1(block))(source)?;

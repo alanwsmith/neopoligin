@@ -6,8 +6,8 @@
     ],
     "tests": [
       {
-        "title": "resultsstart basic",
-        "input": "-- resultsstart\n\n-- p\n\ndelta echo\n\n-- resultsend",
+        "title": "results start basic",
+        "input": "-- results/\n\n-- p\n\ndelta echo\n\n-- /results",
         "expected": [
           {
             "attributes": null,

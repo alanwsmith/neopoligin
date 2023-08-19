@@ -4,8 +4,8 @@
     ],
     "tests": [
       {
-        "title": "divstart",
-        "input": "-- divstart\n",
+        "title": "div/",
+        "input": "-- div/\n",
         "expected": [
           {
             "attributes": null,
@@ -15,8 +15,8 @@
         ]
       },
       {
-        "title": "divstart",
-        "input": "-- divstart\n-- class: delta tango",
+        "title": "div/",
+        "input": "-- div/\n-- class: delta tango",
         "expected": [
           {
             "attributes":  [{"type": "class", "value": ["delta", "tango"]}],
@@ -26,8 +26,8 @@
         ]
       },
       {
-        "title": "divstart",
-        "input": "-- divstart\n-- class: bravo\n\nfoxtrot hotel",
+        "title": "div/",
+        "input": "-- div/\n-- class: bravo\n\nfoxtrot hotel",
         "expected": [
           {
             "attributes":  [{"type": "class", "value": ["bravo"]}],

@@ -11,7 +11,7 @@ use nom::sequence::pair;
 use nom::IResult;
 
 pub fn resultsend_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- resultsend")(source)?;
+    let (source, _) = tag("-- /results")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
     let (source, body) = opt(many1(block))(source)?;

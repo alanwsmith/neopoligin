@@ -2,8 +2,8 @@
   "TODOs": ["attributes"],
   "tests": [
     {
-      "title": "articlestart",
-      "input": "-- articlestart\n",
+      "title": "Article start",
+      "input": "-- article/\n",
       "expected": [
         {
           "attributes": null,
@@ -14,7 +14,7 @@
     },
     {
       "title": "articlestart",
-      "input": "-- articlestart\n-- class: delta tango\n\nfoxtrot hotel",
+      "input": "-- article/\n-- class: delta tango\n\nfoxtrot hotel",
       "expected": [
         {
           "attributes": [{ "type": "class", "value": ["delta", "tango"] }],

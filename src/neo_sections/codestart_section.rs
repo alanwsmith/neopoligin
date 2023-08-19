@@ -12,10 +12,10 @@ use nom::bytes::complete::take_until;
 use nom::Parser;
 
 pub fn codestart_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- codestart")(source)?;
+    let (source, _) = tag("-- code/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
-    let (source, body) = opt(take_until("-- codeend").map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, body) = opt(take_until("-- /code").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
         NeoSection::Code {

@@ -2,7 +2,7 @@
     "tests": [
       {
         "title": "htmlend on one line",
-        "input": "-- htmlend\n\nfoxtrot delta echo\n",
+        "input": "-- /html\n\nfoxtrot delta echo\n",
         "expected": [
           {
             "attributes": null,
@@ -24,7 +24,7 @@
       },
       {
         "title": "htmlend attributes",
-        "input": "-- htmlend\n-- id: tango\n\nfoxtrot delta echo\n",
+        "input": "-- /html\n-- id: tango\n\nfoxtrot delta echo\n",
         "expected": [
           {
             "attributes": [{ "type": "id", "value": "tango" }],
@@ -46,7 +46,7 @@
       },
       {
         "title": "htmlend on one line without line ending",
-        "input": "-- htmlend\n\ndelta sierra",
+        "input": "-- /html\n\ndelta sierra",
         "expected": [
           {
             "attributes": null,
@@ -66,7 +66,7 @@
       },
       {
         "title": "htmlend split across lines",
-        "input": "-- htmlend\n\nbravo delta\nsierra charlie\n",
+        "input": "-- /html\n\nbravo delta\nsierra charlie\n",
         "expected": [
           {
             "attributes": null,
@@ -90,7 +90,7 @@
       },
       {
         "title": "htmlend multi paragraph",
-        "input": "-- htmlend\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "input": "-- /html\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
         "expected": [
           {
             "attributes": null,

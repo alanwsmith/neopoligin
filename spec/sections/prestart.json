@@ -2,7 +2,7 @@
     "tests": [
       {
         "title": "startpre",
-        "input": "-- prestart\n\necho tango\n\n-- preend",
+        "input": "-- pre/\n\necho tango\n\n-- /pre",
         "expected": [
           {
             "attributes": null,

@@ -3,7 +3,7 @@
   "tests": [
     {
       "title": "sectionstart",
-      "input": "-- sectionstart\n",
+      "input": "-- section/\n",
       "expected": [
         {
           "attributes": null,
@@ -14,7 +14,7 @@
     },
     {
       "title": "sectionstart with attributes",
-      "input": "-- sectionstart\n-- class: foxtrot sierra",
+      "input": "-- section/\n-- class: foxtrot sierra",
       "expected": [
         {
           "attributes": [{ "type": "class", "value": ["foxtrot", "sierra"] }],
@@ -25,7 +25,7 @@
     },
     {
       "title": "sectionstart with paragraphs",
-      "input": "-- sectionstart\n\njuliette kilo\n\n-- sectionend",
+      "input": "-- section/\n\njuliette kilo\n\n-- /section",
       "expected": [
         {
           "attributes": null,

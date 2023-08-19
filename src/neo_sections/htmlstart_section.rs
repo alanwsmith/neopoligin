@@ -12,9 +12,9 @@ use nom::IResult;
 use nom::Parser;
 
 pub fn htmlstart_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- htmlstart")(source)?;
+    let (source, _) = tag("-- html/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
     let (source, attributes) = opt(many1(attribute))(source)?;
-    let (source, body) = opt(take_until("-- htmlend").map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, body) = opt(take_until("-- /html").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((source, NeoSection::Html { attributes, body }))
 }

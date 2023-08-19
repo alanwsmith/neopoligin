@@ -3,7 +3,7 @@
   "tests": [
     {
       "title": "tldrstart",
-      "input": "-- tldrstart\n",
+      "input": "-- tldr/\n",
       "expected": [
         {
           "attributes": null,
@@ -13,7 +13,7 @@
     },
     {
       "title": "tldrstart",
-      "input": "-- tldrstart\n-- class: delta tango",
+      "input": "-- tldr/\n-- class: delta tango",
       "expected": [
         {
           "attributes": [{ "type": "class", "value": ["delta", "tango"] }],
@@ -23,7 +23,7 @@
     },
     {
       "title": "tldrstart",
-      "input": "-- tldrstart\n\nsierra bravo",
+      "input": "-- tldr/\n\nsierra bravo",
       "expected": [
         {
           "attributes": null,

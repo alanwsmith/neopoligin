@@ -2,7 +2,7 @@
     "tests": [
       {
         "title": "htmlstart",
-        "input": "-- htmlstart\n\n<p>delta alfa</p>\n\n-- htmlend",
+        "input": "-- html/\n\n<p>delta alfa</p>\n\n-- /html",
         "expected": [
           {
             "attributes": null,
@@ -13,7 +13,7 @@
       },
       {
         "title": "htmlstart",
-        "input": "-- htmlstart\n-- show\n\n<p>alfa sierra</p>\n\n-- htmlend",
+        "input": "-- html/\n-- show\n\n<p>alfa sierra</p>\n\n-- /html",
         "expected": [
           {
             "attributes": [{"type": "show", "value": "below"}],

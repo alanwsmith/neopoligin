@@ -2,7 +2,7 @@
   "tests": [
     {
       "title": "tldrend on one line",
-      "input": "-- tldrend\n\nfoxtrot delta echo\n",
+      "input": "-- /tldr\n\nfoxtrot delta echo\n",
       "expected": [
         {
           "attributes": null,
@@ -24,7 +24,7 @@
     },
     {
       "title": "tldrend attributes",
-      "input": "-- tldrend\n-- id: tango\n\nfoxtrot delta echo\n",
+      "input": "-- /tldr\n-- id: tango\n\nfoxtrot delta echo\n",
       "expected": [
         {
           "attributes": [{ "type": "id", "value": "tango" }],
@@ -46,7 +46,7 @@
     },
     {
       "title": "tldrend on one line without line ending",
-      "input": "-- tldrend\n\ndelta sierra",
+      "input": "-- /tldr\n\ndelta sierra",
       "expected": [
         {
           "attributes": null,
@@ -66,7 +66,7 @@
     },
     {
       "title": "tldrend split across lines",
-      "input": "-- tldrend\n\nbravo delta\nsierra charlie\n",
+      "input": "-- /tldr\n\nbravo delta\nsierra charlie\n",
       "expected": [
         {
           "attributes": null,
@@ -90,7 +90,7 @@
     },
     {
       "title": "tldrend multi paragraph",
-      "input": "-- tldrend\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "input": "-- /tldr\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
       "expected": [
         {
           "attributes": null,

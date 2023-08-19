@@ -35,7 +35,7 @@
     },
     {
       "title": "Empty Sections",
-      "input": "-- title\n\nNeopolitan -- bookmark Section\n\n-- sectionstart\n\n-- h2\n\nExample\n\n-- sectionend\n\n",    
+      "input": "-- title\n\nNeopolitan -- bookmark Section\n\n-- section/\n\n-- h2\n\nExample\n\n-- /section\n\n",    
       "expected": [
         {
           "attributes": null,

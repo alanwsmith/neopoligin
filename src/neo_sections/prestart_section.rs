@@ -10,9 +10,9 @@ use nom::bytes::complete::take_until;
 use nom::Parser;
 
 pub fn prestart_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- prestart")(source)?;
+    let (source, _) = tag("-- pre/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = opt(take_until("-- preend").map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, body) = opt(take_until("-- /pre").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
         NeoSection::Pre {
