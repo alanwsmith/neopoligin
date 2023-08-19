@@ -1,0 +1,16 @@
+{
+    "tests": [
+      {
+        "title": "startpre",
+        "input": "-- prestart\n\necho tango\n\n-- preend",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "pre",
+            "body": "echo tango"
+          }
+        ]
+      }
+    ]
+  }
+  

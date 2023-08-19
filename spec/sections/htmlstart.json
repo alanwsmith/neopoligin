@@ -1,0 +1,27 @@
+{
+    "tests": [
+      {
+        "title": "htmlstart",
+        "input": "-- htmlstart\n\n<p>delta alfa</p>\n\n-- htmlend",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "html",
+            "body": "<p>delta alfa</p>"
+          }
+        ]
+      },
+      {
+        "title": "htmlstart",
+        "input": "-- htmlstart\n-- show\n\n<p>alfa sierra</p>\n\n-- htmlend",
+        "expected": [
+          {
+            "attributes": [{"type": "show", "value": "below"}],
+            "type": "html",
+            "body": "<p>alfa sierra</p>"
+          }
+        ]
+      }
+    ]
+  }
+  

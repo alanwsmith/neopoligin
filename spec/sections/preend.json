@@ -1,0 +1,125 @@
+{
+    "tests": [
+      {
+        "title": "preend on one line",
+        "input": "-- preend\n\nfoxtrot delta echo\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "p",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "echo" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "preend attributes",
+        "input": "-- preend\n-- id: tango\n\nfoxtrot delta echo\n",
+        "expected": [
+          {
+            "attributes": [{ "type": "id", "value": "tango" }],
+            "type": "p",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "echo" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "preend on one line without line ending",
+        "input": "-- p\n\ndelta sierra",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "p",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "preend split across lines",
+        "input": "-- preend\n\nbravo delta\nsierra charlie\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "p",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "bravo" },
+                  { "type": "space" },
+                  { "type": "text", "string": "delta" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" },
+                  { "type": "space" },
+                  { "type": "text", "string": "charlie" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "preend multi paragraph",
+        "input": "-- preend\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "p",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "tango" },
+                  { "type": "space" },
+                  { "type": "text", "string": "whiskey" },
+                  { "type": "space" },
+                  { "type": "text", "string": "victor" },
+                  { "type": "space" },
+                  { "type": "text", "string": "mike" }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "hotel" },
+                  { "type": "space" },
+                  { "type": "text", "string": "sierra" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

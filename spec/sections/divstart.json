@@ -1,0 +1,50 @@
+{
+    "TODOs": [
+      "attributes"
+    ],
+    "tests": [
+      {
+        "title": "divstart",
+        "input": "-- divstart\n",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "divstart",
+            "body": null
+          }
+        ]
+      },
+      {
+        "title": "divstart",
+        "input": "-- divstart\n-- class: delta tango",
+        "expected": [
+          {
+            "attributes":  [{"type": "class", "value": ["delta", "tango"]}],
+            "type": "divstart",
+            "body": null
+          }
+        ]
+      },
+      {
+        "title": "divstart",
+        "input": "-- divstart\n-- class: bravo\n\nfoxtrot hotel",
+        "expected": [
+          {
+            "attributes":  [{"type": "class", "value": ["bravo"]}],
+            "type": "divstart",
+            "body": [
+              {
+                "type": "paragraph",
+                "content": [
+                  { "type": "text", "string": "foxtrot" },
+                  { "type": "space" },
+                  { "type": "text", "string": "hotel" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

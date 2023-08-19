@@ -8,18 +8,15 @@ use nom::sequence::pair;
 use nom::IResult;
 use nom::bytes::complete::take_until;
 use nom::Parser;
-use crate::attributes::attribute;
-use nom::multi::many1;
 
-pub fn script_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
-    let (source, _) = tag("-- script")(source)?;
+pub fn prestart_section(source: &str) -> IResult<&str, NeoSection, VerboseError<&str>> {
+    let (source, _) = tag("-- prestart")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, attributes) = opt(many1(attribute))(source)?;
-    let (source, body) = opt(take_until("-- ").map(|d: &str| d.trim().to_string()))(source)?;
+    let (source, body) = opt(take_until("-- preend").map(|d: &str| d.trim().to_string()))(source)?;
     Ok((
         source,
-        NeoSection::Script {
-            attributes,
+        NeoSection::Pre {
+            attributes: None,
             body,
         },
     ))

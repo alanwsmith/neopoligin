@@ -1,0 +1,36 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "articlestart",
+      "input": "-- articlestart\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "articlestart",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "articlestart",
+      "input": "-- articlestart\n-- class: delta tango\n\nfoxtrot hotel",
+      "expected": [
+        {
+          "attributes": [{ "type": "class", "value": ["delta", "tango"] }],
+          "type": "articlestart",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "hotel" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

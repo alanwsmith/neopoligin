@@ -1,0 +1,21 @@
+{
+    "TODOs": [
+      "attributes",
+      "title (probably an attrribute?)",
+      "language"
+    ],
+    "tests": [
+      {
+        "title": "resultsstart basic",
+        "input": "-- resultsstart\n\n-- p\n\ndelta echo\n\n-- resultsend",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "results",
+            "body": "-- p\n\ndelta echo"
+          }
+        ]
+      }
+    ]
+  }
+  

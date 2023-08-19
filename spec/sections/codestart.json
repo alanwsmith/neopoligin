@@ -1,0 +1,32 @@
+{
+  "TODOs": [
+    "attributes",
+    "export",
+    "title",
+    "language"
+  ],
+  "tests": [
+    {
+      "title": "Startcode basic",
+      "input": "-- codestart\n\n-- p\n\ndelta echo\n\n-- codeend",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "code",
+          "body": "-- p\n\ndelta echo"
+        }
+      ]
+    },
+    {
+      "title": "Startcode with show flag",
+      "input": "-- codestart\n-- show\n\nfoxtrot hotel echo\n\n-- codeend",
+      "expected": [
+        {
+          "attributes": [{"type": "show", "value": "below"}],
+          "type": "code",
+          "body": "foxtrot hotel echo"
+        }
+      ]
+    }
+  ]
+}

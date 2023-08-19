@@ -1,0 +1,27 @@
+{
+    "tests": [
+      {
+        "title": "startscript",
+        "input": "-- scriptstart\n\nconsole.log('hotel victor')\n\n-- scriptend",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "script",
+            "body": "console.log('hotel victor')"
+          }
+        ]
+      },
+      {
+        "title": "startscript",
+        "input": "-- scriptstart\n-- show\nconsole.log('alfa charlie')\n\n-- scriptend",
+        "expected": [
+          {
+            "attributes": [{"type": "show", "value": "below"}],
+            "type": "script",
+            "body": "console.log('alfa charlie')"
+          }
+        ]
+      }
+    ]
+  }
+  
