@@ -1,0 +1,45 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "tldrstart",
+      "input": "-- tldr/\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "tldrstart"
+        }
+      ]
+    },
+    {
+      "title": "tldrstart",
+      "input": "-- tldr/\n-- class: delta tango",
+      "expected": [
+        {
+          "attributes": [{ "type": "class", "value": ["delta", "tango"] }],
+          "type": "tldrstart"
+        }
+      ]
+    },
+    {
+      "title": "tldrstart",
+      "input": "-- tldr/\n\nsierra bravo",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "tldrstart",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "bravo" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

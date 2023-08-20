@@ -90,20 +90,46 @@ impl Page {
 // properly
 fn flatten(source: &str) -> IResult<&str, String> {
     let (source, value) = many1(alt((
+        code_section,
+        codestart_section,
         css_section,
-        startscript_section,
-        startcode_section,
-        startcss_section,
-        starthtml_section,
-        startresults_section,
+        cssstart_section,
+        html_section,
+        htmlstart_section,
+        pre_section,
+        prestart_section,
+        resultsstart_section,
+        script_section,
+        scriptstart_section,
+        //
         attr_line,
-        multi_line,
         line,
+        multi_line,
     )))(source)?;
     let mut response = value.join("\n");
     response.push_str("\n");
     response.push_str(source);
     Ok(("", response))
+}
+
+fn code_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- code")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attrs) = many0(tuple((tag("-- "), not_line_ending, line_ending))
+        .map(|x| format!("{}{}{}", x.0, x.1, x.2)))(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- ")(source)?;
+    let response = format!("-- code\n{}{}", attrs.join(""), body);
+    Ok((source, response))
+}
+
+fn codestart_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- code/")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- /code")(source)?;
+    Ok((source, format!("-- code/\n{}", body)))
 }
 
 fn css_section(source: &str) -> IResult<&str, String> {
@@ -118,45 +144,84 @@ fn css_section(source: &str) -> IResult<&str, String> {
     Ok((source, response))
 }
 
-fn startcode_section(source: &str) -> IResult<&str, String> {
+fn cssstart_section(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;
-    let (source, _) = tag("-- startcode")(source)?;
+    let (source, _) = tag("-- css/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = take_until("-- endcode")(source)?;
-    Ok((source, format!("-- startcode\n{}", body)))
+    let (source, body) = take_until("-- /css")(source)?;
+    Ok((source, format!("-- css/\n{}", body.trim())))
 }
 
-fn startcss_section(source: &str) -> IResult<&str, String> {
+fn html_section(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;
-    let (source, _) = tag("-- startcss")(source)?;
+    let (source, _) = tag("-- html")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = take_until("-- endcss")(source)?;
-    Ok((source, format!("-- startcss\n{}", body.trim())))
+    let (source, attrs) = many0(tuple((tag("-- "), not_line_ending, line_ending))
+        .map(|x| format!("{}{}{}", x.0, x.1, x.2)))(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- ")(source)?;
+    let response = format!("-- html\n{}{}", attrs.join(""), body);
+    Ok((source, response))
 }
 
-fn starthtml_section(source: &str) -> IResult<&str, String> {
+fn htmlstart_section(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;
-    let (source, _) = tag("-- starthtml")(source)?;
+    let (source, _) = tag("-- html/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = take_until("-- endhtml")(source)?;
-    Ok((source, format!("-- starthtml\n{}", body.trim())))
+    let (source, body) = take_until("-- /html")(source)?;
+    Ok((source, format!("-- html/\n{}", body.trim())))
 }
 
-fn startresults_section(source: &str) -> IResult<&str, String> {
+
+
+fn pre_section(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;
-    let (source, _) = tag("-- startresults")(source)?;
+    let (source, _) = tag("-- pre")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = take_until("-- endresults")(source)?;
-    Ok((source, format!("-- startresults\n{}", body)))
+    let (source, attrs) = many0(tuple((tag("-- "), not_line_ending, line_ending))
+        .map(|x| format!("{}{}{}", x.0, x.1, x.2)))(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- ")(source)?;
+    let response = format!("-- pre\n{}{}", attrs.join(""), body);
+    Ok((source, response))
 }
 
-fn startscript_section(source: &str) -> IResult<&str, String> {
+fn prestart_section(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;
-    let (source, _) = tag("-- startscript")(source)?;
+    let (source, _) = tag("-- pre/")(source)?;
     let (source, _) = pair(space0, line_ending)(source)?;
-    let (source, body) = take_until("-- endscript")(source)?;
-    Ok((source, format!("-- startscript\n{}", body.trim())))
+    let (source, body) = take_until("-- /pre")(source)?;
+    Ok((source, format!("-- pre/\n{}", body.trim())))
 }
+
+fn resultsstart_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- results/")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- /results")(source)?;
+    Ok((source, format!("-- results/\n{}", body)))
+}
+
+fn script_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- script")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, attrs) = many0(tuple((tag("-- "), not_line_ending, line_ending))
+        .map(|x| format!("{}{}{}", x.0, x.1, x.2)))(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- ")(source)?;
+    let response = format!("-- script\n{}{}", attrs.join(""), body);
+    Ok((source, response))
+}
+
+fn scriptstart_section(source: &str) -> IResult<&str, String> {
+    let (source, _) = multispace0(source)?;
+    let (source, _) = tag("-- script/")(source)?;
+    let (source, _) = pair(space0, line_ending)(source)?;
+    let (source, body) = take_until("-- /script")(source)?;
+    Ok((source, format!("-- script/\n{}", body.trim())))
+}
+
 
 fn attr_line(source: &str) -> IResult<&str, String> {
     let (source, _) = multispace0(source)?;

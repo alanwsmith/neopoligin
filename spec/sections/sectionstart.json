@@ -1,0 +1,47 @@
+{
+  "TODOs": ["attributes"],
+  "tests": [
+    {
+      "title": "sectionstart",
+      "input": "-- section/\n",
+      "expected": [
+        {
+          "attributes": null,
+          "body": null,
+          "type": "sectionstart"
+        }
+      ]
+    },
+    {
+      "title": "sectionstart with attributes",
+      "input": "-- section/\n-- class: foxtrot sierra",
+      "expected": [
+        {
+          "attributes": [{ "type": "class", "value": ["foxtrot", "sierra"] }],
+          "body": null,
+          "type": "sectionstart"
+        }
+      ]
+    },
+    {
+      "title": "sectionstart with paragraphs",
+      "input": "-- section/\n\njuliette kilo\n\n-- /section",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "sectionstart",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "juliette" },
+                { "type": "space" },
+                { "type": "text", "string": "kilo" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

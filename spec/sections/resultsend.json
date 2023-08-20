@@ -1,0 +1,124 @@
+{
+  "tests": [
+    {
+      "title": "results end on one line",
+      "input": "-- /results\n\nfoxtrot delta echo\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "results end attributes",
+      "input": "-- /results\n-- id: echo\n\nfoxtrot delta echo\n",
+      "expected": [
+        {
+          "attributes": [{ "type": "id", "value": "echo" }],
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "results end on one line without line ending",
+      "input": "-- /results\n\ndelta sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "results end split across lines",
+      "input": "-- /results\n\nbravo delta\nsierra charlie\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "results end multi paragraph",
+      "input": "-- /results\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "p",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" },
+                { "type": "space" },
+                { "type": "text", "string": "mike" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

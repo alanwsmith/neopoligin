@@ -14,24 +14,12 @@
       ]
     },
     {
-      "title": "Attributes: cite",
-      "input": "-- blockquote\n-- cite: bravo alfa\n",
+      "title": "Attributes: source",
+      "input": "-- blockquote\n-- source: kilo charlie\n",
       "expected": [
         {
           "attributes": 
-          [{"type": "cite", "value": "bravo alfa"}],
-          "type": "blockquote",
-          "body": null
-        }
-      ]
-    },
-    {
-      "title": "Attributes: link",
-      "input": "-- blockquote\n-- link: kilo charlie\n",
-      "expected": [
-        {
-          "attributes": 
-          [{"type": "link", "value": "kilo charlie"}],
+          [{"type": "source", "value": "kilo charlie"}],
           "type": "blockquote",
           "body": null
         }
@@ -92,6 +80,18 @@
         {
           "attributes": 
           [{"type": "showtitle", "value": "juliette echo"}],
+          "type": "p",
+          "body": null
+        }
+      ]
+    },
+    {
+      "title": "Attributes: url",
+      "input": "-- p\n-- url: https://www.example.com/\n",
+      "expected": [
+        {
+          "attributes": 
+          [{"type": "url", "value": "https://www.example.com/"}],
           "type": "p",
           "body": null
         }

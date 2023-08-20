@@ -1,0 +1,124 @@
+{
+  "tests": [
+    {
+      "title": "tldrend on one line",
+      "input": "-- /tldr\n\nfoxtrot delta echo\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "tldrend",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tldrend attributes",
+      "input": "-- /tldr\n-- id: tango\n\nfoxtrot delta echo\n",
+      "expected": [
+        {
+          "attributes": [{ "type": "id", "value": "tango" }],
+          "type": "tldrend",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "foxtrot" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "echo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tldrend on one line without line ending",
+      "input": "-- /tldr\n\ndelta sierra",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "tldrend",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tldrend split across lines",
+      "input": "-- /tldr\n\nbravo delta\nsierra charlie\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "tldrend",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "bravo" },
+                { "type": "space" },
+                { "type": "text", "string": "delta" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" },
+                { "type": "space" },
+                { "type": "text", "string": "charlie" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tldrend multi paragraph",
+      "input": "-- /tldr\n\ntango whiskey\nvictor mike\n\nhotel sierra\n",
+      "expected": [
+        {
+          "attributes": null,
+          "type": "tldrend",
+          "body": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "tango" },
+                { "type": "space" },
+                { "type": "text", "string": "whiskey" },
+                { "type": "space" },
+                { "type": "text", "string": "victor" },
+                { "type": "space" },
+                { "type": "text", "string": "mike" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "string": "hotel" },
+                { "type": "space" },
+                { "type": "text", "string": "sierra" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

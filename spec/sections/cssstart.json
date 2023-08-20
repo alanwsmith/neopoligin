@@ -1,0 +1,39 @@
+{
+    "TODOs": [],
+    "tests": [
+      {
+        "title": "css/",
+        "input": "-- css/\n\nbody { background-color: #123; }\n\n-- /css",
+        "expected": [
+          {
+            "attributes": null,
+            "type": "css",
+            "body": "body { background-color: #123; }"
+          }
+        ]
+      },
+      {
+        "title": "css/",
+        "input": "-- css/\n-- show\n\nbody { background-color: #aabbcc; }\n\n-- /css",
+        "expected": [
+          {
+            "attributes": [{"type": "show", "value": "below"}],
+            "type": "css",
+            "body": "body { background-color: #aabbcc; }"
+          }
+        ]
+      },
+      {
+        "title": "css/",
+        "input": "-- css/\n-- hidden\n\nbody { background-color: #aabbcc; }\n\n-- /css",
+        "expected": [
+          {
+            "attributes": [{"type": "hidden"}],
+            "type": "css",
+            "body": "body { background-color: #aabbcc; }"
+          }
+        ]
+      }
+    ]
+  }
+  

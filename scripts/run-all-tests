@@ -13,7 +13,7 @@ cargo test -q -- --nocapture
 
 if [[ $? -eq 0 ]]
 then 
-  cargo install --path .
+  # cargo install --path .
   #cargo build --release --bin neo
   # /Users/alan/workshop/neopolengine/target/release/neo
   tput setaf 28

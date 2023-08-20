@@ -35,8 +35,7 @@
     },
     {
       "title": "Empty Sections",
-"input": "-- title\n\nNeopolitan -- bookmark Section\n\n-- startsection\n\n-- h2\n\nExample\n\n-- endsection\n\n",
-      "dinput": "-- startsection\n\n-- h2\n\nhotel bravo\n\n-- startcode\n\nsierra foxtrot\n\n-- endcode\n",
+      "input": "-- title\n\nNeopolitan -- bookmark Section\n\n-- section/\n\n-- h2\n\nExample\n\n-- /section\n\n",    
       "expected": [
         {
           "attributes": null,
@@ -58,7 +57,7 @@
         {
           "attributes": null,
           "body": null,
-          "type": "startsection"
+          "type": "sectionstart"
         },
         {
           "attributes": null,
@@ -74,7 +73,7 @@
         {
           "attributes": null,
           "body": null,
-          "type": "endsection"
+          "type": "sectionend"
         }
       ]
     }
